@@ -1,4 +1,4 @@
-import Ingredient from "../data/ingredients.js"
+import Ingredient from "../data/ingredient.js"
 import Recipe from "../data/recipe.js"
 import Meal from "../data/meal.js"
 
