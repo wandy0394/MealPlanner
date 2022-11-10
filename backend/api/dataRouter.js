@@ -8,18 +8,19 @@ router.route("/ingredient/:id")
     .delete(DataController.apiRemoveIngredient)
     .post(DataController.apiSaveIngredient)
 
-router.route("/ingredient/search")
+router.route("/ingredient/search/:searchText")
     .get(DataController.apiSearchIngredients)
 
-
-
-router.route("/recipe/search")
+router.route("/recipe/search/:searchText")
     .get(DataController.apiSearchRecipes)
-router.route("/recipe")
+router.route("/recipe/:id")
     .get(DataController.apiGetRecipe)
     .post(DataController.apiCreateRecipe)
     .delete(DataController.apiRemoveRecipe)
     .put(DataController.apiUpdateRecipeContent)
+router.route("/recipe/all")
+    .get(DataController.apiGetAllRecipes)
+
 
 router.route("/recipe-book")
     .get(DataController.apiGetRecipeBook)
