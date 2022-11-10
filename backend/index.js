@@ -2,10 +2,12 @@ import app from "./server.js"
 import dotenv from "dotenv"
 import mysql from "mysql"
 import Ingredient from "./data/ingredient.js"
+import TokenHandler from "./data/token-handler.js"
+import DataController from "./api/dataController.js"
 
 dotenv.config();
 
-//connect to mysql db and pre-fetch user-related data
+//connect to mysql db setup data objects
 let connection = mysql.createConnection({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -13,30 +15,23 @@ let connection = mysql.createConnection({
     password: process.env.DB_PASS,
     database: process.env.DB_DB
 })
-
-console.log(process.env.DB_HOST)
-console.log(process.env.DB_PORT)
-console.log(process.env.DB_USER,)
-console.log(process.env.DB_PASS,)
-console.log(process.env.DB_DB)
-
-connection.connect((err)=> {
+connection.connect((err) => {
     if (err) {
-        console.log(err)
-        return console.error('Could not connect to SQL database')
+        console.error('Could not connect to SQL database');
     }
-
-    (async () => {
-        await Ingredient.GetAllIngredients(connection)
-        connection.end((err) => {
-            if (err) {
-                return console.error('Could not gracefully end DB connection')
-            }
-        })
-    })(); 
-})
+    Ingredient.injectConn(connection) 
+    //Meal.inject
+    //Recipe.inject
+    //const output = Ingredient.GetAllIngredients()
+    //console.log(output)
+}) 
 
 
+//little tests
+//const output = await Ingredient.FetchIngredientByID(33691)
+//console.log(output.food.servings)
+//const output = await DataController.apiGetIngredient({query:{id:33691}})
+//console.log(output)
 
 const port = process.env.PORT || 8000;
 app.listen(port, ()=> {
