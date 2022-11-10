@@ -3,12 +3,14 @@ import DataController from "./dataController.js"
 
 const router = express.Router()
 
-router.route("/ingredient/search")
-    .get(DataController.apiSearchIngredients)
-router.route("/ingredient")
+router.route("/ingredient/:id")
     .get(DataController.apiGetIngredient)
     .delete(DataController.apiRemoveIngredient)
     .post(DataController.apiSaveIngredient)
+
+router.route("/ingredient/search")
+    .get(DataController.apiSearchIngredients)
+
 
 
 router.route("/recipe/search")

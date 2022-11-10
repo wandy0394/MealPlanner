@@ -1,6 +1,7 @@
 import Ingredient from "../data/ingredient.js"
 import Recipe from "../data/recipe.js"
 import Meal from "../data/meal.js"
+import { response } from "express";
 
 export default class DataController {
     //methods go here
@@ -12,7 +13,23 @@ export default class DataController {
         return
     }
     static async apiGetIngredient(req, res, next) {
-        return
+        //expects /?id=someNumber
+        try {
+            const id = req.params.id;
+            const output = await Ingredient.FetchIngredientByID(id)
+
+            let response = {
+                //extract relevant sections from output
+                name: output.food.food_name,
+                type: output.food.food_type,
+                servings: output.food.servings
+            }
+            res.json(response)
+            //return response;
+        } catch (e) {
+            console.log('error')
+            res.status(500).json({error:e.message})
+        }
     }
 
     static async apiSaveIngredient(req, res, next) {
