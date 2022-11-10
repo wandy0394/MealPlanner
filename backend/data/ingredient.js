@@ -13,7 +13,7 @@ export default class Ingredient {
         }   
     }
 
-    static async GetAllIngredients() {
+    static async getAllIngredients() {
         if (db !== undefined) {
             let sqlQuery = `SELECT * from Ingredient`;
 /*             try {
@@ -36,7 +36,7 @@ export default class Ingredient {
 
 
 
-    static async FetchIngredientByID(id) {
+    static async fetchIngredientByID(id) {
 
         try {
             const token = await TokenHandler.getToken();
@@ -64,11 +64,44 @@ export default class Ingredient {
                 console.log(e)
                 return {error:`error fetching from api: ${e.message}`}
             }
-
         }
         catch {
             return {error: 'could not get authentication token'}
         }
-
     }
+
+    static async searchIngredients(searchText) {
+        try {
+            const token = await TokenHandler.getToken();
+            const params = new URLSearchParams();
+            params.append('method', "foods.search")
+            params.append('search_expression', searchText.toString())
+            params.append('format', "json")
+            params.append('max_results', 10)
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded',
+                    'Authorization': `Bearer ${token}`
+                },
+                //body: "method=food.get.v2&food_id=33691&format=json"
+                body: params
+            }
+            try {
+                const res = await fetch('https://platform.fatsecret.com/rest/server.api', options);
+                const resJSON = await res.json();
+                console.log(resJSON)
+                return resJSON;
+            }
+            catch (e) {
+                console.log(e)
+                return {error:`error fetching from api: ${e.message}`}
+            }
+        }
+        catch {
+            return {error: 'could not get authentication token'}
+        }
+    }
+
 }

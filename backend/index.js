@@ -22,15 +22,15 @@ connection.connect((err) => {
     Ingredient.injectConn(connection) 
     //Meal.inject
     //Recipe.inject
-    //const output = Ingredient.GetAllIngredients()
+    //const output = Ingredient.getAllIngredients()
     //console.log(output)
 }) 
 
 
 //little tests
-//const output = await Ingredient.FetchIngredientByID(33691)
+//const output = await Ingredient.fetchIngredientByID(33691)
 //console.log(output.food.servings)
-//const output = await DataController.apiGetIngredient({query:{id:33691}})
+//const output = await DataController.apigetIngredient({query:{id:33691}})
 //console.log(output)
 
 const port = process.env.PORT || 8000;

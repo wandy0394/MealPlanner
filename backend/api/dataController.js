@@ -10,13 +10,22 @@ export default class DataController {
 
     //ingredient methods
     static async apiSearchIngredients(req, res, next) {
-        return
+        //expects /?searchText=string
+        try {
+            const searchText = req.params.searchText;
+            const output = await Ingredient.searchIngredients(searchText)
+            res.json(output.foods)
+            //return response;
+        } catch (e) {
+            console.log('error')
+            res.status(500).json({error:e.message})
+        }
     }
     static async apiGetIngredient(req, res, next) {
         //expects /?id=someNumber
         try {
             const id = req.params.id;
-            const output = await Ingredient.FetchIngredientByID(id)
+            const output = await Ingredient.fetchIngredientByID(id)
 
             let response = {
                 //extract relevant sections from output
@@ -40,9 +49,34 @@ export default class DataController {
     }
     //recipe methods
     static async apiSearchRecipes(req, res, next) {
-        return
+        //expects /?searchText=string
+        try {
+            const searchText = req.params.searchText;
+            const output = await Recipe.searchRecipes(searchText)
+            res.json(output)
+            //return response;
+        } catch (e) {
+            console.log('error')
+            res.status(500).json({error:e.message})
+        }
     }
     static async apiGetRecipe(req, res, next) {
+        //expects /?id=someNumber
+        try {
+            const id = req.params.id;
+            const output = await Recipe.fetchRecipeByID(id)
+
+            let response = {
+                //extract relevant sections from output
+            }
+            res.json(output)
+            //return response;
+        } catch (e) {
+            console.log('error')
+            res.status(500).json({error:e.message})
+        }
+    }
+    static async apiGetAllRecipes(req, res, next) {
         return
     }
     static async apiCreateRecipe(req, res, next) {
