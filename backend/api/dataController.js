@@ -1,7 +1,6 @@
 import Ingredient from "../data/ingredient.js"
 import Recipe from "../data/recipe.js"
 import Meal from "../data/meal.js"
-import { response } from "express";
 
 export default class DataController {
     //methods go here
