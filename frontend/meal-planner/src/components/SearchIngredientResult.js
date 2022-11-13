@@ -1,7 +1,7 @@
 import { Box, Card, Paper, Divider, Button } from "@mui/material"
 import AddBoxIcon from '@mui/icons-material/AddBox'
 
-export default function SearchResults({data}) {
+export default function SearchIngredientResults({data}) {
     return (
         <Box>
             <Paper sx={{height:'5vh', display:'flex', alignItems:'center'}}>

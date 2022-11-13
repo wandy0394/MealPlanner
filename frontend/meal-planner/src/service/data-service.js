@@ -24,8 +24,16 @@ class DataService {
         }
         return {error:'Error'}
     }
-    searchRecipes() {
-        return
+    async searchRecipes(text) {
+        try {
+            const resp = await instance.get(`recipe/search/${text}`)
+            let retval = resp.data
+            return retval
+        }
+        catch(e) {
+
+        }
+        return {error:'Error'}
     }
     getIngredients() {
         return
