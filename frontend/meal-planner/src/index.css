@@ -4,3 +4,8 @@
     border:solid;
     border-width: 1px;
 }
+body {
+    height: 100vh;
+    margin-top:5vh;
+    overflow:hidden;
+}

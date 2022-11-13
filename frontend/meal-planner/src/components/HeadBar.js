@@ -12,7 +12,7 @@ export default function HeadBar() {
 
 
     return (
-        <AppBar sx ={{position:'sticky', padding:0, margin:0}}>
+        <AppBar sx ={{position:'fixed', padding:0, margin:0, height:'5vh'}}>
             <Toolbar sx={{display:'flex', alignContent:'center', justifyContent:'space-between'}}>
                 <Box sx = {{display:'flex', alignContent:'center', gap:'2rem'}}>
                     <IconButton>
