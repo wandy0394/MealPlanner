@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemText, ListItemIcon, MenuItem, Typography } from "@mui/material"
+import { Box, ListItem, ListItemText, ListItemIcon, MenuItem, Typography } from "@mui/material"
 import { styled } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
 import EggIcon from "@mui/icons-material/Egg"
@@ -9,10 +9,13 @@ import { NavLink } from "react-router-dom"
 
 export default function NavMenu() {
     return (
-        <List sx={{width: '12vw', minWidth:180, left:'0', height:'100%', display: {xs:'none', md:'block'}}}>
+        // <Box sx={{width:'12vw'}}>
+           
+        <Box sx={{width: '12vw', minWidth:180, display:{xs:'none', md:'flex'}, height:{xs:'auto', md:'100%'}, flexDirection:'column', gap:'0.5vh'}}>
+            
             <ListItem sx={{height:'15vh'}}>
-                
-            </ListItem>
+                Something could go here
+            </ListItem>            
             <NavLink to='/search'>
                 <MenuItem>
                     <ListItemIcon><SearchIcon fontSize='large'/></ListItemIcon>
@@ -46,7 +49,7 @@ export default function NavMenu() {
                     </ListItemText>
                 </MenuItem>
             </NavLink>
-        </List>
+        </Box>
 
     )
 }
