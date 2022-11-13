@@ -1,22 +1,31 @@
 import { TextField, Button, Box } from "@mui/material";
+import { useEffect } from "react";
 import DataService from "../service/data-service"
+import { useState } from "react";
 
-export default function SearchIngredients() {
+export default function SearchIngredients({getResults}) {
+    const [searchText, setSearchText] = useState('')
     
     async function handleClick() {
-        console.log('Clicked')
         try {
-            const output = await DataService.searchIngredients('toast')
-            console.log(output.data)
+            const output = await DataService.searchIngredients(searchText)
+            console.log(output)
+            getResults(output)
+            
         }
         catch (e) {
             console.error(e)
         }
         
     }
+
+    function handleChange(e) {
+        setSearchText(e.target.value)
+    }
+
     return (
         <Box>
-            <TextField label='Search by name..' variant='standard'></TextField> 
+            <TextField label='Search by name..' variant='standard' onChange={handleChange}></TextField> 
             <Button variant='contained' onClick={handleClick}>Search Ingredients</Button>
         </Box>
     )

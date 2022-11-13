@@ -5,7 +5,7 @@ import axios from 'axios'
 
 
 const instance=axios.create({
-    baseURL: 'http://localhost:5000/api/v1/meal-planner/',
+    baseURL: 'http://192.168.0.128:5000/api/v1/meal-planner/',
     headers: {
         "Accept" : "*",
         "Content-Type": "application/json",
@@ -15,7 +15,8 @@ const instance=axios.create({
 class DataService {
     async searchIngredients(text) {
         try {
-            const retval = await instance.get(`ingredient/search/${text}`)
+            const resp = await instance.get(`ingredient/search/${text}`)
+            let retval = resp.data
             return retval
         }
         catch(e) {
