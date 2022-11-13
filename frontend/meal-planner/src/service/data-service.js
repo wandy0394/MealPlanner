@@ -1,18 +1,22 @@
 //import request from "request"
+//import fetch from "node-fetch"
+import axios from 'axios'
 
-const baseUrl='localhost:5000/api/v1/'
-const options = {
-    method: 'GET',
+
+
+const instance=axios.create({
+    baseURL: 'localhost:5000/api/v1/',
     headers: {
         "Content-Type":"application/json",
-    },
-    body:''
-}
+    }
+})
 
 class DataService {
-    async searchIngredients(searchText) {
-        //options['body'] = searchText
-        //const retval = await fetch(baseUrl+'search', options)
+    async searchIngredients(text) {
+        let options = {
+            searchText: text
+        }
+        const retval = instance.get(`/ingredient/search/${text}`)
         return 
     }
     searchRecipes() {
