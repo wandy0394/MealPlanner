@@ -3,17 +3,17 @@ import DataService from "../service/data-service"
 
 export default function SearchIngredients() {
     
-    const handleClick= (async () => {
+    async function handleClick() {
         console.log('Clicked')
         try {
-            const output = await DataService.searchIngredients('apple')
-            console.log(output)
+            const output = await DataService.searchIngredients('toast')
+            console.log(output.data)
         }
         catch (e) {
             console.error(e)
         }
         
-    })
+    }
     return (
         <Box>
             <TextField label='Search by name..' variant='standard'></TextField> 
