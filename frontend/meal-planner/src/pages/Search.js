@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { ContentBox } from "../components/ContentBox";
 import SearchIngredients from "../components/SearchIngredients";
 import SearchRecipes from "../components/SearchRecipes";
-import ResultsSection from "../components/ResultsSection";
+import IngredientResultsSection from "../components/IngredientResultsSection";
+import RecipeResultsSection from "../components/RecipeResultsSection";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -23,6 +24,7 @@ function TabPanel(props) {
 export default function Search() {
     const [value, setValue] = useState(0)
     const [results, setResults] = useState(null)
+    const [recipeResults, setRecipeResults] = useState(null)
 
     const handleChange = (event, newValue) => {
         setValue(newValue)
@@ -31,6 +33,11 @@ export default function Search() {
     function getResults(values) {
         setResults(values)
     }
+
+    function getRecipeResults(values) {
+        setRecipeResults(values)
+    }
+
     return (
         <ContentBox>
             <Stack sx={{height:'100%'}}>
@@ -50,7 +57,7 @@ export default function Search() {
                             <SearchIngredients getResults={getResults}/>
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                            <SearchRecipes/>
+                            <SearchRecipes getResults={getRecipeResults}/>
                         </TabPanel>
                     </Box>
 
@@ -60,28 +67,41 @@ export default function Search() {
                                 Results
                             </Typography>
                             {
-                                (results !== null) ?
+                                ((results !== null) && (value === 0)) ?
                                     (
                                         <Typography variant='h6' sx={{display:'inline'}}> (Total Results: {results.total_results})</Typography>
+                                    ) : ''
+                            }
+                            {
+                                ((recipeResults !== null) && (value === 1)) ?
+                                    (
+                                        <Typography variant='h6' sx={{display:'inline'}}> (Total Results: {recipeResults.recipes.total_results})</Typography>
                                     ) : ''
                             }
                         </Box>
                         <Box>
                             {
-                                (results !== null) ? 
+                                ((results !== null) && (value === 0)) ? 
                                     (
                                         <>
-                                            <ResultsSection data={results}/>
+                                            <IngredientResultsSection data={results}/>
                                             
                                         </>
                                     ):'No results'
-                            }                            
+                            }
+                            {
+                                ((recipeResults !== null) && (value === 1)) ? 
+                                    (
+                                        <>
+                                            <RecipeResultsSection data={recipeResults}/>
+                                            
+                                        </>
+                                    ):'No results'
+                            }                              
                         </Box>
                     </Box>
                 </Paper>
             </Stack>            
-
-            
         </ContentBox>
     )
 }
