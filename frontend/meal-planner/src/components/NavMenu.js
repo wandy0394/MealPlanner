@@ -6,49 +6,21 @@ import MenuBookIcon from "@mui/icons-material/MenuBook"
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import { NavLink } from "react-router-dom"
+import MenuLink from "./MenuLink"
+import MenuContents from "./MenuContents"
+// const MenuLink = styled(NavLink)({
+//     textDecoration:'none'
+// })
 
 export default function NavMenu() {
     return (
-        // <Box sx={{width:'12vw'}}>
-           
         <Box sx={{width: '12vw', minWidth:180, display:{xs:'none', md:'flex'}, height:{xs:'auto', md:'100%'}, flexDirection:'column', gap:'0.5vh'}}>
-            
-            <ListItem sx={{height:'15vh'}}>
-                Something could go here
+            <ListItem sx={{height:'15vh', display:'flex', justifyContent:'center'}}>
+                <MenuLink to='/' style={{textDecoration:'none'}}>
+                    <Typography variant='h4'>Meal Manager</Typography>
+                </MenuLink>
             </ListItem>            
-            <NavLink to='/search'>
-                <MenuItem>
-                    <ListItemIcon><SearchIcon fontSize='large'/></ListItemIcon>
-
-                    <ListItemText><Typography variant="h6">Search...</Typography></ListItemText>
-                </MenuItem>
-            </NavLink>
-            <NavLink to='/ingredients'>
-                <MenuItem>
-                    <ListItemIcon><EggIcon fontSize='large'/></ListItemIcon>
-                    <ListItemText><Typography variant="h6">Ingredients</Typography></ListItemText>
-                </MenuItem>
-            </NavLink>
-            <NavLink to='/recipes'>
-                <MenuItem>
-                    <ListItemIcon><MenuBookIcon fontSize='large'/></ListItemIcon>
-                    <ListItemText><Typography variant="h6">Recipes</Typography></ListItemText>
-                </MenuItem>
-            </NavLink>
-            <NavLink to='/meal-plans'>
-                <MenuItem>
-                    <ListItemIcon><CalendarMonthIcon fontSize='large'/></ListItemIcon>
-                    <ListItemText><Typography variant="h6">Meal Plans</Typography></ListItemText>
-                </MenuItem>
-            </NavLink>
-            <NavLink to='/shopping-list'>
-                <MenuItem>
-                    <ListItemIcon><ShoppingCartIcon fontSize='large'/></ListItemIcon>
-                    <ListItemText>                    
-                            <Typography variant="h6">Shopping List</Typography>                    
-                    </ListItemText>
-                </MenuItem>
-            </NavLink>
+            <MenuContents/>
         </Box>
 
     )
