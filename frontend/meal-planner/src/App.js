@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import './App.css'
 import MenuBar from './components/Menu'
 import { useState } from 'react'
-
+import AppRoutes from './AppRoutes'
 
 export default function App() {
 
@@ -10,9 +10,9 @@ export default function App() {
 
   return (
     <Box>
-      <Box>
-        <MenuBar open={open} setOpen={setOpen}/>
-      </Box>
+      {/* <MenuBar open={open} setOpen={setOpen}/> */}
+      <AppRoutes/>
     </Box>
+
   )
 }

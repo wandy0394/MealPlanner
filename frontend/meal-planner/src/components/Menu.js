@@ -267,7 +267,7 @@ export default function MenuBar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Meal Manager
+            Meal Manager1232342334
           </Typography>
           <Search>
             <SearchIconWrapper>

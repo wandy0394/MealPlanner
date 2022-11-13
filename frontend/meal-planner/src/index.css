@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-    /* border:solid; */
+    border:solid;
+    border-width: 1px;
 }
