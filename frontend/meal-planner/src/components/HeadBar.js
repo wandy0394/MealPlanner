@@ -12,9 +12,9 @@ export default function HeadBar() {
 
 
     return (
-        <AppBar sx ={{position:'fixed', padding:0, margin:0, height:'5vh'}}>
+        <AppBar sx ={{position:'fixed'}}>
             <Toolbar sx={{display:'flex', alignContent:'center', justifyContent:'space-between'}}>
-                <Box sx = {{display:'flex', alignContent:'center', gap:'2rem'}}>
+                <Box sx = {{alignContent:'center', gap:'2rem', display:{xs:'flex', md:'none'}}}>
                     <IconButton>
                         <MenuIcon/>
                     </IconButton>

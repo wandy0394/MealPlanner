@@ -1,8 +1,8 @@
 * {
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-    border:solid;
-    border-width: 1px;
+    /* border:solid;
+    border-width: 1px; */
 }
 body {
     height: 100vh;
