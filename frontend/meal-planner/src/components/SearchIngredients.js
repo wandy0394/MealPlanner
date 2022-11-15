@@ -25,8 +25,10 @@ export default function SearchIngredients({getResults}) {
 
     return (
         <Box>
-            <TextField label='Search by name..' variant='standard' onChange={handleChange}></TextField> 
-            <Button variant='contained' onClick={handleClick}>Search Ingredients</Button>
+            <form onSubmit={handleClick}>
+                <TextField label='Search by name..' variant='standard' onChange={handleChange} required={true}></TextField> 
+                <Button variant='contained' type='submit'>Search Ingredients</Button>
+            </form>
         </Box>
     )
 }
