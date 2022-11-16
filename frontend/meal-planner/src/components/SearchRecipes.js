@@ -4,111 +4,119 @@ import DataService from "../service/data-service"
 import { useState } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
+const INITIAL_CRITERIA = {
+    maxCal:"",
+    minCal:"",
+    maxCarb: "",
+    minCarb:"",
+    maxProtein: "",
+    minProtein: "",
+    maxFat: "",
+    minFat: "",
+}
+
+const CRITERIA_LABELS = {
+    maxCal:"Maximum Calories",
+    maxCarb: "Maximum Carbs",
+    maxProtein: "Maximum Protein",
+    maxFat: "Maximum Fat",
+    minCal:"Minimum Calories",
+    minCarb:"Minimum Carbs",
+    minProtein: "Minimum Protein",
+    minFat: "Minuimum Fat",
+}
+
+const CRITERIA_SUFFIX = {
+    maxCal:"kcal",
+    maxCarb: "%",
+    maxProtein: "%",
+    maxFat: "%",
+    minCal:"kcal",
+    minCarb:"%",
+    minProtein: "%",
+    minFat: "%",
+}
+
+
+
 export default function SearchRecipes({getResults}) {
+    const [searchCriteria, setSearchCriteria] = useState(INITIAL_CRITERIA)
     const [searchText, setSearchText] = useState('')
-    const [minCal, setMinCal] = useState(null)
-    const [maxCal, setMaxCal] = useState(null)
-    const [minCarb, setMinCarb] = useState(null)
-    const [maxCarb, setMaxCarb] = useState(null)
-    const [minProtein, setMinProtein] = useState(null)
-    const [maxProtein, setMaxProtein] = useState(null)
-    const [minFat, setMinFat] = useState(null)
-    const [maxFat, setMaxFat] = useState(null)
 
     function validateInputs() {
-        
+        return true
     }
+
+    function handleCriteriaChange(e) {
+        if (!validateInputs) return
+        const {value, name} = e.target
+        setSearchCriteria({...searchCriteria, [name]:value})
+    }
+
+    function handleSearchChange(e) {
+        setSearchText(e.target.value)
+    }
+    useEffect(()=> {
+        console.log(searchCriteria)
+    }, [searchCriteria])
 
 
     async function handleClick(e) {
         //console.log(e)
         e.preventDefault();
-        //e.reportValidity();
-        if (searchText === '') return
+        e.reportValidity();
+        if (!validateInputs) return
         try {
             //const output = await DataService.searchRecipes(searchText)
             //console.log(output)
             //getResults(output)
-            
         }
         catch (e) {
             console.error(e)
         }
         
     }
-
-    function handleSearchTextChange(e) {
-        setSearchText(e.target.value)
-    }
-
-    function handleMinCalChange(e) {
-        setMinCal(e.target.value)
-    }
-    function handleMaxCalChange(e) {
-        setMaxCal(e.target.value)
-    }
-    function handleMinCarbChange(e) {
-        setMinCarb(e.target.value)
-    }
-    function handleMaxCarbChange(e) {
-        setMaxCarb(e.target.value)
-    }
-    function handleMinProteinChange(e) {
-        setMinProtein(e.target.value)
-    }
-    function handleMaxProteinChange(e) {
-        setMaxProtein(e.target.value)
-    }
-    function handleMinFatChange(e) {
-        setMinFat(e.target.value)
-    }
-    function handleMaxFatChange(e) {
-        setMaxFat(e.target.value)
-    }
-
-
-
     return (
         <Box>
             <form onSubmit={handleClick}>
                 {/* <TextField label='Search by name..' variant='standard' onChange={handleChange} required></TextField>  */}
                 <FormGroup>
+                
+                    <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>Search recipes names and ingredients</FormLabel>
+                    <Box sx={{display:'flex', flexDirection:'column', padding:'0px 3rem'}}>
+                        <TextField name='searchText' label='Search by name..' variant='standard' onChange={handleSearchChange} required={true}></TextField> 
+                    </Box>
+                
+                    <FormLabel sx={{}}>Additional Filters</FormLabel>
+
                     
-                        <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>Search recipes names and ingredients</FormLabel>
-                        <Box sx={{display:'flex', flexDirection:'column', padding:'0px 3rem'}}>
-                            <TextField sx = {{}}label='Search by name..' variant='standard' onChange={handleSearchTextChange} required={true}></TextField> 
-                        </Box>
-                   
-                    <Accordion sx={{paddingTop:'0rem', border:'none'}}>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon/>}> 
-                            <FormLabel sx={{}}>Additional Filters</FormLabel>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <Box sx={{display:'grid', gridTemplateColumns:'1fr 1fr'}}>
-                                
-                                <Box sx={{display:'flex', flexDirection:'column', padding: '0px 3rem'}}>
-                                    <TextField label='Minimum calories' variant='standard' type='number' 
-                                        InputProps={{endAdornment:<InputAdornment position='end'>kcal</InputAdornment>}} inputProps={{min:0, type:'number'}}  margin="normal"></TextField> 
-                                    <TextField label='Minimum Protein' variant='standard' type='number' 
-                                        InputProps={{endAdornment:<InputAdornment position='end'>%</InputAdornment>}} inputProps={{min:0, max:100}} margin="normal"></TextField> 
-                                    <TextField label='Minimum Carbs' variant='standard' type='number' 
-                                        InputProps={{endAdornment:<InputAdornment position='end'>%</InputAdornment>}} inputProps={{min:0, max:100}} margin="normal"></TextField>  
-                                    <TextField label='Minimum Fat' variant='standard' type='number' 
-                                        InputProps={{endAdornment:<InputAdornment position='end'>%</InputAdornment>}} inputProps={{min:0, max:100}} margin="normal"></TextField>                             
-                                </Box>
-                                <Box sx={{display:'flex', flexDirection:'column', padding: '0px 3rem'}}>
-                                    <TextField label='Maximum calories' variant='standard' type='number' 
-                                        InputProps={{endAdornment:<InputAdornment position='end'>kcal</InputAdornment>}} inputProps={{min:0}} margin="normal"></TextField>
-                                    <TextField label='Maximum Protein' variant='standard' type='number' 
-                                        InputProps={{endAdornment:<InputAdornment position='end'>%</InputAdornment>}} inputProps={{min:0, max:100}} margin="normal"></TextField> 
-                                    <TextField label='Maximum Fat' variant='standard' type='number' 
-                                        InputProps={{endAdornment:<InputAdornment position='end'>%</InputAdornment>}} inputProps={{min:0, max:100}} margin="normal"></TextField> 
-                                    <TextField label='Maximum Carbs' variant='standard' type='number' 
-                                        InputProps={{endAdornment:<InputAdornment position='end'>%</InputAdornment>}} inputProps={{min:0, max:100}} margin="normal"></TextField> 
-                                </Box>
-                            </Box>
-                        </AccordionDetails>
-                    </Accordion>
+                    <Box sx={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))', margin:'0 auto', width:'100%'}}>
+                        {
+                            Object.entries(searchCriteria).map((item, index, array) => {
+                                if (index % 2 != 0) return
+                                return (
+                                    <Box key={index} sx={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', width:'100%'}}>
+                                        <TextField label={CRITERIA_LABELS[array[index][0]]} variant='standard' type='number' 
+                                            InputProps={{endAdornment:<InputAdornment position='end'>{CRITERIA_SUFFIX[array[index][0]]}</InputAdornment>}} 
+                                            inputProps={{min:0, type:'number'}}  margin="normal"
+                                            name={array[index][0]}
+                                            onChange={handleCriteriaChange}
+                                            key={array[index][0]}
+                                            >
+                                        </TextField>
+                                        <TextField label={CRITERIA_LABELS[array[index+1][0]]} variant='standard' type='number' 
+                                            InputProps={{endAdornment:<InputAdornment position='end'>{CRITERIA_SUFFIX[array[index+1][0]]}</InputAdornment>}} 
+                                            inputProps={{min:0, type:'number'}}  margin="normal"
+                                            name={array[index+1][0]}
+                                            onChange={handleCriteriaChange}
+                                            key={array[index+1][0]}
+                                            >
+                                        </TextField>  
+                                    </Box>
+                                )
+                            })
+                        }
+                    </Box>
                     <Button type='submit' variant='contained' sx={{margin:'1rem'}}>Search Recipes</Button>
                 </FormGroup>
             </form>
