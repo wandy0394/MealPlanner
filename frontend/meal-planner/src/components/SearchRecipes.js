@@ -1,8 +1,9 @@
-import { TextField, Button, Box, FormControl, Input, FormGroup, FormLabel, InputAdornment, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { TextField, Button, Box, FormControl, Input, FormGroup, FormLabel, InputAdornment, Accordion, AccordionSummary, AccordionDetails, Collapse } from "@mui/material";
 import { useEffect } from "react";
 import DataService from "../service/data-service"
 import { useState } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 
 const INITIAL_CRITERIA = {
     maxCal:"",
@@ -42,6 +43,7 @@ const CRITERIA_SUFFIX = {
 export default function SearchRecipes({getResults}) {
     const [searchCriteria, setSearchCriteria] = useState(INITIAL_CRITERIA)
     const [searchText, setSearchText] = useState('')
+    const [visible, setVisible] = useState(false)
 
     function validateInputs() {
         return true
@@ -56,9 +58,14 @@ export default function SearchRecipes({getResults}) {
     function handleSearchChange(e) {
         setSearchText(e.target.value)
     }
+
+    const toggleVisibility = () => {
+        const val = visible
+        setVisible(!val)
+    }
     useEffect(()=> {
-        console.log(searchCriteria)
-    }, [searchCriteria])
+        console.log(visible)
+    }, [visible])
 
 
     async function handleClick(e) {
@@ -82,41 +89,43 @@ export default function SearchRecipes({getResults}) {
                 {/* <TextField label='Search by name..' variant='standard' onChange={handleChange} required></TextField>  */}
                 <FormGroup>
                 
-                    <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>Search recipes names and ingredients</FormLabel>
+                    <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What are you look for?</FormLabel>
                     <Box sx={{display:'flex', flexDirection:'column', padding:'0px 3rem'}}>
-                        <TextField name='searchText' label='Search by name..' variant='standard' onChange={handleSearchChange} required={true}></TextField> 
+                        <TextField name='searchText' label='Search by name or ingredient..' variant='standard' onChange={handleSearchChange} required={true}></TextField> 
                     </Box>
-                
-                    <FormLabel sx={{}}>Additional Filters</FormLabel>
-
-                    
-                    <Box sx={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))', margin:'0 auto', width:'100%'}}>
-                        {
-                            Object.entries(searchCriteria).map((item, index, array) => {
-                                if (index % 2 != 0) return
-                                return (
-                                    <Box key={index} sx={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', width:'100%'}}>
-                                        <TextField label={CRITERIA_LABELS[array[index][0]]} variant='standard' type='number' 
-                                            InputProps={{endAdornment:<InputAdornment position='end'>{CRITERIA_SUFFIX[array[index][0]]}</InputAdornment>}} 
-                                            inputProps={{min:0, type:'number'}}  margin="normal"
-                                            name={array[index][0]}
-                                            onChange={handleCriteriaChange}
-                                            key={array[index][0]}
-                                            >
-                                        </TextField>
-                                        <TextField label={CRITERIA_LABELS[array[index+1][0]]} variant='standard' type='number' 
-                                            InputProps={{endAdornment:<InputAdornment position='end'>{CRITERIA_SUFFIX[array[index+1][0]]}</InputAdornment>}} 
-                                            inputProps={{min:0, type:'number'}}  margin="normal"
-                                            name={array[index+1][0]}
-                                            onChange={handleCriteriaChange}
-                                            key={array[index+1][0]}
-                                            >
-                                        </TextField>  
-                                    </Box>
-                                )
-                            })
-                        }
+                    <Box sx={{display:'flex', justifyContent:'flex-start', alignContent:'center'}}>
+                        <FormLabel sx={{border:'solid', verticalAlign:'center'}}>Want to be more specific?</FormLabel>
+                        <Button sx={{border:'solid'}}onClick={toggleVisibility}>{visible ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</Button>
                     </Box>
+                    <Collapse in={visible} sx={{width:'100%'}}>
+                        <Box sx={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))', margin:'0 auto', width:'100%'}}>
+                            {
+                                Object.entries(searchCriteria).map((item, index, array) => {
+                                    if (index % 2 != 0) return
+                                    return (
+                                        <Box key={index} sx={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', width:'100%'}}>
+                                            <TextField label={CRITERIA_LABELS[array[index][0]]} variant='standard' type='number' 
+                                                InputProps={{endAdornment:<InputAdornment position='end'>{CRITERIA_SUFFIX[array[index][0]]}</InputAdornment>}} 
+                                                inputProps={{min:0, type:'number'}}  margin="normal"
+                                                name={array[index][0]}
+                                                onChange={handleCriteriaChange}
+                                                key={array[index][0]}
+                                                >
+                                            </TextField>
+                                            <TextField label={CRITERIA_LABELS[array[index+1][0]]} variant='standard' type='number' 
+                                                InputProps={{endAdornment:<InputAdornment position='end'>{CRITERIA_SUFFIX[array[index+1][0]]}</InputAdornment>}} 
+                                                inputProps={{min:0, type:'number'}}  margin="normal"
+                                                name={array[index+1][0]}
+                                                onChange={handleCriteriaChange}
+                                                key={array[index+1][0]}
+                                                >
+                                            </TextField>  
+                                        </Box>
+                                    )
+                                })
+                            }
+                        </Box>
+                    </Collapse>
                     <Button type='submit' variant='contained' sx={{margin:'1rem'}}>Search Recipes</Button>
                 </FormGroup>
             </form>
