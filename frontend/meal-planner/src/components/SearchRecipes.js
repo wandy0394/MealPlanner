@@ -46,12 +46,16 @@ export default function SearchRecipes({getResults}) {
     const [visible, setVisible] = useState(false)
 
     function validateInputs() {
-        return true
+        
+        const isValid = searchText.match(/^[\w\-\s]+$/) //alphanumeric, hyphen and whitespace
+        return isValid
     }
 
     function handleCriteriaChange(e) {
-        if (!validateInputs) return
-        const {value, name} = e.target
+        
+        //console.log(e.reportValidity())
+        let {value, name} = e.target
+
         setSearchCriteria({...searchCriteria, [name]:value})
     }
 
@@ -71,12 +75,20 @@ export default function SearchRecipes({getResults}) {
     async function handleClick(e) {
         //console.log(e)
         e.preventDefault();
-        e.reportValidity();
-        if (!validateInputs) return
+        
+        if (!validateInputs()) {
+            //let user know
+            return
+        }
         try {
-            //const output = await DataService.searchRecipes(searchText)
-            //console.log(output)
-            //getResults(output)
+            const searchData = {
+                searchText:searchText, 
+                ...searchCriteria
+            }
+            
+            const output = await DataService.searchRecipes(searchData)
+            console.log(output)
+            getResults(output)
         }
         catch (e) {
             console.error(e)
@@ -94,8 +106,8 @@ export default function SearchRecipes({getResults}) {
                         <TextField name='searchText' label='Search by name or ingredient..' variant='standard' onChange={handleSearchChange} required={true}></TextField> 
                     </Box>
                     <Box sx={{display:'flex', justifyContent:'flex-start', alignContent:'center'}}>
-                        <FormLabel sx={{border:'solid', verticalAlign:'center'}}>Want to be more specific?</FormLabel>
-                        <Button sx={{border:'solid'}}onClick={toggleVisibility}>{visible ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</Button>
+                        <FormLabel sx={{display:'flex', alignItems:'center'}}>Want to be more specific?</FormLabel>
+                        <Button onClick={toggleVisibility}>{visible ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</Button>
                     </Box>
                     <Collapse in={visible} sx={{width:'100%'}}>
                         <Box sx={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))', margin:'0 auto', width:'100%'}}>

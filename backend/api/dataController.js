@@ -51,7 +51,9 @@ export default class DataController {
         //expects /?searchText=string
         try {
             const searchText = req.params.searchText;
-            const output = await Recipe.searchRecipes(searchText)
+            //console.log(req.query)
+            //const output = await Recipe.searchRecipes(searchText)
+            const output = await Recipe.searchRecipesWithData(req.query)
             res.json(output)
             //return response;
         } catch (e) {
