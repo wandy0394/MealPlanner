@@ -6,10 +6,11 @@ import { useState } from "react";
 export default function SearchIngredients({getResults}) {
     const [searchText, setSearchText] = useState('')
     
-    async function handleClick() {
+    async function handleClick(e) {
+        e.preventDefault()
         try {
             const output = await DataService.searchIngredients(searchText)
-            console.log(output)
+            //console.log(output)
             getResults(output)
             
         }

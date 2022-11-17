@@ -21,7 +21,7 @@ export default function IngredientResultsSection({data}) {
                         cleanedData.map((item, index)=> {
                             return <SearchIngredientResults data={item} key={index}/>
                         })                        
-                    ) : ('No Results')
+                    ) : ('No Ingredients Found')
             }
         </Box>
     )

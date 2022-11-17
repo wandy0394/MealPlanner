@@ -9,11 +9,9 @@ export default function RecipeResultsSection({data}) {
         //api returns food array if results are more than 1, otherwise it just returns one item
         cleanedData = recipeData.recipe
     }
-    else if (data.total_results == 1) {
-        //cleanedData = [data.food]
-        
+    else if (recipeData.total_results == 1) {
+        cleanedData = [recipeData.recipe]        
     }
-    console.log(cleanedData)
     return (
         <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
             {
@@ -22,7 +20,7 @@ export default function RecipeResultsSection({data}) {
                         cleanedData.map((item, index)=> {
                             return <SearchRecipeResults data={item} key={index}/>
                         })                        
-                    ) : ('No Results')
+                    ) : ('No Recipes Found.')
             }
         </Box>
     )
