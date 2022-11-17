@@ -101,12 +101,12 @@ export default function SearchRecipes({getResults}) {
                 {/* <TextField label='Search by name..' variant='standard' onChange={handleChange} required></TextField>  */}
                 <FormGroup>
                 
-                    <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What are you look for?</FormLabel>
+                    <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What are you hungry for?</FormLabel>
                     <Box sx={{display:'flex', flexDirection:'column', padding:'0px 3rem'}}>
                         <TextField name='searchText' label='Search by name or ingredient..' variant='standard' onChange={handleSearchChange} required={true}></TextField> 
                     </Box>
                     <Box sx={{display:'flex', justifyContent:'flex-start', alignContent:'center'}}>
-                        <FormLabel sx={{display:'flex', alignItems:'center'}}>Want to be more specific?</FormLabel>
+                        <FormLabel sx={{display:'flex', alignItems:'center'}}>What about macros?</FormLabel>
                         <Button onClick={toggleVisibility}>{visible ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</Button>
                     </Box>
                     <Collapse in={visible} sx={{width:'100%'}}>
