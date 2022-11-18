@@ -14,6 +14,7 @@ export default function IngredientResultsSection({data}) {
         'Fat'
     ]
     let tableRows = []
+    //console.log(data)
     if (data.total_results > 1) {
         //api returns food array if results are more than 1, otherwise it just returns one item
         cleanedData = data.food
@@ -60,8 +61,9 @@ export default function IngredientResultsSection({data}) {
                                 return <TableRow key={row.ID}>
                                             {
                                                 //  <TableCell>{row.Title}</TableCell>
-                                                columnHeaders.map((header) => {
-                                                    return <TableCell>{row[header]}</TableCell>
+                                                columnHeaders.map((header, index) => {
+                                                    let cellId = index.toString() + row.ID.toString() 
+                                                    return <TableCell key={cellId}>{row[header]}</TableCell>
                                                 })
                                             }
                                         </TableRow>

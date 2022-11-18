@@ -21,7 +21,7 @@ function TabPanel(props) {
     )
 }
 
-const INITIAL = 1
+const INITIAL = 0
 
 export default function Search() {
     const [tabNum, setTabNum] = useState(0)
@@ -31,6 +31,7 @@ export default function Search() {
     const [recipePage, setRecipePage] = useState(INITIAL)
     const [hasSearchedIngredient, setHasSearchedIngredient] = useState(false)
     const [hasSearchedRecipe, setHasSearchedRecipe] = useState(false)
+    const [searchText, setSearchText] = useState('')
 
     const handleTabChange = (event, newValue) => {
         setTabNum(newValue)
@@ -44,14 +45,17 @@ export default function Search() {
         setRecipeResults(values)
     }
     function handleIngredientPageChange(e, page) {
+        console.log('page change')
         setIngredientPage(page)
     }
     function handleRecipePageChange(e, page) {
         setRecipePage(page)
     }
     useEffect(()=> {
-
-    })
+        console.log(`New results`)
+        console.log(results)
+    }, [results])
+    console.log('search page rendered')
     return (
         <ContentBox>
             <Stack sx={{height:'100%'}}>
@@ -68,7 +72,7 @@ export default function Search() {
                                 <Tab label='History' sx={{width:'33%'}}/>     
                             </Tabs>                        
                         <TabPanel value={tabNum} index={0}>
-                            <SearchIngredients getResults={getResults} page={ingredientPage} hasSearchedIngredient={hasSearchedIngredient} setHasSearchedIngredient = {setHasSearchedIngredient}/>
+                            <SearchIngredients getResults={getResults} page={ingredientPage} setPage={setIngredientPage} searchText={searchText} setSearchText={setSearchText}/>
                         </TabPanel>
                         <TabPanel value={tabNum} index={1}>
                             <SearchRecipes getResults={getRecipeResults}/>

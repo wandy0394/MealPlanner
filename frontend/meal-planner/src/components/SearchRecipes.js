@@ -61,6 +61,7 @@ export default function SearchRecipes({getResults}) {
 
     function handleSearchChange(e) {
         setSearchText(e.target.value)
+        setVisible(false)
     }
 
     const toggleVisibility = () => {
