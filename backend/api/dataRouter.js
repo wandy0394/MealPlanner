@@ -8,7 +8,7 @@ router.route("/ingredient/:id")
     .delete(DataController.apiRemoveIngredient)
     .post(DataController.apiSaveIngredient)
 
-router.route("/ingredient/search/:searchText")
+router.route("/ingredient/search/:searchText/:page")
     .get(DataController.apiSearchIngredients)
 
 router.route("/recipe/search/:searchText")

@@ -102,7 +102,7 @@ export default function SearchRecipes({getResults}) {
                 <FormGroup>
                 
                     <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What are you hungry for?</FormLabel>
-                    <Box sx={{display:'flex', flexDirection:'column', padding:'0px 3rem'}}>
+                    <Box sx={{display:'flex', flexDirection:'column', padding:'0px 0rem'}}>
                         <TextField name='searchText' label='Search by name or ingredient..' variant='standard' onChange={handleSearchChange} required={true}></TextField> 
                     </Box>
                     <Box sx={{display:'flex', justifyContent:'flex-start', alignContent:'center'}}>

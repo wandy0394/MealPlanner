@@ -70,14 +70,16 @@ export default class Ingredient {
         }
     }
 
-    static async searchIngredients(searchText) {
+    static async searchIngredients(searchText, page) {
         try {
             const token = await TokenHandler.getToken();
             const params = new URLSearchParams();
+            console.log(page)
             params.append('method', "foods.search")
             params.append('search_expression', searchText.toString())
             params.append('format', "json")
             params.append('max_results', 10)
+            params.append('page_number', (page-1))
 
             const options = {
                 method: 'POST',
