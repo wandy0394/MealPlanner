@@ -11,7 +11,8 @@ const OPTION_MAP = {
     minProtein: "protein_precentage.from",
     maxFat: "fat_precentage.to",
     minFat: "fat_precentage.from",
-    searchText: 'search_expression'
+    searchText: 'search_expression',
+    page: 'page_number'
 } 
 
 export default class Recipe {

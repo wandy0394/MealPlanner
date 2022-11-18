@@ -22,15 +22,28 @@ function TabPanel(props) {
     )
 }
 
-const INITIAL = 0
-
+const INITIAL_PAGE = 0
+const INITIAL_CRITERIA = {
+    maxCal:"",
+    minCal:"",
+    maxCarb: "",
+    minCarb:"",
+    maxProtein: "",
+    minProtein: "",
+    maxFat: "",
+    minFat: "",
+}
 export default function Search() {
     const [tabNum, setTabNum] = useState(0)
     const [results, setResults] = useState(null)
     const [recipeResults, setRecipeResults] = useState(null)
-    const [ingredientPage, setIngredientPage] = useState(INITIAL)
-    const [recipePage, setRecipePage] = useState(INITIAL)
+    const [ingredientPage, setIngredientPage] = useState(INITIAL_PAGE)
+    const [recipePage, setRecipePage] = useState(INITIAL_PAGE)
     const [searchText, setSearchText] = useState('')
+    const [searchCriteria, setSearchCriteria] = useState(INITIAL_CRITERIA)
+    const [recipeSearchText, setRecipeSearchText] = useState('')
+
+    const [hasClickedSearchIngredient, setHasClickSearchIngredient] = useState(false)
 
     const handleTabChange = (event, newValue) => {
         setTabNum(newValue)
@@ -44,35 +57,66 @@ export default function Search() {
         setRecipeResults(values)
     }
     function handleIngredientPageChange(e, page) {
-        console.log('page change')
-        setIngredientPage(page)
+        console.log(`page change ${page}`)
+        setIngredientPage(
+            { ingredientPage: page }, 
+            (async function() {
+                console.log(`lookg for page ${page}`)
+                await callSearchIngredients(page)
+            })()
+        )
     }
     function handleRecipePageChange(e, page) {
         setRecipePage(page)
     }
-    useEffect(()=> {
-        console.log(`New results`)
-        console.log(results)
-    }, [results])
+    // useEffect(()=> {
+    //     console.log(`New results`)
+    //     console.log(results)
+    // }, [results])
+    // useEffect(()=> {
+    //     console.log('search mount')
+    // },[])
 
-    useEffect(()=> {
-        if (ingredientPage === 0) return
+    async function callSearchIngredients(page=ingredientPage) {
         try {
-            console.log(`useffect ${ingredientPage}` )
+            console.log(`useffect ${page}` )
             const callSearch = (async() => {
-                const data = await DataService.searchIngredients(searchText, ingredientPage)
+                const data = await DataService.searchIngredients(searchText, page)
                 console.log('GotData')
                 console.log(data)
                 getResults(data)
+                setIngredientPage(page)
             })();
         }
         catch(e) {
             console.error(e)
         }
-    }, [ingredientPage])
+    }
+
     useEffect(()=> {
-        console.log('search mount')
-    },[])
+        console.log('recipe effect called')
+        if (recipePage === INITIAL_PAGE) return
+     
+        try {
+            console.log(`recipe useffect ${recipePage}` )
+            const searchData = {
+                searchText:recipeSearchText, 
+                ...searchCriteria,
+                page:recipePage
+            }
+            console.log(searchData)
+            const callSearch = (async() => {
+                const data = await DataService.searchRecipes(searchData)
+                console.log('GotData')
+                console.log(data)
+                getRecipeResults(data)
+            })();
+        }
+        catch(e) {
+            console.error(e)
+        }
+    }, [recipePage])
+
     console.log(`search page rendered: ${ingredientPage}`)
     return (
         <ContentBox>
@@ -90,10 +134,25 @@ export default function Search() {
                                 <Tab label='History' sx={{width:'33%'}}/>     
                             </Tabs>                        
                         <TabPanel value={tabNum} index={0}>
-                            <SearchIngredients getResults={getResults} page={ingredientPage} setPage={setIngredientPage} searchText={searchText} setSearchText={setSearchText}/>
+                            <SearchIngredients 
+                                getResults={getResults} 
+                                page={ingredientPage} 
+                                setPage={setIngredientPage} 
+                                searchText={searchText} 
+                                setSearchText={setSearchText}
+                                handleClickSearch={callSearchIngredients}
+                            />
                         </TabPanel>
                         <TabPanel value={tabNum} index={1}>
-                            <SearchRecipes getResults={getRecipeResults}/>
+                            <SearchRecipes 
+                                getResults={getRecipeResults} 
+                                searchCriteria={searchCriteria}
+                                setSearchCriteria={setSearchCriteria}
+                                searchText={recipeSearchText} 
+                                setSearchText={setRecipeSearchText}
+                                page={recipePage}
+                                setPage={setRecipePage}
+                            />
                         </TabPanel>
                         <TabPanel value={tabNum} index={2}>
                             TODO
@@ -125,13 +184,13 @@ export default function Search() {
                         </Box>
                         <Box>
                             {
-                                (tabNum == 0) && ((results !== null) && 
+                                (tabNum === 0) && ((results !== null) && 
                                                 <Pagination count={10} shape='rounded' sx={{margin: '1rem 0'}} page={ingredientPage}
                                                     onChange={handleIngredientPageChange}
                                                 />)
                             }
                             {
-                                (tabNum == 1) && ((recipeResults !== null) && 
+                                (tabNum === 1) && ((recipeResults !== null) && 
                                         <Pagination count={10} shape='rounded' sx={{margin: '1rem 0'}} page={recipePage}
                                             onChange={handleRecipePageChange}
                                         />)
