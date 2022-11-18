@@ -27,42 +27,27 @@ export default function SearchIngredients({getResults, page, setPage, searchText
     }
     async function search(page=1) {
         console.log(`Page ${page}`)
-        try {
-            //const output = await DataService.searchIngredients(searchText, page)
-            //const output = dummyOutput
-            //console.log(output)
-            //console.log('Getting output')
-            //getResults(output)
-            setPage(page)
-            //setHasSearchedIngredient(true)
-        }
-        catch (e) {
-            console.error(e)
-        }
+        setPage(page)
     }
+    // useEffect(()=> {
+    //     if (page === 0) return
+    //     try {
+    //         console.log(`useffect ${page}` )
+    //         const callSearch = (async() => {
+    //             const data = await DataService.searchIngredients(searchText, page)
+    //             console.log('GotData')
+    //             console.log(data)
+    //             getResults(data)
+    //         })();
+    //     }
+    //     catch(e) {
+    //         console.error(e)
+    //     }
+    // }, [page])
+
     useEffect(()=> {
-        if (page === 0) return
-        try {
-            if (true) {
-                console.log(`useffect ${page}` )
-                //const callSearch = (async () => {await search(page)})
-                //const output = callSearch();
-                //const output = dummyOutput
-                const callSearch = (async() => {
-                    const data = await DataService.searchIngredients(searchText, page)
-                    console.log('GotData')
-                    console.log(data)
-                    getResults(data)
-                    //return data
-                })();
-                
-            }
-            
-        }
-        catch(e) {
-            console.error(e)
-        }
-    }, [page])
+        console.log("unmounted")
+    },[])
 
     function handleChange(e) {
         setSearchText(e.target.value)

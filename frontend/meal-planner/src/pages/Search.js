@@ -6,6 +6,7 @@ import SearchIngredients from "../components/SearchIngredients";
 import SearchRecipes from "../components/SearchRecipes";
 import IngredientResultsSection from "../components/IngredientResultsSection";
 import RecipeResultsSection from "../components/RecipeResultsSection";
+import DataService from "../service/data-service";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -29,8 +30,6 @@ export default function Search() {
     const [recipeResults, setRecipeResults] = useState(null)
     const [ingredientPage, setIngredientPage] = useState(INITIAL)
     const [recipePage, setRecipePage] = useState(INITIAL)
-    const [hasSearchedIngredient, setHasSearchedIngredient] = useState(false)
-    const [hasSearchedRecipe, setHasSearchedRecipe] = useState(false)
     const [searchText, setSearchText] = useState('')
 
     const handleTabChange = (event, newValue) => {
@@ -55,7 +54,26 @@ export default function Search() {
         console.log(`New results`)
         console.log(results)
     }, [results])
-    console.log('search page rendered')
+
+    useEffect(()=> {
+        if (ingredientPage === 0) return
+        try {
+            console.log(`useffect ${ingredientPage}` )
+            const callSearch = (async() => {
+                const data = await DataService.searchIngredients(searchText, ingredientPage)
+                console.log('GotData')
+                console.log(data)
+                getResults(data)
+            })();
+        }
+        catch(e) {
+            console.error(e)
+        }
+    }, [ingredientPage])
+    useEffect(()=> {
+        console.log('search mount')
+    },[])
+    console.log(`search page rendered: ${ingredientPage}`)
     return (
         <ContentBox>
             <Stack sx={{height:'100%'}}>
