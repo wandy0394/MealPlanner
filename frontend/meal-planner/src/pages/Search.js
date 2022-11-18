@@ -1,4 +1,4 @@
-import { Grid, Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Grid, Paper, Stack, Tab, Tabs, Typography, Pagination } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import { ContentBox } from "../components/ContentBox";
@@ -21,13 +21,19 @@ function TabPanel(props) {
     )
 }
 
+const INITIAL = 1
+
 export default function Search() {
-    const [value, setValue] = useState(0)
+    const [tabNum, setTabNum] = useState(0)
     const [results, setResults] = useState(null)
     const [recipeResults, setRecipeResults] = useState(null)
+    const [ingredientPage, setIngredientPage] = useState(INITIAL)
+    const [recipePage, setRecipePage] = useState(INITIAL)
+    const [hasSearchedIngredient, setHasSearchedIngredient] = useState(false)
+    const [hasSearchedRecipe, setHasSearchedRecipe] = useState(false)
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue)
+    const handleTabChange = (event, newValue) => {
+        setTabNum(newValue)
     }
 
     function getResults(values) {
@@ -37,7 +43,15 @@ export default function Search() {
     function getRecipeResults(values) {
         setRecipeResults(values)
     }
+    function handleIngredientPageChange(e, page) {
+        setIngredientPage(page)
+    }
+    function handleRecipePageChange(e, page) {
+        setRecipePage(page)
+    }
+    useEffect(()=> {
 
+    })
     return (
         <ContentBox>
             <Stack sx={{height:'100%'}}>
@@ -48,18 +62,18 @@ export default function Search() {
                                 Find Something to Eat       
                             </Typography>
                         </Paper>
-                            <Tabs value={value} onChange={handleChange} sx={{borderBottom:1, borderColor:'divider'}}>
+                            <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
                                 <Tab label='Ingredients' sx={{width:'33%'}}/>
                                 <Tab label='Recipes' sx={{width:'33%'}}/>
                                 <Tab label='History' sx={{width:'33%'}}/>     
                             </Tabs>                        
-                        <TabPanel value={value} index={0}>
-                            <SearchIngredients getResults={getResults}/>
+                        <TabPanel value={tabNum} index={0}>
+                            <SearchIngredients getResults={getResults} page={ingredientPage} hasSearchedIngredient={hasSearchedIngredient} setHasSearchedIngredient = {setHasSearchedIngredient}/>
                         </TabPanel>
-                        <TabPanel value={value} index={1}>
+                        <TabPanel value={tabNum} index={1}>
                             <SearchRecipes getResults={getRecipeResults}/>
                         </TabPanel>
-                        <TabPanel value={value} index={2}>
+                        <TabPanel value={tabNum} index={2}>
                             TODO
                         </TabPanel>
                     </Box>
@@ -69,23 +83,37 @@ export default function Search() {
                                 Results
                             </Typography>
                             {
-                                (value === 0) && (results !== null) && (
+                                (tabNum === 0) && (results !== null) && (
                                     (<Typography variant='h6' sx={{display:'inline'}}> (Total Results: {results.total_results})</Typography>)
                                 )
                             }
                             {
-                                (value === 1) && (recipeResults !== null) && (
+                                (tabNum === 1) && (recipeResults !== null) && (
                                     <Typography variant='h6' sx={{display:'inline'}}> (Total Results: {recipeResults.recipes.total_results})</Typography>
                                 )
                             }
                         </Box>
                         <Box>
                             {
-                                (value === 0) && ((results !== null) && <><IngredientResultsSection data={results}/></>)
+                                (tabNum === 0) && ((results !== null) && <><IngredientResultsSection data={results}/></>)
                             }
                             {
-                                (value === 1) && ((recipeResults !== null) && <><RecipeResultsSection data={recipeResults}/></>)
+                                (tabNum === 1) && ((recipeResults !== null) && <><RecipeResultsSection data={recipeResults}/></>)
                             }                              
+                        </Box>
+                        <Box>
+                            {
+                                (tabNum == 0) && ((results !== null) && 
+                                                <Pagination count={10} shape='rounded' sx={{margin: '1rem 0'}} page={ingredientPage}
+                                                    onChange={handleIngredientPageChange}
+                                                />)
+                            }
+                            {
+                                (tabNum == 1) && ((recipeResults !== null) && 
+                                        <Pagination count={10} shape='rounded' sx={{margin: '1rem 0'}} page={recipePage}
+                                            onChange={handleRecipePageChange}
+                                        />)
+                            }
                         </Box>
                     </Box>
                 </Box>
