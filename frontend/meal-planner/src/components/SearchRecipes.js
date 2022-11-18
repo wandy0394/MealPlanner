@@ -40,9 +40,9 @@ const CRITERIA_SUFFIX = {
 
 
 
-export default function SearchRecipes({getResults}) {
-    const [searchCriteria, setSearchCriteria] = useState(INITIAL_CRITERIA)
-    const [searchText, setSearchText] = useState('')
+export default function SearchRecipes({getResults, searchText, setSearchText, searchCriteria, setSearchCriteria, page, setPage}) {
+    // const [searchCriteria, setSearchCriteria] = useState(INITIAL_CRITERIA)
+    // const [searchText, setSearchText] = useState('')
     const [visible, setVisible] = useState(false)
 
     function validateInputs() {
@@ -55,13 +55,13 @@ export default function SearchRecipes({getResults}) {
         
         //console.log(e.reportValidity())
         let {value, name} = e.target
-
+        console.log(setSearchCriteria)
         setSearchCriteria({...searchCriteria, [name]:value})
     }
 
     function handleSearchChange(e) {
         setSearchText(e.target.value)
-        setVisible(false)
+        //setVisible(false)
     }
 
     const toggleVisibility = () => {
@@ -81,19 +81,22 @@ export default function SearchRecipes({getResults}) {
             //let user know
             return
         }
-        try {
-            const searchData = {
-                searchText:searchText, 
-                ...searchCriteria
-            }
+        setPage(1)
+        console.log('Clicked')
+        // try {
+        //     const searchData = {
+        //         searchText:searchText, 
+        //         ...searchCriteria
+        //     }
             
-            const output = await DataService.searchRecipes(searchData)
-            console.log(output)
-            getResults(output)
-        }
-        catch (e) {
-            console.error(e)
-        }
+        //     const output = await DataService.searchRecipes(searchData)
+        //     console.log(output)
+        //     getResults(output)
+        // }
+        // catch (e) {
+        //     console.error(e)
+        // }
+        
         
     }
     return (
@@ -104,7 +107,7 @@ export default function SearchRecipes({getResults}) {
                 
                     <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What are you hungry for?</FormLabel>
                     <Box sx={{display:'flex', flexDirection:'column', padding:'0px 0rem'}}>
-                        <TextField name='searchText' label='Search by name or ingredient..' variant='standard' onChange={handleSearchChange} required={true}></TextField> 
+                        <TextField name='searchText' label='Search by name or ingredient..' variant='standard' onChange={handleSearchChange} required={true} value={searchText}></TextField> 
                     </Box>
                     <Box sx={{display:'flex', justifyContent:'flex-start', alignContent:'center'}}>
                         <FormLabel sx={{display:'flex', alignItems:'center'}}>What about macros?</FormLabel>
@@ -123,6 +126,7 @@ export default function SearchRecipes({getResults}) {
                                                 name={array[index][0]}
                                                 onChange={handleCriteriaChange}
                                                 key={array[index][0]}
+                                                value={searchCriteria[array[index][0]]}
                                                 >
                                             </TextField>
                                             <TextField label={CRITERIA_LABELS[array[index+1][0]]} variant='standard' type='number' 

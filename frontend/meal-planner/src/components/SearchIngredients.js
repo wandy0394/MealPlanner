@@ -16,38 +16,21 @@ const dummyOutput = {
 
 }
 
-export default function SearchIngredients({getResults, page, setPage, searchText, setSearchText}) {
+export default function SearchIngredients({page, setPage, searchText, setSearchText, handleClickSearch}) {
 
     
     
     async function handleClick(e) {
         e.preventDefault()
         console.log('clicked')
-        await search()
+        //console.log(`Page ${page}`)
+        //setPage(1)
+        const call = (async() => {await handleClickSearch(1)})()
     }
-    async function search(page=1) {
-        console.log(`Page ${page}`)
-        setPage(page)
-    }
-    // useEffect(()=> {
-    //     if (page === 0) return
-    //     try {
-    //         console.log(`useffect ${page}` )
-    //         const callSearch = (async() => {
-    //             const data = await DataService.searchIngredients(searchText, page)
-    //             console.log('GotData')
-    //             console.log(data)
-    //             getResults(data)
-    //         })();
-    //     }
-    //     catch(e) {
-    //         console.error(e)
-    //     }
-    // }, [page])
-
-    useEffect(()=> {
-        console.log("unmounted")
-    },[])
+    // async function search(page=1) {
+    //     console.log(`Page ${page}`)
+    //     setPage(page)
+    // }
 
     function handleChange(e) {
         setSearchText(e.target.value)

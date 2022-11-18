@@ -11,7 +11,7 @@ router.route("/ingredient/:id")
 router.route("/ingredient/search/:searchText/:page")
     .get(DataController.apiSearchIngredients)
 
-router.route("/recipe/search/:searchText")
+router.route("/recipe/search/:searchText/")
     .get(DataController.apiSearchRecipes)
 router.route("/recipe/:id")
     .get(DataController.apiGetRecipe)
