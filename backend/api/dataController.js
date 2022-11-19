@@ -1,10 +1,29 @@
 import Ingredient from "../data/ingredient.js"
 import Recipe from "../data/recipe.js"
 import Meal from "../data/meal.js"
+import DatabaseService from "../services/database-service.js"
+
+const DUMMY_EMAIL = 'dev@email.com'
 
 export default class DataController {
     //methods go here
 
+    static apiGetSearchHistory(req, res, next) {
+        DatabaseService.getRecipeSearchHistory(DUMMY_EMAIL)
+            .then((resp)=> {
+                console.log('resolved')
+                const output = resp.map((item)=> {
+                    return {id: item.id, searchText: item.search_text, searchType: item.search_type}
+                })
+                console.log(output)
+                res.json(output)
+            })
+            .catch((resp)=> {
+                //console.log('caught')
+                //console.log(resp)
+                return resp
+            })
+    }
 
 
     //ingredient methods

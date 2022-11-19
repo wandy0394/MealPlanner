@@ -50,10 +50,30 @@ class DatabaseService {
                 }
                 console.log(results);
                 //console.log(fields);
-                return results;
+                //return results;
             }) 
         }        
     }
+
+    static  getRecipeSearchHistory(userEmail) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=> {
+                const sqlQuery = `SELECT * from search_history where user_id='${userEmail}'`
+                console.log(sqlQuery)
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL SELECT');
+                    }
+                    //console.log(results);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })
+            return promise
+        }        
+    }
+
     static dummyCommand() {
         if (db !== undefined) {
             let sqlQuery = `SELECT * from user`;
