@@ -1,5 +1,6 @@
 import { Box, Card, Paper } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import DataService from "../service/data-service";
 
 const userEmail = 'dev@email.com'
 const dummyData = [
@@ -12,11 +13,16 @@ const dummyData = [
 ]
 
 export default function SearchHistory() {
-    const [searchHistory, setSearchHistory] = useState(dummyData)
+    const [searchHistory, setSearchHistory] = useState([])
 
-    function getSearchHistory(userEmail) {
-        setSearchHistory(dummyData)
-    }
+    useEffect(()=> {
+        (async()=>{
+            const output = await DataService.getSearchHistory()
+            setSearchHistory(output)
+        })();
+    },[])
+
+    console.log(searchHistory)
     
     return (
         <Box sx={{display:'flex', flexDirection: 'column', width:'100%'}}>
@@ -25,7 +31,7 @@ export default function SearchHistory() {
                     searchHistory.map((item) => {
                         return (
                             <Paper key={item.id}>
-                                {item.searchText}
+                                {item.id}{item.searchText}{item.searchType}
                             </Paper>
                         )
                     })

@@ -35,6 +35,16 @@ class DataService {
         catch(e) {
             return {error:'Error'}
         }
+    }
+    async getSearchHistory() {
+        try {
+            const resp = await instance.get(`searchHistory`)
+            console.log(resp.data)
+            return resp.data
+        }
+        catch (e) {
+            return {error:'Could not get history'}
+        }
         
     }
     getIngredients() {
