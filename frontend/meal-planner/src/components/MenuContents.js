@@ -1,4 +1,4 @@
-import { Box, ListItem, ListItemText, ListItemIcon, MenuItem, Typography } from "@mui/material"
+import { ListItemText, ListItemIcon, MenuItem, Typography } from "@mui/material"
 
 import SearchIcon from "@mui/icons-material/Search"
 import EggIcon from "@mui/icons-material/Egg"

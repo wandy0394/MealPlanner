@@ -1,6 +1,6 @@
-import SearchRecipeResults from "./SearchRecipeResult";
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
-import {DataGrid} from "@mui/x-data-grid"
+
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+
 
 export default function RecipeResultsSection({data}) {
 
@@ -20,7 +20,7 @@ export default function RecipeResultsSection({data}) {
         //api returns food array if results are more than 1, otherwise it just returns one item
         cleanedData = recipeData.recipe
     }
-    else if (recipeData.total_results == 1) {
+    else if (recipeData.total_results === 1) {
         cleanedData = [recipeData.recipe]        
     }
 
@@ -39,19 +39,8 @@ export default function RecipeResultsSection({data}) {
             )
         })
     }
-    //console.log(tableRows)
 
     return (
-        // <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
-        //     {
-        //         (cleanedData !== null) ? 
-        //             (   
-        //                 cleanedData.map((item, index)=> {
-        //                     return <SearchRecipeResults data={item} key={index}/>
-        //                 })                        
-        //             ) : ('No Recipes Found.')
-        //     }
-        // </Box>
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
@@ -68,7 +57,6 @@ export default function RecipeResultsSection({data}) {
                         tableRows.map((row) => {
                             return <TableRow key={row.ID}>
                                         {
-                                            //  <TableCell>{row.Title}</TableCell>
                                             columnHeaders.map((header) => {
                                                 return <TableCell>{row[header]}</TableCell>
                                             })

@@ -1,4 +1,4 @@
-import { Box, Card, Paper, Divider, Button } from "@mui/material"
+import { Box, Paper, Divider, Button } from "@mui/material"
 import AddBoxIcon from '@mui/icons-material/AddBox'
 
 export default function SearchRecipeResult({data}) {
