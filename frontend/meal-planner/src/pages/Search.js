@@ -7,6 +7,7 @@ import SearchRecipes from "../components/SearchRecipes";
 import IngredientResultsSection from "../components/IngredientResultsSection";
 import RecipeResultsSection from "../components/RecipeResultsSection";
 import DataService from "../service/data-service";
+import SearchHistory from "../components/SearchHistory";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -64,7 +65,7 @@ export default function Search() {
             { ingredientPage: page }, 
             (async function() {
                 console.log(`looking for page ${page}`)
-                await callSearchIngredients(prevSearchText, page)
+                await callSearchIngredients(prevSearchText, page, false)
             })()
         )
     }
@@ -95,13 +96,16 @@ export default function Search() {
         }
     }
 
-    async function callSearchRecipes(searchText, searchCriteria, page) {
+    async function callSearchRecipes(searchText, searchCriteria, page, doStoreSearch) {
         try {
             console.log(`recipe useffect ${page}` )
             const searchData = {
                 searchText:searchText, 
                 ...searchCriteria,
                 page:page
+            }
+            if (doStoreSearch) {
+                searchData['doStoreSearch'] = 'true'
             }
             console.log(searchData)
             const callSearch = (async() => {
@@ -150,9 +154,7 @@ export default function Search() {
                                 handleClickSearch={callSearchRecipes}
                             />
                         </TabPanel>
-                        <TabPanel value={tabNum} index={2}>
-                            TODO
-                        </TabPanel>
+
                     </Box>
                     <Box>
                         <Box>
@@ -191,6 +193,9 @@ export default function Search() {
                                             onChange={handleRecipePageChange}
                                         />)
                             }
+                            <TabPanel value={tabNum} index={2}>
+                                <SearchHistory/>
+                            </TabPanel>
                         </Box>
                     </Box>
                 </Box>
