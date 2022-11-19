@@ -65,7 +65,7 @@ export default function SearchRecipes({searchText, setSearchText, searchCriteria
             //let user know
             return
         }
-        const call = (async() => {await handleClickSearch(searchText, searchCriteria, 1)})()
+        const call = (async() => {await handleClickSearch(searchText, searchCriteria, 1, true)})()
         console.log('Clicked')
     }
     return (
