@@ -1,5 +1,4 @@
-import SearchIngredientResults from "./SearchIngredientResult";
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, PaginationItem } from "@mui/material";
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
 export default function IngredientResultsSection({data}) {
 
@@ -19,7 +18,7 @@ export default function IngredientResultsSection({data}) {
         //api returns food array if results are more than 1, otherwise it just returns one item
         cleanedData = data.food
     }
-    else if (data.total_results == 1) {
+    else if (data.total_results === 1) {
         cleanedData = [data.food]
         
     }

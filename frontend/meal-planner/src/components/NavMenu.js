@@ -1,16 +1,6 @@
-import { Box, ListItem, ListItemText, ListItemIcon, MenuItem, Typography } from "@mui/material"
-import { styled } from "@mui/material"
-import SearchIcon from "@mui/icons-material/Search"
-import EggIcon from "@mui/icons-material/Egg"
-import MenuBookIcon from "@mui/icons-material/MenuBook"
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-import { NavLink } from "react-router-dom"
+import { Box, ListItem, Typography } from "@mui/material"
 import MenuLink from "./MenuLink"
 import MenuContents from "./MenuContents"
-// const MenuLink = styled(NavLink)({
-//     textDecoration:'none'
-// })
 
 export default function NavMenu() {
     return (

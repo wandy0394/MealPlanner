@@ -1,8 +1,8 @@
 import HeadBar from "../components/HeadBar"
 import NavMenu from "../components/NavMenu"
-import SearchBar from "../components/SearchBar"
+
 import { Outlet } from "react-router-dom"
-import { AppBar, Box, Drawer, List, ListItem, Toolbar, Typography } from "@mui/material"
+import { Drawer, ListItem, Typography } from "@mui/material"
 import { useState } from "react"
 import MenuContents from "../components/MenuContents"
 import MenuLink from "../components/MenuLink"

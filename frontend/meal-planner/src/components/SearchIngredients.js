@@ -1,7 +1,4 @@
 import { TextField, Button, Box, FormGroup, FormLabel } from "@mui/material";
-import { useEffect } from "react";
-import DataService from "../service/data-service"
-import { useState } from "react";
 
 const dummyOutput = {
 
@@ -16,7 +13,7 @@ const dummyOutput = {
 
 }
 
-export default function SearchIngredients({page, setPage, searchText, setSearchText, handleClickSearch}) {
+export default function SearchIngredients({searchText, setSearchText, handleClickSearch}) {
 
     
     
@@ -25,12 +22,9 @@ export default function SearchIngredients({page, setPage, searchText, setSearchT
         console.log('clicked')
         //console.log(`Page ${page}`)
         //setPage(1)
-        const call = (async() => {await handleClickSearch(1)})()
+        const call = (async() => {await handleClickSearch(searchText, 1)})()
     }
-    // async function search(page=1) {
-    //     console.log(`Page ${page}`)
-    //     setPage(page)
-    // }
+
 
     function handleChange(e) {
         setSearchText(e.target.value)

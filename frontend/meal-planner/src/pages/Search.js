@@ -1,6 +1,6 @@
-import { Grid, Paper, Stack, Tab, Tabs, Typography, Pagination } from "@mui/material";
+import { Paper, Stack, Tab, Tabs, Typography, Pagination } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ContentBox } from "../components/ContentBox";
 import SearchIngredients from "../components/SearchIngredients";
 import SearchRecipes from "../components/SearchRecipes";
@@ -40,10 +40,12 @@ export default function Search() {
     const [ingredientPage, setIngredientPage] = useState(INITIAL_PAGE)
     const [recipePage, setRecipePage] = useState(INITIAL_PAGE)
     const [searchText, setSearchText] = useState('')
+    const [prevSearchText, setPrevSearchText] = useState('')
     const [searchCriteria, setSearchCriteria] = useState(INITIAL_CRITERIA)
     const [recipeSearchText, setRecipeSearchText] = useState('')
+    const [prevRecipeSearchText, setPrevRecipeSearchText] = useState('')
+    const [prevSearchCriteria, setPrevSearchCriteria] = useState(INITIAL_CRITERIA)
 
-    const [hasClickedSearchIngredient, setHasClickSearchIngredient] = useState(false)
 
     const handleTabChange = (event, newValue) => {
         setTabNum(newValue)
@@ -61,23 +63,22 @@ export default function Search() {
         setIngredientPage(
             { ingredientPage: page }, 
             (async function() {
-                console.log(`lookg for page ${page}`)
-                await callSearchIngredients(page)
+                console.log(`looking for page ${page}`)
+                await callSearchIngredients(prevSearchText, page)
             })()
         )
     }
     function handleRecipePageChange(e, page) {
-        setRecipePage(page)
+        setRecipePage(
+            {recipePage: page},
+            (async function() {
+                console.log(`looking for page ${page}`)
+                await callSearchRecipes(prevRecipeSearchText, prevSearchCriteria, page)
+            })()    
+        )
     }
-    // useEffect(()=> {
-    //     console.log(`New results`)
-    //     console.log(results)
-    // }, [results])
-    // useEffect(()=> {
-    //     console.log('search mount')
-    // },[])
 
-    async function callSearchIngredients(page=ingredientPage) {
+    async function callSearchIngredients(searchText, page) {
         try {
             console.log(`useffect ${page}` )
             const callSearch = (async() => {
@@ -86,6 +87,7 @@ export default function Search() {
                 console.log(data)
                 getResults(data)
                 setIngredientPage(page)
+                setPrevSearchText(searchText)
             })();
         }
         catch(e) {
@@ -93,16 +95,13 @@ export default function Search() {
         }
     }
 
-    useEffect(()=> {
-        console.log('recipe effect called')
-        if (recipePage === INITIAL_PAGE) return
-     
+    async function callSearchRecipes(searchText, searchCriteria, page) {
         try {
-            console.log(`recipe useffect ${recipePage}` )
+            console.log(`recipe useffect ${page}` )
             const searchData = {
-                searchText:recipeSearchText, 
+                searchText:searchText, 
                 ...searchCriteria,
-                page:recipePage
+                page:page
             }
             console.log(searchData)
             const callSearch = (async() => {
@@ -110,14 +109,16 @@ export default function Search() {
                 console.log('GotData')
                 console.log(data)
                 getRecipeResults(data)
+                setRecipePage(page)
+                setPrevRecipeSearchText(searchText)
+                setPrevSearchCriteria(searchCriteria)
             })();
         }
         catch(e) {
             console.error(e)
         }
-    }, [recipePage])
-
-    console.log(`search page rendered: ${ingredientPage}`)
+    }
+    
     return (
         <ContentBox>
             <Stack sx={{height:'100%'}}>
@@ -135,9 +136,6 @@ export default function Search() {
                             </Tabs>                        
                         <TabPanel value={tabNum} index={0}>
                             <SearchIngredients 
-                                getResults={getResults} 
-                                page={ingredientPage} 
-                                setPage={setIngredientPage} 
                                 searchText={searchText} 
                                 setSearchText={setSearchText}
                                 handleClickSearch={callSearchIngredients}
@@ -145,13 +143,11 @@ export default function Search() {
                         </TabPanel>
                         <TabPanel value={tabNum} index={1}>
                             <SearchRecipes 
-                                getResults={getRecipeResults} 
                                 searchCriteria={searchCriteria}
                                 setSearchCriteria={setSearchCriteria}
                                 searchText={recipeSearchText} 
                                 setSearchText={setRecipeSearchText}
-                                page={recipePage}
-                                setPage={setRecipePage}
+                                handleClickSearch={callSearchRecipes}
                             />
                         </TabPanel>
                         <TabPanel value={tabNum} index={2}>

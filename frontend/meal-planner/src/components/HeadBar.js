@@ -1,8 +1,5 @@
 import { AppBar, Toolbar, Typography, IconButton, Box } from "@mui/material";
 import SearchBar from "./SearchBar"
-import DropDown from "./DropDown"
-import AccountMenu from "./AccountMenu"
-import NavMenu from "./NavMenu"
 import MenuIcon from "@mui/icons-material/Menu"
 
 

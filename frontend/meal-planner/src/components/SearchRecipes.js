@@ -1,20 +1,9 @@
-import { TextField, Button, Box, FormControl, Input, FormGroup, FormLabel, InputAdornment, Accordion, AccordionSummary, AccordionDetails, Collapse } from "@mui/material";
+import { TextField, Button, Box, FormGroup, FormLabel, InputAdornment, Collapse } from "@mui/material";
 import { useEffect } from "react";
-import DataService from "../service/data-service"
 import { useState } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 
-const INITIAL_CRITERIA = {
-    maxCal:"",
-    minCal:"",
-    maxCarb: "",
-    minCarb:"",
-    maxProtein: "",
-    minProtein: "",
-    maxFat: "",
-    minFat: "",
-}
 
 const CRITERIA_LABELS = {
     maxCal:"Maximum Calories",
@@ -40,9 +29,7 @@ const CRITERIA_SUFFIX = {
 
 
 
-export default function SearchRecipes({getResults, searchText, setSearchText, searchCriteria, setSearchCriteria, page, setPage}) {
-    // const [searchCriteria, setSearchCriteria] = useState(INITIAL_CRITERIA)
-    // const [searchText, setSearchText] = useState('')
+export default function SearchRecipes({searchText, setSearchText, searchCriteria, setSearchCriteria, handleClickSearch}) {
     const [visible, setVisible] = useState(false)
 
     function validateInputs() {
@@ -52,16 +39,13 @@ export default function SearchRecipes({getResults, searchText, setSearchText, se
     }
 
     function handleCriteriaChange(e) {
-        
         //console.log(e.reportValidity())
         let {value, name} = e.target
-        console.log(setSearchCriteria)
         setSearchCriteria({...searchCriteria, [name]:value})
     }
 
     function handleSearchChange(e) {
         setSearchText(e.target.value)
-        //setVisible(false)
     }
 
     const toggleVisibility = () => {
@@ -81,30 +65,13 @@ export default function SearchRecipes({getResults, searchText, setSearchText, se
             //let user know
             return
         }
-        setPage(1)
+        const call = (async() => {await handleClickSearch(searchText, searchCriteria, 1)})()
         console.log('Clicked')
-        // try {
-        //     const searchData = {
-        //         searchText:searchText, 
-        //         ...searchCriteria
-        //     }
-            
-        //     const output = await DataService.searchRecipes(searchData)
-        //     console.log(output)
-        //     getResults(output)
-        // }
-        // catch (e) {
-        //     console.error(e)
-        // }
-        
-        
     }
     return (
         <Box>
             <form onSubmit={handleClick}>
-                {/* <TextField label='Search by name..' variant='standard' onChange={handleChange} required></TextField>  */}
                 <FormGroup>
-                
                     <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What are you hungry for?</FormLabel>
                     <Box sx={{display:'flex', flexDirection:'column', padding:'0px 0rem'}}>
                         <TextField name='searchText' label='Search by name or ingredient..' variant='standard' onChange={handleSearchChange} required={true} value={searchText}></TextField> 
@@ -117,7 +84,7 @@ export default function SearchRecipes({getResults, searchText, setSearchText, se
                         <Box sx={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))', margin:'0 auto', width:'100%'}}>
                             {
                                 Object.entries(searchCriteria).map((item, index, array) => {
-                                    if (index % 2 != 0) return
+                                    if (index % 2 !== 0) return null
                                     return (
                                         <Box key={index} sx={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', width:'100%'}}>
                                             <TextField label={CRITERIA_LABELS[array[index][0]]} variant='standard' type='number' 
