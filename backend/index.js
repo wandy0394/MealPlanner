@@ -4,6 +4,7 @@ import mysql from "mysql"
 import Ingredient from "./data/ingredient.js"
 import TokenHandler from "./data/token-handler.js"
 import DataController from "./api/dataController.js"
+import DatabaseService from './services/database-service.js'
 
 dotenv.config();
 
@@ -19,7 +20,9 @@ connection.connect((err) => {
     if (err) {
         console.error('Could not connect to SQL database');
     }
-    Ingredient.injectConn(connection) 
+    DatabaseService.injectConn(connection)
+    DatabaseService.dummyCommand()
+    //Ingredient.injectConn(connection) 
     //Meal.inject
     //Recipe.inject
     //const output = Ingredient.getAllIngredients()
