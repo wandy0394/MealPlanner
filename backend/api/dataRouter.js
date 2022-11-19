@@ -20,7 +20,8 @@ router.route("/recipe/:id")
     .put(DataController.apiUpdateRecipeContent)
 router.route("/recipe/all")
     .get(DataController.apiGetAllRecipes)
-
+router.route("/searchHistory")
+    .get(DataController.apiGetSearchHistory)
 
 router.route("/recipe-book")
     .get(DataController.apiGetRecipeBook)
