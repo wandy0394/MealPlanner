@@ -1,5 +1,7 @@
 import TokenHandler from './token-handler.js'
 import fetch from 'node-fetch'
+import DatabaseService from '../services/database-service.js'
+
 let db=undefined
 
 const OPTION_MAP = {
@@ -13,14 +15,19 @@ const OPTION_MAP = {
     minFat: "fat_precentage.from",
     searchText: 'search_expression',
     page: 'page_number'
-} 
+}
+
+const DUMMY_EMAIL = 'dev@email.com'
+const STORE_KEY = 'doStoreSearch'
 
 export default class Recipe {
     //interface with database and FoodAPI
 
     static #isValidInput(input) {
-        return (input !== '')
+        if (input === '' || input == undefined || input === null) return false
+        return true
     }
+
 
     static async fetchRecipeByID(id) {
 
@@ -95,12 +102,13 @@ export default class Recipe {
             params.append('method', "recipes.search.v2")
             params.append('format', "json")
             params.append('max_results', 10)
-            console.log('params')
+            //console.log('params')
             for (const key in searchData) {
-                if (this.#isValidInput(searchData[key])) {
+                if (this.#isValidInput(searchData[key]) && (key in OPTION_MAP) ) {
                     params.append(OPTION_MAP[key], searchData[key])
                 }
             }
+
             const options = {
                 method: 'POST',
                 headers: {
@@ -113,7 +121,13 @@ export default class Recipe {
                 const res = await fetch('https://platform.fatsecret.com/rest/server.api', options);
                 const resJSON = await res.json();
                 console.log(resJSON)
-                return resJSON;
+
+                if (STORE_KEY in searchData) {
+                    if (searchData[STORE_KEY] == 'true') {            
+                        DatabaseService.storeRecipeSearchQuery(searchData, DUMMY_EMAIL)
+                    }
+                }
+                return resJSON;page
             }
             catch (e) {
                 console.log(e)

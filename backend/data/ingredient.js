@@ -1,17 +1,17 @@
 import TokenHandler from './token-handler.js'
 import fetch from 'node-fetch'
-let db=undefined
+// let db=undefined
 
 export default class Ingredient {
     //interface with database and FoodAPI
 
-    static injectConn(conn) {
-        if (db === undefined) {
-            db = conn;
-        } else {
-            console.log('db already assigned');
-        }   
-    }
+    // static injectConn(conn) {
+    //     if (db === undefined) {
+    //         db = conn;
+    //     } else {
+    //         console.log('db already assigned');
+    //     }   
+    // }
 
     static async getAllIngredients() {
         if (db !== undefined) {
