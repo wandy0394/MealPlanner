@@ -27,16 +27,16 @@ class DatabaseService {
             const maxProtein = (this.isValidInteger(params.maxProtein) ? params.maxProtein : null)
             const minCal = (this.isValidInteger(params.minCal) ? params.minCal : null)
             const maxCal = (this.isValidInteger(params.maxCal) ? params.maxCal : null)
-            
+            const searchTime = new Date().toISOString().slice(0,19).replace('T', ' ')
             
             const sqlQuery = `INSERT INTO search_history 
-                                (search_text, search_type, 
+                                (search_text, search_type, search_time, 
                                     min_carb, max_carb, 
                                     min_fat, max_fat, 
                                     min_protein, max_protein, 
                                     min_cal, max_cal, 
                                     user_id)
-                                VALUES ('${params.searchText}', '${RECIPE}',
+                                VALUES ('${params.searchText}', '${RECIPE}','${searchTime}',
                                     ${minCarb}, ${maxCarb},
                                     ${minFat}, ${maxFat},
                                     ${minProtein}, ${maxProtein},
@@ -55,10 +55,29 @@ class DatabaseService {
         }        
     }
 
+    static storeIngredientSearchQuery(searchText, userEmail) {
+        if (db !== undefined) {
+            const searchTime = new Date().toISOString().slice(0,19).replace('T', ' ')
+            const sqlQuery = `INSERT INTO search_history 
+                                (search_text, search_type, search_time, user_id)
+                                VALUES ('${searchText}', '${INGREDIENT}','${searchTime}','${userEmail}')    
+                            `
+            db.query(sqlQuery, (err, results, fields) => {
+                if (err) {
+                    console.error(err)
+                    return console.error('Could not insert search history');
+                }
+                console.log(results);
+                //console.log(fields);
+                //return results;
+            }) 
+        }        
+    }    
+
     static  getRecipeSearchHistory(userEmail) {
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
-                const sqlQuery = `SELECT * from search_history where user_id='${userEmail}'`
+                const sqlQuery = `SELECT * from search_history where user_id='${userEmail}' order by search_time desc`
                 console.log(sqlQuery)
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
@@ -73,6 +92,8 @@ class DatabaseService {
             return promise
         }        
     }
+
+
 
     static dummyCommand() {
         if (db !== undefined) {

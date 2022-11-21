@@ -1,4 +1,4 @@
-import { Box, Card, Paper } from "@mui/material";
+import { Box, Card, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
 import DataService from "../service/data-service";
 
@@ -12,32 +12,49 @@ const dummyData = [
     {id:'6', searchText:'apple'}
 ]
 
+const columnHeaders = ['Timestamp', 'Query', 'Search Type']
+
 export default function SearchHistory() {
     const [searchHistory, setSearchHistory] = useState([])
-
+    let tableRows = []
     useEffect(()=> {
         (async()=>{
             const output = await DataService.getSearchHistory()
-            setSearchHistory(output)
+            const formattedOutput = output.map((item) => {
+                return {ID: item.id, Timestamp:item.searchTime, Query:item.searchText, 'Search Type': item.searchType}
+            })
+            
+            setSearchHistory(formattedOutput)
         })();
     },[])
-
-    console.log(searchHistory)
-    
     return (
-        <Box sx={{display:'flex', flexDirection: 'column', width:'100%'}}>
-            {
-                (searchHistory !== null) && (
-                    searchHistory.map((item) => {
-                        return (
-                            <Paper key={item.id}>
-                                {item.id}{item.searchText}{item.searchType}
-                            </Paper>
-                        )
-                    })
-                )
-            }
 
-        </Box>
+        <TableContainer component={Paper}>
+        <Table>
+            <TableHead>
+                <TableRow>
+                    {
+                        columnHeaders.map((item)=> {
+                            return <TableCell>{item}</TableCell>
+                        })
+                    }
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {
+                    searchHistory.map((row) => {
+                        return <TableRow key={row.ID}>
+                                    {
+                                        columnHeaders.map((header) => {
+                                            return <TableCell>{row[header]}</TableCell>
+                                        })
+                                    }
+                                </TableRow>
+                    })
+
+                }
+            </TableBody>
+        </Table>
+    </TableContainer>
     )
 }
