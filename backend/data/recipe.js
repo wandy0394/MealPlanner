@@ -108,7 +108,6 @@ export default class Recipe {
                     params.append(OPTION_MAP[key], searchData[key])
                 }
             }
-
             const options = {
                 method: 'POST',
                 headers: {
@@ -127,7 +126,7 @@ export default class Recipe {
                         DatabaseService.storeRecipeSearchQuery(searchData, DUMMY_EMAIL)
                     }
                 }
-                return resJSON;page
+                return resJSON
             }
             catch (e) {
                 console.log(e)

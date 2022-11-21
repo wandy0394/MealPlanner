@@ -79,11 +79,11 @@ export default function Search() {
         )
     }
 
-    async function callSearchIngredients(searchText, page) {
+    async function callSearchIngredients(searchText, page, doStoreSearch) {
         try {
             console.log(`useffect ${page}` )
             const callSearch = (async() => {
-                const data = await DataService.searchIngredients(searchText, page)
+                const data = await DataService.searchIngredients(searchText, (page-1), doStoreSearch)
                 console.log('GotData')
                 console.log(data)
                 getResults(data)
@@ -102,7 +102,7 @@ export default function Search() {
             const searchData = {
                 searchText:searchText, 
                 ...searchCriteria,
-                page:page
+                page:(page-1)
             }
             if (doStoreSearch) {
                 searchData['doStoreSearch'] = 'true'

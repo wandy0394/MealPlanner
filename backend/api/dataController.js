@@ -13,7 +13,7 @@ export default class DataController {
             .then((resp)=> {
                 console.log('resolved')
                 const output = resp.map((item)=> {
-                    return {id: item.id, searchText: item.search_text, searchType: item.search_type}
+                    return {id: item.id, searchText: item.search_text, searchType: item.search_type, searchTime:item.search_time}
                 })
                 console.log(output)
                 res.json(output)
@@ -32,7 +32,9 @@ export default class DataController {
         try {
             const searchText = req.params.searchText;
             const page = req.params.page
-            const output = await Ingredient.searchIngredients(searchText, page)
+            const query = req.query
+            console.log(query)
+            const output = await Ingredient.searchIngredients(searchText, page, query)
             res.json(output.foods)
             //return response;
         } catch (e) {

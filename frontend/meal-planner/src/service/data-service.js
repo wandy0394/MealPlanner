@@ -13,9 +13,9 @@ const instance=axios.create({
 })
 
 class DataService {
-    async searchIngredients(text, page) {
+    async searchIngredients(text, page, doStoreSearch) {
         try {
-            const resp = await instance.get(`ingredient/search/${text}/${page}`)
+            const resp = await instance.get(`ingredient/search/${text}/${page}`, {params:{doStoreSearch:doStoreSearch}})
             let retval = resp.data
             return retval
         }

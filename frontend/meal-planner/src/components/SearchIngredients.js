@@ -22,7 +22,7 @@ export default function SearchIngredients({searchText, setSearchText, handleClic
         console.log('clicked')
         //console.log(`Page ${page}`)
         //setPage(1)
-        const call = (async() => {await handleClickSearch(searchText, 1)})()
+        const call = (async() => {await handleClickSearch(searchText, 1, true)})()
     }
 
 

@@ -1,6 +1,10 @@
 import TokenHandler from './token-handler.js'
 import fetch from 'node-fetch'
+import DatabaseService from '../services/database-service.js'
 // let db=undefined
+
+const DUMMY_EMAIL = 'dev@email.com'
+const STORE_KEY = 'doStoreSearch'
 
 export default class Ingredient {
     //interface with database and FoodAPI
@@ -70,7 +74,7 @@ export default class Ingredient {
         }
     }
 
-    static async searchIngredients(searchText, page) {
+    static async searchIngredients(searchText, page, query) {
         try {
             const token = await TokenHandler.getToken();
             const params = new URLSearchParams();
@@ -79,7 +83,13 @@ export default class Ingredient {
             params.append('search_expression', searchText.toString())
             params.append('format', "json")
             params.append('max_results', 10)
-            params.append('page_number', (page-1))
+            params.append('page_number', page)
+
+
+            if (query[STORE_KEY] == 'true') {
+                DatabaseService.storeIngredientSearchQuery(searchText, DUMMY_EMAIL)
+            }
+            
 
             const options = {
                 method: 'POST',
