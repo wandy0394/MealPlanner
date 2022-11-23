@@ -48,8 +48,9 @@ class DataService {
         }
         
     }
-    getIngredients() {
-        return
+    async getIngredients() {
+        const resp = await instance.get(`/ingredient/all`)
+        return resp.data
     }
     getRecipes() {
         return
@@ -68,9 +69,7 @@ class DataService {
     }
     async addIngredient(params) {
         try {
-            console.log(params)
             const resp =  await instance.post('/ingredient/add', params)
-            console.log(resp)
             return resp
         }
         catch (e) {

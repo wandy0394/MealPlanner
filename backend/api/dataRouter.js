@@ -5,7 +5,8 @@ const router = express.Router()
 
 router.route("/ingredient/add")
     .post(DataController.apiAddIngredient)
-
+router.route("/ingredient/all")
+    .get(DataController.apiGetAllIngredients)
 
 router.route("/ingredient/:id")
     .get(DataController.apiGetIngredient)
@@ -18,13 +19,16 @@ router.route("/ingredient/search/:searchText/:page")
 
 router.route("/recipe/search/:searchText/")
     .get(DataController.apiSearchRecipes)
+
+router.route("/recipe/all")
+    .get(DataController.apiGetAllRecipes)
+
 router.route("/recipe/:id")
     .get(DataController.apiGetRecipe)
     .post(DataController.apiCreateRecipe)
     .delete(DataController.apiRemoveRecipe)
     .put(DataController.apiUpdateRecipeContent)
-router.route("/recipe/all")
-    .get(DataController.apiGetAllRecipes)
+
 router.route("/searchHistory")
     .get(DataController.apiGetSearchHistory)
 

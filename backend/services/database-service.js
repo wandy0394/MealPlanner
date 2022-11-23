@@ -82,7 +82,7 @@ class DatabaseService {
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
                         console.error(err)
-                        return reject('Could not make SQL SELECT');
+                        return reject('Could not make SQL SELECT from search_history');
                     }
                     //console.log(results);
                     //console.log(fields);
@@ -98,12 +98,12 @@ class DatabaseService {
             const promise = new Promise((resolve, reject)=> {
                 const sqlQuery = `INSERT INTO ingredient 
                                     (name, food_id, carbs, fat, protein, calories, user_id)
-                                    VALUES ('${params.name}', '${params.food_id}','${params.carbs}','${params.fat}','${params.protein}','${params.calories}','${userEmail}')   
+                                    VALUES ('${params.name}', ${(params.food_id)},${params.carbs},${params.fat},${params.protein},${params.calories},'${userEmail}')   
                                 `
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
                         console.error(err)
-                        return reject('Could not make SQL SELECT');
+                        return reject('Could not make SQL INSERT');
                     }
                     //console.log(results);
                     //console.log(fields);
@@ -112,6 +112,24 @@ class DatabaseService {
             })
             return promise
         }             
+    }
+
+    static getAllIngredients(userEmail) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=> {
+                const sqlQuery = `SELECT * from ingredient where user_id='${userEmail}'`
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL SELECT for ingredients');
+                    }
+                    //console.log(results);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })
+            return promise
+        }          
     }
 
 
