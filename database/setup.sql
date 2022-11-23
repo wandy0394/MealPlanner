@@ -2,16 +2,16 @@
 Assume meal_planner database has been created
 
 */
-DROP TABLE search_history;
-DROP TABLE user;
-
+-- DROP TABLE search_history;
+-- DROP TABLE user;
+DROP TABLE ingredient
 CREATE TABLE IF NOT EXISTS user (
     username VARCHAR(255) NOT NULL, 
     email VARCHAR(255) NOT NULL PRIMARY KEY
 );
 
-INSERT INTO user(username, email)
-    VALUES ('dev', 'dev@email.com');
+-- INSERT INTO user(username, email)
+--     VALUES ('dev', 'dev@email.com');
 
 
 CREATE TABLE IF NOT EXISTS search_history (
@@ -31,7 +31,18 @@ CREATE TABLE IF NOT EXISTS search_history (
     FOREIGN KEY (user_id) REFERENCES user(email) ON DELETE CASCADE
 );
 
--- CREATE TABLE IF NOT EXISTS Ingredient (name VARCHAR(255));
+CREATE TABLE IF NOT EXISTS ingredient (
+    id INT AUTO_INCREMENT PRIMARY KEY ,  
+    name VARCHAR(255) NOT NULL, 
+    food_id INT,
+    carbs INT,
+    protein INT,
+    fat INT,
+    calories INT,
+    user_id VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES user(email) ON DELETE CASCADE
+);
+
 
 /*CREATE TABLE IF NOT EXISTS Recipe;
 CREATE TABLE IF NOT EXISTS Meal;

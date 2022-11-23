@@ -61,7 +61,17 @@ export default class DataController {
             res.status(500).json({error:e.message})
         }
     }
-
+    static apiAddIngredient(req, res, next) {
+        const params = req.body
+        console.log(params)
+        DatabaseService.insertIngredient(DUMMY_EMAIL, req.body)
+            .then((resp)=>{
+                res.json({success: 'Ingredient Added'})
+            })
+            .catch((resp)=>{
+                res.json({error: 'Could not insert ingredient into database'})
+            })
+    }
     static async apiSaveIngredient(req, res, next) {
         return
     }
