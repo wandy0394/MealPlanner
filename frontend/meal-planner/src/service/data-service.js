@@ -6,6 +6,7 @@ import axios from 'axios'
 
 const instance=axios.create({
     baseURL: 'http://192.168.0.128:5000/api/v1/meal-planner/',
+    // timeout:3000,
     headers: {
         "Accept" : "*",
         "Content-Type": "application/json",
@@ -64,6 +65,17 @@ class DataService {
     }
     getShoppingList() {
         return
+    }
+    async addIngredient(params) {
+        try {
+            console.log(params)
+            const resp =  await instance.post('/ingredient/add', params)
+            console.log(resp)
+            return resp
+        }
+        catch (e) {
+            return {error:'Could not add ingredient'}
+        }
     }
 }
 
