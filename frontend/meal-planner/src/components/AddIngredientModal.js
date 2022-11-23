@@ -3,24 +3,26 @@ import { useState } from "react";
 import DataService from "../service/data-service";
 
 
-export default function AddIngredientModel({open, handleClose}) {
+export default function AddIngredientModel({open, handleClose, refresh}) {
     const [name, setName] = useState('')
     const [calories, setCalories] = useState(null)
     const [carbs, setCarbs] = useState(null)
     const [fat, setFat] = useState(null)
     const [protein, setProtein] = useState(null)
 
-    async function handleAddClick() {
+    async function handleAddClick(e) {
         const params = {
             name:name,
             calories:calories,
             carbs:carbs,
             fat:fat,
             protein:protein,
-            food_id:-1
+            food_id:null
         }
         const data = await DataService.addIngredient(params)
         console.log(data)
+        handleClose()
+        refresh()
     }
 
     function handleNameChange(e) {
@@ -45,11 +47,11 @@ export default function AddIngredientModel({open, handleClose}) {
 
     return (
         <Box>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={handleClose}>                
                 <DialogTitle>Add your own ingredient</DialogTitle>
                 <DialogContent sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                     <TextField variant='standard' label='Name'
-                        onChange={handleNameChange}></TextField>
+                        onChange={handleNameChange} required></TextField>
                     <TextField variant='standard' label='Calories' type='number'
                         onChange={handleCaloriesChange} 
                         InputProps ={{ inputProps:{min:0}, 

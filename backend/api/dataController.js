@@ -72,6 +72,17 @@ export default class DataController {
                 res.json({error: 'Could not insert ingredient into database'})
             })
     }
+    static apiGetAllIngredients(req, res, next) {
+        const params = req.body
+        console.log(params)
+        DatabaseService.getAllIngredients(DUMMY_EMAIL)
+            .then((resp)=>{
+                res.json(resp)
+            })
+            .catch((resp)=>{
+                res.json({error: 'Could not insert ingredient into database'})
+            })        
+    }
     static async apiSaveIngredient(req, res, next) {
         return
     }
