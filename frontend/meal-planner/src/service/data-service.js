@@ -49,11 +49,23 @@ class DataService {
         
     }
     async getIngredients() {
-        const resp = await instance.get(`/ingredient/all`)
-        return resp.data
+        try {
+            const resp = await instance.get(`/ingredient/all`)
+            return resp.data
+        }
+        catch (e) {
+            return {error:'error'}
+        }
+        
     }
-    getRecipes() {
-        return
+    async getRecipes() {
+        try {
+            const resp = await instance.get(`/recipe/all`)
+            return resp.data
+        }
+        catch (e) {
+            return {error:'error'}
+        }
     }
     getMeals() {
         return

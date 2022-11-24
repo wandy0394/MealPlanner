@@ -64,7 +64,6 @@ export default function Ingredients() {
                                     </Card>
                             )
                         })
-                        
                     }
                 </Box>
             </Stack>
