@@ -10,9 +10,10 @@ const INITIAL = {
     fat:0,
     calories:0,
     protein:0,
-    carbs:0
+    carbs:0,
+    id:null
 }
-export default function IngredientsPane({recipeIngredients, setRecipeIngredients, ingredientCounter, setIngredientCounter, ingredients, }) {
+export default function IngredientsPane({recipeIngredients, setRecipeIngredients, ingredientCounter, setIngredientCounter, ingredients, isDisabled}) {
 
 
     function handleAddIngredient() {
@@ -33,6 +34,7 @@ export default function IngredientsPane({recipeIngredients, setRecipeIngredients
                                 recipeIngredients={recipeIngredients}
                                 setRecipeIngredients={setRecipeIngredients}
                                 ingredients={ingredients}
+                                isDisabled={isDisabled}
                                 />
                         )
                     })
@@ -42,6 +44,7 @@ export default function IngredientsPane({recipeIngredients, setRecipeIngredients
                     variant='contained' 
                     sx={{width:'100%'}} 
                     onClick={handleAddIngredient}
+                    disabled={isDisabled}
                 >
                     <AddIcon/>
                 </Button>
