@@ -89,7 +89,7 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecip
                 <Select
                     label='Name'
                     id={'ingr-'+keyID}
-                    //value={recipeIngredients[keyID]['name']}
+                    value={recipeIngredients[keyID]['name']}
                     onChange={handleIngredientChange}
                     native
                     sx={{minWidth:'300px'}}
