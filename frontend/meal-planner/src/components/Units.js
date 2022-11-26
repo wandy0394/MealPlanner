@@ -19,7 +19,7 @@ export class UnitConverter {
         },
         
 
-        tspn: function tspnToG(input) {
+        tsp: function tspnToG(input) {
             return input*4.92892
         },
         cup: function cupToG(input) {
