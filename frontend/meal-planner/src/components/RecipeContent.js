@@ -104,7 +104,7 @@ export default function RecipeContent({storedInstructions, storedTitle, storedRe
                             ingredients={ingredients} 
                             isDisabled={true}
                         />
-                        {/* <Nutrition foods={recipeIngredients} macros={macros} setMacros={setMacros}/> */}
+                        <Nutrition foods={recipeIngredients} macros={macros} setMacros={setMacros}/>
                     </Grid>
 
                     <Grid item xs={12} md={6}>
