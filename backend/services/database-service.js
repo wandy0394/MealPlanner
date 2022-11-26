@@ -136,7 +136,7 @@ class DatabaseService {
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
                 const sqlQuery =  Object.entries(ingredients).reduce((query, [key, value]) => {
-                    return (query + `INSERT INTO recipe_ingredient (recipe_id, ingredient_id) VALUES (${recipeId}, ${value.id});`)
+                    return (query + `INSERT INTO recipe_ingredient (recipe_id, ingredient_id, qty, units) VALUES (${recipeId}, ${value.id}, ${value.qty}, '${value.unit}');`)
                 }, '')
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
@@ -151,24 +151,24 @@ class DatabaseService {
             return promise
         }             
     }    
-    static insertRecipeUser(userEmail, recipeId) {
-        if (db !== undefined) {
-            const promise = new Promise((resolve, reject)=> {
+    // static insertRecipeUser(userEmail, recipeId) {
+    //     if (db !== undefined) {
+    //         const promise = new Promise((resolve, reject)=> {
                 
-                const sqlQuery = `INSERT INTO recipe_user (recipe_id, user_id) VALUES (${recipeId}, '${userEmail}');`
-                db.query(sqlQuery, (err, results, fields) => {
-                    if (err) {
-                        console.error(err)
-                        return reject('Could not make SQL INSERT');
-                    }
-                    //console.log(results);
-                    //console.log(fields);
-                    resolve(results);
-                }) 
-            })            
-            return promise
-        }                 
-    }
+    //             const sqlQuery = `INSERT INTO recipe_user (recipe_id, user_id) VALUES (${recipeId}, '${userEmail}');`
+    //             db.query(sqlQuery, (err, results, fields) => {
+    //                 if (err) {
+    //                     console.error(err)
+    //                     return reject('Could not make SQL INSERT');
+    //                 }
+    //                 //console.log(results);
+    //                 //console.log(fields);
+    //                 resolve(results);
+    //             }) 
+    //         })            
+    //         return promise
+    //     }                 
+    // }
     static getAllIngredients(userEmail) {
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
@@ -187,7 +187,40 @@ class DatabaseService {
         }          
     }
 
-
+    static apiGetAllRecipes(userEmail) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=> {
+                const sqlQuery = `SELECT recipe.id, recipe.title, name, 
+                                    ingredient.carbs, 
+                                    ingredient.protein, 
+                                    ingredient.fat, 
+                                    ingredient.calories, 
+                                    qty, 
+                                    units,
+                                    recipe.carbs as total_carbs, 
+                                    recipe.protein as total_protein, 
+                                    recipe.fat as total_fat, 
+                                    recipe.calories as total_calories, 
+                                    instructions
+                                    FROM recipe 
+                                    INNER JOIN recipe_ingredient on recipe.id=recipe_id 
+                                    INNER JOIN ingredient 
+                                    WHERE 
+                                    recipe.user_id='${userEmail}'
+                                    AND ingredient.id=recipe_ingredient.ingredient_id;`
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL SELECT for ingredients');
+                    }
+                    console.log(results);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })
+            return promise
+        }          
+    }
 
     static dummyCommand() {
         if (db !== undefined) {

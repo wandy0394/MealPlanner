@@ -80,14 +80,7 @@ export default class DataController {
                 //res.json({success: 'Recipe Added'})
                 DatabaseService.insertRecipeIngredient(req.body.ingredients, resp.insertId)
                 .then(()=> {
-                    //res.json({success: 'RecipeIngredient Added'})
-                    DatabaseService.insertRecipeUser(DUMMY_EMAIL, resp.insertId)
-                    .then((resp)=> {
-                        res.json({success: 'Recipe_User Added'})
-                    })
-                    .catch((resp) => {
-                        res.json({error:'Could not insert into RecipeIngredient'})
-                    })
+                    res.json({success: 'success'})
                 })
                 .catch((resp) => {
                     res.json({error:'Could not insert into RecipeIngredient'})
@@ -149,7 +142,39 @@ export default class DataController {
         }
     }
     static async apiGetAllRecipes(req, res, next) {
-        return
+        //const params = req.body
+        // console.log(params)
+        DatabaseService.apiGetAllRecipes(DUMMY_EMAIL)
+            .then((resp)=>{
+                const result = {}
+                Object.entries(resp).forEach(([key, value]) => {
+                    if (!(value.id in result)) {
+                        result[value.id] = {
+                            title:value.title,
+                            ingredients:[],
+                            carbs:value.total_carbs,
+                            fat:value.total_fat,
+                            protein:value.total_protein,
+                            calories:value.total_calories,
+                            instructions: value.instructions
+                        }
+                    }                    
+                    result[value.id]['ingredients'].push({
+                        name: value.name,
+                        carbs: value.carbs,
+                        protein: value.protein,
+                        fat: value.fat,
+                        qty: value.qty,
+                        unit: value.units,
+                        id:value.ingredient_id,
+                    })
+                    
+                })
+                res.json(result)
+            })
+            .catch((resp)=>{
+                res.json({error: 'Could not get all recipes from database'})
+            })       
     }
     static async apiCreateRecipe(req, res, next) {
         return

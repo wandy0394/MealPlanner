@@ -6,11 +6,6 @@ import {UnitConverter} from "./Units"
 
 const FACTOR = 0.01
 export default function Nutrition({foods, macros, setMacros}) {
-    // const [carbs, setCarbs] = useState(0)
-    // const [fat, setFat] = useState(0)
-    // const [protein, setProtein] = useState(0)
-    // const [calories, setCalories] = useState(0)
-
     function calculateCarbs() {
         const c = new UnitConverter()    
         return (Object.entries(foods).reduce((prev, [key, data]) => {
@@ -52,10 +47,6 @@ export default function Nutrition({foods, macros, setMacros}) {
             calories:parseFloat(calculateCalories()).toFixed(2)
         }
         setMacros(newMacros)
-        // setCarbs()
-        // setProtein()
-        // setFat()
-        // setCalories(calculateCalories)
     }, [foods])
 
     return (

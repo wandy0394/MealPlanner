@@ -4,6 +4,7 @@ import { Paper, Stack, Box, Typography, IconButton, Tabs, Tab, Button } from "@m
 import { ContentBox } from "../components/ContentBox";
 import { useEffect, useState } from "react";
 import CreateRecipeForm from "../components/CreateRecipeForm";
+import DataService from "../service/data-service";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -24,6 +25,7 @@ export default function Recipes() {
     const [recipes, setRecipes] = useState([])
     const [tabValue, setTabValue] = useState(0)
 
+
     function handleClickOpen() {
         setOpen(true)
     }
@@ -38,7 +40,8 @@ export default function Recipes() {
     async function refresh() {
         try {
             console.log('Refreshing Recipes')
-            //const result = await DataService.getRecipes()
+            const result = await DataService.getRecipes()
+            console.log(result)
             //setRecipes(result)
         }
         catch (e) {
@@ -46,7 +49,7 @@ export default function Recipes() {
         }
     }
     useEffect(()=> {
-        //refresh()
+        refresh()
     }, [])
     
 
