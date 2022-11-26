@@ -13,7 +13,7 @@ const INITIAL = {
     carbs:0,
     id:null
 }
-export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecipeIngredients, ingredients}) {
+export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecipeIngredients, ingredients, isDisabled}) {
 
     function handleQtyChange(e) {
         console.log(e.target.id)
@@ -67,6 +67,7 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecip
                     sx={{width:'100px'}}
                     onChange={handleQtyChange}
                     value={recipeIngredients[keyID]['qty']}
+                    disabled={isDisabled}
                 />
                 <FormControl sx={{minWidth:'100px'}}>
                     <InputLabel>Units</InputLabel>
@@ -76,6 +77,7 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecip
                         native
                         onChange={handleUnitChange}
                         value={recipeIngredients[keyID]['unit']}
+                        disabled={isDisabled}
                     >
                         {
                             Object.entries(units).map(([keyID, value])=> {
@@ -91,9 +93,13 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecip
                     onChange={handleIngredientChange}
                     native
                     sx={{minWidth:'300px'}}
+                    disabled={isDisabled}
                 >   
-                    <option disabled selected>Select...</option>
+                    
+                    {/*Fix this <option disabled selected>Select...</option> */}
+                    
                     {
+                        
                         ingredients.map((item)=>{
                             return (
                                 <option id={item.id} key={item.id}>{item.name}</option>
@@ -106,6 +112,7 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecip
                 variant='outlined' 
                 id={'remove-'+keyID} 
                 onClick={handleRemoveIngredient}
+                disabled={isDisabled}
             >
                 <RemoveIcon id={'icon-'+keyID} />
             </Button>

@@ -152,10 +152,12 @@ export default class DataController {
                         result[value.id] = {
                             title:value.title,
                             ingredients:[],
-                            carbs:value.total_carbs,
-                            fat:value.total_fat,
-                            protein:value.total_protein,
-                            calories:value.total_calories,
+                            macros:{
+                                carbs:value.total_carbs,
+                                fat:value.total_fat,
+                                protein:value.total_protein,
+                                calories:value.total_calories,
+                            },
                             instructions: value.instructions
                         }
                     }                    

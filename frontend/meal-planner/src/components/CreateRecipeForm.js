@@ -87,6 +87,7 @@ export default function CreateRecipeForm() {
                             ingredientCounter={ingredientCounter}
                             setIngredientCounter={setIngredientCounter}
                             ingredients={ingredients} 
+                            isDisabled={false}
                         />
                         <Nutrition foods={recipeIngredients} macros={macros} setMacros={setMacros}/>
                     </Grid>

@@ -5,6 +5,7 @@ import { ContentBox } from "../components/ContentBox";
 import { useEffect, useState } from "react";
 import CreateRecipeForm from "../components/CreateRecipeForm";
 import DataService from "../service/data-service";
+import RecipeContent from "../components/RecipeContent";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -22,7 +23,7 @@ function TabPanel(props) {
 
 export default function Recipes() {
     const [open, setOpen] = useState(false)
-    const [recipes, setRecipes] = useState([])
+    const [recipes, setRecipes] = useState({})
     const [tabValue, setTabValue] = useState(0)
 
 
@@ -42,7 +43,7 @@ export default function Recipes() {
             console.log('Refreshing Recipes')
             const result = await DataService.getRecipes()
             console.log(result)
-            //setRecipes(result)
+            setRecipes(result)
         }
         catch (e) {
             console.error(e)
@@ -71,24 +72,31 @@ export default function Recipes() {
                         variant='scrollable'
                         scrollButtons='auto'
                     >
-                        <Tab label='Recipe 1'></Tab>
-                        <Tab label='Recipe 2'></Tab>
-                        <Tab label='Recipe 3'></Tab>
+                        {
+                            Object.entries(recipes).map(([key, data])=> {
+                                return <Tab key={key} label={data.title}></Tab>
+                            })
+                        }
                         <Tab icon={<AddIcon/>} iconPosition='start' label='Create'></Tab>
                     </Tabs>
                 </Box>
                 <Box sx={{flexGrow:1}}>
-                    <TabPanel value={tabValue} index={0}>
-                        Stuff goes here0
-                    </TabPanel>
-                    <TabPanel value={tabValue} index={1}>
-                        Stuff goes here1
-                    </TabPanel>
-                    <TabPanel value={tabValue} index={2}>
-                        Stuff goes here2
-                    </TabPanel>
+                    {
+                        Object.entries(recipes).map(([key, data], index)=> {
+                            return (
+                                <TabPanel key={key} value={tabValue} index={index}>
+                                    <RecipeContent
+                                        storedInstructions={data.instructions}
+                                        storedTitle={data.title}
+                                        storedRecipeIngredients={data.ingredients}
+                                        storedMacros={data.macros}
+                                    />
 
-                    <TabPanel value={tabValue} index={3}>
+                                </TabPanel>
+                            )
+                        })
+                    }
+                    <TabPanel value={tabValue} index={2}>
                         <CreateRecipeForm/>
                     </TabPanel>
                 </Box>

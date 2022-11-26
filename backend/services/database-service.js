@@ -195,6 +195,7 @@ class DatabaseService {
                                     ingredient.protein, 
                                     ingredient.fat, 
                                     ingredient.calories, 
+                                    ingredient_id,
                                     qty, 
                                     units,
                                     recipe.carbs as total_carbs, 
