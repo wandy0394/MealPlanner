@@ -6,6 +6,18 @@ import AddBox from "@mui/icons-material/AddBox";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DataService from "../service/data-service";
+import Nutrition from "./Nutrition";
+import units from "./Units";
+
+const INITIAL = {
+    qty:0, 
+    name:"", 
+    unit:"g",
+    fat:0,
+    calories:0,
+    protein:0,
+    carbs:0
+}
 
 export default function CreateRecipeForm() {
     const [instructions, setInstructions] = useState('')
@@ -13,16 +25,22 @@ export default function CreateRecipeForm() {
     const [ingredients, setIngredients] = useState([])
     const [recipeIngredients, setRecipeIngredients] = useState({})
     const [ingredientCounter, setIngredientCounter] = useState(0)
-    const refs = useRef([])
+    const addButtonRef = useRef()
 
     useEffect(()=>{
         getIngredients()
+        // console.log(units)
     },[])
+
+    useEffect(()=> {
+        console.log(recipeIngredients)
+    }, [recipeIngredients])
 
     async function getIngredients() {
         try {
             console.log('Refreshing Ingredients')
             const result = await DataService.getIngredients()
+            console.log(result)
             setIngredients(result)
         }
         catch (e) {
@@ -43,8 +61,9 @@ export default function CreateRecipeForm() {
     }
     function handleAddIngredient() {
     
-        setRecipeIngredients({...recipeIngredients, [ingredientCounter]:{qty:0, name:"", unit:"g"}})
+        setRecipeIngredients({...recipeIngredients, [ingredientCounter]:{...INITIAL}})
         setIngredientCounter(ingredientCounter+1)
+        addButtonRef.current?.scrollIntoView({behaviour:'smooth'})
         console.log(recipeIngredients)
     }
     function handleQtyChange(e) {
@@ -68,13 +87,28 @@ export default function CreateRecipeForm() {
     }
     function handleIngredientChange(e) {
         console.log(e.target.id)
+        const index = e.target.selectedIndex;
+        const el = e.target.childNodes[index]
+        const id = el.id
+    
+        const food = getFoodByFoodId(parseInt(id)) 
+        console.log(food)
         const newRecipeIngredients = {...recipeIngredients}
         newRecipeIngredients[getID(e.target.id)]['name'] = e.target.value
+        newRecipeIngredients[getID(e.target.id)]['carbs'] = food.carbs
+        newRecipeIngredients[getID(e.target.id)]['protein'] = food.protein
+        newRecipeIngredients[getID(e.target.id)]['calories'] = food.calories
+        newRecipeIngredients[getID(e.target.id)]['fat'] = food.fat
         setRecipeIngredients(newRecipeIngredients)
     }
     function getID(input) {
         const split = input.split('-')
         return split[split.length-1]
+    }
+    function getFoodByFoodId(id) {
+        return (ingredients.filter((item)=> {
+            return item.id === id
+        }))[0]
     }
 
     return (
@@ -92,7 +126,7 @@ export default function CreateRecipeForm() {
                 <Grid container spacing={2} sx={{padding:'1rem', border:''}}>
 
                     <Grid item xs={12} md={6} sx={{width:'100%'}}>
-                        <Paper elevation={3} sx={{border:'solid', overflow:'scroll', maxHeight:'25vh'}}>
+                        <Paper elevation={3} sx={{border:'solid', overflow:'scroll', maxHeight:'45vh'}}>
                             <Typography variant='h6'>Add Ingredients</Typography>
                             <Stack gap={2}>
                                 {
@@ -120,43 +154,56 @@ export default function CreateRecipeForm() {
                                                             onChange={handleUnitChange}
                                                             value={recipeIngredients[keyID]['unit']}
                                                         >
-                                                            <option value='g'>g</option> 
-                                                            <option value='ml'>ml</option> 
-                                                            <option value='cup'>cup</option> 
-                                                            <option value='units'>units</option> 
+                                                            {
+                                                                Object.entries(units).map(([keyID, value])=> {
+                                                                    return <option key={keyID} value={value}>{value}</option> 
+                                                                })
+                                                            }
                                                         </Select> 
                                                     </FormControl>
                                                     <Select
                                                         label='Name'
                                                         id={'ingr-'+keyID}
-                                                        value={recipeIngredients[keyID]['name']}
+                                                        //value={recipeIngredients[keyID]['name']}
                                                         onChange={handleIngredientChange}
                                                         native
                                                         sx={{minWidth:'300px'}}
                                                     >   
+                                                        <option disabled selected>Select...</option>
                                                         {
                                                             ingredients.map((item)=>{
                                                                 return (
-                                                                    <option key={item.id}>{item.name}</option>
+                                                                    <option id={item.id} key={item.id}>{item.name}</option>
                                                                 )
                                                             })
                                                         }
                                                     </Select>
                                                 </Box> 
-                                                <Button variant='outlined' id={'remove-'+keyID} onClick={handleRemoveIngredient}><RemoveIcon id={'icon-'+keyID} /></Button>
+                                                <Button 
+                                                    variant='outlined' 
+                                                    id={'remove-'+keyID} 
+                                                    onClick={handleRemoveIngredient}
+                                                >
+                                                    <RemoveIcon id={'icon-'+keyID} />
+                                                </Button>
                                             </Box>
                                         )
                                     })
                                 }
-                                <Button type='button' variant='contained' sx={{width:'100%'}} onClick={handleAddIngredient}><AddIcon/></Button>
+                                <Button 
+                                    type='button' 
+                                    variant='contained' 
+                                    sx={{width:'100%'}} 
+                                    onClick={handleAddIngredient}
+                                    ref ={addButtonRef}
+                                >
+                                    <AddIcon/>
+                                </Button>
                             </Stack>
                         </Paper>
+                        <Nutrition foods={recipeIngredients}/>
                     </Grid>
-                    <Grid item xs={12} md={6} sx={{width:'100%'}}>
-                        <Paper elevation={3}>
-                            <Typography variant='h6'>Add an Image</Typography> 
-                        </Paper>
-                    </Grid>
+
                     <Grid item xs={12} md={6}>
                         <Box>
                             {/* <Typography>Instructions:</Typography> */}
@@ -171,14 +218,11 @@ export default function CreateRecipeForm() {
                                 
                             </TextField>
                         </Box>
-                    </Grid>
-                    <Grid item xs={12} md={6} sx={{width:'100%'}}>
                         <Paper elevation={3}>
-                            <Typography variant='h6'>Nutrition</Typography>  
-
+                            <Typography variant='h6'>Add an Image</Typography> 
                         </Paper>
                     </Grid>
-
+                    
                 </Grid>
             </form>
         </Stack>
