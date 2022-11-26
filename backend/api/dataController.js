@@ -169,6 +169,7 @@ export default class DataController {
                         qty: value.qty,
                         unit: value.units,
                         id:value.ingredient_id,
+                        calories:value.calories
                     })
                     
                 })
