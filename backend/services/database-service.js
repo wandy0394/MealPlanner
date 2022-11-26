@@ -113,7 +113,62 @@ class DatabaseService {
             return promise
         }             
     }
-
+    static insertRecipe(userEmail, params) {
+        if (db !== undefined) {
+            const promiseRecipe = new Promise((resolve, reject)=> {
+                const sqlQuery = `INSERT INTO recipe (title, carbs, protein, fat, calories, instructions, user_id)
+                                    VALUES ('${params.title}', ${params.macros.carbs}, ${params.macros.protein}, ${params.macros.fat}, ${params.macros.calories}, '${params.instructions}', '${userEmail}');
+                                `
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL INSERT');
+                    }
+                    console.log(results.insertId);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })            
+            return promiseRecipe
+        }             
+    }
+    static insertRecipeIngredient(ingredients, recipeId) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=> {
+                const sqlQuery =  Object.entries(ingredients).reduce((query, [key, value]) => {
+                    return (query + `INSERT INTO recipe_ingredient (recipe_id, ingredient_id) VALUES (${recipeId}, ${value.id});`)
+                }, '')
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL INSERT');
+                    }
+                    //console.log(results);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })            
+            return promise
+        }             
+    }    
+    static insertRecipeUser(userEmail, recipeId) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=> {
+                
+                const sqlQuery = `INSERT INTO recipe_user (recipe_id, user_id) VALUES (${recipeId}, '${userEmail}');`
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL INSERT');
+                    }
+                    //console.log(results);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })            
+            return promise
+        }                 
+    }
     static getAllIngredients(userEmail) {
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {

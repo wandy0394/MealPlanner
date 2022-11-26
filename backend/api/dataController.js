@@ -72,6 +72,34 @@ export default class DataController {
                 res.json({error: 'Could not insert ingredient into database'})
             })
     }
+    static apiAddRecipe(req, res, next) {
+        const params = req.body
+        console.log(params)
+        DatabaseService.insertRecipe(DUMMY_EMAIL, req.body)
+            .then((resp)=>{
+                //res.json({success: 'Recipe Added'})
+                DatabaseService.insertRecipeIngredient(req.body.ingredients, resp.insertId)
+                .then(()=> {
+                    //res.json({success: 'RecipeIngredient Added'})
+                    DatabaseService.insertRecipeUser(DUMMY_EMAIL, resp.insertId)
+                    .then((resp)=> {
+                        res.json({success: 'Recipe_User Added'})
+                    })
+                    .catch((resp) => {
+                        res.json({error:'Could not insert into RecipeIngredient'})
+                    })
+                })
+                .catch((resp) => {
+                    res.json({error:'Could not insert into RecipeIngredient'})
+                })
+
+             })
+            .catch((resp)=>{
+                res.json({error: 'Could not insert recipe into database'})
+            })
+
+    
+    }
     static apiGetAllIngredients(req, res, next) {
         const params = req.body
         // console.log(params)

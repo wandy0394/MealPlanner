@@ -10,7 +10,8 @@ const INITIAL = {
     fat:0,
     calories:0,
     protein:0,
-    carbs:0
+    carbs:0,
+    id:null
 }
 export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecipeIngredients, ingredients}) {
 
@@ -42,6 +43,7 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecip
         newRecipeIngredients[getID(e.target.id)]['protein'] = food.protein
         newRecipeIngredients[getID(e.target.id)]['calories'] = food.calories
         newRecipeIngredients[getID(e.target.id)]['fat'] = food.fat
+        newRecipeIngredients[getID(e.target.id)]['id'] = food.id
         setRecipeIngredients(newRecipeIngredients)
     }
     function getID(input) {

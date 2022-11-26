@@ -5,11 +5,11 @@ import {UnitConverter} from "./Units"
 
 
 const FACTOR = 0.01
-export default function Nutrition({foods}) {
-    const [carbs, setCarbs] = useState(0)
-    const [fat, setFat] = useState(0)
-    const [protein, setProtein] = useState(0)
-    const [calories, setCalories] = useState(0)
+export default function Nutrition({foods, macros, setMacros}) {
+    // const [carbs, setCarbs] = useState(0)
+    // const [fat, setFat] = useState(0)
+    // const [protein, setProtein] = useState(0)
+    // const [calories, setCalories] = useState(0)
 
     function calculateCarbs() {
         const c = new UnitConverter()    
@@ -45,20 +45,27 @@ export default function Nutrition({foods}) {
     }
 
     useEffect(()=> {
-        setCarbs(calculateCarbs())
-        setProtein(calculateProtein())
-        setFat(calculateFat())
-        setCalories(calculateCalories)
+        const newMacros = {
+            carbs:parseFloat(calculateCarbs()).toFixed(2),
+            fat:parseFloat(calculateFat()).toFixed(2),
+            protein:parseFloat(calculateProtein()).toFixed(2),
+            calories:parseFloat(calculateCalories()).toFixed(2)
+        }
+        setMacros(newMacros)
+        // setCarbs()
+        // setProtein()
+        // setFat()
+        // setCalories(calculateCalories)
     }, [foods])
 
     return (
         <Paper elevation={3}>
             <Typography variant='h6'>Nutrition</Typography>  
             <Box sx={{display:'flex', gap:'2rem'}}>
-                <Typography variant='body'>Calories: {calories}</Typography>  
-                <Typography variant='body'>Carbs: {carbs}</Typography>  
-                <Typography variant='body'>Protein: {protein}</Typography>  
-                <Typography variant='body'>Fat: {fat}</Typography>  
+                <Typography variant='body'>Calories: {macros.calories}</Typography>  
+                <Typography variant='body'>Carbs: {macros.carbs}</Typography>  
+                <Typography variant='body'>Protein: {macros.protein}</Typography>  
+                <Typography variant='body'>Fat: {macros.fat}</Typography>  
             </Box>
 
         </Paper>

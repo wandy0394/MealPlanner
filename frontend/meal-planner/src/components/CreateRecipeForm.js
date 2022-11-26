@@ -6,14 +6,22 @@ import DataService from "../service/data-service";
 import Nutrition from "./Nutrition";
 import IngredientsPane from "./IngredientsPane";
 
-
-
+const MAX_CHARS = 4000
+const INITIAL_MACROS = {
+    carbs:0,
+    fat:0,
+    protein:0,
+    calories:0
+}
 export default function CreateRecipeForm() {
     const [instructions, setInstructions] = useState('')
-    const [name, setName] = useState('')
+    const [title, setTitle] = useState('')
     const [ingredients, setIngredients] = useState([])
     const [recipeIngredients, setRecipeIngredients] = useState({})
     const [ingredientCounter, setIngredientCounter] = useState(0)
+    const [macros, setMacros] = useState(INITIAL_MACROS)
+
+
 
     useEffect(()=>{
         getIngredients()
@@ -40,12 +48,19 @@ export default function CreateRecipeForm() {
         setInstructions(e.target.value)
     }
 
-    function handleNameChange(e) {
-        setName(e.target.value)
+    function handleTitleChange(e) {
+        setTitle(e.target.value)
     }
 
-    function handleSaveClicked(e) {
+    async function handleSaveClicked(e) {
         e.preventDefault();
+        const data = {
+            title:title,
+            ingredients:recipeIngredients,
+            instructions:instructions,
+            macros:macros
+        }
+        const result = await DataService.addRecipe(data)
     }
 
 
@@ -54,7 +69,7 @@ export default function CreateRecipeForm() {
             <form onSubmit={handleSaveClicked}>
                 <Box sx={{display:'flex', gap:'1rem', padding:'1rem', alignItems:'center'}}>
                     <TextField variant='standard' label='Recipe Name' required sx={{padding:'1rem'}} 
-                        onChange={handleNameChange} value={name}
+                        onChange={handleTitleChange} value={title}
                     />
                     <Button variant='contained' sx={{height:'50%'}} type='submit'>
                         <SaveIcon/>
@@ -73,12 +88,12 @@ export default function CreateRecipeForm() {
                             setIngredientCounter={setIngredientCounter}
                             ingredients={ingredients} 
                         />
-                        <Nutrition foods={recipeIngredients}/>
+                        <Nutrition foods={recipeIngredients} macros={macros} setMacros={setMacros}/>
                     </Grid>
 
                     <Grid item xs={12} md={6}>
                         <Box>
-                            {/* <Typography>Instructions:</Typography> */}
+                            
                             <TextField variant='outlined' label='Instructions' 
                                 multiline 
                                 required 
@@ -86,9 +101,11 @@ export default function CreateRecipeForm() {
                                 rows={4}
                                 value={instructions}
                                 onChange = {handleInstructionChange}
+                                inputProps={{maxLength:MAX_CHARS}}
                             >
                                 
                             </TextField>
+                            <Typography>Count: {instructions.length}/{MAX_CHARS}</Typography>
                         </Box>
                         <Paper elevation={3}>
                             <Typography variant='h6'>Add an Image</Typography> 
