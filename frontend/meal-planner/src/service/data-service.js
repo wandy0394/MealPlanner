@@ -67,6 +67,17 @@ class DataService {
             return {error:'error'}
         }
     }
+    async addRecipe(data) {
+        try {
+            console.log(data)
+            const resp = await instance.post('/recipe/add', data)
+            let retval = resp.data
+            return retval
+        }
+        catch(e) {
+            return {error:'Error'}
+        }
+    }
     getMeals() {
         return
     }

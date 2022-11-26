@@ -4,7 +4,8 @@ Assume meal_planner database has been created
 */
 -- DROP TABLE search_history;
 -- DROP TABLE user;
-DROP TABLE ingredient
+-- DROP TABLE ingredient;
+
 CREATE TABLE IF NOT EXISTS user (
     username VARCHAR(255) NOT NULL, 
     email VARCHAR(255) NOT NULL PRIMARY KEY
@@ -41,6 +42,32 @@ CREATE TABLE IF NOT EXISTS ingredient (
     calories INT,
     user_id VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES user(email) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS recipe (
+    id INT AUTO_INCREMENT PRIMARY KEY ,  
+    title VARCHAR(255) NOT NULL, 
+    carbs DECIMAL,
+    protein DECIMAL,
+    fat DECIMAL,
+    calories DECIMAL,
+    instructions TEXT(16383)
+    user_id VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES user(email) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS recipe_user (
+    id INT AUTO_INCREMENT PRIMARY KEY ,  
+    recipe_id INT,
+    FOREIGN KEY (recipe_id) REFERENCES recipe(id) ON DELETE CASCADE,
+    user_id VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES user(email) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS recipe_ingredient (
+    id INT AUTO_INCREMENT PRIMARY KEY ,  
+    recipe_id INT,
+    FOREIGN KEY (recipe_id) REFERENCES recipe(id) ON DELETE CASCADE,
+    ingredient_id INT,
+    FOREIGN KEY (ingredient_id) REFERENCES ingredient(id) ON DELETE CASCADE
 );
 
 

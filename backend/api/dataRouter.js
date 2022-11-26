@@ -23,6 +23,9 @@ router.route("/recipe/search/:searchText/")
 router.route("/recipe/all")
     .get(DataController.apiGetAllRecipes)
 
+router.route("/recipe/add")
+    .post(DataController.apiAddRecipe)
+
 router.route("/recipe/:id")
     .get(DataController.apiGetRecipe)
     .post(DataController.apiCreateRecipe)

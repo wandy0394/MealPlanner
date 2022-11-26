@@ -12,7 +12,7 @@ const INITIAL = {
     protein:0,
     carbs:0
 }
-export default function IngredientsPane({recipeIngredients, setRecipeIngredients, ingredientCounter, setIngredientCounter, ingredients}) {
+export default function IngredientsPane({recipeIngredients, setRecipeIngredients, ingredientCounter, setIngredientCounter, ingredients, }) {
 
 
     function handleAddIngredient() {
