@@ -4,7 +4,11 @@ Assume meal_planner database has been created
 */
 -- DROP TABLE search_history;
 -- DROP TABLE user;
--- DROP TABLE ingredient;
+
+DROP TABLE IF EXISTS  recipe_user ;
+DROP TABLE IF EXISTS  recipe_ingredient ;
+DROP TABLE IF EXISTS  recipe ;
+DROP TABLE IF EXISTS  ingredient ;
 
 CREATE TABLE IF NOT EXISTS user (
     username VARCHAR(255) NOT NULL, 
@@ -47,28 +51,34 @@ CREATE TABLE IF NOT EXISTS ingredient (
 CREATE TABLE IF NOT EXISTS recipe (
     id INT AUTO_INCREMENT PRIMARY KEY ,  
     title VARCHAR(255) NOT NULL, 
-    carbs DECIMAL,
-    protein DECIMAL,
-    fat DECIMAL,
-    calories DECIMAL,
-    instructions TEXT(16383)
+    carbs INT,
+    protein INT,
+    fat INT,
+    calories INT,
+    instructions TEXT(16383),
     user_id VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES user(email) ON DELETE CASCADE
 );
-CREATE TABLE IF NOT EXISTS recipe_user (
-    id INT AUTO_INCREMENT PRIMARY KEY ,  
-    recipe_id INT,
-    FOREIGN KEY (recipe_id) REFERENCES recipe(id) ON DELETE CASCADE,
-    user_id VARCHAR(255),
-    FOREIGN KEY (user_id) REFERENCES user(email) ON DELETE CASCADE
-);
+
+
 CREATE TABLE IF NOT EXISTS recipe_ingredient (
-    id INT AUTO_INCREMENT PRIMARY KEY ,  
+    id INT AUTO_INCREMENT PRIMARY KEY , 
+    qty INT,
+    units VARCHAR(16), 
     recipe_id INT,
     FOREIGN KEY (recipe_id) REFERENCES recipe(id) ON DELETE CASCADE,
     ingredient_id INT,
     FOREIGN KEY (ingredient_id) REFERENCES ingredient(id) ON DELETE CASCADE
 );
+
+INSERT INTO ingredient (name, carbs, protein, fat, calories, user_id) values ('Egg', 2, 6, 5, 70, 'dev@email.com') ;
+INSERT INTO ingredient (name, carbs, protein, fat, calories, user_id) values ('Fish', 16, 20, 10, 200, 'dev@email.com');
+INSERT INTO ingredient (name, carbs, protein, fat, calories, user_id) values ('Beef', 16, 25, 15, 250, 'dev@email.com');
+INSERT INTO ingredient (name, carbs, protein, fat, calories, user_id) values ('Cheese', 4, 7, 25, 400, 'dev@email.com');
+INSERT INTO ingredient (name, carbs, protein, fat, calories, user_id) values ('Onion', 1, 2, 0, 40, 'dev@email.com');
+INSERT INTO ingredient (name, carbs, protein, fat, calories, user_id) values ('Water', 0, 0, 0, 0, 'dev@email.com');
+INSERT INTO ingredient (name, carbs, protein, fat, calories, user_id) values ('Chicken', 7, 23, 12, 220, 'dev@email.com');
+INSERT INTO ingredient (name, carbs, protein, fat, calories, user_id) values ('Carrot', 2, 1, 0, 25, 'dev@email.com');
 
 
 /*CREATE TABLE IF NOT EXISTS Recipe;
