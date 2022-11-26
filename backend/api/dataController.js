@@ -74,7 +74,7 @@ export default class DataController {
     }
     static apiGetAllIngredients(req, res, next) {
         const params = req.body
-        console.log(params)
+        // console.log(params)
         DatabaseService.getAllIngredients(DUMMY_EMAIL)
             .then((resp)=>{
                 res.json(resp)
