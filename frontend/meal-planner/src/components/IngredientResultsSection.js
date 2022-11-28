@@ -66,12 +66,9 @@ export default function IngredientResultsSection({data}) {
         return output
     }
     function handleAddClick(e, input) {
-        console.log(input)
-        console.log('yes')
         const food = cleanedData.filter((item)=> {
             return (item.food_id === input)
         })
-        console.log(food)
         const macros = parseDescription(food[0].food_description)
 
         const params = {
@@ -83,7 +80,6 @@ export default function IngredientResultsSection({data}) {
             food_id:food[0].food_id,
             unit: macros.unit
         }
-        console.log(params)
         DataService.addIngredient(params)
     }
 
@@ -113,7 +109,6 @@ export default function IngredientResultsSection({data}) {
                                             </TableCell>
                                             
                                             {
-                                                //  <TableCell>{row.Title}</TableCell>
                                                 columnHeaders.map((header, index) => {
                                                     let cellId = index.toString() + row.ID.toString() 
                                                     return <TableCell key={cellId}>{row[header]}</TableCell>
