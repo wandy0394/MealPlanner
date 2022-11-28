@@ -57,7 +57,7 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecip
     }
     return (
         <Box key={keyID} sx={{display:'flex', gap:'1rem', alignItems:'center'}}>
-            <Typography variant='body' sx={{border:'solid'}}>ID: {keyID}</Typography>
+            <Typography variant='body' sx={{}}>ID: {keyID}</Typography>
             <Box>
                 <TextField 
                     id={'qty-'+keyID} 

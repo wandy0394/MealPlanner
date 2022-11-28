@@ -23,7 +23,7 @@ export default function IngredientsPane({recipeIngredients, setRecipeIngredients
     }
 
     return (
-        <Paper elevation={3} sx={{border:'solid', overflow:'scroll', maxHeight:'45vh'}}>
+        <Paper elevation={3} sx={{overflow:'scroll', maxHeight:'45vh'}}>
             <Typography variant='h6'>Add Ingredients</Typography>
             <Stack gap={2}>
                 {
