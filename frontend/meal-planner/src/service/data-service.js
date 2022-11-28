@@ -58,6 +58,7 @@ class DataService {
         }
         
     }
+
     async getRecipes() {
         try {
             const resp = await instance.get(`/recipe/all`)
@@ -77,6 +78,10 @@ class DataService {
         catch(e) {
             return {error:'Error'}
         }
+    }
+    async getRecipe(recipeId) {
+        const resp = await instance.get(`/recipe/${recipeId}`)
+        return resp.data
     }
     getMeals() {
         return

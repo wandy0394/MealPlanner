@@ -11,7 +11,7 @@ export default function SearchIngredientResults({data}) {
                 <Divider orientation='vertical'/>
                 <Box sx={{width:'60%', height: '100%'}}>{data.food_description}</Box>
                 <Divider orientation='vertical'/>
-                <Button>
+                <Button sx={{height:'100%'}}>
                     <AddBoxIcon/>
                 </Button>
             </Paper>
