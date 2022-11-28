@@ -52,8 +52,9 @@ class DataService {
         const resp = await instance.get(`/ingredient/all`)
         return resp.data
     }
-    getRecipes() {
-        return
+    async getRecipe(recipeId) {
+        const resp = await instance.get(`/recipe/${recipeId}`)
+        return resp.data
     }
     getMeals() {
         return
