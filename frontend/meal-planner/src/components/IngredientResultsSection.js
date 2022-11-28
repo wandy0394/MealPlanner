@@ -1,4 +1,16 @@
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import AddBoxIcon from '@mui/icons-material/AddBox'
+import DataService from "../service/data-service";
+
+const DUMMY_DATA = [
+    {food_id:11, food_name:'Food1', food_description:'Food'},
+    {food_id:22, food_name:'Food2', food_description:'Food'},
+    {food_id:33, food_name:'Food3', food_description:'Food'},
+    {food_id:44, food_name:'Food4', food_description:'Food'},
+    {food_id:55, food_name:'Food5', food_description:'Food'},
+    {food_id:66, food_name:'Food6', food_description:'Food'},
+
+]
 
 export default function IngredientResultsSection({data}) {
 
@@ -22,6 +34,7 @@ export default function IngredientResultsSection({data}) {
         cleanedData = [data.food]
         
     }
+    //cleanedData = DUMMY_DATA
     if (cleanedData !== null) {
         tableRows = cleanedData.map((item) => {
             return (
@@ -38,7 +51,37 @@ export default function IngredientResultsSection({data}) {
         })
     }
     console.log(cleanedData)
+    function parseDescription(text) {
+        //description is in the format Serving Size - Calories: X | Fat: X | Carbs: X | Protein: X 
+        const splitText = text.split('-')
+        const serving = splitText[0].trim()
+        const macros = splitText[1].split('|')
+        const output = {
+            unit:serving,
+            calories: (macros[0].split(':')[1]).replace('kcal', '').trim(),
+            fat: (macros[1].split(':')[1]).replace('g', '').trim(),
+            carbs:(macros[2].split(':')[1]).replace('g', '').trim(),
+            protein: (macros[3].split(':')[1]).replace('g', '').trim(),
+        }
+        return output
+    }
+    function handleAddClick(e, input) {
+        const food = cleanedData.filter((item)=> {
+            return (item.food_id === input)
+        })
+        const macros = parseDescription(food[0].food_description)
 
+        const params = {
+            name:food[0].food_name,
+            calories:macros.calories,
+            carbs:macros.carbs,
+            fat:macros.fat,
+            protein:macros.protein,
+            food_id:food[0].food_id,
+            unit: macros.unit
+        }
+        DataService.addIngredient(params)
+    }
 
 
     return (
@@ -47,6 +90,7 @@ export default function IngredientResultsSection({data}) {
                 <Table>
                     <TableHead>
                         <TableRow>
+                            <TableCell>Add</TableCell>
                             {
                                 columnHeaders.map((item)=> {
                                     return <TableCell>{item}</TableCell>
@@ -58,13 +102,19 @@ export default function IngredientResultsSection({data}) {
                         {
                             tableRows.map((row) => {
                                 return <TableRow key={row.ID}>
+                                            <TableCell key={row.ID*2}>
+                                                <Button key={row.ID} onClick={(e, input) => handleAddClick(e, row.ID)}>
+                                                    <AddBoxIcon/>
+                                                </Button>
+                                            </TableCell>
+                                            
                                             {
-                                                //  <TableCell>{row.Title}</TableCell>
                                                 columnHeaders.map((header, index) => {
                                                     let cellId = index.toString() + row.ID.toString() 
                                                     return <TableCell key={cellId}>{row[header]}</TableCell>
                                                 })
                                             }
+                                            
                                         </TableRow>
                             })
                         }
