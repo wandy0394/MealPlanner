@@ -204,7 +204,7 @@ class DatabaseService {
                                     recipe.calories as total_calories, 
                                     instructions
                                     FROM recipe 
-                                    INNER JOIN recipe_ingredient on recipe.id=recipe_id 
+                                    INNER JOIN recipe_ingredient on recipe.id=recipe_ingredient.recipe_id 
                                     INNER JOIN ingredient 
                                     WHERE 
                                     recipe.user_id='${userEmail}'
