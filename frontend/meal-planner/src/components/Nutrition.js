@@ -5,7 +5,7 @@ import {UnitConverter} from "./Units"
 
 
 const FACTOR = 0.01
-export default function Nutrition({foods, macros, setMacros}) {
+export default function Nutrition({foods, macros, setMacros, doCalculate=true}) {
     function calculateCarbs() {
         const c = new UnitConverter()    
         return (Object.entries(foods).reduce((prev, [key, data]) => {
@@ -40,13 +40,19 @@ export default function Nutrition({foods, macros, setMacros}) {
     }
 
     useEffect(()=> {
-        const newMacros = {
-            carbs:parseFloat(calculateCarbs()).toFixed(2),
-            fat:parseFloat(calculateFat()).toFixed(2),
-            protein:parseFloat(calculateProtein()).toFixed(2),
-            calories:parseFloat(calculateCalories()).toFixed(2)
+        if (doCalculate) {
+            const newMacros = {
+                carbs:parseFloat(calculateCarbs()).toFixed(2),
+                fat:parseFloat(calculateFat()).toFixed(2),
+                protein:parseFloat(calculateProtein()).toFixed(2),
+                calories:parseFloat(calculateCalories()).toFixed(2)
+            }
+            setMacros(newMacros)
         }
-        setMacros(newMacros)
+        else {
+            //setMacros(macros)
+        }
+        
     }, [foods])
 
     return (

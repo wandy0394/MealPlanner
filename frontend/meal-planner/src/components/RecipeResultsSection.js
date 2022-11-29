@@ -1,10 +1,10 @@
 
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export default function RecipeResultsSection({data}) {
-
+    const navigate = useNavigate()
     let cleanedData = null
     let tableRows = []
     const columnHeaders = [
@@ -42,6 +42,7 @@ export default function RecipeResultsSection({data}) {
     }
     function handleRowClick(e, id) {
         console.log(id)
+        navigate('details/'+id)
     }
 
     return (
