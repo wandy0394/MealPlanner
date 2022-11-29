@@ -1,11 +1,11 @@
 import AddIcon from "@mui/icons-material/Add";
 import RefreshIcon from '@mui/icons-material/Refresh'
 import { Paper, Stack, Box, Typography, IconButton, Tabs, Tab, Button } from "@mui/material";
-import { ContentBox } from "../components/ContentBox";
+import { ContentBox } from "../components/utility/ContentBox";
 import { useEffect, useState } from "react";
-import CreateRecipeForm from "../components/CreateRecipeForm";
+import CreateRecipeForm from "../components/recipe/CreateRecipeForm";
 import DataService from "../service/data-service";
-import RecipeContent from "../components/RecipeContent";
+import RecipeContent from "../components/recipe/RecipeContent";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;

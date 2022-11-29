@@ -1,6 +1,6 @@
 import { Box, Card, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
-import DataService from "../service/data-service";
+import DataService from "../../service/data-service";
 
 const userEmail = 'dev@email.com'
 const dummyData = [

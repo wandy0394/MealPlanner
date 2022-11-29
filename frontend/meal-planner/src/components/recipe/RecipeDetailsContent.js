@@ -2,7 +2,7 @@ import { Box, Button, FormControl, FormGroup, Grid, InputLabel, MenuItem, Paper,
 import SaveIcon from '@mui/icons-material/Save'
 import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
-import DataService from "../service/data-service";
+import DataService from "../../service/data-service";
 import Nutrition from "./Nutrition";
 import IngredientsPane from "./IngredientsPane";
 
@@ -13,30 +13,53 @@ const INITIAL_MACROS = {
     protein:0,
     calories:0
 }
-export default function CreateRecipeForm() {
-    const [instructions, setInstructions] = useState('')
-    const [title, setTitle] = useState('')
+export default function RecipeContent({storedInstructions, storedTitle, storedRecipeIngredients, storedMacros}) {
+    const [instructions, setInstructions] = useState(storedInstructions)
+    const [title, setTitle] = useState(storedTitle)
     const [ingredients, setIngredients] = useState([])
     const [recipeIngredients, setRecipeIngredients] = useState({})
     const [ingredientCounter, setIngredientCounter] = useState(0)
-    const [macros, setMacros] = useState(INITIAL_MACROS)
+    const [macros, setMacros] = useState(storedMacros)
 
 
 
     useEffect(()=>{
         getIngredients()
+        setIngredientCounter(storedRecipeIngredients.length)
+        setRecipeIngredients(storedRecipeIngredients)
+        //setMacros(storedMacros)
         // console.log(units)
     },[])
 
     useEffect(()=> {
+        setTitle(storedTitle)
+        setInstructions(storedInstructions)
+        setRecipeIngredients(storedRecipeIngredients)
+        setIngredientCounter(storedRecipeIngredients.length)
+        setMacros(storedMacros)
+    }, [storedInstructions, storedTitle, storedRecipeIngredients, storedMacros])
+
+    useEffect(()=> {
         console.log(recipeIngredients)
+        
     }, [recipeIngredients])
+
+    function setupRecipeIngredients() {
+        const arr = storedRecipeIngredients.map((item, index) => {
+            return {
+                [index]:{...item, id:item.id}
+            }
+        })
+        setIngredientCounter(storedRecipeIngredients.length)
+        return arr
+    }
+    
 
     async function getIngredients() {
         try {
             console.log('Refreshing Ingredients')
             const result = await DataService.getIngredients()
-            console.log(result)
+            //console.log(result)
             setIngredients(result)
         }
         catch (e) {
@@ -68,7 +91,7 @@ export default function CreateRecipeForm() {
         <Stack>
             <form onSubmit={handleSaveClicked}>
                 <Box sx={{display:'flex', gap:'1rem', padding:'1rem', alignItems:'center'}}>
-                    <TextField variant='standard' label='Recipe Name' required sx={{padding:'1rem'}} 
+                    <TextField disabled variant='standard' label='Recipe Name' required sx={{padding:'1rem'}} 
                         onChange={handleTitleChange} value={title}
                     />
                     <Button variant='contained' sx={{height:'50%'}} type='submit'>
@@ -87,9 +110,10 @@ export default function CreateRecipeForm() {
                             ingredientCounter={ingredientCounter}
                             setIngredientCounter={setIngredientCounter}
                             ingredients={ingredients} 
-                            isDisabled={false}
+                            isDisabled={true}
+                            readOnly={true}
                         />
-                        <Nutrition foods={recipeIngredients} macros={macros} setMacros={setMacros}/>
+                        <Nutrition foods={recipeIngredients} macros={macros} setMacros={setMacros} doCalculate={false}/>
                     </Grid>
 
                     <Grid item xs={12} md={6}>
@@ -103,6 +127,7 @@ export default function CreateRecipeForm() {
                                 value={instructions}
                                 onChange = {handleInstructionChange}
                                 inputProps={{maxLength:MAX_CHARS}}
+                                disabled 
                             >
                                 
                             </TextField>

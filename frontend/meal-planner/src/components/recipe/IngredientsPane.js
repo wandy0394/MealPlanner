@@ -1,6 +1,6 @@
 import { Stack, Paper, Typography,  Button } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add";
-import IngredientsPaneEntry from "./IngredientsPaneEntry";
+import IngredientsPaneEdit from "./IngredientsPaneEdit";
 import IngredientsPaneRead from "./IngredientsPaneRead";
 
 
@@ -38,7 +38,7 @@ export default function IngredientsPane({recipeIngredients, setRecipeIngredients
                     })) : (
                         Object.entries(recipeIngredients).map(([keyID, ingrObj], index)=> {
                             return (
-                                <IngredientsPaneEntry 
+                                <IngredientsPaneEdit 
                                     keyID={keyID}
                                     recipeIngredients={recipeIngredients}
                                     setRecipeIngredients={setRecipeIngredients}

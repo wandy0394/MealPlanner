@@ -2,7 +2,7 @@ import { Box, Button, FormControl, FormGroup, Grid, InputLabel, MenuItem, Paper,
 import SaveIcon from '@mui/icons-material/Save'
 import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
-import DataService from "../service/data-service";
+import DataService from "../../service/data-service";
 import Nutrition from "./Nutrition";
 import IngredientsPane from "./IngredientsPane";
 
@@ -94,7 +94,7 @@ export default function RecipeContent({storedInstructions, storedTitle, storedRe
                     <TextField disabled variant='standard' label='Recipe Name' required sx={{padding:'1rem'}} 
                         onChange={handleTitleChange} value={title}
                     />
-                    <Button variant='contained' sx={{height:'50%'}} type='submit'>
+                    <Button disabled variant='contained' sx={{height:'50%'}} type='submit'>
                         <SaveIcon/>
                         <Typography variant='body' sx={{padding:'0 1rem'}}>Save Recipe</Typography>
                     </Button>
@@ -111,7 +111,6 @@ export default function RecipeContent({storedInstructions, storedTitle, storedRe
                             setIngredientCounter={setIngredientCounter}
                             ingredients={ingredients} 
                             isDisabled={true}
-                            readOnly={true}
                         />
                         <Nutrition foods={recipeIngredients} macros={macros} setMacros={setMacros} doCalculate={false}/>
                     </Grid>

@@ -1,11 +1,11 @@
-import HeadBar from "../components/HeadBar"
-import NavMenu from "../components/NavMenu"
+import HeadBar from "../components/menu/HeadBar"
+import NavMenu from "../components/menu/NavMenu"
 
 import { Outlet } from "react-router-dom"
 import { Drawer, ListItem, Typography } from "@mui/material"
 import { useState } from "react"
-import MenuContents from "../components/MenuContents"
-import MenuLink from "../components/MenuLink"
+import MenuContents from "../components/menu/MenuContents"
+import MenuLink from "../components/menu/MenuLink"
 
 
 export default function Layout() {
