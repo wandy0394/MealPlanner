@@ -1,9 +1,9 @@
 import { Badge, Button, Card, IconButton, Paper, requirePropFactory, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { ContentBox } from "../components/ContentBox";
+import { ContentBox } from "../components/utility/ContentBox";
 import AddIcon from '@mui/icons-material/Add'
 import RefreshIcon from '@mui/icons-material/Refresh'
-import AddIngredientModel from "../components/AddIngredientModal";
+import CreateIngredientForm from "../components/CreateIngredientForm";
 import { useEffect, useState } from "react";
 import DataService from "../service/data-service";
 
@@ -47,7 +47,7 @@ export default function Ingredients() {
                 <Box sx={{border:'solid', width:'100%'}}>
                     <Button variant='contained' sx={{width:'100%'}} onClick={handleClickOpen}><AddIcon />Add an Ingredient</Button>
                 </Box>
-                <AddIngredientModel open={open} handleClose={handleClose} refresh={refresh}/>
+                <CreateIngredientForm open={open} handleClose={handleClose} refresh={refresh}/>
                 <Box sx={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(400px, 1fr))', 
                             gridAutoRows:'auto', gap:'2rem', width:'100%', border:'solid', justifyItems:'center',
                             padding:'2rem 2rem'}} >

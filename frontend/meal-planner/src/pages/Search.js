@@ -1,13 +1,13 @@
 import { Paper, Stack, Tab, Tabs, Typography, Pagination } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
-import { ContentBox } from "../components/ContentBox";
-import SearchIngredients from "../components/SearchIngredients";
-import SearchRecipes from "../components/SearchRecipes";
-import IngredientResultsSection from "../components/IngredientResultsSection";
-import RecipeResultsSection from "../components/RecipeResultsSection";
+import { ContentBox } from "../components/utility/ContentBox";
+import SearchIngredients from "../components/search/SearchIngredients";
+import SearchRecipes from "../components/search/SearchRecipes";
+import SearchIngredientResults from "../components/search/SearchIngredientsResults";
+import SearchRecipeResults from "../components/search/SearchRecipeResults";
 import DataService from "../service/data-service";
-import SearchHistory from "../components/SearchHistory";
+import SearchHistory from "../components/search/SearchHistory";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -174,10 +174,10 @@ export default function Search() {
                         </Box>
                         <Box>
                             {
-                                (tabNum === 0) && ((results !== null) && <><IngredientResultsSection data={results}/></>)
+                                (tabNum === 0) && ((results !== null) && <><SearchIngredientResults data={results}/></>)
                             }
                             {
-                                (tabNum === 1) && ((recipeResults !== null) && <><RecipeResultsSection data={recipeResults}/></>)
+                                (tabNum === 1) && ((recipeResults !== null) && <><SearchRecipeResults data={recipeResults}/></>)
                             }                              
                         </Box>
                         <Box>

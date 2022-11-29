@@ -1,6 +1,6 @@
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox'
-import DataService from "../service/data-service";
+import DataService from "../../service/data-service";
 
 const DUMMY_DATA = [
     {food_id:11, food_name:'Food1', food_description:'Food'},

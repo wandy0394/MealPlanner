@@ -1,7 +1,7 @@
 import AddBox from "@mui/icons-material/AddBox";
 import { Paper, Stack, Box, Typography } from "@mui/material";
 
-import { ContentBox } from "../components/ContentBox";
+import { ContentBox } from "../components/utility/ContentBox";
 export default function MealPlans() {
     return (
         <ContentBox sx={{height:'100%'}}>

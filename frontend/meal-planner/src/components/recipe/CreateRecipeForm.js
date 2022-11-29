@@ -2,7 +2,7 @@ import { Box, Button, FormControl, FormGroup, Grid, InputLabel, MenuItem, Paper,
 import SaveIcon from '@mui/icons-material/Save'
 import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
-import DataService from "../service/data-service";
+import DataService from "../../service/data-service";
 import Nutrition from "./Nutrition";
 import IngredientsPane from "./IngredientsPane";
 
@@ -13,53 +13,30 @@ const INITIAL_MACROS = {
     protein:0,
     calories:0
 }
-export default function RecipeContent({storedInstructions, storedTitle, storedRecipeIngredients, storedMacros}) {
-    const [instructions, setInstructions] = useState(storedInstructions)
-    const [title, setTitle] = useState(storedTitle)
+export default function CreateRecipeForm() {
+    const [instructions, setInstructions] = useState('')
+    const [title, setTitle] = useState('')
     const [ingredients, setIngredients] = useState([])
     const [recipeIngredients, setRecipeIngredients] = useState({})
     const [ingredientCounter, setIngredientCounter] = useState(0)
-    const [macros, setMacros] = useState(storedMacros)
+    const [macros, setMacros] = useState(INITIAL_MACROS)
 
 
 
     useEffect(()=>{
         getIngredients()
-        setIngredientCounter(storedRecipeIngredients.length)
-        setRecipeIngredients(storedRecipeIngredients)
-        //setMacros(storedMacros)
         // console.log(units)
     },[])
 
     useEffect(()=> {
-        setTitle(storedTitle)
-        setInstructions(storedInstructions)
-        setRecipeIngredients(storedRecipeIngredients)
-        setIngredientCounter(storedRecipeIngredients.length)
-        setMacros(storedMacros)
-    }, [storedInstructions, storedTitle, storedRecipeIngredients, storedMacros])
-
-    useEffect(()=> {
         console.log(recipeIngredients)
-        
     }, [recipeIngredients])
-
-    function setupRecipeIngredients() {
-        const arr = storedRecipeIngredients.map((item, index) => {
-            return {
-                [index]:{...item, id:item.id}
-            }
-        })
-        setIngredientCounter(storedRecipeIngredients.length)
-        return arr
-    }
-    
 
     async function getIngredients() {
         try {
             console.log('Refreshing Ingredients')
             const result = await DataService.getIngredients()
-            //console.log(result)
+            console.log(result)
             setIngredients(result)
         }
         catch (e) {
@@ -91,10 +68,10 @@ export default function RecipeContent({storedInstructions, storedTitle, storedRe
         <Stack>
             <form onSubmit={handleSaveClicked}>
                 <Box sx={{display:'flex', gap:'1rem', padding:'1rem', alignItems:'center'}}>
-                    <TextField disabled variant='standard' label='Recipe Name' required sx={{padding:'1rem'}} 
+                    <TextField variant='standard' label='Recipe Name' required sx={{padding:'1rem'}} 
                         onChange={handleTitleChange} value={title}
                     />
-                    <Button disabled variant='contained' sx={{height:'50%'}} type='submit'>
+                    <Button variant='contained' sx={{height:'50%'}} type='submit'>
                         <SaveIcon/>
                         <Typography variant='body' sx={{padding:'0 1rem'}}>Save Recipe</Typography>
                     </Button>
@@ -110,9 +87,9 @@ export default function RecipeContent({storedInstructions, storedTitle, storedRe
                             ingredientCounter={ingredientCounter}
                             setIngredientCounter={setIngredientCounter}
                             ingredients={ingredients} 
-                            isDisabled={true}
+                            isDisabled={false}
                         />
-                        <Nutrition foods={recipeIngredients} macros={macros} setMacros={setMacros} doCalculate={false}/>
+                        <Nutrition foods={recipeIngredients} macros={macros} setMacros={setMacros}/>
                     </Grid>
 
                     <Grid item xs={12} md={6}>
@@ -126,7 +103,6 @@ export default function RecipeContent({storedInstructions, storedTitle, storedRe
                                 value={instructions}
                                 onChange = {handleInstructionChange}
                                 inputProps={{maxLength:MAX_CHARS}}
-                                disabled 
                             >
                                 
                             </TextField>
