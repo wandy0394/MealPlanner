@@ -30,6 +30,40 @@ export class UnitConverter {
         }
     }
 
+    // convert(input) {
+    //     switch(input) {
+    //         case 'ml':
+    //             return function mlToG(data) {
+    //                 return data
+    //             }
+    //             break;
+    //         case 'tbsp':
+    //             return function tbspToG(data) {
+    //                 return 21.25*data
+    //             }
+    //             break;
+    //         case 'tsp':
+    //             function tspToG(data) {
+    //                 return data*4.92892
+    //             }
+    //             break;
+    //         case 'cup':
+    //             return function cupToG(data) {
+    //                 return 250*data
+    //             }
+    //             break;
+    //         case 'g':
+    //             return function gToG(data) {
+    //                 return data
+    //             }
+    //             break;
+    //         default:
+    //             return function doNothing(data) {
+    //                 return 0
+    //             }
+    //     }
+    // }
+
     // convert = {
     //     g: this.gToG,
     //     ml: this.mlToG,

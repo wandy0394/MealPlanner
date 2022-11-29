@@ -1,6 +1,7 @@
 import { Stack, Paper, Typography,  Button } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add";
 import IngredientsPaneEntry from "./IngredientsPaneEntry";
+import IngredientsPaneRead from "./IngredientsPaneRead";
 
 
 const INITIAL = {
@@ -13,7 +14,7 @@ const INITIAL = {
     carbs:0,
     id:null
 }
-export default function IngredientsPane({recipeIngredients, setRecipeIngredients, ingredientCounter, setIngredientCounter, ingredients, isDisabled}) {
+export default function IngredientsPane({recipeIngredients, setRecipeIngredients, ingredientCounter, setIngredientCounter, ingredients, isDisabled, readOnly=false}) {
 
 
     function handleAddIngredient() {
@@ -27,17 +28,26 @@ export default function IngredientsPane({recipeIngredients, setRecipeIngredients
             <Typography variant='h6'>Add Ingredients</Typography>
             <Stack gap={2}>
                 {
-                    Object.entries(recipeIngredients).map(([keyID, ingrObj], index)=> {
+                   readOnly ? (Object.entries(recipeIngredients).map(([keyID, ingrObj], index)=> {
                         return (
-                            <IngredientsPaneEntry 
+                            <IngredientsPaneRead 
                                 keyID={keyID}
-                                recipeIngredients={recipeIngredients}
-                                setRecipeIngredients={setRecipeIngredients}
-                                ingredients={ingredients}
-                                isDisabled={isDisabled}
-                                />
+                                ingredient={ingrObj}
+                            />
                         )
-                    })
+                    })) : (
+                        Object.entries(recipeIngredients).map(([keyID, ingrObj], index)=> {
+                            return (
+                                <IngredientsPaneEntry 
+                                    keyID={keyID}
+                                    recipeIngredients={recipeIngredients}
+                                    setRecipeIngredients={setRecipeIngredients}
+                                    ingredients={ingredients}
+                                    isDisabled={isDisabled}
+                                />
+                            )
+                        })
+                    )
                 }
                 <Button 
                     type='button' 
