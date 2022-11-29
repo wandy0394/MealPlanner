@@ -1,9 +1,10 @@
 
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export default function RecipeResultsSection({data}) {
-
+    const navigate = useNavigate()
     let cleanedData = null
     let tableRows = []
     const columnHeaders = [
@@ -39,6 +40,10 @@ export default function RecipeResultsSection({data}) {
             )
         })
     }
+    function handleRowClick(e, id) {
+        console.log(id)
+        navigate('details/'+id)
+    }
 
     return (
         <TableContainer component={Paper}>
@@ -50,17 +55,20 @@ export default function RecipeResultsSection({data}) {
                                 return <TableCell>{item}</TableCell>
                             })
                         }
+                        <TableCell>Details</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {
                         tableRows.map((row) => {
-                            return <TableRow key={row.ID}>
+                            return <TableRow key={row.ID} onClick={(e, id) => handleRowClick(e, row.ID)} sx= {{'&:hover':{backgroundColor: '#EEEEEE', cursor:'pointer'}}}>
+                                        
                                         {
                                             columnHeaders.map((header) => {
                                                 return <TableCell>{row[header]}</TableCell>
                                             })
                                         }
+                                        <TableCell><Link to={'details/'+row.ID}>More</Link></TableCell>
                                     </TableRow>
                         })
 
