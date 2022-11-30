@@ -91,7 +91,7 @@ export default function SearchRecipes({state, dispatch}) {
     }   
     async function handleRecipePageChange(e, page) {
         await callSearchRecipes(state.prevQuery, state.prevCriteria, page)
-        dispatch({type:ACTION_TYPES.SET_PAGE, payload:page})
+        //dispatch({type:ACTION_TYPES.SET_PAGE, payload:page})
     }
     return (
         <Box>

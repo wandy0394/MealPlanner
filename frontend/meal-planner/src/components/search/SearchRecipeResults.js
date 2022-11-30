@@ -3,7 +3,7 @@ import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper 
 import { Link, useNavigate } from "react-router-dom";
 
 
-export default function RecipeResultsSection({data}) {
+export default function SearchRecipeResults({data}) {
     const navigate = useNavigate()
     let cleanedData = null
     let tableRows = []

@@ -12,7 +12,7 @@ const DUMMY_DATA = [
 
 ]
 
-export default function IngredientResultsSection({data}) {
+export default function SearchIngredientResults({data}) {
 
     let cleanedData = null
     const columnHeaders = [
@@ -37,15 +37,16 @@ export default function IngredientResultsSection({data}) {
     //cleanedData = DUMMY_DATA
     if (cleanedData !== null) {
         tableRows = cleanedData.map((item) => {
+            const macros = parseDescription(item.food_description)
             return (
                 {   
                     ID: item.food_id, 
                     Name: item.food_name,
                     Description: item.food_description,
-                    Calories: 'calories',
-                    Carbs: 'carbs',
-                    Fat: 'fat',
-                    Protein: 'protein'
+                    Calories: macros.calories,
+                    Carbs: macros.carbs,
+                    Fat: macros.fat,
+                    Protein: macros.protein
                 }
             )
         })
