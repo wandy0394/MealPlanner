@@ -45,7 +45,7 @@ export default function SearchIngredients({state, dispatch}) {
 
     async function handleIngredientPageChange(e, page) {
         console.log(`page change ${page}`)
-        dispatch({type:ACTION_TYPES.SET_PAGE, payload:page})
+        //dispatch({type:ACTION_TYPES.SET_PAGE, payload:page})
         await callSearchIngredients(state.prevQuery, page, false)
     }
 
@@ -82,6 +82,7 @@ export default function SearchIngredients({state, dispatch}) {
             <Box>
                 {
                     ((state.results !== null) && <><SearchIngredientResults data={state.results}/></>)
+                    // <SearchIngredientResults data={state?.results}/>
                 }
             </Box>
             <Box>
