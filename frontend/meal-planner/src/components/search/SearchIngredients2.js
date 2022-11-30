@@ -1,7 +1,7 @@
 import { TextField, Button, Box, FormGroup, FormLabel, Typography, Pagination } from "@mui/material";
 import DataService from "../../service/data-service";
 import SearchIngredientResults from "./SearchIngredientsResults";
-
+import {ACTION_TYPES} from './ActionTypes'
 const dummyOutput = {
 
     food: [
@@ -14,12 +14,7 @@ const dummyOutput = {
     total_results: 4
 
 }
-const ACTION_TYPES = {
-    SET_RESULTS:'setResults',
-    SET_PAGE: 'setPage',
-    SET_QUERY: 'setQuery',
-    SET_PREV_QUERY: 'setPrevQuery'
-}
+
 export default function SearchIngredients({state, dispatch}) {
 
     
