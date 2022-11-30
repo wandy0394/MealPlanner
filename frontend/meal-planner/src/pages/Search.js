@@ -2,8 +2,8 @@ import { Paper, Stack, Tab, Tabs, Typography, Pagination } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState, useReducer } from "react";
 import { ContentBox } from "../components/utility/ContentBox";
-import SearchIngredients2 from "../components/search/SearchIngredients2";
-import SearchRecipes2 from "../components/search/SearchRecipes2";
+import SearchIngredients from "../components/search/SearchIngredients";
+import SearchRecipes from "../components/search/SearchRecipes";
 import SearchHistory from "../components/search/SearchHistory";
 import {ACTION_TYPES} from "../components/search/ActionTypes"
 function TabPanel(props) {
@@ -109,13 +109,13 @@ export default function Search() {
                                 <Tab label='History' sx={{width:'33%'}}/>     
                             </Tabs>                        
                         <TabPanel value={tabNum} index={0}>
-                            <SearchIngredients2
+                            <SearchIngredients
                                 state={ingredientsState}
                                 dispatch={ingredientsDispatch}
                             />
                         </TabPanel>
                         <TabPanel value={tabNum} index={1}>
-                            <SearchRecipes2
+                            <SearchRecipes
                                 state={recipeState}
                                 dispatch={recipeDispatch}
                             />
