@@ -1,8 +1,9 @@
 import { Paper, Stack, Tab, Tabs, Typography, Pagination } from "@mui/material";
 import { Box } from "@mui/system";
-import { useState } from "react";
+import { useState, useReducer } from "react";
 import { ContentBox } from "../components/utility/ContentBox";
 import SearchIngredients from "../components/search/SearchIngredients";
+import SearchIngredients2 from "../components/search/SearchIngredients2";
 import SearchRecipes from "../components/search/SearchRecipes";
 import SearchIngredientResults from "../components/search/SearchIngredientsResults";
 import SearchRecipeResults from "../components/search/SearchRecipeResults";
@@ -17,7 +18,6 @@ function TabPanel(props) {
                 <Box>
                     {children}
                 </Box>
-
             ) : ('')}
         </div>
     )
@@ -34,41 +34,74 @@ const INITIAL_CRITERIA = {
     maxFat: "",
     minFat: "",
 }
+
+const INITIAL_INGREDIENTS_STATE = {
+    query:'',
+    prevQuery:'',
+    page:INITIAL_PAGE,
+    results:null
+}
+
+const ACTION_TYPES = {
+    SET_RESULTS:'setResults',
+    SET_PAGE: 'setPage',
+    SET_QUERY: 'setQuery',
+    SET_PREV_QUERY: 'setPrevQuery'
+}
 export default function Search() {
     const [tabNum, setTabNum] = useState(0)
-    const [results, setResults] = useState(null)
+    // const [results, setResults] = useState(null)
     const [recipeResults, setRecipeResults] = useState(null)
-    const [ingredientPage, setIngredientPage] = useState(INITIAL_PAGE)
+    // const [ingredientPage, setIngredientPage] = useState(INITIAL_PAGE)
     const [recipePage, setRecipePage] = useState(INITIAL_PAGE)
-    const [searchText, setSearchText] = useState('')
-    const [prevSearchText, setPrevSearchText] = useState('')
+    // const [searchText, setSearchText] = useState('')
+    // const [prevSearchText, setPrevSearchText] = useState('')
     const [searchCriteria, setSearchCriteria] = useState(INITIAL_CRITERIA)
     const [recipeSearchText, setRecipeSearchText] = useState('')
     const [prevRecipeSearchText, setPrevRecipeSearchText] = useState('')
     const [prevSearchCriteria, setPrevSearchCriteria] = useState(INITIAL_CRITERIA)
+    
+    const [ingredientsState, ingredientsDispatch] = useReducer(ingredientsReducer, INITIAL_INGREDIENTS_STATE)
 
+    function ingredientsReducer(state, action) {
+        const {type, payload} = action
+        switch (type) {
+            case ACTION_TYPES.SET_RESULTS:
+                return {...state, results:payload}
+            case ACTION_TYPES.SET_QUERY:
+                const temp = state.query
+                return {...state, query:payload}
+            case ACTION_TYPES.SET_PREV_QUERY:
+                return {...state, prevQuery:payload}
+            case ACTION_TYPES.SET_PAGE:
+                return {...state, page:payload}
+            default:
+                return state
+        }
+    }
 
     const handleTabChange = (event, newValue) => {
         setTabNum(newValue)
     }
 
-    function getResults(values) {
-        setResults(values)
-    }
+    // function getResults(values) {
+    //     setResults(values)
+    // }
 
     function getRecipeResults(values) {
         setRecipeResults(values)
     }
-    function handleIngredientPageChange(e, page) {
-        console.log(`page change ${page}`)
-        setIngredientPage(
-            { ingredientPage: page }, 
-            (async function() {
-                console.log(`looking for page ${page}`)
-                await callSearchIngredients(prevSearchText, page, false)
-            })()
-        )
-    }
+    // function handleIngredientPageChange(e, page) {
+    //     console.log(`page change ${page}`)
+    //     setIngredientPage(
+    //         { ingredientPage: page }, 
+    //         (async function() {
+    //             console.log(`looking for page ${page}`)
+    //             await callSearchIngredients(prevSearchText, page, false)
+    //         })()
+    //     )
+    // }
+
     function handleRecipePageChange(e, page) {
         setRecipePage(
             {recipePage: page},
@@ -79,22 +112,24 @@ export default function Search() {
         )
     }
 
-    async function callSearchIngredients(searchText, page, doStoreSearch) {
-        try {
-            console.log(`useffect ${page}` )
-            const callSearch = (async() => {
-                const data = await DataService.searchIngredients(searchText, (page-1), doStoreSearch)
-                console.log('GotData')
-                console.log(data)
-                getResults(data)
-                setIngredientPage(page)
-                setPrevSearchText(searchText)
-            })();
-        }
-        catch(e) {
-            console.error(e)
-        }
-    }
+
+
+    // async function callSearchIngredients(searchText, page, doStoreSearch) {
+    //     try {
+    //         console.log(`useffect ${page}` )
+    //         const callSearch = (async() => {
+    //             const data = await DataService.searchIngredients(searchText, (page-1), doStoreSearch)
+    //             console.log('GotData')
+    //             console.log(data)
+    //             getResults(data)
+    //             setIngredientPage(page)
+    //             setPrevSearchText(searchText)
+    //         })();
+    //     }
+    //     catch(e) {
+    //         console.error(e)
+    //     }
+    // }
 
     async function callSearchRecipes(searchText, searchCriteria, page, doStoreSearch) {
         try {
@@ -139,10 +174,9 @@ export default function Search() {
                                 <Tab label='History' sx={{width:'33%'}}/>     
                             </Tabs>                        
                         <TabPanel value={tabNum} index={0}>
-                            <SearchIngredients 
-                                searchText={searchText} 
-                                setSearchText={setSearchText}
-                                handleClickSearch={callSearchIngredients}
+                            <SearchIngredients2
+                                state={ingredientsState}
+                                dispatch={ingredientsDispatch}
                             />
                         </TabPanel>
                         <TabPanel value={tabNum} index={1}>
@@ -162,11 +196,6 @@ export default function Search() {
                                 Results
                             </Typography>
                             {
-                                (tabNum === 0) && (results !== null) && (
-                                    (<Typography variant='h6' sx={{display:'inline'}}> (Total Results: {results.total_results})</Typography>)
-                                )
-                            }
-                            {
                                 (tabNum === 1) && (recipeResults !== null) && (
                                     <Typography variant='h6' sx={{display:'inline'}}> (Total Results: {recipeResults.recipes.total_results})</Typography>
                                 )
@@ -174,7 +203,9 @@ export default function Search() {
                         </Box>
                         <Box>
                             {
-                                (tabNum === 0) && ((results !== null) && <><SearchIngredientResults data={results}/></>)
+                                // (tabNum === 0) && ((results !== null) && <><SearchIngredientResults data={results}/></>)
+                                // (tabNum === 0) && ((ingredientsState.results !== null) && <><SearchIngredientResults data={ingredientsState.results}/></>)
+
                             }
                             {
                                 (tabNum === 1) && ((recipeResults !== null) && <><SearchRecipeResults data={recipeResults}/></>)
@@ -182,10 +213,10 @@ export default function Search() {
                         </Box>
                         <Box>
                             {
-                                (tabNum === 0) && ((results !== null) && 
-                                                <Pagination count={10} shape='rounded' sx={{margin: '1rem 0'}} page={ingredientPage}
-                                                    onChange={handleIngredientPageChange}
-                                                />)
+                                // (tabNum === 0) && ((results !== null) && 
+                                //                 <Pagination count={10} shape='rounded' sx={{margin: '1rem 0'}} page={ingredientPage}
+                                //                     onChange={handleIngredientPageChange}
+                                //                 />)
                             }
                             {
                                 (tabNum === 1) && ((recipeResults !== null) && 
