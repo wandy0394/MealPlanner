@@ -34,15 +34,19 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecip
     }
     function handleIngredientChange(e, id) {
         const food = getFoodByFoodId(parseInt(e.target.value))
-        
-        const newRecipeIngredients = {...recipeIngredients}
-        newRecipeIngredients[id]['name'] = food.name
-        newRecipeIngredients[id]['carbs'] = food.carbs
-        newRecipeIngredients[id]['protein'] = food.protein
-        newRecipeIngredients[id]['calories'] = food.calories
-        newRecipeIngredients[id]['fat'] = food.fat
-        newRecipeIngredients[id]['food_id'] = food.id
-        setRecipeIngredients(newRecipeIngredients)
+        setRecipeIngredients((prev)=> { 
+            return {
+                ...prev, 
+                [id]:{
+                    ...recipeIngredients[id],
+                    name:food.name,
+                    carbs:food.carbs,
+                    protein:food.protein,
+                    calories:food.calories,
+                    fat: food.fat,
+                    food_id:food.id
+            }}
+        })
     }
 
     function getFoodByFoodId(id) {
@@ -50,9 +54,7 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecip
             return item.id === id
         }))[0]
     }
-    useEffect(()=> {
-        //console.log(recipeIngredients)
-    }, [recipeIngredients])
+
     return (
         <Box key={keyID} sx={{display:'flex', gap:'1rem', alignItems:'center'}}>
             <Typography variant='body' sx={{}}>ID: {keyID}</Typography>

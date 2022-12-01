@@ -2,7 +2,7 @@ import { Box, Paper, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ContentBox } from "../components/utility/ContentBox";
-import RecipeDetailsContent from "../components/recipe/RecipeDetailsContent";
+import RecipeContent from "../components/recipe/RecipeContent";
 import DataService from "../service/data-service";
 
 
@@ -51,17 +51,7 @@ export default function SearchDetails(props) {
             }
         })
         setIngredients(ingredients)
-
-        //console.log(ingredients)
         const numServings = recipe.number_of_servings
-        //console.log(numServings)
-        // const macros = {
-        //     carbs:parseFloat(calculateCarbs()).toFixed(2),
-        //     fat:parseFloat(calculateFat()).toFixed(2),
-        //     protein:parseFloat(calculateProtein()).toFixed(2),
-        //     calories:parseFloat(calculateCalories()).toFixed(2)
-        // }
-        
         const macros = {
             carbs:parseFloat(recipe.serving_sizes.serving.carbohydrate).toFixed(2),
             fat: parseFloat(recipe.serving_sizes.serving.fat).toFixed(2),
@@ -69,10 +59,6 @@ export default function SearchDetails(props) {
             calories: parseFloat(recipe.serving_sizes.serving.calories).toFixed(2)
         }
         setMacros(macros)
-        //console.log(macros)
-
-
-
     }
     useEffect(()=> {
         getRecipe()
@@ -104,7 +90,7 @@ export default function SearchDetails(props) {
                     </Paper>
                 </Box>
                 <Box>
-                    <RecipeDetailsContent
+                    <RecipeContent
                         storedInstructions={instructions}
                         storedTitle={title}
                         storedRecipeIngredients={ingredients}
