@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import DataService from "../../service/data-service";
 import Nutrition from "./Nutrition";
 import IngredientsPane from "./IngredientsPane";
+import RecipeNameInput from "./RecipeNameInput";
 
 const MAX_CHARS = 4000
 const INITIAL_MACROS = {
@@ -67,20 +68,13 @@ export default function CreateRecipeForm() {
     return (
         <Stack>
             <form onSubmit={handleSaveClicked}>
-                <Box sx={{display:'flex', gap:'1rem', padding:'1rem', alignItems:'center'}}>
-                    <TextField variant='standard' label='Recipe Name' required sx={{padding:'1rem'}} 
-                        onChange={handleTitleChange} value={title}
-                    />
-                    <Button variant='contained' sx={{height:'50%'}} type='submit'>
-                        <SaveIcon/>
-                        <Typography variant='body' sx={{padding:'0 1rem'}}>Save Recipe</Typography>
-                    </Button>
-                </Box>
-                
-            
+                <RecipeNameInput
+                    title={title}
+                    setTitle={setTitle}
+                />
                 <Grid container spacing={2} sx={{padding:'1rem', border:''}}>
 
-                    <Grid item xs={12} md={6} sx={{width:'100%'}}>
+                    <Grid item xs={12} md={8} sx={{width:'100%'}}>
                         <IngredientsPane 
                             recipeIngredients={recipeIngredients}
                             setRecipeIngredients={setRecipeIngredients}
@@ -89,10 +83,6 @@ export default function CreateRecipeForm() {
                             ingredients={ingredients} 
                             isDisabled={false}
                         />
-                        <Nutrition foods={recipeIngredients} macros={macros} setMacros={setMacros}/>
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
                         <Box>
                             
                             <TextField variant='outlined' label='Instructions' 
@@ -108,9 +98,15 @@ export default function CreateRecipeForm() {
                             </TextField>
                             <Typography>Count: {instructions.length}/{MAX_CHARS}</Typography>
                         </Box>
+
+                    </Grid>
+
+                    <Grid item xs={12} md={4}>
                         <Paper elevation={3}>
                             <Typography variant='h6'>Add an Image</Typography> 
                         </Paper>
+                        <Nutrition foods={recipeIngredients} macros={macros} setMacros={setMacros}/>
+
                     </Grid>
                     
                 </Grid>

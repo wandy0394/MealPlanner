@@ -12,7 +12,7 @@ const INITIAL = {
     calories:0,
     protein:0,
     carbs:0,
-    id:null
+    food_id:''
 }
 export default function IngredientsPane({recipeIngredients, setRecipeIngredients, ingredientCounter, setIngredientCounter, ingredients, isDisabled, readOnly=false}) {
 
