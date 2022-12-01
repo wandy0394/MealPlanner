@@ -1,6 +1,7 @@
-import { Box, Typography, FormControl, InputLabel, Select, Button, TextField } from "@mui/material"
+import { Box, Typography, FormControl, InputLabel, Select, Button, TextField, Autocomplete, MenuItem } from "@mui/material"
 import RemoveIcon from "@mui/icons-material/Remove";
 import units from "../utility/Units";
+import { useEffect } from "react";
 
 
 const INITIAL = {
@@ -11,61 +12,57 @@ const INITIAL = {
     calories:0,
     protein:0,
     carbs:0,
-    id:null
+    food_id:''
 }
 export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecipeIngredients, ingredients, isDisabled}) {
 
-    function handleQtyChange(e) {
-        console.log(e.target.id)
+    function handleQtyChange(e, id) {
+        console.log(id)
         const newRecipeIngredients = {...recipeIngredients}
-        newRecipeIngredients[getID(e.target.id)]['qty'] = e.target.value
+        newRecipeIngredients[id]['qty'] = e.target.value
         setRecipeIngredients(newRecipeIngredients)        
     }
-    function handleRemoveIngredient(e) {
+    function handleRemoveIngredient(e, id) {
         const newRecipeIngredients = {...recipeIngredients}
-        delete newRecipeIngredients[getID(e.target.id)]
+        delete newRecipeIngredients[id]
         setRecipeIngredients(newRecipeIngredients)
     }
-    function handleUnitChange(e) {
+    function handleUnitChange(e, id) {
         const newRecipeIngredients = {...recipeIngredients}
-        newRecipeIngredients[getID(e.target.id)]['unit'] = e.target.value
+        newRecipeIngredients[id]['unit'] = e.target.value
         setRecipeIngredients(newRecipeIngredients)
     }
-    function handleIngredientChange(e) {
-        const index = e.target.selectedIndex;
-        const el = e.target.childNodes[index]
-        const id = el.id
-        const food = getFoodByFoodId(parseInt(id)) 
+    function handleIngredientChange(e, id) {
+        const food = getFoodByFoodId(parseInt(e.target.value))
         
         const newRecipeIngredients = {...recipeIngredients}
-        newRecipeIngredients[getID(e.target.id)]['name'] = e.target.value
-        newRecipeIngredients[getID(e.target.id)]['carbs'] = food.carbs
-        newRecipeIngredients[getID(e.target.id)]['protein'] = food.protein
-        newRecipeIngredients[getID(e.target.id)]['calories'] = food.calories
-        newRecipeIngredients[getID(e.target.id)]['fat'] = food.fat
-        newRecipeIngredients[getID(e.target.id)]['id'] = food.id
+        newRecipeIngredients[id]['name'] = food.name
+        newRecipeIngredients[id]['carbs'] = food.carbs
+        newRecipeIngredients[id]['protein'] = food.protein
+        newRecipeIngredients[id]['calories'] = food.calories
+        newRecipeIngredients[id]['fat'] = food.fat
+        newRecipeIngredients[id]['food_id'] = food.id
         setRecipeIngredients(newRecipeIngredients)
     }
-    function getID(input) {
-        const split = input.split('-')
-        return split[split.length-1]
-    }
+
     function getFoodByFoodId(id) {
         return (ingredients.filter((item)=> {
             return item.id === id
         }))[0]
     }
+    useEffect(()=> {
+        //console.log(recipeIngredients)
+    }, [recipeIngredients])
     return (
         <Box key={keyID} sx={{display:'flex', gap:'1rem', alignItems:'center'}}>
             <Typography variant='body' sx={{}}>ID: {keyID}</Typography>
             <Box>
                 <TextField 
-                    id={'qty-'+keyID} 
                     type='number' 
                     label='Qty' 
                     InputProps={{inputProps:{min:0}}} 
                     sx={{width:'100px'}}
-                    onChange={handleQtyChange}
+                    onChange={(e)=>{handleQtyChange(e, keyID)}}
                     value={recipeIngredients[keyID]['qty']}
                     disabled={isDisabled}
                 />
@@ -73,48 +70,42 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecip
                     <InputLabel>Units</InputLabel>
                     <Select
                         label='units'
-                        id={'unit-'+keyID}
-                        native
-                        onChange={handleUnitChange}
+                        onChange={e=>handleUnitChange(e,keyID)}
                         value={recipeIngredients[keyID]['unit']}
                         disabled={isDisabled}
                     >
                         {
                             Object.entries(units).map(([keyID, value])=> {
-                                return <option key={keyID} value={value}>{value}</option> 
+                                return <MenuItem key={keyID} value={value}>{value}</MenuItem> 
                             })
                         }
                     </Select> 
                 </FormControl>
-                <Select
-                    label='Name'
-                    id={'ingr-'+keyID}
-                    value={recipeIngredients[keyID]['name']}
-                    onChange={handleIngredientChange}
-                    native
-                    sx={{minWidth:'300px'}}
-                    disabled={isDisabled}
-                >   
-                    
-                    {/*Fix this <option disabled selected>Select...</option> */}
-                    
-                    {
-                        
-                        ingredients.map((item)=>{
-                            return (
-                                <option id={item.id} key={item.id}>{item.name}</option>
-                            )
-                        })
-                    }
-                </Select>
+                <FormControl>
+                    <InputLabel>Ingredient</InputLabel>
+                    <Select
+                        label='Name'
+                        value={recipeIngredients[keyID]['food_id']}
+                        onChange={e=>handleIngredientChange(e,keyID)}
+                        sx={{minWidth:'300px'}}
+                        disabled={isDisabled}
+                    >   
+                        {
+                            ingredients.map((item)=>{
+                                return (
+                                    <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                                )
+                            })
+                        }
+                    </Select>
+                </FormControl>
             </Box> 
             <Button 
                 variant='outlined' 
-                id={'remove-'+keyID} 
-                onClick={handleRemoveIngredient}
+                onClick={e=>handleRemoveIngredient(e, keyID)}
                 disabled={isDisabled}
             >
-                <RemoveIcon id={'icon-'+keyID} />
+                <RemoveIcon />
             </Button>
         </Box>
     )

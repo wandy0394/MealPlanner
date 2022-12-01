@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import DataService from "../../service/data-service";
 import Nutrition from "./Nutrition";
 import IngredientsPane from "./IngredientsPane";
+import RecipeNameInput from "./RecipeNameInput";
+            
 
 const MAX_CHARS = 4000
 const INITIAL_MACROS = {
@@ -90,17 +92,10 @@ export default function RecipeContent({storedInstructions, storedTitle, storedRe
     return (
         <Stack>
             <form onSubmit={handleSaveClicked}>
-                <Box sx={{display:'flex', gap:'1rem', padding:'1rem', alignItems:'center'}}>
-                    <TextField disabled variant='standard' label='Recipe Name' required sx={{padding:'1rem'}} 
-                        onChange={handleTitleChange} value={title}
-                    />
-                    <Button variant='contained' sx={{height:'50%'}} type='submit'>
-                        <SaveIcon/>
-                        <Typography variant='body' sx={{padding:'0 1rem'}}>Save Recipe</Typography>
-                    </Button>
-                </Box>
-                
-            
+                <RecipeNameInput
+                    title={title}
+                    setTitle={setTitle}
+                />
                 <Grid container spacing={2} sx={{padding:'1rem', border:''}}>
 
                     <Grid item xs={12} md={6} sx={{width:'100%'}}>

@@ -72,12 +72,14 @@ export default function Recipes() {
                         variant='scrollable'
                         scrollButtons='auto'
                     >
+                        
                         {
                             Object.entries(recipes).map(([key, data])=> {
                                 return <Tab key={key} label={data.title}></Tab>
                             })
                         }
                         <Tab icon={<AddIcon/>} iconPosition='start' label='Create'></Tab>
+                        
                     </Tabs>
                 </Box>
                 <Box sx={{flexGrow:1}}>
@@ -96,7 +98,7 @@ export default function Recipes() {
                             )
                         })
                     }
-                    <TabPanel value={tabValue} index={2}>
+                    <TabPanel value={tabValue} index={Object.keys(recipes).length}>
                         <CreateRecipeForm/>
                     </TabPanel>
                 </Box>
