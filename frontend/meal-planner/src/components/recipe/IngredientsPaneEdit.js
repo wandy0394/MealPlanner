@@ -21,10 +21,7 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
         dispatch({type:ACTION_TYPES.UPDATE_QTY, payload:{id:id, data:e.target.value}})
     }
     function handleRemoveIngredient(e, id) {
-        const newRecipeIngredients = {...recipeIngredients}
-        delete newRecipeIngredients[id]
-        dispatch({type:ACTION_TYPES.SET_INGREDIENTS, payload:newRecipeIngredients})
-
+        dispatch({type:ACTION_TYPES.DELETE_INGREDIENT, payload:id})
     }
     function handleUnitChange(e, id) {
         dispatch({type:ACTION_TYPES.UPDATE_UNIT, payload:{id:id, data:e.target.value}})

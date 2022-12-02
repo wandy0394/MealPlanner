@@ -49,7 +49,7 @@ export default function CreateRecipeForm2() {
                 return {...state, ingredients:{...state.ingredients, [state.counter]:payload}, counter:state.counter+1} 
             case ACTION_TYPES.DELETE_INGREDIENT:
                 const newIngredients = {...state.ingredients}
-                delete newIngredients[payload.id]
+                delete newIngredients[payload]
                 return {...state, ingredients:newIngredients}    
             case ACTION_TYPES.UPDATE_QTY:
                 return {...state, 
