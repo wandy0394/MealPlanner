@@ -1,10 +1,12 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save'
+import { ACTION_TYPES } from "./ActionTypes";
 
-export default function RecipeNameInput({title, setTitle, isDisabled=false}) {
+export default function RecipeNameInput({title, dispatch, isDisabled=false}) {
 
     function handleTitleChange(e) {
-        setTitle(e.target.value)
+        //setTitle(e.target.value)
+        dispatch({type:ACTION_TYPES.SET_TITLE, payload:e.target.value})
     }
 
     return (
