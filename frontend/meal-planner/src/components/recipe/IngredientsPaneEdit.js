@@ -18,9 +18,7 @@ const INITIAL = {
 export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch, ingredients, isDisabled}) {
 
     function handleQtyChange(e, id) {
-        const newRecipeIngredients = {...recipeIngredients}
-        newRecipeIngredients[id]['qty'] = e.target.value
-        dispatch({type:ACTION_TYPES.SET_INGREDIENTS, payload:newRecipeIngredients})
+        dispatch({type:ACTION_TYPES.UPDATE_QTY, payload:{id:id, data:e.target.value}})
     }
     function handleRemoveIngredient(e, id) {
         const newRecipeIngredients = {...recipeIngredients}
@@ -29,10 +27,7 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
 
     }
     function handleUnitChange(e, id) {
-        const newRecipeIngredients = {...recipeIngredients}
-        newRecipeIngredients[id]['unit'] = e.target.value
-        dispatch({type:ACTION_TYPES.SET_INGREDIENTS, payload:newRecipeIngredients})
-
+        dispatch({type:ACTION_TYPES.UPDATE_UNIT, payload:{id:id, data:e.target.value}})
     }
     function handleIngredientChange(e, id) {
         const food = getFoodByFoodId(parseInt(e.target.value))

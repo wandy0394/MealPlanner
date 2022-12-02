@@ -41,7 +41,7 @@ export default function IngredientsPane({recipeIngredients, dispatch, isDisabled
     }
     return (
         <Paper elevation={3} sx={{overflow:'scroll', maxHeight:'45vh'}}>
-            <Typography variant='h6'>Add Ingredients2</Typography>
+            <Typography variant='h6'>Add Ingredients</Typography>
             <Stack gap={2}>
                 {
                    readOnly ? (Object.entries(recipeIngredients).map(([keyID, ingrObj], index)=> {

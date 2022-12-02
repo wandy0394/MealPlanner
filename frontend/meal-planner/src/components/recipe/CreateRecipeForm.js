@@ -47,6 +47,30 @@ export default function CreateRecipeForm2() {
                 return{...state, counter: state.counter + 1}
             case ACTION_TYPES.ADD_INGREDIENT:
                 return {...state, ingredients:{...state.ingredients, [state.counter]:payload}, counter:state.counter+1} 
+            case ACTION_TYPES.DELETE_INGREDIENT:
+                const newIngredients = {...state.ingredients}
+                delete newIngredients[payload.id]
+                return {...state, ingredients:newIngredients}    
+            case ACTION_TYPES.UPDATE_QTY:
+                return {...state, 
+                    ingredients:{
+                        ...state.ingredients, 
+                        [payload.id]:{
+                            ...state.ingredients[payload.id], 
+                            qty:payload.data
+                        }
+                    }
+                }
+            case ACTION_TYPES.UPDATE_UNIT:
+                return {...state, 
+                    ingredients:{
+                        ...state.ingredients, 
+                        [payload.id]:{
+                            ...state.ingredients[payload.id], 
+                            unit:payload.data
+                        }
+                    }
+                }
             default:
                 return state
         }
@@ -78,7 +102,7 @@ export default function CreateRecipeForm2() {
             macros:recipe.macros
         }
         console.log(data)
-        const result = await DataService.addRecipe(data)
+        //const result = await DataService.addRecipe(data)
     }
 
 
