@@ -2,6 +2,7 @@ import { Box, Typography, FormControl, InputLabel, Select, Button, TextField, Au
 import RemoveIcon from "@mui/icons-material/Remove";
 import units from "../utility/Units";
 import { useEffect } from "react";
+import { ACTION_TYPES } from "./ActionTypes";
 
 
 const INITIAL = {
@@ -14,39 +15,45 @@ const INITIAL = {
     carbs:0,
     food_id:''
 }
-export default function IngredientsPaneEntry({keyID, recipeIngredients, setRecipeIngredients, ingredients, isDisabled}) {
+export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch, ingredients, isDisabled}) {
 
     function handleQtyChange(e, id) {
         console.log(id)
         const newRecipeIngredients = {...recipeIngredients}
         newRecipeIngredients[id]['qty'] = e.target.value
-        setRecipeIngredients(newRecipeIngredients)        
+        // setRecipeIngredients(newRecipeIngredients)        
+        dispatch({type:ACTION_TYPES.SET_INGREDIENTS, payload:newRecipeIngredients})
     }
     function handleRemoveIngredient(e, id) {
         const newRecipeIngredients = {...recipeIngredients}
         delete newRecipeIngredients[id]
-        setRecipeIngredients(newRecipeIngredients)
+        // setRecipeIngredients(newRecipeIngredients)
+        dispatch({type:ACTION_TYPES.SET_INGREDIENTS, payload:newRecipeIngredients})
+
     }
     function handleUnitChange(e, id) {
         const newRecipeIngredients = {...recipeIngredients}
         newRecipeIngredients[id]['unit'] = e.target.value
-        setRecipeIngredients(newRecipeIngredients)
+        // setRecipeIngredients(newRecipeIngredients)
+        dispatch({type:ACTION_TYPES.SET_INGREDIENTS, payload:newRecipeIngredients})
+
     }
     function handleIngredientChange(e, id) {
         const food = getFoodByFoodId(parseInt(e.target.value))
-        setRecipeIngredients((prev)=> { 
-            return {
-                ...prev, 
-                [id]:{
-                    ...recipeIngredients[id],
-                    name:food.name,
-                    carbs:food.carbs,
-                    protein:food.protein,
-                    calories:food.calories,
-                    fat: food.fat,
-                    food_id:food.id
-            }}
-        })
+        const newRecipeIngredients = {...recipeIngredients}
+        const payload = {
+            id:id,
+            data:{
+                ...recipeIngredients[id],
+                carbs:food.carbs,
+                protein:food.protein,
+                calories:food.calories,
+                fat: food.fat,
+                food_id:food.id,
+                name:food.name
+            }
+        }
+        dispatch({type:ACTION_TYPES.UPDATE_INGREDIENTS, payload:payload})
     }
 
     function getFoodByFoodId(id) {

@@ -136,7 +136,7 @@ class DatabaseService {
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
                 const sqlQuery =  Object.entries(ingredients).reduce((query, [key, value]) => {
-                    return (query + `INSERT INTO recipe_ingredient (recipe_id, ingredient_id, qty, units) VALUES (${recipeId}, ${value.id}, ${value.qty}, '${value.unit}');`)
+                    return (query + `INSERT INTO recipe_ingredient (recipe_id, ingredient_id, qty, units) VALUES (${recipeId}, ${value.food_id}, ${value.qty}, '${value.unit}');`)
                 }, '')
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {

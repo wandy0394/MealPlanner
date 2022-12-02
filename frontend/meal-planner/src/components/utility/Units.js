@@ -5,10 +5,10 @@ const units = {
     tbsp: 'tbsp',
     tsp: 'tsp'
 }
-
+const FACTOR = 0.01
 
 export class UnitConverter {
-
+    
     convert = {
         ml: function mlToG(input) {
             return input
@@ -30,47 +30,35 @@ export class UnitConverter {
         }
     }
 
-    // convert(input) {
-    //     switch(input) {
-    //         case 'ml':
-    //             return function mlToG(data) {
-    //                 return data
-    //             }
-    //             break;
-    //         case 'tbsp':
-    //             return function tbspToG(data) {
-    //                 return 21.25*data
-    //             }
-    //             break;
-    //         case 'tsp':
-    //             function tspToG(data) {
-    //                 return data*4.92892
-    //             }
-    //             break;
-    //         case 'cup':
-    //             return function cupToG(data) {
-    //                 return 250*data
-    //             }
-    //             break;
-    //         case 'g':
-    //             return function gToG(data) {
-    //                 return data
-    //             }
-    //             break;
-    //         default:
-    //             return function doNothing(data) {
-    //                 return 0
-    //             }
-    //     }
-    // }
+    calculateCarbs(foods) {
+        return (Object.entries(foods).reduce((prev, [key, data]) => {
+            //console.log(data.unit)
+            return this.convert[data.unit](parseFloat(data.qty))*parseFloat(data.carbs) + prev
+        },0)) * FACTOR
+    }
 
-    // convert = {
-    //     g: this.gToG,
-    //     ml: this.mlToG,
-    //     tspn: this.tspnToG,
-    //     tbsp: this.tbspToG,
-    //     cup: this.cupToG
-    // }
+    calculateProtein(foods) {
+        return (Object.entries(foods).reduce((prev, [key, data]) => {
+            //console.log(data.unit)
+            return this.convert[data.unit](parseFloat(data.qty))*parseFloat(data.protein) + prev
+        },0)) * FACTOR
+    }
+
+    calculateFat(foods) {
+        return (Object.entries(foods).reduce((prev, [key, data]) => {
+            //console.log(data.unit)
+            return this.convert[data.unit](parseFloat(data.qty))*parseFloat(data.fat) + prev
+        },0)) * FACTOR
+    }
+
+
+    calculateCalories(foods) {
+        return (Object.entries(foods).reduce((prev, [key, data]) => {
+            //console.log(data.unit)
+            return this.convert[data.unit](parseFloat(data.qty))*parseFloat(data.calories) + prev
+        },0)) * FACTOR
+    }
+
 }
 
 export default units
