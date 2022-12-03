@@ -6,8 +6,9 @@ const MenuLink = styled(NavLink)(({theme})=> ({
     textDecoration:'none',
     color:theme.palette.common.black,
     '&:hover': {
-        color:theme.palette.secondary.main
+        color:theme.palette.secondary.main,
     },
+    borderRadius:'10px'
 }))
 
 

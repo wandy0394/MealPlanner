@@ -7,9 +7,7 @@ export default function MealPlans() {
         <ContentBox sx={{height:'100%'}}>
             <Stack sx={{height:'100%'}}>
                 <Box sx={{flexGrow:'1'}}>
-                    <Paper elevation={3}>
-                        <Typography variant='h2' sx={{margin:'1rem auto', textAlign:'center', border:'none'}}>What do you plan to eat?</Typography>
-                    </Paper>
+                    <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>What do you plan to eat?</Typography>
                 </Box>
             </Stack>
         </ContentBox>

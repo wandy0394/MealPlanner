@@ -17,14 +17,11 @@ export default function SearchDetails(props) {
 
     function parseData(recipe) {
         setTitle(recipe.recipe_name)
-        //console.log(recipe)
-        //console.log(recipe['directions']['direction'])
         const directions = recipe.directions.direction.reduce((acc, item) => {
             return acc + item.direction_number + ': ' + item.direction_description + '\n' 
         },'')
         setInstructions(directions)
 
-        //console.log(directions)
 
         //ingredients object structure
         // const INITIAL = {
@@ -69,9 +66,6 @@ export default function SearchDetails(props) {
             const data = await DataService.getRecipe(params.id)
             console.log(data)  
             parseData(data.recipe)
-            //setRecipe(data.recipe)
-            
-              
         }
         catch (e) {
             console.error('error')
@@ -83,11 +77,9 @@ export default function SearchDetails(props) {
         <ContentBox sx={{height:'100%'}}>
             <Stack sx={{height:'100%'}}>
                 <Box sx={{border:'solid'}}>
-                    <Paper elevation={3}>
-                        <Typography variant='h2' sx={{margin:'1rem auto', textAlign:'center', border:'none'}}>
-                            Recipe Details
-                        </Typography>
-                    </Paper>
+                    <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'center', border:'none'}}>
+                        Recipe Details
+                    </Typography>
                 </Box>
                 <Box>
                     <RecipeContent

@@ -19,12 +19,13 @@ export default function NavMenu() {
         <Box 
             sx={{
                 width: '12vw', 
-                minWidth:220, 
+                minWidth:240, 
                 display:{xs:'none', md:'flex'}, 
                 height:{xs:'auto', md:'100%'}, 
                 flexDirection:'column', 
                 gap:'1vh',
-                borderRight: '2px solid #9e9e9e'
+                borderRight: '2px solid #9e9e9e',
+                padding:'1rem'
             }}
         >
             <Splash/>
