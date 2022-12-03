@@ -7,14 +7,24 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { BrowserRouter } from 'react-router-dom'
+import { ThemeProvider } from '@mui/material/styles'
+import { Button, CssBaseline } from '@mui/material'
+
+import {strawTheme} from './components/utility/StrawTheme'
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
+  //<React.StrictMode>
+  
     <BrowserRouter>
-      <App />   
+      
+      <ThemeProvider theme={strawTheme}>
+        <App />  
+      </ThemeProvider> 
+      
     </BrowserRouter> 
-  // </React.StrictMode>
+  //</React.StrictMode>
 );
 

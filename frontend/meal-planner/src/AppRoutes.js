@@ -18,7 +18,6 @@ export default function AppRoutes() {
                 <Route path="/meal-plans" element={<MealPlans/>} />
                 <Route path="/shopping-list" element={<ShoppingList/>} />
             </Route>
-
         </Routes>
 
     )

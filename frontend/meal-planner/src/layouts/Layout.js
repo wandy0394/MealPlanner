@@ -15,31 +15,30 @@ export default function Layout() {
         setMenuOpen(!value)
     }
     return (
-        <div>
-            <div style={{height:'100vh', display:'flex', flexDirection:'column'}}>
-                <HeadBar toggleMenu={toggleMenu}/>
-                <div style={{height:'90vh', display:'flex'}}>
-                    <div style={{height:{xs:'auto', md:'100%'}}}>
-                        <NavMenu/>
-                    </div>
-                    <div style={{height:'100%', flexGrow:1}}>
-                        <div style={{display:'flex', height:'90vh', flexDirection:'column'}}>
-                            <Outlet/>
-                        </div>
+
+        <div style={{height:'100vh', display:'flex', flexDirection:'column'}}>
+            <HeadBar toggleMenu={toggleMenu}/>
+            <div style={{height:'90vh', display:'flex'}}>
+                <div style={{height:{xs:'auto', md:'100%'}}}>
+                    <NavMenu/>
+                </div>
+                <div style={{height:'100%', flexGrow:1}}>
+                    <div style={{display:'flex', height:'90vh', flexDirection:'column'}}>
+                        <Outlet/>
                     </div>
                 </div>
-                <Drawer anchor='left' open={menuOpen} onClose={toggleMenu}>
-                    <ListItem sx={{height:'15vh', display:'flex', justifyContent:'center'}}>
-                        <MenuLink to='/' style={{textDecoration:'none'}}>
-                            <Typography variant='h4'>Meal Manager</Typography>
-                        </MenuLink>
-                    </ListItem>   
-                    <MenuContents/>
-                </Drawer>
-                <div style={{height:'5vh', border:'solid'}}>Some foooter goes here</div>            
-                
             </div>
-
+            <Drawer anchor='left' open={menuOpen} onClose={toggleMenu}>
+                <ListItem sx={{height:'15vh', display:'flex', justifyContent:'center'}}>
+                    <MenuLink to='/' style={{textDecoration:'none'}}>
+                        <Typography variant='h4'>Meal Manager</Typography>
+                    </MenuLink>
+                </ListItem>   
+                <MenuContents/>
+            </Drawer>
+            <div style={{height:'5vh', border:'solid'}}>Some foooter goes here</div>            
+            
         </div>
+
     )
 }
