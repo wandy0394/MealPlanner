@@ -7,9 +7,9 @@ export default function ShoppingList() {
         <ContentBox sx={{height:'100%'}}>
             <Stack sx={{height:'100%'}}>
                 <Box sx={{flexGrow:'1'}}>
-                    <Paper elevation={3}>
-                        <Typography variant='h2' sx={{margin:'1rem auto', textAlign:'center', border:'none'}}>Remember to grab these</Typography>
-                    </Paper>
+                    
+                    <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>Remember to grab these</Typography>
+                    
                 </Box>
             </Stack>
         </ContentBox>

@@ -1,4 +1,4 @@
-import { Paper, Stack, Tab, Tabs, Typography, Pagination } from "@mui/material";
+import { Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState, useReducer } from "react";
 import { ContentBox } from "../components/utility/ContentBox";
@@ -6,6 +6,8 @@ import SearchIngredients from "../components/search/SearchIngredients";
 import SearchRecipes from "../components/search/SearchRecipes";
 import SearchHistory from "../components/search/SearchHistory";
 import {ACTION_TYPES} from "../components/search/ActionTypes"
+
+
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
     return (
@@ -98,16 +100,14 @@ export default function Search() {
             <Stack sx={{height:'100%'}}>
                 <Box sx={{flexGrow:'1'}}>
                     <Box>
-                        <Paper elevation={3}>
-                            <Typography variant='h2' sx={{margin:'1rem auto', textAlign:'center', border:'none'}}>
-                                Find Something to Eat       
-                            </Typography>
-                        </Paper>
-                            <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
-                                <Tab label='Ingredients' sx={{width:'33%'}}/>
-                                <Tab label='Recipes' sx={{width:'33%'}}/>
-                                <Tab label='History' sx={{width:'33%'}}/>     
-                            </Tabs>                        
+                        <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>
+                            Find Something to Eat       
+                        </Typography>
+                        <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
+                            <Tab label='Ingredients' sx={{width:'33%'}}/>
+                            <Tab label='Recipes' sx={{width:'33%'}}/>
+                            <Tab label='History' sx={{width:'33%'}}/>     
+                        </Tabs>                        
                         <TabPanel value={tabNum} index={0}>
                             <SearchIngredients
                                 state={ingredientsState}

@@ -12,13 +12,12 @@ export const strawTheme = createTheme({
             main:'#d9a441'
         },
         secondary: {
-            main: '#5b391e'
+            main: '#d08131'
         },
         background: {
-            paper: '#fbee9e',
-            default: '#FFFFEA',
+            paper: '#f5f6c9',
+            default: '#FFFFEE ',
             menuItem: '#d9a441'
         }
     },
-
 })

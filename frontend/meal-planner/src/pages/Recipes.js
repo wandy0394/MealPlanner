@@ -57,14 +57,10 @@ export default function Recipes() {
     return (
         <ContentBox sx={{height:'100%'}}>
             <Stack sx={{height:'100%'}}>
-                <Box>
-                    <Paper elevation={3}>
-                        <Typography variant='h2' sx={{margin:'1rem auto', textAlign:'center', border:'none'}}>
-                            What would you like to make?
-                            <IconButton onClick={refresh}><RefreshIcon/></IconButton>
-                        </Typography>
-                    </Paper>
-                </Box>
+                <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'center', border:'none'}}>
+                    What would you like to make?
+                    <IconButton onClick={refresh}><RefreshIcon/></IconButton>
+                </Typography>
                 <Box sx={{width:'100%'}}>
                     <Tabs
                         value={tabValue}
@@ -93,7 +89,6 @@ export default function Recipes() {
                                         storedRecipeIngredients={data.ingredients}
                                         storedMacros={data.macros}
                                     />
-
                                 </TabPanel>
                             )
                         })

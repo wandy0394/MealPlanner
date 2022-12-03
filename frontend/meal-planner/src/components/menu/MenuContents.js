@@ -16,12 +16,13 @@ const StyledMenuItem = styled(MenuItem)({
     display:'flex',     
     gap:'1rem',
     alignItems: 'center',
+    borderRadius:'10px'
 })
 
 
 
 export default function MenuContents() {
-    let activeStyle= {
+    const activeStyle= {
         color:strawTheme.palette.common.black,
         backgroundColor:strawTheme.palette.background.menuItem
     }

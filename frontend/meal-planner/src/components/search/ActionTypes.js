@@ -1,8 +1,8 @@
 export const ACTION_TYPES = {
-    SET_RESULTS:'setResults',
-    SET_PAGE: 'setPage',
-    SET_QUERY: 'setQuery',
-    SET_PREV_QUERY: 'setPrevQuery',
-    SET_CRITERIA: 'setCriteria',
-    SET_PREV_CRITERIA: 'setPrevCriteria'
+    SET_RESULTS:'SET_RESULTS',
+    SET_PAGE: 'SET_PAGE',
+    SET_QUERY: 'SET_QUERY',
+    SET_PREV_QUERY: 'SET_PREV_QUERY',
+    SET_CRITERIA: 'setCriteSET_CRITERIAria',
+    SET_PREV_CRITERIA: 'SET_PREV_CRITERIA'
 }
