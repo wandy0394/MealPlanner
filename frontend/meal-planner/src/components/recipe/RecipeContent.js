@@ -88,13 +88,15 @@ export default function RecipeContent({storedInstructions, storedTitle, storedRe
     }
 
     useEffect(()=> {
-        const newMacros = {
-            carbs:parseFloat(calculator.calculateCarbs(recipe.ingredients)).toFixed(2),
-            fat:parseFloat(calculator.calculateFat(recipe.ingredients)).toFixed(2),
-            protein:parseFloat(calculator.calculateProtein(recipe.ingredients)).toFixed(2),
-            calories:parseFloat(calculator.calculateCalories(recipe.ingredients)).toFixed(2)
+        if (!readOnly) {
+            const newMacros = {
+                carbs:parseFloat(calculator.calculateCarbs(recipe.ingredients)).toFixed(2),
+                fat:parseFloat(calculator.calculateFat(recipe.ingredients)).toFixed(2),
+                protein:parseFloat(calculator.calculateProtein(recipe.ingredients)).toFixed(2),
+                calories:parseFloat(calculator.calculateCalories(recipe.ingredients)).toFixed(2)
+            }
+            dispatch({type:ACTION_TYPES.SET_MACROS, payload: newMacros})
         }
-        dispatch({type:ACTION_TYPES.SET_MACROS, payload: newMacros})
     }, [recipe.ingredients])
 
     useEffect(()=> {

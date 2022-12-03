@@ -28,18 +28,6 @@ export default function Nutrition({macros}) {
                     })
 
                 }
-                {/* <Card>
-                    <CardHeader>
-                        <Typography variant='h'>{macros.calories}</Typography>  
-                    </CardHeader>
-                    <CardContent>
-                        <Typography variant='body'>Calories (kcal)</Typography>  
-                    </CardContent>
-                </Card>
-                
-                <Typography variant='body'>Carbs (g): {macros.carbs}</Typography>  
-                <Typography variant='body'>Protein (g): {macros.protein}</Typography>  
-                <Typography variant='body'>Fat (g): {macros.fat}</Typography>   */}
             </Box>
 
         </Paper>
