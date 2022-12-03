@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { alpha } from '@mui/material/styles';
 
-export default function EnhancedTableToolbar({ numSelected }) {
+export default function EnhancedTableToolbar({ title='Title', numSelected }) {
 
     return (
       <Toolbar
@@ -33,7 +33,7 @@ export default function EnhancedTableToolbar({ numSelected }) {
             id="tableTitle"
             component="div"
           >
-            Ingredients
+            {title}
           </Typography>
         )}
   
