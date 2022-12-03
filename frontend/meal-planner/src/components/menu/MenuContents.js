@@ -9,6 +9,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import MenuLink from "./MenuLink"
 
 import {styled} from "@mui/material";
+import { strawTheme } from "../utility/StrawTheme"
 
 
 const StyledMenuItem = styled(MenuItem)({
@@ -20,33 +21,39 @@ const StyledMenuItem = styled(MenuItem)({
 
 
 export default function MenuContents() {
+    let activeStyle= {
+        color:strawTheme.palette.common.black,
+        backgroundColor:strawTheme.palette.background.menuItem
+    }
+
     return (
         <>
-            <MenuLink to='/search'>
+
+            <MenuLink id={1} to='/search' style={({isActive})=> isActive ? activeStyle:undefined}>
                 <StyledMenuItem>
                     <SearchIcon fontSize='large'/>
                     <Typography variant="h6">Search...</Typography>
                 </StyledMenuItem>
             </MenuLink>
-            <MenuLink to='/ingredients'>
+            <MenuLink id={2} to='/ingredients' style={({isActive})=> isActive ? activeStyle:undefined}>
                 <StyledMenuItem>
                     <EggIcon fontSize='large'/>
                     <Typography variant="h6">Ingredients</Typography>
                 </StyledMenuItem>
             </MenuLink>
-            <MenuLink to='/recipes'>
+            <MenuLink id={3} to='/recipes' style={({isActive})=> isActive ? activeStyle:undefined}>
                 <StyledMenuItem>
                     <MenuBookIcon fontSize='large'/>
                     <Typography variant="h6">Recipes</Typography>
                 </StyledMenuItem>
             </MenuLink>
-            <MenuLink to='/meal-plans'>
+            <MenuLink id={4} to='/meal-plans' style={({isActive})=> isActive ? activeStyle:undefined}>
                 <StyledMenuItem>
                     <CalendarMonthIcon fontSize='large'/>
                     <Typography variant="h6">Meal Plans</Typography>
                 </StyledMenuItem>
             </MenuLink>
-            <MenuLink to='/shopping-list'>
+            <MenuLink id={5} to='/shopping-list' style={({isActive})=> isActive ? activeStyle:undefined}>
                 <StyledMenuItem>
                     <ShoppingCartIcon fontSize='large'/>
                     <Typography variant="h6">Shopping List</Typography>                    
