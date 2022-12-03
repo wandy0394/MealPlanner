@@ -21,7 +21,10 @@ const INITIAL_RECIPE = {
     instructions:'',
     ingredients:{},
     macros:INITIAL_MACROS,
-    counter:0
+    counter:0,
+    servings:0,
+    prepTime:0,
+    cookTime:0
 }
 const calculator = new UnitConverter()
 
@@ -71,6 +74,12 @@ export default function CreateRecipeForm2() {
                         }
                     }
                 }
+            case ACTION_TYPES.SET_SERVINGS:
+                return {...state, servings:payload}
+            case ACTION_TYPES.SET_PREP_TIME:
+                return {...state, prepTime:payload}
+            case ACTION_TYPES.SET_COOK_TIME:
+                return {...state, cookTime:payload}
             default:
                 return state
         }
@@ -109,45 +118,61 @@ export default function CreateRecipeForm2() {
     return (
         <Stack>
             <form onSubmit={handleSaveClicked}>
-                <RecipeNameInput
-                    title={recipe.title}
-                    dispatch={dispatch}
-                />
-                <Grid container spacing={2} sx={{padding:'1rem', border:''}}>
+                <Grid container spacing={3} sx={{padding:'1rem', border:''}}>
+                    <Grid item sm={12} md={6}>
+                        <RecipeNameInput
+                            title={recipe.title}
+                            prepTime={recipe.prepTime}
+                            cookTime={recipe.cookTime}
+                            servings={recipe.servings}
+                            dispatch={dispatch}
+                        />
+                    </Grid>
+                    <Grid item sm={12} md={6}>
+                            <Nutrition macros={recipe.macros} />
+                    </Grid>
+                    
 
-                    <Grid item xs={12} md={8} sx={{width:'100%'}}>
+                    <Grid item sm={12} md={6} sx={{width:'100%'}}>
                         <IngredientsPane 
                             recipeIngredients={recipe.ingredients}
                             dispatch={dispatch}
                             isDisabled={false}
                         />
-                        <Box>
+                    </Grid>
+
+                    <Grid item sm={12} md={6} >
+                        <Paper elevation={3} sx={{height:'50vh', padding:'1rem'}}>
+                            <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
+                                <Box sx={{display:'flex', alignItems:'center',gap:'1rem'}}>
+                                    <Typography variant='h6'>Instructions</Typography>
+                                    <Typography variant='body'> {recipe.instructions.length}/{MAX_CHARS}</Typography> 
+                                </Box>
                             
-                            <TextField variant='outlined' label='Instructions' 
-                                multiline 
-                                required 
-                                sx={{width:'100%'}}
-                                rows={4}
-                                value={recipe.instructions}
-                                onChange = {handleInstructionChange}
-                                inputProps={{maxLength:MAX_CHARS}}
-                            >
-                                
-                            </TextField>
-                            <Typography>Count: {recipe.instructions.length}/{MAX_CHARS}</Typography>
+                                <TextField variant='standard' label='Write your instructions here' 
+                                        multiline 
+                                        required 
+                                        sx={{width:'100%', height:'90%'}}
+                                        maxRows={20}
+                                        value={recipe.instructions}
+                                        onChange = {handleInstructionChange}
+                                        inputProps={{maxLength:MAX_CHARS}}
+                                    >
+                                    
+                                </TextField>
+                            </Box>
+                        </Paper>    
+                    </Grid>
+                    <Grid item xs={12} md={12}>
+                        <Box sx={{dsplay:'flex'}}>
+                            <Button variant='contained' type='submit' sx={{width:'100%'}}>
+                                <SaveIcon/>
+                                <Typography variant='body' sx={{padding:'0 1rem'}}>Save</Typography>
+                            </Button>
                         </Box>
-
                     </Grid>
-
-                    <Grid item xs={12} md={4}>
-                        <Paper elevation={3}>
-                            <Typography variant='h6'>Add an Image</Typography> 
-                        </Paper>
-                        <Nutrition macros={recipe.macros} />
-
-                    </Grid>
-                    
                 </Grid>
+
             </form>
         </Stack>
     )

@@ -50,9 +50,8 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
     }
 
     return (
-        <Box key={keyID} sx={{display:'flex', gap:'1rem', alignItems:'center'}}>
+        <Box key={keyID} sx={{display:'flex', justifyContent:'space-around', alignItems:'center'}}>
             <Typography variant='body' sx={{}}>ID: {keyID}</Typography>
-            <Box>
                 <TextField 
                     type='number' 
                     label='Qty' 
@@ -83,7 +82,7 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
                         label='Name'
                         value={recipeIngredients[keyID]['food_id']}
                         onChange={e=>handleIngredientChange(e,keyID)}
-                        sx={{minWidth:'300px'}}
+                        sx={{minWidth:'20vw'}}
                         disabled={isDisabled}
                     >   
                         {
@@ -95,7 +94,6 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
                         }
                     </Select>
                 </FormControl>
-            </Box> 
             <Button 
                 variant='outlined' 
                 onClick={e=>handleRemoveIngredient(e, keyID)}

@@ -1,4 +1,4 @@
-import { Stack, Paper, Typography,  Button } from "@mui/material"
+import { Stack, Paper, Typography,  Button, Box } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add";
 import IngredientsPaneEdit from "./IngredientsPaneEdit";
 import IngredientsPaneRead from "./IngredientsPaneRead";
@@ -40,9 +40,21 @@ export default function IngredientsPane({recipeIngredients, dispatch, isDisabled
         }
     }
     return (
-        <Paper elevation={3} sx={{overflow:'scroll', maxHeight:'45vh'}}>
-            <Typography variant='h6'>Add Ingredients</Typography>
+        <Paper elevation={3} sx={{overflow:'auto', height:'100%', padding:'1rem'}}>
             <Stack gap={2}>
+                <Box sx={{display:'flex', alignItems:'center', gap:'1rem'}}>
+                    <Button 
+                        type='button' 
+                        variant='contained' 
+                        
+                        onClick={handleAddIngredient}
+                        disabled={isDisabled}
+                    >
+                        <AddIcon/>
+                    </Button>
+                    <Typography variant='h6'>Ingredients List</Typography>
+                </Box>
+                
                 {
                    readOnly ? (Object.entries(recipeIngredients).map(([keyID, ingrObj], index)=> {
                         return (
@@ -65,15 +77,7 @@ export default function IngredientsPane({recipeIngredients, dispatch, isDisabled
                         })
                     )
                 }
-                <Button 
-                    type='button' 
-                    variant='contained' 
-                    sx={{width:'100%'}} 
-                    onClick={handleAddIngredient}
-                    disabled={isDisabled}
-                >
-                    <AddIcon/>
-                </Button>
+
             </Stack>
         </Paper>
     )   
