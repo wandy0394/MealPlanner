@@ -8,42 +8,49 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 
 import MenuLink from "./MenuLink"
 
+import {styled} from "@mui/material";
+
+
+const StyledMenuItem = styled(MenuItem)({
+    display:'flex',     
+    gap:'1rem',
+    alignItems: 'center',
+})
+
+
 
 export default function MenuContents() {
     return (
         <>
-            <MenuLink to='/search' style={{textDecoration:'none'}}>
-                <MenuItem>
-                    <ListItemIcon><SearchIcon fontSize='large'/></ListItemIcon>
-
-                    <ListItemText><Typography variant="h6">Search...</Typography></ListItemText>
-                </MenuItem>
+            <MenuLink to='/search'>
+                <StyledMenuItem>
+                    <SearchIcon fontSize='large'/>
+                    <Typography variant="h6">Search...</Typography>
+                </StyledMenuItem>
             </MenuLink>
             <MenuLink to='/ingredients'>
-                <MenuItem>
-                    <ListItemIcon><EggIcon fontSize='large'/></ListItemIcon>
-                    <ListItemText><Typography variant="h6">Ingredients</Typography></ListItemText>
-                </MenuItem>
+                <StyledMenuItem>
+                    <EggIcon fontSize='large'/>
+                    <Typography variant="h6">Ingredients</Typography>
+                </StyledMenuItem>
             </MenuLink>
             <MenuLink to='/recipes'>
-                <MenuItem>
-                    <ListItemIcon><MenuBookIcon fontSize='large'/></ListItemIcon>
-                    <ListItemText><Typography variant="h6">Recipes</Typography></ListItemText>
-                </MenuItem>
+                <StyledMenuItem>
+                    <MenuBookIcon fontSize='large'/>
+                    <Typography variant="h6">Recipes</Typography>
+                </StyledMenuItem>
             </MenuLink>
             <MenuLink to='/meal-plans'>
-                <MenuItem>
-                    <ListItemIcon><CalendarMonthIcon fontSize='large'/></ListItemIcon>
-                    <ListItemText><Typography variant="h6">Meal Plans</Typography></ListItemText>
-                </MenuItem>
+                <StyledMenuItem>
+                    <CalendarMonthIcon fontSize='large'/>
+                    <Typography variant="h6">Meal Plans</Typography>
+                </StyledMenuItem>
             </MenuLink>
             <MenuLink to='/shopping-list'>
-                <MenuItem>
-                    <ListItemIcon><ShoppingCartIcon fontSize='large'/></ListItemIcon>
-                    <ListItemText>                    
-                            <Typography variant="h6">Shopping List</Typography>                    
-                    </ListItemText>
-                </MenuItem>
+                <StyledMenuItem>
+                    <ShoppingCartIcon fontSize='large'/>
+                    <Typography variant="h6">Shopping List</Typography>                    
+                </StyledMenuItem>
             </MenuLink>
         </>
     )

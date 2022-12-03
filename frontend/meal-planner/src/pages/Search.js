@@ -123,7 +123,6 @@ export default function Search() {
                         <TabPanel value={tabNum} index={2}>
                             <SearchHistory/>
                         </TabPanel>
-
                     </Box>
                 </Box>
             </Stack>            

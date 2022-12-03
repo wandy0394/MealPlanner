@@ -102,7 +102,7 @@ export default function CreateRecipeForm2() {
             macros:recipe.macros
         }
         console.log(data)
-        //const result = await DataService.addRecipe(data)
+        const result = await DataService.addRecipe(data)
     }
 
 
