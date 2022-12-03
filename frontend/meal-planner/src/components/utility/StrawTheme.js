@@ -2,12 +2,22 @@ import { createTheme } from "@mui/material/styles"
 
 export const strawTheme = createTheme({
     palette: {
-        type:'light',
+        mode:'light',
+        common: {
+            black:'#3e3e3e',
+            white:'#FFFBD0',
+            grey:'#8c8173'
+        },
         primary: {
-            main:'#C6A940'
+            main:'#d9a441'
         },
         secondary: {
-            main: '#00ff00'
+            main: '#5b391e'
+        },
+        background: {
+            paper: '#fbee9e',
+            default: '#FFFFEA'
         }
     },
+
 })

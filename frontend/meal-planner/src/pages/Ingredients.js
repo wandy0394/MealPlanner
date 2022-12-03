@@ -36,7 +36,7 @@ export default function Ingredients() {
     return (
         <ContentBox sx={{height:'100%'}}>
             <Stack sx={{height:'100%'}}>
-                <Box sx={{border:'solid'}}>
+                <Box>
                     <Paper elevation={3}>
                         <Typography variant='h2' sx={{margin:'1rem auto', textAlign:'center', border:'none'}}>
                             A List of your Favourite Ingredients
@@ -44,12 +44,12 @@ export default function Ingredients() {
                         </Typography>
                     </Paper>
                 </Box>
-                <Box sx={{border:'solid', width:'100%'}}>
+                <Box sx={{width:'100%'}}>
                     <Button variant='contained' sx={{width:'100%'}} onClick={handleClickOpen}><AddIcon />Add an Ingredient</Button>
                 </Box>
                 <CreateIngredientForm open={open} handleClose={handleClose} refresh={refresh}/>
                 <Box sx={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(400px, 1fr))', 
-                            gridAutoRows:'auto', gap:'2rem', width:'100%', border:'solid', justifyItems:'center',
+                            gridAutoRows:'auto', gap:'2rem', width:'100%', justifyItems:'center',
                             padding:'2rem 2rem'}} >
                     {
                         ingredients.map((item)=> {

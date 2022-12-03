@@ -21,6 +21,7 @@ root.render(
     <BrowserRouter>
       
       <ThemeProvider theme={strawTheme}>
+        <CssBaseline/>
         <App />  
       </ThemeProvider> 
       
