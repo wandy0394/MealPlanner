@@ -36,7 +36,7 @@ export default function Ingredients() {
 
     return (
         <ContentBox sx={{height:'100%'}}>
-            <Stack sx={{height:'100%'}}>
+            <Stack sx={{height:'100%'}} gap={1}>
                 <Box>
                     <Typography variant={'h3'} sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>
                         A List of your Favourite Ingredients

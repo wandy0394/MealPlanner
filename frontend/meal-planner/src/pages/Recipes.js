@@ -57,10 +57,12 @@ export default function Recipes() {
     return (
         <ContentBox sx={{height:'100%'}}>
             <Stack sx={{height:'100%'}}>
-                <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'center', border:'none'}}>
-                    What would you like to make?
-                    <IconButton onClick={refresh}><RefreshIcon/></IconButton>
-                </Typography>
+                <Box>
+                    <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>
+                        What would you like to make?
+                        <IconButton onClick={refresh}><RefreshIcon/></IconButton>
+                    </Typography>
+                </Box>
                 <Box sx={{width:'100%'}}>
                     <Tabs
                         value={tabValue}
