@@ -29,7 +29,7 @@ export default function EnhancedTableHead(props) {
               <TableSortLabel
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : 'asc'}
-                onClick={createSortHandler(headCell.id)}
+                onClick={createSortHandler({id:headCell.id, allowSort:headCell.allowSort})}
               >
                 {headCell.label}
               </TableSortLabel>

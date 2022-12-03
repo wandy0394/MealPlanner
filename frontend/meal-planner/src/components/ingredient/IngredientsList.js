@@ -1,6 +1,6 @@
 import { Box } from "@mui/system"
-import EnhancedTableHead from "./EnhancedTableHead"
-import EnhancedTableToolbar from "./EnhancedTableToolbar"
+import EnhancedTableHead from "../utility/EnhancedTableHead"
+import EnhancedTableToolbar from "../utility/EnhancedTableToolbar"
 import { useEffect, useState } from "react"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -18,30 +18,39 @@ const headCells = [
       alignment: 'left',
       disablePadding: true,
       label: 'Food (100g serving)',
+      allowSort:true
     },
     {
       id: 'calories',
       alignment: 'right',
       disablePadding: false,
       label: 'Calories (kcal)',
+      allowSort:true
+
     },
     {
       id: 'carbs',
       alignment: 'right',
       disablePadding: false,
       label: 'Carbs (g)',
+      allowSort:true
+
     },
     {
       id: 'protein',
       alignment: 'right',
       disablePadding: false,
       label: 'Protein (g)',
+      allowSort:true
+
     },
     {
       id: 'fat',
       alignment: 'right',
       disablePadding: false,
       label: 'Fat (g)',
+      allowSort:true
+
     },
 ];
 
@@ -65,9 +74,10 @@ export default function IngredientsList() {
     const [rowsPerPage, setRowsPerPage] = useState(ROW_COUNTS[0])
 
     function handleRequestSort(e, prop) {
-        const isAsc = orderBy === prop && order === ORDER_TYPE.ASC
+        if (!prop?.allowSort) return
+        const isAsc = orderBy === prop.id && order === ORDER_TYPE.ASC
         setOrder(isAsc ? ORDER_TYPE.DESC : ORDER_TYPE.ASC)
-        setOrderBy(prop)
+        setOrderBy(prop.id)
     }
     function descendingComparator(a, b, orderBy) {
         if (b[orderBy] < a[orderBy]) {
@@ -143,7 +153,10 @@ export default function IngredientsList() {
     return (
         <Box sx={{width:'100%'}}>
             <Paper sx={{width:'100%'}}>
-                <EnhancedTableToolbar numSelected={selected.count} />
+                <EnhancedTableToolbar 
+                    numSelected={selected.count} 
+                    title="Ingredients"
+                />
                 <TableContainer>
                     <Table>
                     <EnhancedTableHead

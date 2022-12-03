@@ -103,7 +103,7 @@ export default function SearchRecipes({state, dispatch}) {
                             <TextField name='searchText' label='Search by name or ingredient..' variant='standard' onChange={handleSearchChange} required={true} value={state.query}></TextField> 
                         </Box>
                         <Box sx={{display:'flex', justifyContent:'flex-start', alignContent:'center'}}>
-                            <FormLabel sx={{display:'flex', alignItems:'center'}}>What about macros?</FormLabel>
+                            <FormLabel sx={{display:'flex', alignItems:'center'}}>Search Options:</FormLabel>
                             <Button onClick={toggleVisibility}>{visible ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</Button>
                         </Box>
                         <Collapse in={visible} sx={{width:'100%'}}>
