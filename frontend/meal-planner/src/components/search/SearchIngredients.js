@@ -60,7 +60,7 @@ export default function SearchIngredients({state, dispatch}) {
 
             
                 <FormGroup>
-                    <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What ingredients do you want to find?</FormLabel>
+                    {/* <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What ingredients do you want to find?</FormLabel> */}
                     <Box sx={{display:'flex', flexDirection:'column', padding:'0px 0rem'}}>
                         <TextField sx={{marginBottom:'1em'}}label='Search by name..' variant='standard' onChange={handleChange} required={true} value={state.query}></TextField> 
                     </Box>
@@ -71,7 +71,7 @@ export default function SearchIngredients({state, dispatch}) {
             </Box>
             <Box>
                     <Typography variant='h4' sx={{display:'inline'}}>
-                                Results
+                        Results
                     </Typography>
                 {
                     (state.results !== null) && (
@@ -82,7 +82,6 @@ export default function SearchIngredients({state, dispatch}) {
             <Box>
                 {
                     ((state.results !== null) && <><SearchIngredientResults data={state.results}/></>)
-                    // <SearchIngredientResults data={state?.results}/>
                 }
             </Box>
             <Box>
