@@ -98,7 +98,7 @@ export default function SearchRecipes({state, dispatch}) {
             <Box>
                 <form onSubmit={handleClick}>
                     <FormGroup>
-                        <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What are you hungry for?</FormLabel>
+                        {/* <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What are you hungry for?</FormLabel> */}
                         <Box sx={{display:'flex', flexDirection:'column', padding:'0px 0rem'}}>
                             <TextField name='searchText' label='Search by name or ingredient..' variant='standard' onChange={handleSearchChange} required={true} value={state.query}></TextField> 
                         </Box>
