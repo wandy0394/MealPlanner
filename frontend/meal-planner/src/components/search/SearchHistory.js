@@ -62,12 +62,17 @@ export default function SearchHistory() {
         refresh()
     },[])
 
+    async function handleDelete(id) {
+        await DataService.removeSearchQuery(id)
+        refresh()
+    }
 
     return (
         <EnhancedTable
             headCells={headCells}
             rows={searchHistory}
             title="Past Queries"
+            requestDelete={handleDelete}
         />
     )
 }

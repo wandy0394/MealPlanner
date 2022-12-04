@@ -44,30 +44,15 @@ const headCells = [
     },
 ];
 
-export default function IngredientsList({ingredients}) {
-
-    // const [ingredients, setIngredients] = useState([])
-    // async function refresh() {
-    //     try {
-    //         console.log('Refreshing')
-    //         const result = await DataService.getIngredients()
-    //         setIngredients(result)
-    //     }
-    //     catch (e) {
-    //         console.error(e)
-    //     }
-    // }
-    // useEffect(()=> {
-    //     refresh()
-    //     console.log(ingredients)
-    // }, [])
+export default function IngredientsList({ingredients, handleDelete}) {
 
 
     return (
         <EnhancedTable
-            headCells={headCells}
-            rows={ingredients}
-            title="Ingredients"
+          headCells={headCells}
+          rows={ingredients}
+          title="Ingredients"
+          requestDelete={handleDelete}
         />
     )
 }

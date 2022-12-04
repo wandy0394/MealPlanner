@@ -40,6 +40,9 @@ router.route("/recipe/:id")
 router.route("/searchHistory")
     .get(DataController.apiGetSearchHistory)
 
+router.route("/searchHistory/:id")
+    .delete(DataController.apiRemoveSearchQuery)
+
 router.route("/recipe-book")
     .get(DataController.apiGetRecipeBook)
     .post(DataController.apiCreateRecipeBook)

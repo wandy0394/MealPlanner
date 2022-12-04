@@ -93,6 +93,25 @@ class DatabaseService {
         }        
     }
 
+    static removeSearchQuery(id) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=> {
+                const sqlQuery = `DELETE FROM search_history WHERE id=${id}
+                                `
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL DELETE');
+                    }
+                    //console.log(results);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })
+            return promise
+        }          
+    }
+
     static insertIngredient(userEmail, params) {
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
@@ -139,6 +158,24 @@ class DatabaseService {
             })
             return promise
         }          
+    }
+    static removeIngredient(id) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=> {
+                const sqlQuery = `DELETE FROM ingredient WHERE id=${id}
+                                `
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL DELETE');
+                    }
+                    //console.log(results);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })
+            return promise
+        }           
     }
     static insertRecipe(userEmail, params) {
         if (db !== undefined) {

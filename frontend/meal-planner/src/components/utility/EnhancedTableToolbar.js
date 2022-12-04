@@ -5,7 +5,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { alpha } from '@mui/material/styles';
 import { strawTheme } from "./StrawTheme";
 
-export default function EnhancedTableToolbar({ title='Title', numSelected }) {
+export default function EnhancedTableToolbar({ title='Title', numSelected, createDeleteHandler }) {
 
     return (
       <Toolbar
@@ -39,7 +39,7 @@ export default function EnhancedTableToolbar({ title='Title', numSelected }) {
   
         {numSelected > 0 ? (
           <Tooltip title="Delete">
-            <IconButton>
+            <IconButton onClick={createDeleteHandler}>
               <DeleteIcon />
             </IconButton>
           </Tooltip>
