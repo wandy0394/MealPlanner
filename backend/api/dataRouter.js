@@ -3,17 +3,22 @@ import DataController from "./dataController.js"
 
 const router = express.Router()
 
-router.route("/ingredient/add")
+//adding new ingredients to sql database
+router.route("/ingredient")
     .post(DataController.apiAddIngredient)
+
+
 router.route("/ingredient/all")
     .get(DataController.apiGetAllIngredients)
 
+
+//:id is the primary key id in SQL database
 router.route("/ingredient/:id")
     .get(DataController.apiGetIngredient)
+    .put(DataController.apiUpdateIngredient)
     .delete(DataController.apiRemoveIngredient)
-    .post(DataController.apiSaveIngredient)
 
-
+//interfaces to external API
 router.route("/ingredient/search/:searchText/:page")
     .get(DataController.apiSearchIngredients)
 

@@ -110,6 +110,19 @@ export default class DataController {
     static async apiRemoveIngredient(req, res, next) {
         return
     }
+    static async apiUpdateIngredient(req, res, next) {
+        const params = req.body
+        // console.log(params)
+        DatabaseService.updateIngredient(DUMMY_EMAIL, params, req.params.id)
+            .then((resp)=>{
+                res.json(resp)
+            })
+            .catch((resp)=>{
+                res.json({error: 'Could not update ingredient in database'})
+            })       
+
+        return
+    }
     //recipe methods
     static async apiSearchRecipes(req, res, next) {
         //expects /?searchText=string
