@@ -22,7 +22,7 @@ const INITIAL_SELECTED = {
 }
 const ROW_HEIGHT = 50
 export default function EnhancedTable(props) {
-    const {rows, headCells, title} = props
+    const {rows, headCells, title, requestDelete} = props
     const [order, setOrder] = useState(ORDER_TYPE.ASC)
     const [orderBy, setOrderBy] = useState(headCells[0].id)
     const [selected, setSelected] = useState(INITIAL_SELECTED)
@@ -66,7 +66,16 @@ export default function EnhancedTable(props) {
         return (id in selected.content) 
     }
 
-    function handleClick(e, id, timestamp) {
+    function handleDelete() {
+        //call request delete
+        console.log('Deleteing')
+        Object.keys(selected.content).forEach(element => {
+            console.log(`Delete ${element}`)
+            requestDelete(element)
+        }) 
+    }
+
+    function handleClick(e, id) {
         let newSelected = {...selected.content}
         let newCount = selected.count
         if (id in newSelected) {
@@ -74,10 +83,11 @@ export default function EnhancedTable(props) {
             newCount -= 1
         }
         else {
-            newSelected[id] = timestamp
+            newSelected[id] = 1
             newCount += 1
         }
         setSelected({count:newCount, content:newSelected})
+        console.log(selected)
     }
     const handleChangePage = (e, newPage) => {
         setPage(newPage);
@@ -97,6 +107,7 @@ export default function EnhancedTable(props) {
                 <EnhancedTableToolbar 
                     numSelected={selected.count} 
                     title={title}
+                    createDeleteHandler={handleDelete}
                 />
                 <TableContainer>
                     <Table>
@@ -119,7 +130,7 @@ export default function EnhancedTable(props) {
                             return (
                                 <TableRow
                                     hover
-                                    onClick={(event) => handleClick(event, row.id, row.timestamp)}
+                                    onClick={(event) => handleClick(event, row.id)}
                                     role="checkbox"
                                     key={row.id}
                                     selected={isItemSelected}

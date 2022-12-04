@@ -48,6 +48,17 @@ class DataService {
         }
         
     }
+    async removeSearchQuery(id) {
+        try {
+            const resp = await instance.delete(`searchHistory/${id}`)
+            console.log(resp.data)
+            return resp.data
+        }
+        catch (e) {
+            return {error:'Could not get history'}
+        }
+        
+    }
     async getIngredients() {
         try {
             const resp = await instance.get(`/ingredient/all`)

@@ -33,7 +33,10 @@ export default function Ingredients() {
     useEffect(()=> {
         refresh()
     }, [])
-    
+    async function handleDelete(id) {
+        await DataService.removeIngredient(id) 
+        refresh() 
+    }
 
     return (
         <ContentBox sx={{height:'100%'}}>
@@ -54,7 +57,10 @@ export default function Ingredients() {
                     ingredients={ingredients}
                 />
 
-                <IngredientsList ingredients={ingredients}/>
+                <IngredientsList 
+                    ingredients={ingredients}
+                    handleDelete={handleDelete}
+                />
             </Stack>
         </ContentBox>
     )

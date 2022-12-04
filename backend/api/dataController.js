@@ -24,7 +24,19 @@ export default class DataController {
                 return resp
             })
     }
+    static apiRemoveSearchQuery(req, res, next) {
+        const params = req.body
+        console.log(req.params)
+        DatabaseService.removeSearchQuery(req.params.id)
+            .then((resp)=>{
+                res.json(resp)
+            })
+            .catch((resp)=>{
+                res.json({error: 'Could not delete query from database'})
+            })       
 
+        return        
+    }
 
     //ingredient methods
     static async apiSearchIngredients(req, res, next) {
@@ -108,6 +120,16 @@ export default class DataController {
         return
     }
     static async apiRemoveIngredient(req, res, next) {
+        const params = req.body
+        console.log(req.params)
+        DatabaseService.removeIngredient(req.params.id)
+            .then((resp)=>{
+                res.json(resp)
+            })
+            .catch((resp)=>{
+                res.json({error: 'Could not delete ingredient from database'})
+            })       
+
         return
     }
     static async apiUpdateIngredient(req, res, next) {
