@@ -64,7 +64,7 @@ const INITIAL_SELECTED = {
 }
 const ROW_HEIGHT = 50
 export default function EnhancedTable(props) {
-    const {rows, headCells} = props
+    const {rows, headCells, title} = props
     // const [rows, setSearchHistory] = useState([])
     const [order, setOrder] = useState(ORDER_TYPE.ASC)
     const [orderBy, setOrderBy] = useState(headCells[0].id)
@@ -139,7 +139,7 @@ export default function EnhancedTable(props) {
             <Paper sx={{width:'100%'}}>
                 <EnhancedTableToolbar 
                     numSelected={selected.count} 
-                    title="Past Queries"
+                    title={title}
                 />
                 <TableContainer>
                     <Table>

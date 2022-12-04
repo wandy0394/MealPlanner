@@ -1,10 +1,11 @@
-import { TextField, Button, Box, FormGroup, FormLabel, InputAdornment, Collapse, Typography, Pagination } from "@mui/material";
+import { TextField, Button, Box, FormGroup, FormLabel, InputAdornment, Collapse, Typography, Pagination, IconButton } from "@mui/material";
 import { useState } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import { ACTION_TYPES } from "./ActionTypes";
 import DataService from "../../service/data-service";
 import SearchRecipeResults from "./SearchRecipeResults"
+import SearchIcon from '@mui/icons-material/Search'
 
 const CRITERIA_LABELS = {
     maxCal:"Maximum Calories",
@@ -91,20 +92,32 @@ export default function SearchRecipes({state, dispatch}) {
     }   
     async function handleRecipePageChange(e, page) {
         await callSearchRecipes(state.prevQuery, state.prevCriteria, page)
-        //dispatch({type:ACTION_TYPES.SET_PAGE, payload:page})
+    }
+
+    function calculatePages() {
+        return Math.floor(parseInt(state.results.recipes.total_results, 10) / 10) + 1
     }
     return (
-        <Box>
+        <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
             <Box>
                 <form onSubmit={handleClick}>
-                    <FormGroup>
+                    <FormGroup sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                         {/* <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What are you hungry for?</FormLabel> */}
-                        <Box sx={{display:'flex', flexDirection:'column', padding:'0px 0rem'}}>
-                            <TextField name='searchText' label='Search by name or ingredient..' variant='standard' onChange={handleSearchChange} required={true} value={state.query}></TextField> 
+                        <Box sx={{display:'flex', flexDirection:'row', alignItems:'flex-end', gap:'2rem', padding:'0px 0rem'}}>
+                            <TextField 
+                                label='Search by name or ingredient..' 
+                                variant='standard' 
+                                onChange={handleSearchChange} 
+                                required={true} 
+                                value={state.query}
+                                sx={{width:'20%'}}
+                            >
+                            </TextField> 
+                            <Button startIcon={<SearchIcon/>} type='submit' variant='contained'>Search Recipes</Button>
                         </Box>
                         <Box sx={{display:'flex', justifyContent:'flex-start', alignContent:'center'}}>
                             <FormLabel sx={{display:'flex', alignItems:'center'}}>Search Options:</FormLabel>
-                            <Button onClick={toggleVisibility}>{visible ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</Button>
+                            <IconButton onClick={toggleVisibility}>{visible ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</IconButton>
                         </Box>
                         <Collapse in={visible} sx={{width:'100%'}}>
                             <Box sx={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))', margin:'0 auto', width:'100%'}}>
@@ -136,12 +149,11 @@ export default function SearchRecipes({state, dispatch}) {
                                 }
                             </Box>
                         </Collapse>
-                        <Button type='submit' variant='contained' sx={{margin:'1rem'}}>Search Recipes</Button>
                     </FormGroup>
                 </form>
 
             </Box>
-            <Box>
+            <Box sx={{display:'flex', flexDirection:'row', gap:'1rem', alignItems:'center'}}>
                 <Typography variant='h4' sx={{display:'inline'}}>
                     Results
                 </Typography>
@@ -159,7 +171,7 @@ export default function SearchRecipes({state, dispatch}) {
             <Box>
                 {
                     (state.results !== null) && 
-                            <Pagination count={10} shape='rounded' sx={{margin: '1rem 0'}} page={state.page}
+                            <Pagination count={calculatePages()} shape='rounded' sx={{}} page={state.page}
                                 onChange={handleRecipePageChange}
                             />
                 }

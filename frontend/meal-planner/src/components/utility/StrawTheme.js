@@ -20,4 +20,7 @@ export const strawTheme = createTheme({
             menuItem: '#d9a441'
         }
     },
+    shape: {
+        borderRadius:'20px'
+    }
 })

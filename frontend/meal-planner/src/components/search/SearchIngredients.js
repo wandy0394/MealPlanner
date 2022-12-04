@@ -2,6 +2,7 @@ import { TextField, Button, Box, FormGroup, FormLabel, Typography, Pagination } 
 import DataService from "../../service/data-service";
 import SearchIngredientResults from "./SearchIngredientsResults";
 import {ACTION_TYPES} from './ActionTypes'
+import SearchIcon from '@mui/icons-material/Search'
 const dummyOutput = {
 
     food: [
@@ -45,7 +46,6 @@ export default function SearchIngredients({state, dispatch}) {
 
     async function handleIngredientPageChange(e, page) {
         console.log(`page change ${page}`)
-        //dispatch({type:ACTION_TYPES.SET_PAGE, payload:page})
         await callSearchIngredients(state.prevQuery, page, false)
     }
 
@@ -53,23 +53,32 @@ export default function SearchIngredients({state, dispatch}) {
         dispatch({type:ACTION_TYPES.SET_QUERY, payload:e.target.value})
     }
 
+    function calculatePages() {
+        return Math.floor(parseInt(state.results.total_results, 10) / 10) + 1
+    }
+
     return (
-        <Box>
+        <Box sx={{display:'flex', flexDirection:'column', gap:'2rem'}}>
             <Box>
                 <form onSubmit={handleClick}>
-
-            
                 <FormGroup>
                     {/* <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What ingredients do you want to find?</FormLabel> */}
-                    <Box sx={{display:'flex', flexDirection:'column', padding:'0px 0rem'}}>
-                        <TextField sx={{marginBottom:'1em'}}label='Search by name..' variant='standard' onChange={handleChange} required={true} value={state.query}></TextField> 
+                    <Box sx={{display:'flex', flexDirection:'row', alignItems:'flex-end', gap:'2rem', padding:'0px 0rem'}}>
+                        <TextField 
+                            sx={{marginBottom:'0', width:'20%'}} 
+                            label='Search by name..' 
+                            variant='standard' 
+                            onChange={handleChange} 
+                            required={true} 
+                            value={state.query}>
+                        </TextField> 
+                        <Button startIcon={<SearchIcon/>} variant='contained' type='submit'>Search Ingredients</Button>
                     </Box>
-                    <Button variant='contained' type='submit'>Search Ingredients</Button>
                 </FormGroup>
                 </form>
 
             </Box>
-            <Box>
+            <Box sx={{display:'flex', flexDirection:'row', gap:'1rem', alignItems:'center'}}>
                     <Typography variant='h4' sx={{display:'inline'}}>
                         Results
                     </Typography>
@@ -87,7 +96,7 @@ export default function SearchIngredients({state, dispatch}) {
             <Box>
                 {
                     ((state.results !== null) && 
-                    <Pagination count={10} shape='rounded' sx={{margin: '1rem 0'}} page={state.page}
+                    <Pagination count={calculatePages()} shape='rounded' sx={{}} page={state.page}
                         onChange={handleIngredientPageChange}
                     />)
                 }

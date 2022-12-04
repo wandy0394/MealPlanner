@@ -67,6 +67,7 @@ export default function SearchHistory() {
         <EnhancedTable
             headCells={headCells}
             rows={searchHistory}
+            title="Past Queries"
         />
     )
 }

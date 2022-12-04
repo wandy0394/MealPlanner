@@ -12,12 +12,12 @@ import {styled} from "@mui/material";
 import { strawTheme } from "../utility/StrawTheme"
 
 
-const StyledMenuItem = styled(MenuItem)({
+const StyledMenuItem = styled(MenuItem)(({theme}) => ({
     display:'flex',     
     gap:'1rem',
     alignItems: 'center',
-    borderRadius:'10px'
-})
+    borderRadius:theme.shape.borderRadius
+}))
 
 
 
