@@ -116,8 +116,29 @@ class DatabaseService {
     static insertRecipe(userEmail, params) {
         if (db !== undefined) {
             const promiseRecipe = new Promise((resolve, reject)=> {
-                const sqlQuery = `INSERT INTO recipe (title, carbs, protein, fat, calories, instructions, user_id)
-                                    VALUES ('${params.title}', ${params.macros.carbs}, ${params.macros.protein}, ${params.macros.fat}, ${params.macros.calories}, '${params.instructions}', '${userEmail}');
+                const sqlQuery = `INSERT INTO recipe 
+                                    (title, 
+                                        servings,
+                                        prep_time,
+                                        cook_time,
+                                        carbs, 
+                                        protein, 
+                                        fat, 
+                                        calories, 
+                                        instructions, 
+                                        user_id
+                                    )
+                                    VALUES ('${params.title}', 
+                                            ${params.servings},
+                                            ${params.cookTime},
+                                            ${params.prepTime},
+                                            ${params.macros.carbs}, 
+                                            ${params.macros.protein}, 
+                                            ${params.macros.fat}, 
+                                            ${params.macros.calories}, 
+                                            '${params.instructions}', 
+                                            '${userEmail}'
+                                            );
                                 `
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
@@ -201,7 +222,10 @@ class DatabaseService {
                                     recipe.carbs as total_carbs, 
                                     recipe.protein as total_protein, 
                                     recipe.fat as total_fat, 
-                                    recipe.calories as total_calories, 
+                                    recipe.calories as total_calories,
+                                    recipe.servings as servings,
+                                    recipe.cook_time as cookTime,
+                                    recipe.prep_time as prepTime, 
                                     instructions
                                     FROM recipe 
                                     INNER JOIN recipe_ingredient on recipe.id=recipe_ingredient.recipe_id 

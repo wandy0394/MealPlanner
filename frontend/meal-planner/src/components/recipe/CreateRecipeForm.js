@@ -106,6 +106,9 @@ export default function CreateRecipeForm2() {
         e.preventDefault();
         const data = {
             title:recipe.title,
+            servings:recipe.servings,
+            cookTime:recipe.cookTime,
+            prepTime:recipe.prepTime,
             ingredients:recipe.ingredients,
             instructions:recipe.instructions,
             macros:recipe.macros
@@ -119,6 +122,14 @@ export default function CreateRecipeForm2() {
         <Stack>
             <form onSubmit={handleSaveClicked}>
                 <Grid container spacing={3} sx={{padding:'1rem', border:''}}>
+                    <Grid item xs={12} md={12}>
+                        <Box sx={{dsplay:'flex'}}>
+                            <Button variant='contained' type='submit' sx={{width:'100%'}}>
+                                <SaveIcon/>
+                                <Typography variant='body' sx={{padding:'0 1rem'}}>Save</Typography>
+                            </Button>
+                        </Box>
+                    </Grid>
                     <Grid item sm={12} md={6}>
                         <RecipeNameInput
                             title={recipe.title}
@@ -163,14 +174,7 @@ export default function CreateRecipeForm2() {
                             </Box>
                         </Paper>    
                     </Grid>
-                    <Grid item xs={12} md={12}>
-                        <Box sx={{dsplay:'flex'}}>
-                            <Button variant='contained' type='submit' sx={{width:'100%'}}>
-                                <SaveIcon/>
-                                <Typography variant='body' sx={{padding:'0 1rem'}}>Save</Typography>
-                            </Button>
-                        </Box>
-                    </Grid>
+
                 </Grid>
 
             </form>

@@ -158,7 +158,10 @@ export default class DataController {
                                 protein:value.total_protein,
                                 calories:value.total_calories,
                             },
-                            instructions: value.instructions
+                            instructions: value.instructions,
+                            servings:value.servings,
+                            cookTime:value.cookTime,
+                            prepTime:value.prepTime
                         }
                     }                    
                     result[value.id]['ingredients'].push({
