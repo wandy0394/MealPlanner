@@ -13,7 +13,7 @@ const headCells = [
     {
       id: 'calories',
       alignment: 'right',
-      disablePadding: false,
+      disablePadding: true,
       label: 'Calories (kcal)',
       allowSort:true
 
@@ -21,7 +21,7 @@ const headCells = [
     {
       id: 'carbs',
       alignment: 'right',
-      disablePadding: false,
+      disablePadding: true,
       label: 'Carbs (g)',
       allowSort:true
 
@@ -29,7 +29,7 @@ const headCells = [
     {
       id: 'protein',
       alignment: 'right',
-      disablePadding: false,
+      disablePadding: true,
       label: 'Protein (g)',
       allowSort:true
 
@@ -37,7 +37,7 @@ const headCells = [
     {
       id: 'fat',
       alignment: 'right',
-      disablePadding: false,
+      disablePadding: true,
       label: 'Fat (g)',
       allowSort:true
 

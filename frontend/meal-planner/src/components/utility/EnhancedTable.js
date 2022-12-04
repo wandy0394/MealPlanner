@@ -8,56 +8,14 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import DataService from "../../service/data-service";
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
-
-const COLUMN_HEADERS = {
-    TIME_STAMP:'TIME_STAMP',
-    QUERY: 'QUERY',
-    SEARCH_TYPE:'SEARCH_TYPE',
-    OPTIONS:'OPTIONS'
-}
-
-const headCells = [
-    {
-      id: 'timeStamp',
-      alignment: 'left',
-      disablePadding: true,
-      label: 'Time Stamp',
-      allowSort: true
-    },
-    {
-      id: 'query',
-      alignment: 'center',
-      disablePadding: false,
-      label: 'Query',
-      allowSort: true
-
-    },
-    {
-      id: 'type',
-      alignment: 'center',
-      disablePadding: false,
-      label: 'Search Type',
-      allowSort: true
-
-    },
-    {
-      id: 'options',
-      alignment: 'left',
-      disablePadding: false,
-      label: 'Options',
-      allowSort: false
-
-    },
-];
 
 const ORDER_TYPE = {
     ASC:'asc',
     DESC:'desc'
 }
-const ROW_COUNTS = [5, 10, 20, 50]
+const ROW_COUNTS = [5, 10, 20]
 const INITIAL_SELECTED = {
     count:0,
     content:{}
@@ -65,7 +23,6 @@ const INITIAL_SELECTED = {
 const ROW_HEIGHT = 50
 export default function EnhancedTable(props) {
     const {rows, headCells, title} = props
-    // const [rows, setSearchHistory] = useState([])
     const [order, setOrder] = useState(ORDER_TYPE.ASC)
     const [orderBy, setOrderBy] = useState(headCells[0].id)
     const [selected, setSelected] = useState(INITIAL_SELECTED)
@@ -173,18 +130,6 @@ export default function EnhancedTable(props) {
                                         checked={isItemSelected}
                                         />
                                     </TableCell>
-                                    {/* <TableCell
-                                        component="th"
-                                        id={labelId}
-                                        scope="row"
-                                        padding="none"
-                                    >
-                                        {row.timeStamp}
-                                    
-                                    </TableCell>
-                                    <TableCell align="center">{row.query}</TableCell>
-                                    <TableCell align="center">{row.type}</TableCell>
-                                    <TableCell align="center">{null}</TableCell> */}
                                     {
                                         headCells.map((item)=> {
                                             const id = item.id
@@ -193,6 +138,8 @@ export default function EnhancedTable(props) {
                                                     align={item.alignment}
                                                 >
                                                     {row[item.id]}
+                                                    
+                                                    
                                                 </TableCell>
                                             )
                                         })
