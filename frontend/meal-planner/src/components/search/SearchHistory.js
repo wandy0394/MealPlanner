@@ -13,7 +13,7 @@ const headCells = [
     },
     {
       id: 'query',
-      alignment: 'center',
+      alignment: 'right',
       disablePadding: false,
       label: 'Query',
       allowSort: true
@@ -21,7 +21,7 @@ const headCells = [
     },
     {
       id: 'type',
-      alignment: 'center',
+      alignment: 'right',
       disablePadding: false,
       label: 'Search Type',
       allowSort: true
@@ -29,7 +29,7 @@ const headCells = [
     },
     {
       id: 'options',
-      alignment: 'left',
+      alignment: 'right',
       disablePadding: false,
       label: 'Options',
       allowSort: false

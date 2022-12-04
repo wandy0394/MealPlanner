@@ -1,4 +1,5 @@
 import { Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from "@mui/material";
+import { Box } from "@mui/system";
 import PropTypes from 'prop-types';
 
 export default function EnhancedTableHead(props) {
@@ -23,7 +24,6 @@ export default function EnhancedTableHead(props) {
             <TableCell
               key={headCell.id}
               align={headCell.alignment}
-              padding={headCell.disablePadding ? 'none' : 'normal'}
               sortDirection={orderBy === headCell.id ? order : false}
             >
               <TableSortLabel
@@ -31,7 +31,10 @@ export default function EnhancedTableHead(props) {
                 direction={orderBy === headCell.id ? order : 'asc'}
                 onClick={createSortHandler({id:headCell.id, allowSort:headCell.allowSort})}
               >
-                {headCell.label}
+              {headCell.label}
+              {
+                null
+              }
               </TableSortLabel>
             </TableCell>
           ))}
