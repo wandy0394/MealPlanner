@@ -12,8 +12,10 @@ export default function CreateIngredientForm(props) {
     const [carbs, setCarbs] = useState('')
     const [fat, setFat] = useState('')
     const [protein, setProtein] = useState('')
+    const [isEditing, setIsEditing] = useState(false)
+    const [keyId, setKeyId] = useState(null)
 
-    async function handleAddClick(e) {
+    async function handleSaveClick(e) {
         const params = {
             name:name,
             calories:calories,
@@ -22,14 +24,17 @@ export default function CreateIngredientForm(props) {
             protein:protein,
             food_id:null
         }
-        const data = await DataService.addIngredient(params)
+        let data
+        if (isEditing) {
+            params['id'] = keyId 
+            data = await DataService.updateIngredient(params)
+        }
+        else {
+            data = await DataService.addIngredient(params)
+        }
         console.log(data)
         handleClose()
         refresh()
-    }
-
-    function handleNameChange(e) {
-        setName(e.target.value)
     }
 
     function handleCaloriesChange(e) {
@@ -64,16 +69,17 @@ export default function CreateIngredientForm(props) {
     }, [ingredients])
 
     function populateMacros(value, id) {
-        
         if (value === null) return
         const {name} = value
-        console.log(name)
         if (!(id in ingredientDict)) {
             setCalories('')
             setFat('')
             setProtein('')
             setCarbs('')  
             setName(name)
+            setKeyId(null)
+            setIsEditing(false)
+
         }
         else {
             setCalories(ingredientDict[id].calories)
@@ -81,8 +87,9 @@ export default function CreateIngredientForm(props) {
             setProtein(ingredientDict[id].protein)
             setCarbs(ingredientDict[id].carbs)
             setName(ingredientDict[id].name)
+            setKeyId(id)
+            setIsEditing(true)
         }
-        
     }
 
     return (
@@ -123,7 +130,7 @@ export default function CreateIngredientForm(props) {
                             endAdornment: <InputAdornment position='end'>per 100g</InputAdornment>}}></TextField>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleAddClick}>Save</Button>
+                    <Button onClick={handleSaveClick}>Save</Button>
                     <Button onClick={handleClose}>Cancel</Button>
                 </DialogActions>
             </Dialog>

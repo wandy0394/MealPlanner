@@ -113,6 +113,33 @@ class DatabaseService {
             return promise
         }             
     }
+    static updateIngredient(userEmail, params, id) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=> {
+                const sqlQuery = `UPDATE ingredient 
+                                    SET
+                                        name='${params.name}',
+                                        food_id=${(params.food_id)}, 
+                                        carbs=${params.carbs}, 
+                                        fat=${params.fat}, 
+                                        protein=${params.protein}, 
+                                        calories=${params.calories}
+                                    WHERE
+                                        id=${id}
+                                `
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL UPDATE');
+                    }
+                    //console.log(results);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })
+            return promise
+        }          
+    }
     static insertRecipe(userEmail, params) {
         if (db !== undefined) {
             const promiseRecipe = new Promise((resolve, reject)=> {
