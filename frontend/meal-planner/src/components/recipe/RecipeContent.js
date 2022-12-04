@@ -29,7 +29,9 @@ const INITIAL_RECIPE = {
 }
 const calculator = new UnitConverter()
 
-export default function RecipeContent({storedInstructions, storedTitle, storedRecipeIngredients, storedMacros}) {
+export default function RecipeContent(props) {
+
+    const {storedInstructions, storedTitle, storedRecipeIngredients, storedMacros, storedServings, storedPrepTime, storedCookTime} = props
     const [recipe, dispatch] = useReducer(reducer, INITIAL_RECIPE)
     const [readOnly, setReadOnly] = useState(true)
 
@@ -104,10 +106,13 @@ export default function RecipeContent({storedInstructions, storedTitle, storedRe
         dispatch({type:ACTION_TYPES.SET_INGREDIENTS, payload:storedRecipeIngredients})
         dispatch({type:ACTION_TYPES.SET_INSTRUCTIONS, payload:storedInstructions})
         dispatch({type:ACTION_TYPES.SET_MACROS, payload:storedMacros})
+        dispatch({type:ACTION_TYPES.SET_COOK_TIME, payload:storedCookTime})
+        dispatch({type:ACTION_TYPES.SET_PREP_TIME, payload:storedPrepTime})
+        dispatch({type:ACTION_TYPES.SET_SERVINGS, payload:storedServings})
         
         //setIngredientCounter(storedRecipeIngredients.length)
         
-    }, [storedInstructions, storedTitle, storedRecipeIngredients, storedMacros])
+    }, [storedInstructions, storedTitle, storedRecipeIngredients, storedMacros, storedServings, storedPrepTime, storedCookTime])
 
     function handleInstructionChange(e) {
         dispatch({type:ACTION_TYPES.SET_INSTRUCTIONS, payload:e.target.value})
@@ -115,7 +120,8 @@ export default function RecipeContent({storedInstructions, storedTitle, storedRe
 
     function handleEditClick(e) {
         console.log('edit')
-        setReadOnly((prev) => !prev)
+        //setReadOnly((prev) => !prev)
+        console.log(recipe)
     }
 
     async function handleSaveClicked(e) {
@@ -136,6 +142,30 @@ export default function RecipeContent({storedInstructions, storedTitle, storedRe
         <Stack>
             <form onSubmit={handleSaveClicked}>
                 <Grid container spacing={3} sx={{padding:'1rem', border:''}}>
+                <Grid item xs={12} md={12}>
+                        <Box sx={{dsplay:'flex'}}>
+                            {
+                             readOnly ? ( 
+                                <Button variant='contained' sx={{width:'100%'}} onClick={handleEditClick}>
+                                    <EditIcon/>
+                                    <Typography variant='body' sx={{padding:'0 1rem'}}>Edit</Typography>
+                                </Button>   
+                             ) : null
+                                
+                            }
+                            {
+                                readOnly ? (
+                                    null
+                                ) : (
+                                    <Button variant='contained' type='submit' sx={{width:'100%'}}>
+                                        <SaveIcon/>
+                                        <Typography variant='body' sx={{padding:'0 1rem'}}>Save</Typography>
+                                    </Button>
+                                )
+                            }
+  
+                        </Box>
+                    </Grid>
                     <Grid item sm={12} md={6}>
                         <RecipeNameInput
                             title={recipe.title}
@@ -181,30 +211,7 @@ export default function RecipeContent({storedInstructions, storedTitle, storedRe
                             </Box>
                         </Paper>    
                     </Grid>
-                    <Grid item xs={12} md={12}>
-                        <Box sx={{dsplay:'flex'}}>
-                            {
-                             readOnly ? ( 
-                                <Button variant='contained' sx={{width:'100%'}} onClick={handleEditClick}>
-                                    <EditIcon/>
-                                    <Typography variant='body' sx={{padding:'0 1rem'}}>Edit</Typography>
-                                </Button>   
-                             ) : null
-                                
-                            }
-                            {
-                                readOnly ? (
-                                    null
-                                ) : (
-                                    <Button variant='contained' type='submit' sx={{width:'100%'}}>
-                                        <SaveIcon/>
-                                        <Typography variant='body' sx={{padding:'0 1rem'}}>Save</Typography>
-                                    </Button>
-                                )
-                            }
-  
-                        </Box>
-                    </Grid>
+
                 </Grid>
 
             </form>

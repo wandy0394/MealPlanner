@@ -50,7 +50,10 @@ CREATE TABLE IF NOT EXISTS ingredient (
 
 CREATE TABLE IF NOT EXISTS recipe (
     id INT AUTO_INCREMENT PRIMARY KEY ,  
-    title VARCHAR(255) NOT NULL, 
+    title VARCHAR(255) NOT NULL,
+    servings INT,
+    prep_time INT,
+    cook_time INT, 
     carbs INT,
     protein INT,
     fat INT,

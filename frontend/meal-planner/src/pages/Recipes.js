@@ -40,7 +40,7 @@ export default function Recipes() {
 
     async function refresh() {
         try {
-            console.log('Refreshing Recipes')
+            console.log('Refreshing Recipes again')
             const result = await DataService.getRecipes()
             console.log(result)
             setRecipes(result)
@@ -90,6 +90,9 @@ export default function Recipes() {
                                         storedTitle={data.title}
                                         storedRecipeIngredients={data.ingredients}
                                         storedMacros={data.macros}
+                                        storedPrepTime={data.prepTime}
+                                        storedCookTime={data.cookTime}
+                                        storedServings={data.servings}
                                     />
                                 </TabPanel>
                             )
