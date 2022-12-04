@@ -67,6 +67,7 @@ export default function IngredientsList() {
         <EnhancedTable
             headCells={headCells}
             rows={ingredients}
+            title="Ingredients"
         />
     )
 }

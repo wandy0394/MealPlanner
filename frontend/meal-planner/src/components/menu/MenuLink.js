@@ -8,7 +8,7 @@ const MenuLink = styled(NavLink)(({theme})=> ({
     '&:hover': {
         color:theme.palette.secondary.main,
     },
-    borderRadius:'10px'
+    borderRadius:theme.shape.borderRadius
 }))
 
 

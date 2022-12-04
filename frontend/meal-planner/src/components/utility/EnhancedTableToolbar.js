@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import DeleteIcon from '@mui/icons-material/Delete'
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { alpha } from '@mui/material/styles';
+import { strawTheme } from "./StrawTheme";
 
 export default function EnhancedTableToolbar({ title='Title', numSelected }) {
 
@@ -11,10 +12,9 @@ export default function EnhancedTableToolbar({ title='Title', numSelected }) {
         sx={{
           pl: { sm: 2 },
           pr: { xs: 1, sm: 1 },
-          ...(numSelected > 0 && {
-            bgcolor: (theme) =>
-              alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-          }),
+          background:strawTheme.palette.primary.main,
+          borderTopRightRadius: strawTheme.shape.borderRadius,
+          borderTopLeftRadius: strawTheme.shape.borderRadius
         }}
       >
         {numSelected > 0 ? (

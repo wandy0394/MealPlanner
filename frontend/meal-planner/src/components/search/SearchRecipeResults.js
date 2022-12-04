@@ -1,7 +1,7 @@
 
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-
+import {strawTheme} from '../utility/StrawTheme'
 
 export default function SearchRecipeResults({data}) {
     const navigate = useNavigate()
@@ -49,7 +49,7 @@ export default function SearchRecipeResults({data}) {
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
-                    <TableRow>
+                    <TableRow  sx={{backgroundColor:strawTheme.palette.primary.main}}>
                         {
                             columnHeaders.map((item)=> {
                                 return <TableCell>{item}</TableCell>

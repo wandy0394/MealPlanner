@@ -1,6 +1,7 @@
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import DataService from "../../service/data-service";
+import {strawTheme} from '../utility/StrawTheme'
 
 const DUMMY_DATA = [
     {food_id:11, food_name:'Food1', food_description:'Food'},
@@ -90,7 +91,7 @@ export default function SearchIngredientResults({data}) {
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
-                        <TableRow>
+                        <TableRow  sx={{backgroundColor:strawTheme.palette.primary.main}}>
                             <TableCell>Add</TableCell>
                             {
                                 columnHeaders.map((item)=> {
