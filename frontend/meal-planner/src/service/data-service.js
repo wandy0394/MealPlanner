@@ -103,6 +103,15 @@ class DataService {
             return {error:'Error'}
         }
     }
+    async updateRecipe(params, recipeId) {
+        try {
+            const resp =  await instance.put(`/recipe/internal/${recipeId}`, params)
+            return resp
+        }
+        catch (e) {
+            return {error:'Error'}
+        }
+    }
     getMeals() {
         return
     }

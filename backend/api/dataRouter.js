@@ -33,7 +33,7 @@ router.route("/recipe/add")
 
 router.route("/recipe/internal/:id")
     .get(DataController.apiGetStoredRecipe)
-    
+    .put(DataController.apiUpdateRecipe)
     //.put(DataController.apiUpdateRecipeContent)
 
 router.route("/recipe/:id")
