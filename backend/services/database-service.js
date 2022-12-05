@@ -194,8 +194,8 @@ class DatabaseService {
                                     )
                                     VALUES ('${params.title}', 
                                             ${params.servings},
-                                            ${params.cookTime},
                                             ${params.prepTime},
+                                            ${params.cookTime},
                                             ${params.macros.carbs}, 
                                             ${params.macros.protein}, 
                                             ${params.macros.fat}, 
@@ -216,6 +216,45 @@ class DatabaseService {
             })            
             return promiseRecipe
         }             
+    }
+    static updateRecipe(userEmail, params, recipeId) {
+        if (db !== undefined) {
+            const promiseRecipe = new Promise((resolve, reject)=> {
+                const sqlQuery = `UPDATE recipe 
+                                    SET
+                                        title='${params.title}', 
+                                        servings=${params.servings},
+                                        prep_time=${params.prepTime},
+                                        cook_time=${params.cookTime},
+                                        carbs=${params.macros.carbs},  
+                                        protein=${params.macros.protein}, 
+                                        fat=${params.macros.fat}, 
+                                        calories=${params.macros.calories}, 
+                                        instructions='${params.instructions}'
+                                    WHERE
+                                        id=${recipeId} AND user_id='${userEmail}'
+                                `
+                                
+                // const sqlQuery = `UPDATE recipe 
+                //                     SET
+                //                         title='${params.title}',
+                //                         servings=${params.servings},
+                //                         prep_time=${params.prepTime},
+                //                     WHERE
+                //                         id=${recipeId}
+                //                 `
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL UPDATE');
+                    }
+                    console.log(results.insertId);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })            
+            return promiseRecipe
+        }                     
     }
     static insertRecipeIngredient(ingredients, recipeId) {
         if (db !== undefined) {

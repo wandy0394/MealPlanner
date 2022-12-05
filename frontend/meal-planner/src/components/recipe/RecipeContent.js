@@ -140,11 +140,16 @@ export default function RecipeContent(props) {
             title:recipe.title,
             ingredients:recipe.ingredients,
             instructions:recipe.instructions,
-            macros:recipe.macros
+            macros:recipe.macros,
+            servings:recipe.servings,
+            cookTime:recipe.cookTime,
+            prepTime:recipe.prepTime
         }
+        console.log(recipeId)
         console.log(data)
         setReadOnly((prev) => !prev)
         console.log('save')
+        DataService.updateRecipe(data, recipeId)
     }
 
 

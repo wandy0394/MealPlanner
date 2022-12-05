@@ -269,26 +269,27 @@ export default class DataController {
         return
     }
 
-    // static async apiUpdateRecipe(req, res, next) {
-    //     const params = req.body
-    //     const recipeId = req.params.id
-    //     console.log(params)
+    static async apiUpdateRecipe(req, res, next) {
+        const params = req.body
+        const recipeId = req.params.id
+        console.log(req)
+        console.log(req.params.id)
 
 
-    //     DatabaseService.updateRecipe(DUMMY_EMAIL, req.body, recipeId) 
-    //         .then ((resp) => {
-    //             this.#updateRecipeIngredient(req.body.ingredients, recipeId)
-    //                 .then ((resp)=> {
+        DatabaseService.updateRecipe(DUMMY_EMAIL, req.body, recipeId) 
+            .then ((resp) => {
+                // this.#updateRecipeIngredient(req.body.ingredients, recipeId)
+                //     .then ((resp)=> {
 
-    //                 })
-    //                 .catch((resp)=>{
-    //                     res.json({error:'Could not update recipeIngredient table'})
-    //                 })
-    //         })
-    //         .catch ((resp)=> {
-    //             res.json({error:'Could not update recipe table'})
-    //         })
-    // }
+                //     })
+                //     .catch((resp)=>{
+                //         res.json({error:'Could not update recipeIngredient table'})
+                //     })
+            })
+            .catch ((resp)=> {
+                res.json({error:'Could not update recipe table'})
+            })
+    }
 
     // static async #updateRecipeIngredient(ingredients, recipeId) {
         
