@@ -94,6 +94,15 @@ class DataService {
         const resp = await instance.get(`/recipe/${recipeId}`)
         return resp.data
     }
+    async getStoredRecipe(recipeId) {
+        try {
+            const resp = await instance.get(`/recipe/internal/${recipeId}`)
+            return resp.data
+        }
+        catch (e) {
+            return {error:'Error'}
+        }
+    }
     getMeals() {
         return
     }

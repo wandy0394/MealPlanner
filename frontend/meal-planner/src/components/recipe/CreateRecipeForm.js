@@ -28,7 +28,7 @@ const INITIAL_RECIPE = {
 }
 const calculator = new UnitConverter()
 
-export default function CreateRecipeForm2() {
+export default function CreateRecipeForm() {
     const [recipe, dispatch] = useReducer(reducer, INITIAL_RECIPE)
 
     function reducer (state, action) {

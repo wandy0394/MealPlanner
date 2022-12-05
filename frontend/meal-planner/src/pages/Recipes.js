@@ -85,7 +85,7 @@ export default function Recipes() {
                         Object.entries(recipes).map(([key, data], index)=> {
                             return (
                                 <TabPanel key={key} value={tabValue} index={index}>
-                                    <RecipeContent
+                                    {/* <RecipeContent
                                         storedInstructions={data.instructions}
                                         storedTitle={data.title}
                                         storedRecipeIngredients={data.ingredients}
@@ -93,6 +93,10 @@ export default function Recipes() {
                                         storedPrepTime={data.prepTime}
                                         storedCookTime={data.cookTime}
                                         storedServings={data.servings}
+                                    /> */}
+                                    <RecipeContent
+                                        recipe={data}
+                                        recipeId={key}
                                     />
                                 </TabPanel>
                             )
