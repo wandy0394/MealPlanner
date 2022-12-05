@@ -15,30 +15,43 @@ const INITIAL = {
     calories:0,
     protein:0,
     carbs:0,
-    food_id:''
+    food_id:'',
+    operation:'insert'
 }
-export default function IngredientsPane({recipeIngredients, dispatch, isDisabled, readOnly=false}) {
 
+function useGetIngredients() {
     const [ingredients, setIngredients] = useState([])
-
-    useEffect(()=>{
-        getIngredients()
-    },[])
-
-    function handleAddIngredient() {
-        dispatch({type:ACTION_TYPES.ADD_INGREDIENT, payload:{...INITIAL}})
-    }
+    let called = false
+    useEffect(()=> {        
+        if (!called) getIngredients()
+        return () => {
+            called = true
+        }
+    }, [])
     async function getIngredients() {
         try {
             console.log('Refreshing Ingredients')
             const result = await DataService.getIngredients()
             console.log(result)
             setIngredients(result)
+
         }
         catch (e) {
             console.error(e)
         }
     }
+    return [ingredients, setIngredients]
+}
+
+
+export default function IngredientsPane({recipeIngredients, dispatch, isDisabled, readOnly=false}) {
+
+    function handleAddIngredient() {
+        dispatch({type:ACTION_TYPES.ADD_INGREDIENT, payload:{...INITIAL}})
+    }
+    const [ingredients, setIngredients] = useGetIngredients()//useState([])
+
+
     return (
         <Paper elevation={3} sx={{overflow:'auto', height:'100%', padding:'1rem'}}>
             <Stack gap={2}>

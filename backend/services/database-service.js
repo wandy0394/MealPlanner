@@ -236,6 +236,45 @@ class DatabaseService {
             return promise
         }             
     }    
+    static apiGetRecipe(userEmail, id) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=> {
+                const sqlQuery = `SELECT recipe.id, recipe.title, name, 
+                                    ingredient.carbs, 
+                                    ingredient.protein, 
+                                    ingredient.fat, 
+                                    ingredient.calories, 
+                                    ingredient_id,
+                                    qty, 
+                                    units,
+                                    recipe.carbs as total_carbs, 
+                                    recipe.protein as total_protein, 
+                                    recipe.fat as total_fat, 
+                                    recipe.calories as total_calories,
+                                    recipe.servings as servings,
+                                    recipe.cook_time as cookTime,
+                                    recipe.prep_time as prepTime, 
+                                    instructions
+                                    FROM recipe 
+                                    INNER JOIN recipe_ingredient on recipe.id=recipe_ingredient.recipe_id 
+                                    INNER JOIN ingredient 
+                                    WHERE 
+                                    recipe.user_id='${userEmail}'
+                                    AND ingredient.id=recipe_ingredient.ingredient_id
+                                    AND recipe.id=${id};`
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL SELECT for recipe');
+                    }
+                    //console.log(results);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })
+            return promise
+        }             
+    }
     // static insertRecipeUser(userEmail, recipeId) {
     //     if (db !== undefined) {
     //         const promise = new Promise((resolve, reject)=> {

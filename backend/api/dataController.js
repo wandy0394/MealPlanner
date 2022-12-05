@@ -217,6 +217,48 @@ export default class DataController {
                 res.json({error: 'Could not get all recipes from database'})
             })       
     }
+    static async apiGetStoredRecipe(req, res, next) {
+        //expects /?id=someNumber
+        const id = req.params.id;
+        DatabaseService.apiGetRecipe(DUMMY_EMAIL, id)
+            .then((resp)=>{
+                const result = {}
+                Object.entries(resp).forEach(([key, value], index) => {
+                    if (!(value.id in result)) {
+                        result[value.id] = {
+                            title:value.title,
+                            ingredients:{},
+                            macros:{
+                                carbs:value.total_carbs,
+                                fat:value.total_fat,
+                                protein:value.total_protein,
+                                calories:value.total_calories,
+                            },
+                            instructions: value.instructions,
+                            servings:value.servings,
+                            cookTime:value.cookTime,
+                            prepTime:value.prepTime
+                        }
+                    }                    
+                    result[value.id]['ingredients'][index]={
+                        name: value.name,
+                        carbs: value.carbs,
+                        protein: value.protein,
+                        fat: value.fat,
+                        qty: value.qty,
+                        unit: value.units,
+                        food_id:value.ingredient_id,
+                        calories:value.calories,
+                        operation:'update'
+                    }
+                    result[value.id]['counter'] = index               
+                })
+                res.json(result)
+            })
+            .catch((resp)=>{
+                res.json({error: 'Could not get all recipes from database'})
+            }) 
+    }
     static async apiCreateRecipe(req, res, next) {
         return
     }
@@ -227,6 +269,54 @@ export default class DataController {
         return
     }
 
+    // static async apiUpdateRecipe(req, res, next) {
+    //     const params = req.body
+    //     const recipeId = req.params.id
+    //     console.log(params)
+
+
+    //     DatabaseService.updateRecipe(DUMMY_EMAIL, req.body, recipeId) 
+    //         .then ((resp) => {
+    //             this.#updateRecipeIngredient(req.body.ingredients, recipeId)
+    //                 .then ((resp)=> {
+
+    //                 })
+    //                 .catch((resp)=>{
+    //                     res.json({error:'Could not update recipeIngredient table'})
+    //                 })
+    //         })
+    //         .catch ((resp)=> {
+    //             res.json({error:'Could not update recipe table'})
+    //         })
+    // }
+
+    // static async #updateRecipeIngredient(ingredients, recipeId) {
+        
+    //     //takes an array of objects [ingred_id, ... ]
+    //     //creates array of objects [ {primary_key, operation=[INSERT | DELETE]}]
+    //     Object.entries(ingredients).reduce((query, [key, data])=> {
+    //         if (data.operation === 'select') {
+
+    //         }
+    //         else if (data.operation === 'delete') {
+
+    //         }
+    //         return (query + `${data.operation}`)
+
+
+    //     }, '')
+        
+    //     DatabaseService.getRecipeIngredients(recipeId)
+    //         .then((resp)=> {
+    //             //expect array of objects
+    //             resp.map((item)=> {
+    //                 //todo?
+    //             })
+
+
+    //         })
+
+    // }
     static async apiUpdateRecipeContent(req, res, next) {
         return
     }

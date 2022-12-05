@@ -31,11 +31,16 @@ router.route("/recipe/all")
 router.route("/recipe/add")
     .post(DataController.apiAddRecipe)
 
+router.route("/recipe/internal/:id")
+    .get(DataController.apiGetStoredRecipe)
+    
+    //.put(DataController.apiUpdateRecipeContent)
+
 router.route("/recipe/:id")
     .get(DataController.apiGetRecipe)
     .post(DataController.apiCreateRecipe)
     .delete(DataController.apiRemoveRecipe)
-    .put(DataController.apiUpdateRecipeContent)
+    
 
 router.route("/searchHistory")
     .get(DataController.apiGetSearchHistory)

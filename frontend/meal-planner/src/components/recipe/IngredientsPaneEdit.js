@@ -5,18 +5,11 @@ import { useEffect } from "react";
 import { ACTION_TYPES } from "./ActionTypes";
 
 
-const INITIAL = {
-    qty:0, 
-    name:"", 
-    unit:"g",
-    fat:0,
-    calories:0,
-    protein:0,
-    carbs:0,
-    food_id:''
-}
+
 export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch, ingredients, isDisabled}) {
 
+    //console.log(recipeIngredients)
+    //console.log(ingredients)
     function handleQtyChange(e, id) {
         dispatch({type:ACTION_TYPES.UPDATE_QTY, payload:{id:id, data:e.target.value}})
     }
@@ -37,9 +30,10 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
                 calories:food.calories,
                 fat: food.fat,
                 food_id:food.id,
-                name:food.name
+                name:food.name,
             }
         }
+        console.log(payload)
         dispatch({type:ACTION_TYPES.UPDATE_INGREDIENTS, payload:payload})
     }
 
