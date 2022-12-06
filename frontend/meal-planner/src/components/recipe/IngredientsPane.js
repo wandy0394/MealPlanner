@@ -16,7 +16,7 @@ const INITIAL = {
     protein:0,
     carbs:0,
     food_id:'',
-    operation:'insert'
+    operation:'insert',
 }
 
 function useGetIngredients() {

@@ -234,15 +234,6 @@ class DatabaseService {
                                     WHERE
                                         id=${recipeId} AND user_id='${userEmail}'
                                 `
-                                
-                // const sqlQuery = `UPDATE recipe 
-                //                     SET
-                //                         title='${params.title}',
-                //                         servings=${params.servings},
-                //                         prep_time=${params.prepTime},
-                //                     WHERE
-                //                         id=${recipeId}
-                //                 `
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
                         console.error(err)
@@ -267,14 +258,41 @@ class DatabaseService {
                         console.error(err)
                         return reject('Could not make SQL INSERT');
                     }
-                    //console.log(results);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })            
             return promise
         }             
     }    
+
+    static updateRecipeIngredients(ingredients, recipeId) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=> {
+                const sqlQuery =  Object.entries(ingredients).reduce((query, [key, value]) => {
+                    let command = ''
+                    if (value.operation === 'insert') {
+                        command = `INSERT INTO recipe_ingredient (recipe_id, ingredient_id, qty, units) VALUES (${recipeId}, ${value.food_id}, ${value.qty}, '${value.unit}');`
+                    }
+                    else if (value.operation === 'update') {
+                        command = `UPDATE recipe_ingredient SET ingredient_id=${value.food_id}, qty=${value.qty}, units='${value.unit}' WHERE id=${value.recipeIngredientId};`
+                    }
+                    else if (value.operation === 'delete') {
+                        command = `DELETE FROM recipe_ingredient WHERE id=${value.recipeIngredientId};`
+                    }
+                     
+                    return (query + command)
+                }, '')
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL Operations');
+                    }
+                    resolve(results);
+                }) 
+            })            
+            return promise
+        }          
+    }
     static apiGetRecipe(userEmail, id) {
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
@@ -293,13 +311,13 @@ class DatabaseService {
                                     recipe.servings as servings,
                                     recipe.cook_time as cookTime,
                                     recipe.prep_time as prepTime, 
+                                    recipe_ingredient.id as recipeIngredientId,
                                     instructions
                                     FROM recipe 
                                     INNER JOIN recipe_ingredient on recipe.id=recipe_ingredient.recipe_id 
-                                    INNER JOIN ingredient 
+                                    INNER JOIN ingredient on ingredient.id=recipe_ingredient.ingredient_id
                                     WHERE 
                                     recipe.user_id='${userEmail}'
-                                    AND ingredient.id=recipe_ingredient.ingredient_id
                                     AND recipe.id=${id};`
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
