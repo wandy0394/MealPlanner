@@ -108,13 +108,6 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
                     </Button>
                 )
             }
-            {/* <Button 
-                variant='outlined' 
-                onClick={e=>handleRemoveIngredient(e, keyID)}
-                disabled={isDisabled}
-            >
-                <RemoveIcon />
-            </Button> */}
         </Box>
     )
 }

@@ -29,6 +29,7 @@ const INITIAL_RECIPE = {
     cookTime:0
 }
 const calculator = new UnitConverter()
+let originalRecipe
 
 function useGetRecipe(id) {
     const [recipe, dispatch] = useReducer(reducer, INITIAL_RECIPE)
@@ -44,6 +45,7 @@ function useGetRecipe(id) {
             console.log('Refreshing recipe')
             const result = await DataService.getStoredRecipe(id)
             dispatch({type:ACTION_TYPES.SET_RECIPE, payload:result[id]})
+            originalRecipe = result[id]
         }
         catch (e) {
             console.error(e)
@@ -52,6 +54,8 @@ function useGetRecipe(id) {
     function reducer (state, action) {
         const {type, payload} = action
         switch(type) {
+            case ACTION_TYPES.RESET_RECIPE:
+                return {...originalRecipe, counter:originalRecipe.counter+1}
             case ACTION_TYPES.SET_RECIPE:
                 return {...payload, counter:payload.counter+1}
             case ACTION_TYPES.SET_TITLE:
@@ -145,6 +149,8 @@ export default function RecipeContent(props) {
     }
 
     function handleCancelClicked() {
+        //refreshComponent()
+        dispatch({type:ACTION_TYPES.RESET_RECIPE})
         setReadOnly(true)
     }
 
