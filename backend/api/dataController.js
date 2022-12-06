@@ -91,12 +91,12 @@ export default class DataController {
             .then((resp)=>{
                 //res.json({success: 'Recipe Added'})
                 DatabaseService.insertRecipeIngredient(req.body.ingredients, resp.insertId)
-                .then(()=> {
-                    res.json({success: 'success'})
-                })
-                .catch((resp) => {
-                    res.json({error:'Could not insert into RecipeIngredient'})
-                })
+                    .then(()=> {
+                        res.json({success: 'success'})
+                    })
+                    .catch((resp) => {
+                        res.json({error:'Could not insert into RecipeIngredient'})
+                    })
 
              })
             .catch((resp)=>{
@@ -249,10 +249,13 @@ export default class DataController {
                         unit: value.units,
                         food_id:value.ingredient_id,
                         calories:value.calories,
-                        operation:'update'
+                        operation:'update',
+                        recipeIngredientId: value.recipeIngredientId
+                        
                     }
                     result[value.id]['counter'] = index               
                 })
+                //console.log(result)
                 res.json(result)
             })
             .catch((resp)=>{
@@ -270,54 +273,23 @@ export default class DataController {
     }
 
     static async apiUpdateRecipe(req, res, next) {
-        const params = req.body
         const recipeId = req.params.id
-        console.log(req)
-        console.log(req.params.id)
-
-
         DatabaseService.updateRecipe(DUMMY_EMAIL, req.body, recipeId) 
             .then ((resp) => {
-                // this.#updateRecipeIngredient(req.body.ingredients, recipeId)
-                //     .then ((resp)=> {
-
-                //     })
-                //     .catch((resp)=>{
-                //         res.json({error:'Could not update recipeIngredient table'})
-                //     })
+                DatabaseService.updateRecipeIngredients(req.body.ingredients, recipeId)
+                .then((resp)=> {
+                    res.json({success:'Recipe Updated'})
+                })
+                .catch((resp)=>{
+                    res.json({error:'Could not update recipe_ingredient table'})
+                })
             })
             .catch ((resp)=> {
                 res.json({error:'Could not update recipe table'})
             })
     }
 
-    // static async #updateRecipeIngredient(ingredients, recipeId) {
-        
-    //     //takes an array of objects [ingred_id, ... ]
-    //     //creates array of objects [ {primary_key, operation=[INSERT | DELETE]}]
-    //     Object.entries(ingredients).reduce((query, [key, data])=> {
-    //         if (data.operation === 'select') {
 
-    //         }
-    //         else if (data.operation === 'delete') {
-
-    //         }
-    //         return (query + `${data.operation}`)
-
-
-    //     }, '')
-        
-    //     DatabaseService.getRecipeIngredients(recipeId)
-    //         .then((resp)=> {
-    //             //expect array of objects
-    //             resp.map((item)=> {
-    //                 //todo?
-    //             })
-
-
-    //         })
-
-    // }
     static async apiUpdateRecipeContent(req, res, next) {
         return
     }

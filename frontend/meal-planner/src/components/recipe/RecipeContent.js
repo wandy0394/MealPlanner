@@ -131,7 +131,7 @@ export default function RecipeContent(props) {
     function handleEditClick(e) {
         console.log('edit')
         setReadOnly((prev) => !prev)
-        //console.log(recipe)
+        console.log(recipe)
     }
 
     async function handleSaveClicked(e) {
