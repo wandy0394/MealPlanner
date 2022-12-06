@@ -1,6 +1,7 @@
 import { Box, Button, FormControl, FormGroup, Grid, InputLabel, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save'
 import EditIcon from '@mui/icons-material/Edit'
+import CancelIcon from '@mui/icons-material/Cancel'
 import { Stack } from "@mui/system";
 import { useEffect, useReducer, useState } from "react";
 import DataService from "../../service/data-service";
@@ -32,7 +33,6 @@ const calculator = new UnitConverter()
 function useGetRecipe(id) {
     const [recipe, dispatch] = useReducer(reducer, INITIAL_RECIPE)
     let called = false
-    //console.log(id)
     useEffect(()=> {        
         if (!called) getRecipe(id)
         return () => {
@@ -43,10 +43,7 @@ function useGetRecipe(id) {
         try {
             console.log('Refreshing recipe')
             const result = await DataService.getStoredRecipe(id)
-            //console.log(result[id])
-            //setRecipe(result)
             dispatch({type:ACTION_TYPES.SET_RECIPE, payload:result[id]})
-
         }
         catch (e) {
             console.error(e)
@@ -66,8 +63,6 @@ function useGetRecipe(id) {
             case ACTION_TYPES.SET_COUNTER:
                 return {...state, counter:payload}
             case ACTION_TYPES.SET_INGREDIENTS:
-                console.log('dispatch')
-                //console.log(payload)
                 return {...state, ingredients:payload}
             case ACTION_TYPES.UPDATE_INGREDIENTS:
                 return {...state, ingredients:{...state.ingredients, [payload.id]:payload.data}}
@@ -76,9 +71,13 @@ function useGetRecipe(id) {
             case ACTION_TYPES.ADD_INGREDIENT:
                 return {...state, ingredients:{...state.ingredients, [state.counter]:payload}, counter:state.counter+1} 
             case ACTION_TYPES.DELETE_INGREDIENT:
-                const newIngredients = {...state.ingredients}
+                let newIngredients = {...state.ingredients}
                 newIngredients[payload].operation = 'delete'
                 return {...state, ingredients:newIngredients}    
+            case ACTION_TYPES.UNDO_DELETE_INGREDIENT: 
+                let temp = {...state.ingredients}
+                temp[payload].operation = 'update'
+                return {...state, ingredients:temp}    
             case ACTION_TYPES.UPDATE_QTY:
                 return {...state, 
                     ingredients:{
@@ -117,20 +116,16 @@ function useGetRecipe(id) {
 
 export default function RecipeContent(props) {
 
-    //const {storedInstructions, storedTitle, storedRecipeIngredients, storedMacros, storedServings, storedPrepTime, storedCookTime} = props
     const {recipeId} = props
-    //const [recipe, dispatch] = useReducer(reducer, INITIAL_RECIPE)
     const [readOnly, setReadOnly] = useState(true)
     const [recipe, dispatch] = useGetRecipe(recipeId)
-
 
     function handleInstructionChange(e) {
         dispatch({type:ACTION_TYPES.SET_INSTRUCTIONS, payload:e.target.value})
     }
 
     function handleEditClick(e) {
-        console.log('edit')
-        setReadOnly((prev) => !prev)
+        setReadOnly(false)
         console.log(recipe)
     }
 
@@ -145,15 +140,15 @@ export default function RecipeContent(props) {
             cookTime:recipe.cookTime,
             prepTime:recipe.prepTime
         }
-        console.log(recipeId)
-        console.log(data)
-        setReadOnly((prev) => !prev)
-        console.log('save')
+        setReadOnly(true)
         DataService.updateRecipe(data, recipeId)
     }
 
+    function handleCancelClicked() {
+        setReadOnly(true)
+    }
+
     useEffect(()=> {
-        console.log('Call')
         const newMacros = {
             carbs:parseFloat(calculator.calculateCarbs(recipe.ingredients)).toFixed(2),
             fat:parseFloat(calculator.calculateFat(recipe.ingredients)).toFixed(2),
@@ -182,10 +177,16 @@ export default function RecipeContent(props) {
                                 readOnly ? (
                                     null
                                 ) : (
-                                    <Button variant='contained' type='submit' sx={{width:'100%'}} onClick={handleSaveClicked}>
-                                        <SaveIcon/>
-                                        <Typography variant='body' sx={{padding:'0 1rem'}}>Save</Typography>
-                                    </Button>
+                                    <Box sx ={{display:'flex', gap: '1rem'}}>
+                                        <Button variant='contained' type='submit' sx={{width:'100%'}} onClick={handleSaveClicked}>
+                                            <SaveIcon/>
+                                            <Typography variant='body' sx={{padding:'0 1rem'}}>Save</Typography>
+                                        </Button>
+                                        <Button variant='contained' type='submit' sx={{width:'100%'}} onClick={handleCancelClicked}>
+                                            <CancelIcon/>
+                                            <Typography variant='body' sx={{padding:'0 1rem'}}>Cancel</Typography>
+                                        </Button>
+                                    </Box>
                                 )
                             }
   
@@ -198,6 +199,7 @@ export default function RecipeContent(props) {
                             cookTime={recipe?.cookTime}
                             servings={recipe?.servings}
                             dispatch={dispatch}
+                            readOnly={readOnly}
                         />
                     </Grid>
                     <Grid item sm={12} md={6}>

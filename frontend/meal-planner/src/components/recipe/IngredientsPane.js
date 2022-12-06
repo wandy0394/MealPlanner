@@ -44,7 +44,7 @@ function useGetIngredients() {
 }
 
 
-export default function IngredientsPane({recipeIngredients, dispatch, isDisabled, readOnly=false}) {
+export default function IngredientsPane({recipeIngredients, dispatch, readOnly=false}) {
 
     function handleAddIngredient() {
         dispatch({type:ACTION_TYPES.ADD_INGREDIENT, payload:{...INITIAL}})
@@ -61,7 +61,7 @@ export default function IngredientsPane({recipeIngredients, dispatch, isDisabled
                         variant='contained' 
                         
                         onClick={handleAddIngredient}
-                        disabled={isDisabled}
+                        disabled={readOnly}
                     >
                         <AddIcon/>
                     </Button>
@@ -84,7 +84,7 @@ export default function IngredientsPane({recipeIngredients, dispatch, isDisabled
                                     recipeIngredients={recipeIngredients}
                                     dispatch={dispatch}
                                     ingredients={ingredients}
-                                    isDisabled={isDisabled}
+                                    isDisabled={readOnly}
                                 />
                             )
                         })
