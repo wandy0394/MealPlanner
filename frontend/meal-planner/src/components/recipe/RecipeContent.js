@@ -152,6 +152,16 @@ export default function RecipeContent(props) {
         DataService.updateRecipe(data, recipeId)
     }
 
+    useEffect(()=> {
+        console.log('Call')
+        const newMacros = {
+            carbs:parseFloat(calculator.calculateCarbs(recipe.ingredients)).toFixed(2),
+            fat:parseFloat(calculator.calculateFat(recipe.ingredients)).toFixed(2),
+            protein:parseFloat(calculator.calculateProtein(recipe.ingredients)).toFixed(2),
+            calories:parseFloat(calculator.calculateCalories(recipe.ingredients)).toFixed(2)
+        }
+        dispatch({type:ACTION_TYPES.SET_MACROS, payload: newMacros})
+    }, [recipe.ingredients])
 
     return (
         <Stack>
