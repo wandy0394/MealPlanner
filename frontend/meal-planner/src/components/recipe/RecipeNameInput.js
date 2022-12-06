@@ -2,7 +2,7 @@ import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save'
 import { ACTION_TYPES } from "./ActionTypes";
 
-export default function RecipeNameInput({title, cookTime, prepTime, servings, dispatch}) {
+export default function RecipeNameInput({title, cookTime, prepTime, servings, dispatch, readOnly=false}) {
 
     function handleTitleChange(e) {
         dispatch({type:ACTION_TYPES.SET_TITLE, payload:e.target.value})
@@ -29,6 +29,7 @@ export default function RecipeNameInput({title, cookTime, prepTime, servings, di
                     onChange={handleTitleChange} 
                     value={title}
                     inputProps={{style:{fontSize:40}}}
+                    disabled={readOnly}
                 />
                 <TextField 
                     variant='standard' 
@@ -37,6 +38,8 @@ export default function RecipeNameInput({title, cookTime, prepTime, servings, di
                     inputProps={{min:0, type:'number'}}
                     onChange={handleServingsChange} 
                     value={servings}
+                    disabled={readOnly}
+
                 />
                 <TextField 
                     variant='standard' 
@@ -45,6 +48,8 @@ export default function RecipeNameInput({title, cookTime, prepTime, servings, di
                     inputProps={{min:0, type:'number'}}
                     onChange={handlePrepTimeChange} 
                     value={prepTime}
+                    disabled={readOnly}
+
                 />
                 <TextField 
                     variant='standard' 
@@ -53,6 +58,8 @@ export default function RecipeNameInput({title, cookTime, prepTime, servings, di
                     inputProps={{min:0, type:'number'}}
                     onChange={handleCookTimeChange} 
                     value={cookTime}
+                    disabled={readOnly}
+
                 />
                 
             </Box>    
