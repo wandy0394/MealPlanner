@@ -9,18 +9,31 @@ import {ACTION_TYPES} from "../components/search/ActionTypes"
 import SidePane from "../layouts/SidePane";
 import IngredientInfo from "../components/search/IngredientInfo";
 import RecipeInfo from "../components/search/ReipceInfo";
-
+import DataService from "../service/data-service";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
     return (
-        <div hidden={value !== index}>
+        <>
             {(value === index) ? (
-                <Box sx={{marginTop:'2rem', border:'solid'}}>
+                <Box hidden={value !== index} sx={{marginTop:'2rem', border:'solid'}}>
                     {children}
                 </Box>
             ) : ('')}
-        </div>
+        </>
+    )
+}
+
+function SidePanelContent(props) {
+    const {children, value, index, ...other} = props;
+    return (
+            <>
+                {(value === index) ? (
+                    <Box hidden={value !== index} sx={{ flexGrow:'1'}}>
+                        {children}
+                    </Box>
+                ) : ('')}    
+            </>
     )
 }
 
@@ -60,7 +73,7 @@ export default function Search() {
     const [recipeState, recipeDispatch] = useReducer(recipeReducer, INITIAL_RECIPE_STATE)
 
     const [ingredientId, setIngredientId] = useState('')
-    const [recipeId, setRecipeId] = useState('')
+    const [recipe, setRecipe] = useState('')
 
     function ingredientsReducer(state, action) {
         const {type, payload} = action
@@ -101,6 +114,21 @@ export default function Search() {
     const handleTabChange = (event, newValue) => {
         setTabNum(newValue)
     }
+
+    
+    async function getRecipe(recipeId) {
+        try {
+            const data = await DataService.getRecipe(recipeId)
+            console.log(data.recipe)  
+            setRecipe(data.recipe)
+        }
+        catch (e) {
+            console.error('error')
+            console.log(e)
+        }
+    }
+    
+
     return (
         <Stack direction='row' sx={{height:'100%'}}>
             <ContentBox>
@@ -128,7 +156,7 @@ export default function Search() {
                         <SearchRecipes
                             state={recipeState}
                             dispatch={recipeDispatch}
-                            setRecipeId={setRecipeId}
+                            getRecipe={getRecipe}
                         />
                     </TabPanel>
                     <TabPanel value={tabNum} index={2}>
@@ -138,15 +166,15 @@ export default function Search() {
                 </Stack>
             </ContentBox>
             <SidePane>
-                <TabPanel value={tabNum} index={0}>
+                <SidePanelContent value={tabNum} index={0}>
                     <IngredientInfo ingredientId={ingredientId}/>
-                </TabPanel>
-                <TabPanel value={tabNum} index={1}>
-                    <RecipeInfo recipeId={recipeId}/>                    
-                </TabPanel>
-                <TabPanel value={tabNum} index={2}>
+                </SidePanelContent>
+                <SidePanelContent value={tabNum} index={1}>
+                    <RecipeInfo recipe={recipe}/>                    
+                </SidePanelContent>
+                <SidePanelContent value={tabNum} index={2}>
                     Three
-                </TabPanel>
+                </SidePanelContent>
             </SidePane>
                      
         </Stack>   
