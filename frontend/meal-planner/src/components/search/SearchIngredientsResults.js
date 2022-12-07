@@ -13,7 +13,7 @@ const DUMMY_DATA = [
 
 ]
 
-export default function SearchIngredientResults({data, setIngredientInfo}) {
+export default function SearchIngredientResults({data, setIngredientId}) {
 
     let cleanedData = null
     const columnHeaders = [
@@ -86,7 +86,7 @@ export default function SearchIngredientResults({data, setIngredientInfo}) {
     }
 
     function handleIngredientClick(e, id) {
-        setIngredientInfo(id)
+        setIngredientId(id)
     }
 
     return (

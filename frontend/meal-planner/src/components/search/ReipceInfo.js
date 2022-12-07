@@ -1,11 +1,99 @@
-import { Box, Stack } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
+import { useEffect, useState } from "react"
+import { ContentBox } from "../utility/ContentBox"
+import DataService from "../../service/data-service"
 
 export default function RecipeInfo(props) {
-    const {recipeInfo, setRecipeInfo} = props
+    const {recipeId} = props
+    const [instructions, setInstructions] = useState('')
+    const [macros, setMacros] = useState({})
+    const [ingredients, setIngredients] = useState([])
+    const [title, setTitle] = useState('')
+
+    useEffect(()=> {
+        
+
+        getRecipe(recipeId)
+        
+    }, [recipeId])
+
+  
+    async function getRecipe() {
+        try {
+            const data = await DataService.getRecipe(recipeId)
+            console.log(data)  
+            parseData(data.recipe)
+        }
+        catch (e) {
+            console.error('error')
+            console.log(e)
+        }
+    }
+
+    function parseData(recipe) {
+        setTitle(recipe.recipe_name)
+        const directions = recipe.directions.direction.reduce((acc, item) => {
+            return acc + item.direction_number + ': ' + item.direction_description + '\n' 
+        },'')
+        setInstructions(directions)
+
+
+        //ingredients object structure
+        // const INITIAL = {
+        //     qty:0, 
+        //     name:"", 
+        //     unit:"g",
+        //     fat:0,
+        //     calories:0,
+        //     protein:0,
+        //     carbs:0,
+        //     id:null
+        // }
+
+        const ingredients = recipe.ingredients.ingredient.map((item)=> {
+            return {
+                qty:item.number_of_units,
+                name:item.food_name, 
+                unit:item.measurement_description,
+                fat:0,
+                calories:0,
+                protein:0,
+                carbs:0,
+                id:item.food_id                
+            }
+        })
+        setIngredients(ingredients)
+        const numServings = recipe.number_of_servings
+        const macros = {
+            carbs:parseFloat(recipe.serving_sizes.serving.carbohydrate).toFixed(2),
+            fat: parseFloat(recipe.serving_sizes.serving.fat).toFixed(2),
+            protein: parseFloat(recipe.serving_sizes.serving.protein).toFixed(2),
+            calories: parseFloat(recipe.serving_sizes.serving.calories).toFixed(2)
+        }
+        setMacros(macros)
+    }
+
+
+ 
 
     return (
-        <Stack>
-            {recipeInfo}
-        </Stack>
+        
+        <Box sx={{height:'100%', border:'solid'}}>
+            <Box>
+                <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>
+                    Recipe Details
+                </Typography>
+            </Box>
+            <Box>
+                {title}
+                {instructions}
+                {macros.carbs}
+                {macros.fat}
+                {macros.protein}
+                {macros.calories}
+            </Box>
+
+        </Box>
+        
     )
 }

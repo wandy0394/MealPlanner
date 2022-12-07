@@ -82,12 +82,7 @@ export default function SearchDetails(props) {
                     </Typography>
                 </Box>
                 <Box>
-                    <RecipeDetails
-                        storedInstructions={instructions}
-                        storedTitle={title}
-                        storedRecipeIngredients={ingredients}
-                        storedMacros={macros}
-                    />
+
                 </Box>
 
             </Stack>

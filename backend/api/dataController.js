@@ -66,7 +66,7 @@ export default class DataController {
                 type: output.food.food_type,
                 servings: output.food.servings
             }
-            res.json(response)
+            res.json(output)
             //return response;
         } catch (e) {
             console.log('error')

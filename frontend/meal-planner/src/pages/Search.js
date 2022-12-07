@@ -16,7 +16,7 @@ function TabPanel(props) {
     return (
         <div hidden={value !== index}>
             {(value === index) ? (
-                <Box sx={{paddingTop:'2rem'}}>
+                <Box sx={{marginTop:'2rem', border:'solid'}}>
                     {children}
                 </Box>
             ) : ('')}
@@ -59,8 +59,8 @@ export default function Search() {
     const [ingredientsState, ingredientsDispatch] = useReducer(ingredientsReducer, INITIAL_INGREDIENTS_STATE)
     const [recipeState, recipeDispatch] = useReducer(recipeReducer, INITIAL_RECIPE_STATE)
 
-    const [ingredientInfo, setIngredientInfo] = useState('')
-    const [recipeInfo, setRecipeInfo] = useState('')
+    const [ingredientId, setIngredientId] = useState('')
+    const [recipeId, setRecipeId] = useState('')
 
     function ingredientsReducer(state, action) {
         const {type, payload} = action
@@ -121,16 +121,14 @@ export default function Search() {
                         <SearchIngredients
                             state={ingredientsState}
                             dispatch={ingredientsDispatch}
-                            ingredientInfo={ingredientInfo}
-                            setIngredientInfo={setIngredientInfo}
+                            setIngredientId={setIngredientId}
                         />
                     </TabPanel>
                     <TabPanel value={tabNum} index={1}>
                         <SearchRecipes
                             state={recipeState}
                             dispatch={recipeDispatch}
-                            recipeInfo={recipeInfo}
-                            setRecipeInfo={setRecipeInfo}
+                            setRecipeId={setRecipeId}
                         />
                     </TabPanel>
                     <TabPanel value={tabNum} index={2}>
@@ -141,10 +139,10 @@ export default function Search() {
             </ContentBox>
             <SidePane>
                 <TabPanel value={tabNum} index={0}>
-                    <IngredientInfo ingredientInfo={ingredientInfo} setIngredientInfo={setIngredientInfo}/>
+                    <IngredientInfo ingredientId={ingredientId}/>
                 </TabPanel>
                 <TabPanel value={tabNum} index={1}>
-                    <RecipeInfo recipeInfo={recipeInfo} setRecipeInfo={setRecipeInfo}/>                    
+                    <RecipeInfo recipeId={recipeId}/>                    
                 </TabPanel>
                 <TabPanel value={tabNum} index={2}>
                     Three

@@ -3,7 +3,7 @@ import MenuLink from "../components/menu/MenuLink";
 
 function Splash() {
     return (
-        <Box sx={{height:'15vh', display:'flex', justifyContent:'center'}}>
+        <Box sx={{height:'15vh', display:'flex', justifyContent:'center', border:'solid'}}>
             Space
         </Box>
 
@@ -18,14 +18,15 @@ export default function SidePane({children}) {
             display:{xs:'none', md:'flex'}, 
             height:{xs:'auto', md:'100%'}, 
             flexDirection:'column', 
-            gap:'1vh',
             borderLeft: '2px solid #9e9e9e',
-            padding:'1rem',
-            overflow:'hidden'
+            overflow:'hidden',
         }}
         >
-        <Splash/>
+        <Splash />
+        <Box>
             {children}
+        </Box>
+        
         </Box>
     )
 }
