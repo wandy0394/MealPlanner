@@ -31,7 +31,7 @@ const CRITERIA_SUFFIX = {
 
 
 
-export default function SearchRecipes({state, dispatch, setRecipeId}) {
+export default function SearchRecipes({state, dispatch, getRecipe}) {
     const [visible, setVisible] = useState(false)
 
     function validateInputs() {
@@ -165,7 +165,7 @@ export default function SearchRecipes({state, dispatch, setRecipeId}) {
             </Box>
             <Box>
                 {
-                    ((state.results !== null) && <><SearchRecipeResults data={state.results} setRecipeId={setRecipeId}/></>)
+                    ((state.results !== null) && <><SearchRecipeResults data={state.results} getRecipe={getRecipe}/></>)
                 }
             </Box>
             <Box>

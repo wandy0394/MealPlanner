@@ -1,12 +1,15 @@
 
-import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Collapse } from "@mui/material";
+import { Box } from "@mui/system";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {strawTheme} from '../utility/StrawTheme'
 
-export default function SearchRecipeResults({data, setRecipeId}) {
+export default function SearchRecipeResults({data, getRecipe}) {
     const navigate = useNavigate()
     let cleanedData = null
     let tableRows = []
+    const [detail, setDetail] = useState('')
     const columnHeaders = [
         'ID',
         'Title',
@@ -40,10 +43,11 @@ export default function SearchRecipeResults({data, setRecipeId}) {
             )
         })
     }
-    function handleRowClick(e, id) {
+    async function handleRowClick(e, id) {
         // console.log(id)
         // navigate('details/'+id)
-        setRecipeId(id)
+        const result = await getRecipe(id)
+        setDetail(result)
     }
 
     return (
@@ -56,21 +60,27 @@ export default function SearchRecipeResults({data, setRecipeId}) {
                                 return <TableCell>{item}</TableCell>
                             })
                         }
-                        <TableCell>Details</TableCell>
+                        {/* <TableCell>Details</TableCell> */}
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {
                         tableRows.map((row) => {
-                            return <TableRow key={row.ID} onClick={(e, id) => handleRowClick(e, row.ID)} sx= {{'&:hover':{backgroundColor: '#EEEEEE', cursor:'pointer'}}}>
-                                        
-                                        {
-                                            columnHeaders.map((header) => {
-                                                return <TableCell>{row[header]}</TableCell>
-                                            })
-                                        }
-                                        <TableCell><Link to={'details/'+row.ID}>More</Link></TableCell>
-                                    </TableRow>
+                            return (
+                                        <>
+                                            <TableRow key={row.ID} onClick={(e, id) => handleRowClick(e, row.ID)} sx= {{'&:hover':{backgroundColor: '#EEEEEE', cursor:'pointer'}}}>
+                                            
+                                                {
+                                                    columnHeaders.map((header) => {
+                                                        return <TableCell>{row[header]}</TableCell>
+                                                    })
+                                                }
+
+                                            
+                                            {/* <TableCell><Link to={'details/'+row.ID}>More</Link></TableCell> */}
+                                            </TableRow>
+                                        </>
+                            )
                         })
 
                     }
