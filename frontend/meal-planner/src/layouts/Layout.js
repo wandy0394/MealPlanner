@@ -18,7 +18,7 @@ export default function Layout() {
 
         <div style={{height:'100vh', display:'flex', flexDirection:'column'}}>
             <HeadBar toggleMenu={toggleMenu}/>
-            <div style={{height:'90vh', display:'flex'}}>
+            <div style={{height:'100%', display:'flex'}}>
                 <div style={{height:{xs:'auto', md:'100%'}}}>
                     <NavMenu/>
                 </div>
@@ -26,6 +26,7 @@ export default function Layout() {
                     <div style={{display:'flex', height:'90vh', flexDirection:'column'}}>
                         <Outlet/>
                     </div>
+                    <div style={{height:'5vh', border:'solid'}}>Some foooter goes here</div>            
                 </div>
             </div>
             <Drawer anchor='left' open={menuOpen} onClose={toggleMenu}>
@@ -36,7 +37,6 @@ export default function Layout() {
                 </ListItem>   
                 <MenuContents/>
             </Drawer>
-            <div style={{height:'5vh', border:'solid'}}>Some foooter goes here</div>            
             
         </div>
 

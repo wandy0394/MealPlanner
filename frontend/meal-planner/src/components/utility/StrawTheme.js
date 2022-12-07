@@ -16,7 +16,7 @@ export const strawTheme = createTheme({
         },
         background: {
             paper: '#f5f6c9',
-            default: '#FFFFEE ',
+            default: '#FFFFEE',
             menuItem: '#d9a441'
         }
     },

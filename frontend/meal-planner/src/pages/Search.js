@@ -6,6 +6,9 @@ import SearchIngredients from "../components/search/SearchIngredients";
 import SearchRecipes from "../components/search/SearchRecipes";
 import SearchHistory from "../components/search/SearchHistory";
 import {ACTION_TYPES} from "../components/search/ActionTypes"
+import SidePane from "../layouts/SidePane";
+import IngredientInfo from "../components/search/IngredientInfo";
+import RecipeInfo from "../components/search/ReipceInfo";
 
 
 function TabPanel(props) {
@@ -56,6 +59,9 @@ export default function Search() {
     const [ingredientsState, ingredientsDispatch] = useReducer(ingredientsReducer, INITIAL_INGREDIENTS_STATE)
     const [recipeState, recipeDispatch] = useReducer(recipeReducer, INITIAL_RECIPE_STATE)
 
+    const [ingredientInfo, setIngredientInfo] = useState('')
+    const [recipeInfo, setRecipeInfo] = useState('')
+
     function ingredientsReducer(state, action) {
         const {type, payload} = action
         switch (type) {
@@ -96,36 +102,55 @@ export default function Search() {
         setTabNum(newValue)
     }
     return (
-        <ContentBox>
-            <Stack sx={{height:'100%'}}>
-                <Box sx={{flexGrow:'1'}}>
+        <Stack direction='row' sx={{height:'100%'}}>
+            <ContentBox>
+                <Box sx={{height:'15vh', display:'flex', flexDirection:'column', justifyContent:'flex-end'}}>
                     <Box>
                         <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>
                             Find Something to Eat       
                         </Typography>
-                        <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
-                            <Tab label='Ingredients' sx={{width:'33%'}}/>
-                            <Tab label='Recipes' sx={{width:'33%'}}/>
-                            <Tab label='History' sx={{width:'33%'}}/>     
-                        </Tabs>                        
-                        <TabPanel value={tabNum} index={0}>
-                            <SearchIngredients
-                                state={ingredientsState}
-                                dispatch={ingredientsDispatch}
-                            />
-                        </TabPanel>
-                        <TabPanel value={tabNum} index={1}>
-                            <SearchRecipes
-                                state={recipeState}
-                                dispatch={recipeDispatch}
-                            />
-                        </TabPanel>
-                        <TabPanel value={tabNum} index={2}>
-                            <SearchHistory/>
-                        </TabPanel>
                     </Box>
+                    <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
+                        <Tab label='Ingredients' sx={{width:'33%'}}/>
+                        <Tab label='Recipes' sx={{width:'33%'}}/>
+                        <Tab label='History' sx={{width:'33%'}}/>     
+                    </Tabs>                        
                 </Box>
-            </Stack>            
-        </ContentBox>
+                <Stack sx={{height:'100%'}}>
+                    <TabPanel value={tabNum} index={0}>
+                        <SearchIngredients
+                            state={ingredientsState}
+                            dispatch={ingredientsDispatch}
+                            ingredientInfo={ingredientInfo}
+                            setIngredientInfo={setIngredientInfo}
+                        />
+                    </TabPanel>
+                    <TabPanel value={tabNum} index={1}>
+                        <SearchRecipes
+                            state={recipeState}
+                            dispatch={recipeDispatch}
+                            recipeInfo={recipeInfo}
+                            setRecipeInfo={setRecipeInfo}
+                        />
+                    </TabPanel>
+                    <TabPanel value={tabNum} index={2}>
+                        <SearchHistory/>
+                    </TabPanel>
+                        
+                </Stack>
+            </ContentBox>
+            <SidePane>
+                <TabPanel value={tabNum} index={0}>
+                    <IngredientInfo ingredientInfo={ingredientInfo} setIngredientInfo={setIngredientInfo}/>
+                </TabPanel>
+                <TabPanel value={tabNum} index={1}>
+                    <RecipeInfo recipeInfo={recipeInfo} setRecipeInfo={setRecipeInfo}/>                    
+                </TabPanel>
+                <TabPanel value={tabNum} index={2}>
+                    Three
+                </TabPanel>
+            </SidePane>
+                     
+        </Stack>   
     )
 }

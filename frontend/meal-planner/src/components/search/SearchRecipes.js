@@ -95,7 +95,7 @@ export default function SearchRecipes({state, dispatch}) {
     }
 
     function calculatePages() {
-        return Math.floor(parseInt(state.results.recipes.total_results, 10) / 10) + 1
+        return Math.ceil(parseInt(state.results.recipes.total_results, 10) / 10)
     }
     return (
         <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>

@@ -13,7 +13,7 @@ const DUMMY_DATA = [
 
 ]
 
-export default function SearchIngredientResults({data}) {
+export default function SearchIngredientResults({data, setIngredientInfo}) {
 
     let cleanedData = null
     const columnHeaders = [
@@ -85,6 +85,9 @@ export default function SearchIngredientResults({data}) {
         DataService.addIngredient(params)
     }
 
+    function handleIngredientClick(e, id) {
+        setIngredientInfo(id)
+    }
 
     return (
         <Box sx = {{display:'flex', flexDirection: 'column', alignItems:'center'}}>
@@ -103,7 +106,7 @@ export default function SearchIngredientResults({data}) {
                     <TableBody>
                         {
                             tableRows.map((row) => {
-                                return <TableRow key={row.ID}>
+                                return <TableRow key={row.ID} onClick={(e)=>handleIngredientClick(e, row.ID)} hover sx={{'&:hover':{cursor:'pointer'}}}>
                                             <TableCell key={row.ID*2}>
                                                 <Button key={row.ID} onClick={(e, input) => handleAddClick(e, row.ID)}>
                                                     <AddBoxIcon/>
