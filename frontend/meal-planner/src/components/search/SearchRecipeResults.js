@@ -3,7 +3,7 @@ import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper 
 import { Link, useNavigate } from "react-router-dom";
 import {strawTheme} from '../utility/StrawTheme'
 
-export default function SearchRecipeResults({data}) {
+export default function SearchRecipeResults({data, setRecipeId}) {
     const navigate = useNavigate()
     let cleanedData = null
     let tableRows = []
@@ -41,8 +41,9 @@ export default function SearchRecipeResults({data}) {
         })
     }
     function handleRowClick(e, id) {
-        console.log(id)
-        navigate('details/'+id)
+        // console.log(id)
+        // navigate('details/'+id)
+        setRecipeId(id)
     }
 
     return (
