@@ -2,7 +2,7 @@ import { Box, Paper, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ContentBox } from "../components/utility/ContentBox";
-import RecipeContent from "../components/recipe/RecipeContent";
+import RecipeDetails from "../components/recipe/RecipeDetails";
 import DataService from "../service/data-service";
 
 
@@ -76,13 +76,13 @@ export default function SearchDetails(props) {
     return (
         <ContentBox sx={{height:'100%'}}>
             <Stack sx={{height:'100%'}}>
-                <Box sx={{border:'solid'}}>
-                    <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'center', border:'none'}}>
+                <Box>
+                    <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>
                         Recipe Details
                     </Typography>
                 </Box>
                 <Box>
-                    <RecipeContent
+                    <RecipeDetails
                         storedInstructions={instructions}
                         storedTitle={title}
                         storedRecipeIngredients={ingredients}

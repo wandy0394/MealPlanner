@@ -7,7 +7,7 @@ export const ContentBox = styled(Box)({
     flexGrow:1,
     overflowY:'scroll',
     overflowX:'hidden',
-    width:'100%',
+    width:'76vw',
     padding: '0 5vw',
 })
 

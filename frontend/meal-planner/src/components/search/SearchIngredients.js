@@ -16,7 +16,7 @@ const dummyOutput = {
 
 }
 
-export default function SearchIngredients({state, dispatch}) {
+export default function SearchIngredients({state, dispatch, ingredientInfo, setIngredientInfo}) {
 
     
     async function callSearchIngredients(query, page, doStoreSearch) {
@@ -54,7 +54,7 @@ export default function SearchIngredients({state, dispatch}) {
     }
 
     function calculatePages() {
-        return Math.floor(parseInt(state.results.total_results, 10) / 10) + 1
+        return Math.ceil(parseInt(state.results.total_results, 10) / 10)
     }
 
     return (
@@ -90,7 +90,13 @@ export default function SearchIngredients({state, dispatch}) {
             </Box>
             <Box>
                 {
-                    ((state.results !== null) && <><SearchIngredientResults data={state.results}/></>)
+                    ((state.results !== null) && 
+                        <><SearchIngredientResults 
+                            data={state.results} 
+                            ingredientInfo={ingredientInfo} 
+                            setIngredientInfo={setIngredientInfo}
+                            />
+                        </>)
                 }
             </Box>
             <Box>

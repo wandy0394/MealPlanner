@@ -1,4 +1,4 @@
-import { ListItemText, ListItemIcon, MenuItem, Typography } from "@mui/material"
+import { ListItemText, ListItemIcon, MenuItem, Typography, Box } from "@mui/material"
 
 import SearchIcon from "@mui/icons-material/Search"
 import EggIcon from "@mui/icons-material/Egg"
@@ -16,7 +16,9 @@ const StyledMenuItem = styled(MenuItem)(({theme}) => ({
     display:'flex',     
     gap:'1rem',
     alignItems: 'center',
-    borderRadius:theme.shape.borderRadius
+    borderRadius:theme.shape.borderRadius,
+    borderTopRightRadius:'0',
+    borderBottomRightRadius:'0',
 }))
 
 
@@ -24,12 +26,16 @@ const StyledMenuItem = styled(MenuItem)(({theme}) => ({
 export default function MenuContents() {
     const activeStyle= {
         color:strawTheme.palette.common.black,
-        backgroundColor:strawTheme.palette.background.menuItem
+        //backgroundColor:strawTheme.palette.background.menuItem,
+        backgroundColor:strawTheme.palette.background.default,
+        marginRight:'0',
+        borderTopRightRadius:'0',
+        borderBottomRightRadius:'0',
     }
 
     return (
         <>
-
+            
             <MenuLink id={1} to='/search' style={({isActive})=> isActive ? activeStyle:undefined}>
                 <StyledMenuItem>
                     <SearchIcon fontSize='large'/>

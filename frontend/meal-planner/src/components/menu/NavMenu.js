@@ -5,11 +5,11 @@ import { styled } from "@mui/system"
 
 function Splash() {
     return (
-        <ListItem sx={{height:'15vh', display:'flex', justifyContent:'center'}}>
+        <Box sx={{backgroundColor:'#f5f6c9', height:'15vh', display:'flex', justifyContent:'center', alignItems:'center', padding:'0', margin:'0'}}>
             <MenuLink to='/' style={{textDecoration:'none'}}>
                 <Typography variant='h4'>Meal Manager</Typography>
             </MenuLink>
-        </ListItem>   
+        </Box>   
     )
 }
 
@@ -23,9 +23,9 @@ export default function NavMenu() {
                 display:{xs:'none', md:'flex'}, 
                 height:{xs:'auto', md:'100%'}, 
                 flexDirection:'column', 
-                gap:'1vh',
-                borderRight: '2px solid #9e9e9e',
-                padding:'1rem'
+                gap:'1rem',
+                //borderRight: '1px solid #9e9e9e',
+                backgroundColor:'#f5f6c9'
             }}
         >
             <Splash/>
