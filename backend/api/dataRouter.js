@@ -42,8 +42,11 @@ router.route("/recipe/:id")
     .delete(DataController.apiRemoveRecipe)
     
 
-router.route("/searchHistory")
+router.route("/searchHistory/query/all")
     .get(DataController.apiGetSearchHistory)
+
+router.route("/searchHistory/query/:type")
+    .get(DataController.apiGetSearchHistoryByType)
 
 router.route("/searchHistory/:id")
     .delete(DataController.apiRemoveSearchQuery)

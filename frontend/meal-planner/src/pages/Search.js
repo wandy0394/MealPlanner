@@ -160,17 +160,19 @@ export default function Search() {
                         />
                     </TabPanel>
                     <TabPanel value={tabNum} index={2}>
-                        <SearchHistory/>
+                        {/* <SearchHistory/> */}
                     </TabPanel>
                         
                 </Stack>
             </ContentBox>
             <SidePane>
                 <SidePanelContent value={tabNum} index={0}>
-                    <IngredientInfo ingredientId={ingredientId}/>
+                    {/* <IngredientInfo ingredientId={ingredientId}/> */}
+                    <SearchHistory type='ingred'/>
                 </SidePanelContent>
                 <SidePanelContent value={tabNum} index={1}>
-                    <RecipeInfo recipe={recipe}/>                    
+                    {/* <RecipeInfo recipe={recipe}/> */}
+                    <SearchHistory type='recipe'/>                    
                 </SidePanelContent>
                 <SidePanelContent value={tabNum} index={2}>
                     Three

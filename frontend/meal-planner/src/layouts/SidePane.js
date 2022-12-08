@@ -19,7 +19,8 @@ export default function SidePane({children}) {
                 height:{xs:'auto', md:'100%'}, 
                 flexDirection:'column', 
                 borderLeft: '2px solid #9e9e9e',
-                overflow:'scroll',
+                overflowY:'scroll',
+                overflowX:'hidden'
             }}
         >
     
