@@ -10,6 +10,7 @@ import SidePane from "../layouts/SidePane";
 import IngredientInfo from "../components/search/IngredientInfo";
 import RecipeInfo from "../components/search/ReipceInfo";
 import DataService from "../service/data-service";
+import RecipePostCard from "../components/recipe/RecipePostCard";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -75,6 +76,12 @@ export default function Search() {
     const [ingredientId, setIngredientId] = useState('')
     const [recipe, setRecipe] = useState('')
 
+    const [open, setOpen] = useState(false)
+    
+    function handleClose() {
+        setOpen(false)
+    }
+
     function ingredientsReducer(state, action) {
         const {type, payload} = action
         switch (type) {
@@ -121,6 +128,7 @@ export default function Search() {
             const data = await DataService.getRecipe(recipeId)
             console.log(data.recipe)  
             setRecipe(data.recipe)
+            setOpen(true)
         }
         catch (e) {
             console.error('error')
@@ -130,55 +138,52 @@ export default function Search() {
     
 
     return (
-        <Stack direction='row' sx={{height:'100%'}}>
-            <ContentBox>
-                <Box sx={{height:'15vh', display:'flex', flexDirection:'column', justifyContent:'flex-end'}}>
-                    <Box>
-                        <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>
-                            Find Something to Eat       
-                        </Typography>
+        <Box sx={{height:'100%'}}>
+            <Stack direction='row' sx={{height:'100%'}}>
+                <ContentBox>
+                    <Box sx={{height:'15vh', display:'flex', flexDirection:'column', justifyContent:'flex-end'}}>
+                        <Box>
+                            <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>
+                                Find Something to Eat       
+                            </Typography>
+                        </Box>
+                        <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
+                            
+                            <Tab label='Ingredients' sx={{width:'100%'}}/>
+                            <Tab label='Recipes' sx={{width:'100%'}}/>  
+                        </Tabs>                        
                     </Box>
-                    <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
-                        <Tab label='Ingredients' sx={{width:'33%'}}/>
-                        <Tab label='Recipes' sx={{width:'33%'}}/>
-                        <Tab label='History' sx={{width:'33%'}}/>     
-                    </Tabs>                        
-                </Box>
-                <Stack sx={{height:'100%'}}>
-                    <TabPanel value={tabNum} index={0}>
-                        <SearchIngredients
-                            state={ingredientsState}
-                            dispatch={ingredientsDispatch}
-                            setIngredientId={setIngredientId}
-                        />
-                    </TabPanel>
-                    <TabPanel value={tabNum} index={1}>
-                        <SearchRecipes
-                            state={recipeState}
-                            dispatch={recipeDispatch}
-                            getRecipe={getRecipe}
-                        />
-                    </TabPanel>
-                    <TabPanel value={tabNum} index={2}>
-                        {/* <SearchHistory/> */}
-                    </TabPanel>
+                    <Stack sx={{height:'100%'}}>
+                        <TabPanel value={tabNum} index={0}>
+                            <SearchIngredients
+                                state={ingredientsState}
+                                dispatch={ingredientsDispatch}
+                                setIngredientId={setIngredientId}
+                            />
+                        </TabPanel>
+                        <TabPanel value={tabNum} index={1}>
+                            <SearchRecipes
+                                state={recipeState}
+                                dispatch={recipeDispatch}
+                                getRecipe={getRecipe}
+                            />
+                        </TabPanel>
+
+                            
+                    </Stack>
+                </ContentBox>
+                <SidePane>
+                    <SidePanelContent value={tabNum} index={0}>
+                        <SearchHistory type='ingred'/>
+                    </SidePanelContent>
+                    <SidePanelContent value={tabNum} index={1}>
+                        <SearchHistory type='recipe'/>                    
+                    </SidePanelContent>
+                </SidePane>
+                
                         
-                </Stack>
-            </ContentBox>
-            <SidePane>
-                <SidePanelContent value={tabNum} index={0}>
-                    {/* <IngredientInfo ingredientId={ingredientId}/> */}
-                    <SearchHistory type='ingred'/>
-                </SidePanelContent>
-                <SidePanelContent value={tabNum} index={1}>
-                    {/* <RecipeInfo recipe={recipe}/> */}
-                    <SearchHistory type='recipe'/>                    
-                </SidePanelContent>
-                <SidePanelContent value={tabNum} index={2}>
-                    Three
-                </SidePanelContent>
-            </SidePane>
-                     
-        </Stack>   
+            </Stack>   
+            <RecipePostCard recipe={recipe} open={open} handleClose={handleClose}/>
+        </Box>
     )
 }

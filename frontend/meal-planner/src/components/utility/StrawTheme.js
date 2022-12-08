@@ -21,6 +21,6 @@ export const strawTheme = createTheme({
         }
     },
     shape: {
-        borderRadius:'20px'
+        borderRadius:8
     }
 })
