@@ -83,38 +83,28 @@ export default function SearchHistory({type='all'}) {
             <SideMenuHeader>
                 <Typography variant='h4'>Past Queries</Typography>
             </SideMenuHeader>
-            
-                <TableContainer sx={{padding:'2rem 0'}}>
-                    <Table>
-                        <Stack gap={1}>
-                        {
-                            searchHistory.map((item, index)=> {
-                                return (
-                                        <TableRow key={index}>
-                                            <Paper elevation={2} sx={{padding:'1rem 1rem'}}>
-                                                <Box sx={{display:'flex', justifyContent: 'space-between'}}>
-                                                    <Box sx={{display:'flex', flexDirection:'column'}}>
-                                                        <Typography variant='body'>{item.query}</Typography> 
-                                                        <Typography variant='subtitle2'>{item.timeStamp}</Typography>
-                                                    </Box>
-                                                    <Box>
-                                                        <IconButton onClick={e=>handleDelete(e, item.id)}><DeleteIcon/></IconButton>
-                                                    </Box>
+                <Stack gap={1}>
+                    {
+                        searchHistory.map((item, index)=> {
+                            return (
+                                    <Paper key={index} elevation={2} sx={{padding:'1rem 1rem'}}>
+                                        <Box sx={{display:'flex', justifyContent: 'space-between'}}>
+                                            <Box sx={{display:'flex', flexDirection:'column'}}>
+                                                <Typography variant='body'>{item.query}</Typography> 
+                                                <Typography variant='subtitle2'>{item.timeStamp}</Typography>
+                                            </Box>
+                                            <Box>
+                                                <IconButton onClick={e=>handleDelete(e, item.id)}><DeleteIcon/></IconButton>
+                                            </Box>
 
-                                                </Box>
-                                                
-                                            </Paper>
-
-                                        </TableRow>
-                                )
-                            })
-                            
-                        }
-                        </Stack>
-                    </Table>
-                </TableContainer>
-
-            
+                                        </Box>
+                                        
+                                    </Paper>
+                            )
+                        })
+                        
+                    }
+                </Stack>
         </Box>
     )
 }
