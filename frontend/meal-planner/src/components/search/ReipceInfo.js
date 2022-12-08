@@ -2,16 +2,8 @@ import { Box, Stack, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { ContentBox } from "../utility/ContentBox"
 import DataService from "../../service/data-service"
+import SideMenuHeader from "../menu/SideMenuHeader"
 
-
-function Header({children}) {
-    return (
-        <Box sx={{height:'15vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'0', margin:'0'}}>
-            {children}
-        </Box>
-
-    )
-}
 
 
 export default function RecipeInfo(props) {
@@ -47,7 +39,7 @@ export default function RecipeInfo(props) {
     return (
         
         <Box sx={{height:'100%', margin:'0', padding:'0'}}>
-            <Header>
+            <SideMenuHeader>
 
                 {
                     (recipe?.recipe_images?.recipe_image !== undefined) ? 
@@ -60,7 +52,7 @@ export default function RecipeInfo(props) {
                     )
                         
                 }                
-            </Header>
+            </SideMenuHeader>
             
             <Box sx={{height:'100%', marginTop:'2rem', border:'solid'}}>
                 <Box>

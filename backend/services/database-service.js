@@ -92,7 +92,27 @@ class DatabaseService {
             return promise
         }        
     }
+    static getRecipeSearchHistoryByType(userEmail, type) {
+        
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=> {
+                if ((type !== 'ingred') && (type !== 'recipe')) return reject('Improper input type')
 
+                const sqlQuery = `SELECT * from search_history where user_id='${userEmail}' and search_type='${type}' order by search_time desc`
+                console.log(sqlQuery)
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL SELECT from search_history');
+                    }
+                    //console.log(results);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })
+            return promise
+        }         
+    }
     static removeSearchQuery(id) {
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {

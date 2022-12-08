@@ -37,9 +37,9 @@ class DataService {
             return {error:'Error'}
         }
     }
-    async getSearchHistory() {
+    async getSearchHistory(type) {
         try {
-            const resp = await instance.get(`searchHistory`)
+            const resp = await instance.get(`searchHistory/query/${type}`)
             console.log(resp.data)
             return resp.data
         }

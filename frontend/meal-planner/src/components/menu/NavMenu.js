@@ -2,16 +2,8 @@ import { Box, Divider, ListItem, Typography } from "@mui/material"
 import MenuLink from "./MenuLink"
 import MenuContents from "./MenuContents"
 import { styled } from "@mui/system"
+import SideMenuHeader from "./SideMenuHeader"
 
-function Splash() {
-    return (
-        <Box sx={{backgroundColor:'#f5f6c9', height:'15vh', display:'flex', justifyContent:'center', alignItems:'center', padding:'0', margin:'0', border:'solid'}}>
-            <MenuLink to='/' style={{textDecoration:'none'}}>
-                <Typography variant='h4'>Meal Manager</Typography>
-            </MenuLink>
-        </Box>   
-    )
-}
 
 
 export default function NavMenu() {
@@ -28,7 +20,11 @@ export default function NavMenu() {
                 backgroundColor:'#f5f6c9'
             }}
         >
-            <Splash/>
+            <SideMenuHeader>
+                <MenuLink to='/' style={{textDecoration:'none'}}>
+                    <Typography variant='h4'>Meal Manager</Typography>
+                </MenuLink>
+            </SideMenuHeader>
             <Box sx={{height:'2rem'}}></Box>
             <MenuContents/>
         </Box>
