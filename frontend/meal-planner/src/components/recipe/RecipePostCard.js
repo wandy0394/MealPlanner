@@ -1,25 +1,41 @@
-import { Box, Button, Card, IconButton, Modal, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Button, Card, IconButton, Modal, Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { styled } from "@mui/material"
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add"
+
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
     return (
         <>
             {(value === index) ? (
-                <Box hidden={value !== index} sx={{padding:'3rem 3rem 0rem 3rem', height:'100%', overflow:'auto'}}>
+                <Box hidden={value !== index} sx={{padding:'3rem 3rem 0rem 3rem', height:'100%', overflow:'auto', display:'flex', flexDirection:'column', gap:'1rem'}}>
                     {children}
                 </Box>
             ) : ('')}
         </>
     )
 }
-
+function MacroCard(props) {
+    const {children, label, value, index, sx, ...other} = props;
+    return (
+        <>
+            <Box sx={{...sx, width:'75%', display:'flex', flexDirection:'column', alignItems:'center'}}>                
+                <Typography variant='h4' sx={{color:'goldenrod'}}>
+                    {value}
+                </Typography>
+                <Typography variant='body2' sx={{color:'white', display:'flex', flexDirection:'column', alignItems:'center'}}>
+                    {label} 
+                </Typography>
+            </Box>
+           
+        </>
+    )    
+}
 const style = {
     // width:'50vw', 
     display:'block',
-    height:'60vh',
-    maxHeight:'60vh',
+    height:'80vh',
+    maxHeight:'80vh',
     aspectRatio:'6/4', 
     // backgroundColor:'white',
     display:'grid',
@@ -31,15 +47,19 @@ const style = {
 const buttonStyle = {
     // display:'block',
     // top:'0%',
-    left:'calc(100% - 3rem)',
-    transform: 'translate(-75%, 50%)',
+    left:'calc(100%)',
+    transform: 'translate(-280%, 50%)',
+    // transform: 'translate(-10vw, 0)',
     margin:'0',
     padding:'0',
     // position:'relative',
     zIndex:'2',
-    height:'60px',
+    height:'15%',
     aspectRatio:'1/1',
     backgroundColor:'goldenrod',
+    '&:hover': {
+        backgroundColor:'#EAEAC0'
+    },
     position:'absolute',
     bottom:'0',
     
@@ -70,7 +90,7 @@ export default function RecipePostCard(props) {
             >
                 
                     <Box sx={style}>
-                        <Box sx={{height:'60vh'}}>
+                        <Box sx={{height:'80vh'}}>
                             {
                                 (recipe?.recipe_images?.recipe_image !== undefined) ? 
                                 (<img style={{objectFit:'cover', width:'100%', height:'100%'}} 
@@ -83,8 +103,8 @@ export default function RecipePostCard(props) {
                                     
                             }  
                         </Box>
-                        <Box sx={{height:'60vh'}}>
-                            <Box sx={{backgroundColor:'grey', padding:'1rem 3rem 0rem 3rem', zIndex:'1', height:'35%', position:'relative'}}>
+                        <Box sx={{height:'80vh'}}>
+                            <Box sx={{backgroundColor:'gray', padding:'1rem 3rem 0rem 3rem', zIndex:'1', height:'35%', position:'relative'}}>
                                 <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                                     <Typography sx={{color:'white'}} variant='h3'>{recipe.recipe_name}</Typography>
                                     <Box sx={{display:'flex', justifyContent:'space-between'}}>
@@ -92,7 +112,7 @@ export default function RecipePostCard(props) {
                                             <Typography sx={{color:'goldenrod'}} variant='h4'>
                                                 {recipe.number_of_servings} 
                                             </Typography>
-                                            <Typography sx={{color:'white'}} variant='body'>
+                                            <Typography sx={{color:'white'}} variant='body2'>
                                                 Serves
                                             </Typography>
                                         </Box>
@@ -100,7 +120,7 @@ export default function RecipePostCard(props) {
                                             <Typography sx={{color:'goldenrod'}} variant='h4'>
                                                 {recipe.preparation_time_min}min   
                                             </Typography>
-                                            <Typography sx={{color:'white'}} variant='body'>
+                                            <Typography sx={{color:'white'}} variant='body2'>
                                                 Prep Time   
                                             </Typography>
                                         </Box>
@@ -108,7 +128,7 @@ export default function RecipePostCard(props) {
                                             <Typography sx={{color:'goldenrod'}} variant='h4'>
                                                 {recipe.cooking_time_min}min
                                             </Typography>
-                                            <Typography sx={{color:'white'}} variant='body'>
+                                            <Typography sx={{color:'white'}} variant='body2'>
                                                 Cooking Time      
                                             </Typography>
                                         </Box>
@@ -122,34 +142,45 @@ export default function RecipePostCard(props) {
                                 </Tabs>  
                                 <IconButton sx={buttonStyle}><AddIcon/></IconButton>
                                 </Box>
-                            <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'65%'}}>
-                                <TabPanel value={tabNum} index={0}>
-                                    {
-                                        recipe.ingredients.ingredient.map((item, index) => {
-                                            return (
-                                                <Typography variant='h6' key={index}>
-                                                    {item.ingredient_description}
-                                                </Typography>
-                                            )
-                                        })
-                                    }
-                                </TabPanel>
-                                <TabPanel value={tabNum} index={1}>
-                                    {
-                                        recipe.directions.direction.map((item) => {
-                                            return (
-                                                <Typography variant='h6' key={item.direction_number}>
-                                                    {item.direction_number}: {item.direction_description}
-                                                </Typography>
-                                            )
-                                        })
-                                    }
-                                </TabPanel>
-                                <TabPanel value={tabNum} index={2}>
-                                    <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
-                                        <Typography variaint='body'>Serving size: {recipe.serving_sizes.serving.serving_size}</Typography>
-                                    </Box>
-                                </TabPanel>
+                            <Box sx={{display:'grid', gridTemplateColumns:'2fr 1fr', height:'100%'}}>
+                                <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'65%'}}>
+                                    <TabPanel value={tabNum} index={0}>
+                                        {
+                                            recipe.ingredients.ingredient.map((item, index) => {
+                                                return (
+                                                    <Typography variant='body' key={index}>
+                                                        {item.ingredient_description}
+                                                    </Typography>
+                                                )
+                                            })
+                                        }
+                                    </TabPanel>
+                                    <TabPanel value={tabNum} index={1}>
+                                        {
+                                            recipe.directions.direction.map((item) => {
+                                                return (
+                                                    <Typography variant='body' key={item.direction_number}>
+                                                        {item.direction_number}: {item.direction_description}
+                                                    </Typography>
+                                                )
+                                            })
+                                        }
+                                    </TabPanel>
+                                    <TabPanel value={tabNum} index={2}>
+                                        <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
+                                            <Typography variaint='body'>Serving size: {recipe.serving_sizes.serving.serving_size}</Typography>
+                                        </Box>
+                                    </TabPanel>
+                                </Box>
+                                <Box sx={{backgroundColor:'dimgrey', height:'65%', padding:'3rem 0'}}>
+                                        <Stack alignItems='center' justifyContent='space-around' sx={{height:'100%'}}>
+                                            <MacroCard value={recipe.serving_sizes.serving.calories} label='Calories'/>
+                                            <MacroCard value={recipe.serving_sizes.serving.carbohydrate} label='Carbs'/>
+                                            <MacroCard value={recipe.serving_sizes.serving.fat} label='Fat'/>
+                                            <MacroCard value={recipe.serving_sizes.serving.protein} label='Protein'/>
+                                        </Stack>
+                                        <Typography variant='body2' sx={{color:'white', textAlign:'center'}}>Serving size: {recipe.serving_sizes.serving.serving_size}</Typography>
+                                </Box>
                             </Box>
 
                         </Box>
