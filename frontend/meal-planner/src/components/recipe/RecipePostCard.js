@@ -32,20 +32,24 @@ const buttonStyle = {
     // display:'block',
     // top:'0%',
     left:'calc(100% - 3rem)',
-    transform: 'translate(0%, -30px)',
+    transform: 'translate(-75%, 50%)',
     margin:'0',
     padding:'0',
-    position:'relative',
+    // position:'relative',
     zIndex:'2',
     height:'60px',
     aspectRatio:'1/1',
     backgroundColor:'goldenrod',
+    position:'absolute',
+    bottom:'0',
+    
 }
 
 const tabStyle = {
     borderBottom:1, 
     borderColor:'divider',
-    position:'relative',
+    position:'absolute',
+    bottom:'0'
     // marginTop:'1rem'
     // border:'solid',
     //transform:'translateY(60px)'
@@ -80,7 +84,7 @@ export default function RecipePostCard(props) {
                             }  
                         </Box>
                         <Box sx={{height:'60vh'}}>
-                            <Box sx={{backgroundColor:'grey', padding:'1rem 3rem 0rem 3rem', zIndex:'1', height:'35%'}}>
+                            <Box sx={{backgroundColor:'grey', padding:'1rem 3rem 0rem 3rem', zIndex:'1', height:'35%', position:'relative'}}>
                                 <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                                     <Typography sx={{color:'white'}} variant='h3'>{recipe.recipe_name}</Typography>
                                     <Box sx={{display:'flex', justifyContent:'space-between'}}>
@@ -117,7 +121,7 @@ export default function RecipePostCard(props) {
                                     <Tab label='Macros' sx={{}}/>  
                                 </Tabs>  
                                 <IconButton sx={buttonStyle}><AddIcon/></IconButton>
-                            </Box>
+                                </Box>
                             <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'65%'}}>
                                 <TabPanel value={tabNum} index={0}>
                                     {
