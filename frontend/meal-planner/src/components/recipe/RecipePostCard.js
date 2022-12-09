@@ -7,7 +7,7 @@ function TabPanel(props) {
     return (
         <>
             {(value === index) ? (
-                <Box hidden={value !== index} sx={{margin:'3rem 3rem'}}>
+                <Box hidden={value !== index} sx={{padding:'3rem 3rem 0rem 3rem', height:'100%', overflow:'auto'}}>
                     {children}
                 </Box>
             ) : ('')}
@@ -16,34 +16,39 @@ function TabPanel(props) {
 }
 
 const style = {
-    width:'50vw', 
+    // width:'50vw', 
+    display:'block',
+    height:'60vh',
+    maxHeight:'60vh',
     aspectRatio:'6/4', 
     // backgroundColor:'white',
     display:'grid',
     gridTemplateColumns:'1fr 1fr',
-    zIndex:'1'
+    zIndex:'1',
+    position:'relative'
 
 }
 const buttonStyle = {
     // display:'block',
     // top:'0%',
     left:'calc(100% - 3rem)',
-    transform: 'translate(0%, 50%)',
+    transform: 'translate(0%, -30px)',
     margin:'0',
     padding:'0',
     position:'relative',
     zIndex:'2',
     height:'60px',
     aspectRatio:'1/1',
-    backgroundColor:'goldenrod'
+    backgroundColor:'goldenrod',
 }
 
 const tabStyle = {
     borderBottom:1, 
     borderColor:'divider',
     position:'relative',
+    // marginTop:'1rem'
     // border:'solid',
-    transform:'translateY(60px)'
+    //transform:'translateY(60px)'
 }
 export default function RecipePostCard(props) {
     const {recipe, open, handleClose} = props
@@ -57,11 +62,11 @@ export default function RecipePostCard(props) {
             <Modal
                 open={open}
                 onClose={handleClose}
-                sx={{display:'flex', justifyContent:'center', alignItems:'center'}}
+                sx={{display:'grid', justifyContent:'center', alignItems:'center'}}
             >
                 
-                    <Card sx={style}>
-                        <Box>
+                    <Box sx={style}>
+                        <Box sx={{height:'60vh'}}>
                             {
                                 (recipe?.recipe_images?.recipe_image !== undefined) ? 
                                 (<img style={{objectFit:'cover', width:'100%', height:'100%'}} 
@@ -74,8 +79,8 @@ export default function RecipePostCard(props) {
                                     
                             }  
                         </Box>
-                        <Box sx={{display:'flex', flexDirection:'column', zIndex:'1'}}>
-                            <Box sx={{backgroundColor:'grey', padding:'1rem 3rem 0rem 3rem', zIndex:'1'}}>
+                        <Box sx={{height:'60vh'}}>
+                            <Box sx={{backgroundColor:'grey', padding:'1rem 3rem 0rem 3rem', zIndex:'1', height:'35%'}}>
                                 <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                                     <Typography sx={{color:'white'}} variant='h3'>{recipe.recipe_name}</Typography>
                                     <Box sx={{display:'flex', justifyContent:'space-between'}}>
@@ -113,12 +118,12 @@ export default function RecipePostCard(props) {
                                 </Tabs>  
                                 <IconButton sx={buttonStyle}><AddIcon/></IconButton>
                             </Box>
-                            <Box sx={{flexGrow:'1', backgroundColor:'white', zIndex:'0'}}>
+                            <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'65%'}}>
                                 <TabPanel value={tabNum} index={0}>
                                     {
-                                        recipe.ingredients.ingredient.map((item) => {
+                                        recipe.ingredients.ingredient.map((item, index) => {
                                             return (
-                                                <Typography variant='h6'>
+                                                <Typography variant='h6' key={index}>
                                                     {item.ingredient_description}
                                                 </Typography>
                                             )
@@ -129,7 +134,7 @@ export default function RecipePostCard(props) {
                                     {
                                         recipe.directions.direction.map((item) => {
                                             return (
-                                                <Typography variant='h6'>
+                                                <Typography variant='h6' key={item.direction_number}>
                                                     {item.direction_number}: {item.direction_description}
                                                 </Typography>
                                             )
@@ -144,7 +149,7 @@ export default function RecipePostCard(props) {
                             </Box>
 
                         </Box>
-                    </Card>
+                    </Box>
 
                 
 

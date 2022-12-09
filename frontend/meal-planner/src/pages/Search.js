@@ -182,8 +182,10 @@ export default function Search() {
                 </SidePane>
                 
                         
-            </Stack>   
-            <RecipePostCard recipe={recipe} open={open} handleClose={handleClose}/>
+            </Stack> 
+            {
+                (recipe !== '') && (<RecipePostCard recipe={recipe} open={open} handleClose={handleClose}/>)
+            }  
         </Box>
     )
 }

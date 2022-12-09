@@ -56,8 +56,8 @@ export default function SearchRecipeResults({data, getRecipe}) {
                 <TableHead>
                     <TableRow  sx={{backgroundColor:strawTheme.palette.primary.main}}>
                         {
-                            columnHeaders.map((item)=> {
-                                return <TableCell>{item}</TableCell>
+                            columnHeaders.map((item, index)=> {
+                                return <TableCell key={index}>{item}</TableCell>
                             })
                         }
                         {/* <TableCell>Details</TableCell> */}
