@@ -126,7 +126,7 @@ export default function Search() {
     async function getRecipe(recipeId) {
         try {
             const data = await DataService.getRecipe(recipeId)
-            console.log(data.recipe)  
+            console.log(data.recipe)
             setRecipe(data.recipe)
             setOpen(true)
         }

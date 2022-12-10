@@ -1,12 +1,14 @@
 import AddIcon from "@mui/icons-material/Add";
 import RefreshIcon from '@mui/icons-material/Refresh'
-import { Paper, Stack, Box, Typography, IconButton, Tabs, Tab, Button } from "@mui/material";
+import { Paper, Stack, Box, Typography, IconButton, Tabs, Tab, Button, Modal } from "@mui/material";
 import { ContentBox } from "../components/utility/ContentBox";
 import { useEffect, useState } from "react";
 import CreateRecipeForm from "../components/recipe/CreateRecipeForm";
 import DataService from "../service/data-service";
 import RecipeContent from "../components/recipe/RecipeContent";
 import RecipePostCard from "../components/recipe/RecipePostCard";
+import CreateRecipePostCard from "../components/recipe/CreateRecipePostCard";
+import CustomRecipePostCard from "../components/recipe/CustomRecipePostCard";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -89,6 +91,7 @@ export default function Recipes() {
                     <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>
                         What would you like to make?
                         <IconButton onClick={refresh}><RefreshIcon/></IconButton>
+                        <IconButton onClick={handleClickOpen}><AddIcon/></IconButton>
                     </Typography>
                 </Box>
                 <Box sx={{width:'100%'}}>
@@ -109,8 +112,7 @@ export default function Recipes() {
                                 return <Tab key={key} label={data.recipe_name} onClick={e=>handleRecipeTabClick(e, data.recipe_id)}></Tab>
                             })
                         }
-                        <Tab icon={<AddIcon/>} iconPosition='start' label='Create'></Tab>
-                        
+                        {/* <Tab icon={<AddIcon/>} iconPosition='start' label='Create'></Tab> */}
                     </Tabs>
                 </Box>
                 <Box sx={{flexGrow:1}}>
@@ -118,8 +120,9 @@ export default function Recipes() {
                         Object.entries(recipes).map(([key, data], index)=> {
                             return (
                                 <TabPanel key={key} value={tabValue} index={index}>
-                                    <RecipeContent
+                                    <CustomRecipePostCard
                                         recipe={data}
+                                        readOnly={true}
                                         recipeId={key}
                                     />
                                 </TabPanel>
@@ -141,9 +144,16 @@ export default function Recipes() {
                             )
                         })
                     }
-                    <TabPanel value={tabValue} index={Object.keys(recipes).length + Object.keys(staticRecipes).length}>
-                        <CreateRecipeForm/>
-                    </TabPanel>
+                    {/* <TabPanel value={tabValue} index={Object.keys(recipes).length + Object.keys(staticRecipes).length}> */}
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
+                    >
+                        {/* <CreateRecipeForm/> */}
+                        <CreateRecipePostCard/>
+                    </Modal>
+                    {/* </TabPanel> */}
                 </Box>
             </Stack>
         </ContentBox>

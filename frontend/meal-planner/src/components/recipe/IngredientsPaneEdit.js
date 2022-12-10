@@ -45,21 +45,23 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
     }
 
     return (
-        <Box key={keyID} sx={{display:'flex', justifyContent:'space-around', alignItems:'center'}}>
-            <Typography variant='body' sx={{}}>ID: {keyID}</Typography>
+        <Box key={keyID} sx={{width:'100%', display:'flex', justifyContent:'space-around', alignItems:'flex-end'}}>
+            {/* <Typography variant='body' sx={{}}>ID: {keyID}</Typography> */}
             <TextField 
+                variant='standard'
                 type='number' 
                 label='Qty' 
                 InputProps={{inputProps:{min:0}}} 
-                sx={{width:'100px'}}
+                sx={{width:'15%'}}
                 onChange={(e)=>{handleQtyChange(e, keyID)}}
                 value={recipeIngredients[keyID]['qty']}
                 disabled={isDisabled || (recipeIngredients[keyID].operation === 'delete')}
             />
-            <FormControl sx={{minWidth:'100px'}}>
+            <FormControl sx={{width:'20%'}}>
                 <InputLabel>Units</InputLabel>
                 <Select
                     label='units'
+                    variant='standard'
                     onChange={e=>handleUnitChange(e,keyID)}
                     value={recipeIngredients[keyID]['unit']}
                     disabled={isDisabled || (recipeIngredients[keyID].operation === 'delete')}
@@ -71,13 +73,14 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
                     }
                 </Select> 
             </FormControl>
-            <FormControl>
+            <FormControl sx={{width:'40%'}}>
                 <InputLabel>Ingredient</InputLabel>
                 <Select
                     label='Name'
+                    variant='standard'
                     value={recipeIngredients[keyID]['food_id']}
                     onChange={e=>handleIngredientChange(e,keyID)}
-                    sx={{minWidth:'20vw'}}
+                    sx={{minWidth:'0'}}
                     disabled={isDisabled || (recipeIngredients[keyID].operation === 'delete')} 
                 >   
                     {
