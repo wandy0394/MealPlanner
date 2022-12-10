@@ -65,18 +65,7 @@ CREATE TABLE IF NOT EXISTS recipe (
 
 CREATE TABLE IF NOT EXISTS static_recipe (
     id INT AUTO_INCREMENT PRIMARY KEY ,  
-    title VARCHAR(255) NOT NULL,
-    recipe_description TEXT(16383),
-    servings INT,
-    serving_size VARCHAR(255),
-    prep_time INT,
-    cook_time INT, 
-    carbs INT,
-    protein INT,
-    fat INT,
-    calories INT,
-    instructions TEXT(16383),
-    ingredients TEXT(16383),
+    recipe_id INT,
     user_id VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES user(email) ON DELETE CASCADE
 );
