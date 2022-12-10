@@ -1,7 +1,7 @@
 import { Box, Button, Card, IconButton, Modal, Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
-import { styled } from "@mui/material"
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add"
+import DataService from "../../service/data-service";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -69,18 +69,77 @@ const tabStyle = {
     borderBottom:1, 
     borderColor:'divider',
     position:'absolute',
-    bottom:'0'
-    // marginTop:'1rem'
-    // border:'solid',
-    //transform:'translateY(60px)'
+    bottom:'0',
 }
+const INITIAL = {
+    qty:0, 
+    name:"", 
+    unit:"g",
+    fat:0,
+    calories:0,
+    protein:0,
+    carbs:0,
+    food_id:'',
+    operation:'insert',
+}
+
 export default function RecipePostCard(props) {
     const {recipe, open, handleClose} = props
 
     const [tabNum, setTabNum] = useState(0)
+    
     const handleTabChange = (event, newValue) => {
         setTabNum(newValue)
     }
+
+    function parseIngredients(ingredients) {
+        // let output = ingredients.reduce((result, item, index)=>{
+        //     return {...result, 
+        //         [index]:{
+        //             qty:parseInt(item.number_of_units), 
+        //             name:item.food_name, 
+        //             unit:item.measurement_description,
+        //             fat:0,
+        //             calories:0,
+        //             protein:0,
+        //             carbs:0,
+        //             food_id:item.food_id,
+        //             operation:'insert',
+        //         }
+        //     }
+        // }, {})
+        // return output
+        let output = ingredients.reduce((result, item, index) => {
+            return result + item.ingredient_description + '|'
+        }, '')
+        return output.slice(0, output.length-1)
+    }
+    async function handleAddClick() {
+        let macros = {
+            carbs:recipe.serving_sizes.serving.carbohydrate,
+            fat:recipe.serving_sizes.serving.fat,
+            protein:recipe.serving_sizes.serving.protein,
+            calories:recipe.serving_sizes.serving.calories
+        }
+        let instructions = recipe.directions.direction.reduce((result, item)=> {
+            return result += item.direction_description + '\n'
+        }, '')
+        console.log(parseIngredients(recipe.ingredients.ingredient))
+        const data = {
+            title:recipe.recipe_name,
+            recipe_description:recipe.recipe_description,
+            servings:parseInt(recipe.number_of_servings),
+            serving_size: recipe.serving_sizes.serving.serving_size,
+            cookTime:(recipe.cooking_time_min !== undefined)? parseInt(recipe.cooking_time_min) : 0,
+            prepTime:parseInt(recipe.preparation_time_min),
+            ingredients:parseIngredients(recipe.ingredients.ingredient),
+            instructions:instructions,
+            macros:macros
+        }
+        console.log(data)
+        const result = await DataService.addStaticRecipe(data)
+    }
+
     return (
         <div>
             <Modal
@@ -136,11 +195,10 @@ export default function RecipePostCard(props) {
                                     <Typography sx={{color:'white'}} variant='body'>{recipe.recipe_description}</Typography>
                                 </Box>
                                 <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>
-                                    <Tab label='Ingredients' sx={{}}/>
-                                    <Tab label='Instructions' sx={{}}/>  
-                                    <Tab label='Macros' sx={{}}/>  
+                                    <Tab label='Ingredients' sx={{color:'white'}}/>
+                                    <Tab label='Instructions' sx={{color:'white'}}/>  
                                 </Tabs>  
-                                <IconButton sx={buttonStyle}><AddIcon/></IconButton>
+                                <IconButton sx={buttonStyle} onClick={handleAddClick}><AddIcon/></IconButton>
                                 </Box>
                             <Box sx={{display:'grid', gridTemplateColumns:'2fr 1fr', height:'100%'}}>
                                 <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'65%'}}>
@@ -166,20 +224,15 @@ export default function RecipePostCard(props) {
                                             })
                                         }
                                     </TabPanel>
-                                    <TabPanel value={tabNum} index={2}>
-                                        <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
-                                            <Typography variaint='body'>Serving size: {recipe.serving_sizes.serving.serving_size}</Typography>
-                                        </Box>
-                                    </TabPanel>
                                 </Box>
                                 <Box sx={{backgroundColor:'dimgrey', height:'65%', padding:'3rem 0'}}>
-                                        <Stack alignItems='center' justifyContent='space-around' sx={{height:'100%'}}>
+                                        <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
                                             <MacroCard value={recipe.serving_sizes.serving.calories} label='Calories'/>
                                             <MacroCard value={recipe.serving_sizes.serving.carbohydrate} label='Carbs'/>
                                             <MacroCard value={recipe.serving_sizes.serving.fat} label='Fat'/>
                                             <MacroCard value={recipe.serving_sizes.serving.protein} label='Protein'/>
+                                            <Typography variant='body2' sx={{color:'white', textAlign:'center'}}>Serving size: {recipe.serving_sizes.serving.serving_size}</Typography>
                                         </Stack>
-                                        <Typography variant='body2' sx={{color:'white', textAlign:'center'}}>Serving size: {recipe.serving_sizes.serving.serving_size}</Typography>
                                 </Box>
                             </Box>
 

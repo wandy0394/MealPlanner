@@ -90,6 +90,17 @@ class DataService {
             return {error:'Error'}
         }
     }
+    async addStaticRecipe(data) {
+        try {
+            console.log(data)
+            const resp = await instance.post('/recipe/add-static', data)
+            let retval = resp.data
+            return retval
+        }
+        catch(e) {
+            return {error:'Error'}
+        }        
+    }
     async getRecipe(recipeId) {
         try {
             const resp = await instance.get(`/recipe/${recipeId}`)

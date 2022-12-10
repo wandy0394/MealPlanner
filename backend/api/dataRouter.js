@@ -31,6 +31,9 @@ router.route("/recipe/all")
 router.route("/recipe/add")
     .post(DataController.apiAddRecipe)
 
+router.route("/recipe/add-static")
+    .post(DataController.apiAddStaticRecipe)
+
 router.route("/recipe/internal/:id")
     .get(DataController.apiGetStoredRecipe)
     .put(DataController.apiUpdateRecipe)

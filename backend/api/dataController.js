@@ -124,6 +124,18 @@ export default class DataController {
 
     
     }
+    static apiAddStaticRecipe(req, res, next) {
+        const params = req.body
+        console.log(params)
+        DatabaseService.insertStaticRecipe(DUMMY_EMAIL, req.body)
+            .then((resp)=>{
+                res.json({success: 'success'})
+             })
+            .catch((resp)=>{
+                res.json({error: 'Could not insert recipe into database'})
+            })
+
+    }
     static apiGetAllIngredients(req, res, next) {
         const params = req.body
         // console.log(params)
