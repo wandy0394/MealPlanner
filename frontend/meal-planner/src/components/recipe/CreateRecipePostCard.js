@@ -98,6 +98,7 @@ const INITIAL_RECIPE = {
     macros:INITIAL_MACROS,
     counter:0,
     servings:0,
+    serving_size:'',
     prepTime:0,
     cookTime:0
 }
@@ -160,6 +161,10 @@ export default function CreateRecipePostCard(props) {
                 return {...state, prepTime:payload}
             case ACTION_TYPES.SET_COOK_TIME:
                 return {...state, cookTime:payload}
+            case ACTION_TYPES.SET_SERVING_SIZE:
+                return {...state, serving_size:payload}
+            case ACTION_TYPES.SET_RECIPE_DESCRIPTION:
+                return {...state, recipe_description:payload}
             default:
                 return state
         }
@@ -187,6 +192,7 @@ export default function CreateRecipePostCard(props) {
         const data = {
             title:recipe.title,
             servings:recipe.servings,
+            servings_size:recipe.serving_size,
             cookTime:recipe.cookTime,
             prepTime:recipe.prepTime,
             ingredients:recipe.ingredients,
@@ -254,7 +260,7 @@ export default function CreateRecipePostCard(props) {
                                         label='Cook Time*'
                                     />
                             </Box>
-                            <TextField variant='standard' helperText='Recipe Description'></TextField>
+                            <TextField variant='standard' helperText='Recipe Description' value={recipe.recipe_description} onChange={e=>dispatch({type:ACTION_TYPES.SET_RECIPE_DESCRIPTION, payload:e.target.value})}></TextField>
                             {/* <Typography sx={{color:'white'}} variant='body'>Description goes here</Typography> */}
                         </Box>
                         <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>
@@ -294,7 +300,8 @@ export default function CreateRecipePostCard(props) {
                                     <InfoCard value={recipe.macros.carbs} label='Carbs'/>
                                     <InfoCard value={recipe.macros.fat} label='Fat'/>
                                     <InfoCard value={recipe.macros.protein} label='Protein'/>
-                                    <Typography variant='body2' sx={{color:'white', textAlign:'center'}}>Serving size: </Typography>
+                                    {/* <Typography variant='body2' sx={{color:'white', textAlign:'center'}}>Serving size: </Typography> */}
+                                    <TextField value={recipe.serving_size} onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVING_SIZE, payload:e.target.value})}/>
                                 </Stack>
                         </Box>
                     </Box>

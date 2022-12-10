@@ -202,7 +202,9 @@ class DatabaseService {
             const promiseRecipe = new Promise((resolve, reject)=> {
                 const sqlQuery = `INSERT INTO recipe 
                                     (title, 
+                                        recipe_description,
                                         servings,
+                                        serving_size,
                                         prep_time,
                                         cook_time,
                                         carbs, 
@@ -213,7 +215,9 @@ class DatabaseService {
                                         user_id
                                     )
                                     VALUES ('${params.title}', 
+                                            '${params.recipe_description}',
                                             ${params.servings},
+                                            '${params.serving_size}',
                                             ${params.prepTime},
                                             ${params.cookTime},
                                             ${params.macros.carbs}, 
@@ -287,7 +291,9 @@ class DatabaseService {
                 const sqlQuery = `UPDATE recipe 
                                     SET
                                         title='${params.title}', 
+                                        recipe_description='${params.recipe_description}', 
                                         servings=${params.servings},
+                                        serving_size='${params.serving_size}',
                                         prep_time=${params.prepTime},
                                         cook_time=${params.cookTime},
                                         carbs=${params.macros.carbs},  
@@ -373,6 +379,8 @@ class DatabaseService {
                                     recipe.fat as total_fat, 
                                     recipe.calories as total_calories,
                                     recipe.servings as servings,
+                                    recipe.recipe_description as recipe_description,
+                                    recipe.serving_size as serving_size,
                                     recipe.cook_time as cookTime,
                                     recipe.prep_time as prepTime, 
                                     recipe_ingredient.id as recipeIngredientId,
@@ -448,6 +456,8 @@ class DatabaseService {
                                     recipe.fat as total_fat, 
                                     recipe.calories as total_calories,
                                     recipe.servings as servings,
+                                    recipe.serving_size as serving_size,
+                                    recipe.recipe_description as recipe_description,
                                     recipe.cook_time as cookTime,
                                     recipe.prep_time as prepTime, 
                                     instructions
