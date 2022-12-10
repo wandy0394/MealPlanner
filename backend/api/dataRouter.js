@@ -31,8 +31,11 @@ router.route("/recipe/all")
 router.route("/recipe/add")
     .post(DataController.apiAddRecipe)
 
-router.route("/recipe/add-static")
+router.route("/recipe/static")
     .post(DataController.apiAddStaticRecipe)
+
+router.route("/recipe/static/all")
+    .get(DataController.apiGetStaticRecipes)
 
 router.route("/recipe/internal/:id")
     .get(DataController.apiGetStoredRecipe)

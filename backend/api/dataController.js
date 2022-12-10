@@ -136,6 +136,18 @@ export default class DataController {
             })
 
     }
+    static apiGetStaticRecipes(req, res, next) {
+        const params = req.body
+        console.log(params)
+        DatabaseService.getStaticRecipes(DUMMY_EMAIL)
+            .then((resp)=>{
+                res.json(resp)
+             })
+            .catch((resp)=>{
+                res.json({error: 'Could not select recipes from database'})
+            })
+
+    }
     static apiGetAllIngredients(req, res, next) {
         const params = req.body
         // console.log(params)

@@ -1,4 +1,4 @@
-import { Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Modal, Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState, useReducer } from "react";
 import { ContentBox } from "../components/utility/ContentBox";
@@ -184,7 +184,14 @@ export default function Search() {
                         
             </Stack> 
             {
-                (recipe !== '') && (<RecipePostCard recipe={recipe} open={open} handleClose={handleClose}/>)
+                (recipe !== '') && 
+                (<Modal
+                    open={open}
+                    onClose={handleClose}
+                    sx={{display:'grid', justifyContent:'center', alignItems:'center'}}
+                >
+                    <RecipePostCard recipe={recipe} readOnly={false}/>
+                </Modal>)
             }  
         </Box>
     )

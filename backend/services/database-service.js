@@ -242,10 +242,12 @@ class DatabaseService {
             const promiseRecipe = new Promise((resolve, reject)=> {
                 const sqlQuery = `INSERT INTO static_recipe 
                                     (   recipe_id,
+                                        recipe_name,
                                         user_id
                                     )
                                     VALUES (
                                             ${params.recipe_id},
+                                            '${params.recipe_name}',
                                             '${userEmail}'
                                     );
                                 `
@@ -261,6 +263,23 @@ class DatabaseService {
             })            
             return promiseRecipe
         }             
+    }
+    static getStaticRecipes(userEmail) {
+        if (db !== undefined) {
+            const promiseRecipe = new Promise((resolve, reject)=> {
+                const sqlQuery = `SELECT * from static_recipe where user_id='${userEmail}'`
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL SELECT');
+                    }
+                    console.log(results.insertId);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })            
+            return promiseRecipe
+        }               
     }
     static updateRecipe(userEmail, params, recipeId) {
         if (db !== undefined) {
