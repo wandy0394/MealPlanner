@@ -237,6 +237,52 @@ class DatabaseService {
             return promiseRecipe
         }             
     }
+    static insertStaticRecipe(userEmail, params) {
+        if (db !== undefined) {
+            const promiseRecipe = new Promise((resolve, reject)=> {
+                const sqlQuery = `INSERT INTO static_recipe 
+                                    (title, 
+                                        recipe_description,
+                                        servings,
+                                        serving_size,
+                                        prep_time,
+                                        cook_time,
+                                        carbs, 
+                                        protein, 
+                                        fat, 
+                                        calories, 
+                                        instructions, 
+                                        ingredients,
+                                        user_id
+                                    )
+                                    VALUES ('${params.title}', 
+                                            '${params.recipe_description}',
+                                            ${params.servings},
+                                            '${params.serving_size}',
+                                            ${params.prepTime},
+                                            ${params.cookTime},
+                                            ${params.macros.carbs}, 
+                                            ${params.macros.protein}, 
+                                            ${params.macros.fat}, 
+                                            ${params.macros.calories}, 
+                                            '${params.instructions}', 
+                                            '${params.ingredients}', 
+                                            '${userEmail}'
+                                            );
+                                `
+                db.query(sqlQuery, (err, results, fields) => {
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not make SQL INSERT');
+                    }
+                    console.log(results.insertId);
+                    //console.log(fields);
+                    resolve(results);
+                }) 
+            })            
+            return promiseRecipe
+        }             
+    }
     static updateRecipe(userEmail, params, recipeId) {
         if (db !== undefined) {
             const promiseRecipe = new Promise((resolve, reject)=> {
