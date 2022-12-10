@@ -115,26 +115,29 @@ export default function RecipePostCard(props) {
         return output.slice(0, output.length-1)
     }
     async function handleAddClick() {
-        let macros = {
-            carbs:recipe.serving_sizes.serving.carbohydrate,
-            fat:recipe.serving_sizes.serving.fat,
-            protein:recipe.serving_sizes.serving.protein,
-            calories:recipe.serving_sizes.serving.calories
-        }
-        let instructions = recipe.directions.direction.reduce((result, item)=> {
-            return result += item.direction_description + '\n'
-        }, '')
-        console.log(parseIngredients(recipe.ingredients.ingredient))
+        // let macros = {
+        //     carbs:recipe.serving_sizes.serving.carbohydrate,
+        //     fat:recipe.serving_sizes.serving.fat,
+        //     protein:recipe.serving_sizes.serving.protein,
+        //     calories:recipe.serving_sizes.serving.calories
+        // }
+        // let instructions = recipe.directions.direction.reduce((result, item)=> {
+        //     return result += item.direction_description + '\n'
+        // }, '')
+        // console.log(parseIngredients(recipe.ingredients.ingredient))
+        // const data = {
+        //     title:recipe.recipe_name,
+        //     recipe_description:recipe.recipe_description,
+        //     servings:parseInt(recipe.number_of_servings),
+        //     serving_size: recipe.serving_sizes.serving.serving_size,
+        //     cookTime:(recipe.cooking_time_min !== undefined)? parseInt(recipe.cooking_time_min) : 0,
+        //     prepTime:parseInt(recipe.preparation_time_min),
+        //     ingredients:parseIngredients(recipe.ingredients.ingredient),
+        //     instructions:instructions,
+        //     macros:macros
+        // }
         const data = {
-            title:recipe.recipe_name,
-            recipe_description:recipe.recipe_description,
-            servings:parseInt(recipe.number_of_servings),
-            serving_size: recipe.serving_sizes.serving.serving_size,
-            cookTime:(recipe.cooking_time_min !== undefined)? parseInt(recipe.cooking_time_min) : 0,
-            prepTime:parseInt(recipe.preparation_time_min),
-            ingredients:parseIngredients(recipe.ingredients.ingredient),
-            instructions:instructions,
-            macros:macros
+            recipe_id:recipe.recipe_id
         }
         console.log(data)
         const result = await DataService.addStaticRecipe(data)
