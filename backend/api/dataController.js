@@ -239,7 +239,9 @@ export default class DataController {
                             instructions: value.instructions,
                             servings:value.servings,
                             cookTime:value.cookTime,
-                            prepTime:value.prepTime
+                            prepTime:value.prepTime,
+                            serving_size:value.serving_size,
+                            recipe_description:value.recipe_description
                         }
                     }                    
                     result[value.id]['ingredients'].push({
@@ -280,7 +282,9 @@ export default class DataController {
                             instructions: value.instructions,
                             servings:value.servings,
                             cookTime:value.cookTime,
-                            prepTime:value.prepTime
+                            prepTime:value.prepTime,
+                            serving_size:value.serving_size,
+                            recipe_description:value.recipe_description
                         }
                     }                    
                     result[value.id]['ingredients'][index]={

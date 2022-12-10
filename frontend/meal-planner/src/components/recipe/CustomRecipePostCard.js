@@ -101,6 +101,7 @@ const INITIAL_RECIPE = {
     macros:INITIAL_MACROS,
     counter:0,
     servings:0,
+    serving_size:'',
     prepTime:0,
     cookTime:0
 }
@@ -121,6 +122,7 @@ function useGetRecipe(id) {
             const result = await DataService.getStoredRecipe(id)
             dispatch({type:ACTION_TYPES.SET_RECIPE, payload:result[id]})
             originalRecipe = result[id]
+            console.log(result)
         }
         catch (e) {
             console.error(e)
@@ -183,6 +185,10 @@ function useGetRecipe(id) {
                 return {...state, prepTime:payload}
             case ACTION_TYPES.SET_COOK_TIME:
                 return {...state, cookTime:payload}
+            case ACTION_TYPES.SET_SERVING_SIZE:
+                return {...state, serving_size:payload}
+            case ACTION_TYPES.SET_RECIPE_DESCRIPTION:
+                return {...state, recipe_description:payload}
             default:
                 return state
         }
@@ -202,6 +208,9 @@ export default function CustomRecipePostCard(props) {
         setTabNum(newValue)
     }
 
+    useEffect(()=> {
+        console.log(recipe)
+    }, [])
 
     useEffect(()=> {
         const newMacros = {
@@ -228,6 +237,8 @@ export default function CustomRecipePostCard(props) {
             instructions:recipe.instructions,
             macros:recipe.macros,
             servings:recipe.servings,
+            serving_size:recipe.serving_size,
+            recipe_description:recipe.recipe_description,
             cookTime:recipe.cookTime,
             prepTime:recipe.prepTime
         }
@@ -298,7 +309,7 @@ export default function CustomRecipePostCard(props) {
                                         label='Cook Time*'
                                     />
                             </Box>
-                            <TextField variant='standard' helperText='Recipe Description'></TextField>
+                            <TextField variant='standard' helperText='Recipe Description' value={recipe.recipe_description} onChange={e=>dispatch({type:ACTION_TYPES.SET_RECIPE_DESCRIPTION, payload:e.target.value})}></TextField>
                             {/* <Typography sx={{color:'white'}} variant='body'>Description goes here</Typography> */}
                         </Box>
                         <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>
@@ -353,7 +364,8 @@ export default function CustomRecipePostCard(props) {
                                     <InfoCard value={recipe.macros.carbs} label='Carbs'/>
                                     <InfoCard value={recipe.macros.fat} label='Fat'/>
                                     <InfoCard value={recipe.macros.protein} label='Protein'/>
-                                    <Typography variant='body2' sx={{color:'white', textAlign:'center'}}>Serving size: </Typography>
+                                    {/* <Typography variant='body2' sx={{color:'white', textAlign:'center'}}>Serving size: </Typography> */}
+                                    <TextField value={recipe.serving_size} onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVING_SIZE, payload:e.target.value})}/>
                                 </Stack>
                         </Box>
                     </Box>
