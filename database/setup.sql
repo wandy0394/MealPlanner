@@ -84,6 +84,38 @@ CREATE TABLE IF NOT EXISTS recipe_ingredient (
     FOREIGN KEY (ingredient_id) REFERENCES ingredient(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS daily_meal (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    datestamp DATETIME NOT NULL,
+    user_id VARCHAR(255),
+    FOREIGN KEY (user_Id) REFERENCES user(email) ON DELETE CASCADE 
+);
+
+CREATE TABLE IF NOT EXISTS meal_static_recipe (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    meal_id INT,
+    FOREIGN KEY (meal_id) REFERENCES daily_meal(id) ON DELETE CASCADE,
+    staticRecipe_id INT,
+    FOREIGN KEY (staticRecipe_id) REFERENCES static_recipe(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS meal_recipe (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    meal_id INT,
+    FOREIGN KEY (meal_id) REFERENCES daily_meal(id) ON DELETE CASCADE,
+    recipe_id INT,
+    FOREIGN KEY (recipe_id) REFERENCES recipe(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS meal_ingredient (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    meal_id INT,
+    FOREIGN KEY (meal_id) REFERENCES daily_meal(id) ON DELETE CASCADE,
+    ingredient_id INT,
+    FOREIGN KEY (ingredient_id) REFERENCES ingredient(id) ON DELETE CASCADE
+);
+
+
 INSERT INTO ingredient (name, carbs, protein, fat, calories, user_id) values ('Egg', 2, 6, 5, 70, 'dev@email.com') ;
 INSERT INTO ingredient (name, carbs, protein, fat, calories, user_id) values ('Fish', 16, 20, 10, 200, 'dev@email.com');
 INSERT INTO ingredient (name, carbs, protein, fat, calories, user_id) values ('Beef', 16, 25, 15, 250, 'dev@email.com');
