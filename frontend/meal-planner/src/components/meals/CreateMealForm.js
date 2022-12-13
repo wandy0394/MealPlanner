@@ -1,8 +1,9 @@
 import {Box, Button, Stack, TextField} from "@mui/material"
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-
+import { ACTION_TYPES } from "./ActionTypes";
 import { useEffect, useReducer, useState } from "react"
 import DataService from "../../service/data-service"
+import IngredientSelection from "./IngredientSelection";
 
 const useGetStaticRecipes = () => {
     const [recipes, setRecipes] = useState({})
@@ -110,8 +111,6 @@ const useGetAllFood = () => {
                         }
                         counter++
                     });
-                    
-
                     Object.entries(recipeResult).forEach(([key, data])=> {
                         lineItems = {...lineItems, 
                                     [counter] : {
@@ -170,13 +169,7 @@ const INITIAL_MEALS = {
     counter:0
 }
 
-const ACTION_TYPES = {
-    ADD_MEAL:'ADD_MEAL',
-    SET_CARBS:'SET_CARBS',
-    SET_PROTEIN:'SET_PROTEIN',
-    SET_FAT:'SET_FAT',
-    SET_CALORIES:'SET_CALORIES'
-}
+
 
 function CustomRecipeAutoComplete({customRecipes, dispatch}) {
 
@@ -283,7 +276,7 @@ export default function CreateMealForm() {
                 <Stack gap={3}>
 
                     {/* <CustomRecipeAutoComplete customRecipes={customRecipes} dispatch={dispatch}/> */}
-
+                    {/* <IngredientSelection ingredients={mealLineItems} dispatch={dispatch} /> */}
 
                 </Stack>
                 {/* Create a grid of cards. Top Row is scrolling ingredients, middle row is custom recipes, bottom row is static recipes */}
