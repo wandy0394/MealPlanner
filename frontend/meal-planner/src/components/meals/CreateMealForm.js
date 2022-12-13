@@ -83,7 +83,83 @@ const useGetIngredients = () => {
     }
     return ingredients
 }
+const useGetAllFood = () => {
+    const [mealLineItems, setMealLineItems] = useState({})
+    let counter=0
+    let called = false
+    useEffect(()=> {        
+        if (!called) {
+            async function fetchData() {
+                try {
+                    const ingredientResult = await DataService.getIngredients()
+                    const recipeResult = await DataService.getRecipes()
+                    const staticResult = await DataService.getStaticRecipes()
+                    let lineItems = {}
+                    console.log("asdfasdf")
+                    console.log(lineItems)
+                    ingredientResult.forEach(element => {
+                        lineItems = {...lineItems,
+                            [counter]: {
+                                name:element.name, 
+                                calories:element.calories,
+                                fat:element.fat,
+                                protein:element.protein,            
+                                carbs:element.carbs, 
+                                id:element.id
+                            }
+                        }
+                        counter++
+                    });
+                    
 
+                    Object.entries(recipeResult).forEach(([key, data])=> {
+                        lineItems = {...lineItems, 
+                                    [counter] : {
+                                        name:data.title, 
+                                        calories:data.macros.calories,
+                                        fat:data.macros.fat,
+                                        protein:data.macros.protein,            
+                                        carbs:data.macros.carbs, 
+                                        id:key
+                                    }
+                        }
+                        counter++
+                    })
+                    staticResult.forEach((item) => {
+                        lineItems = {...lineItems, 
+                            [counter] : {
+                                name:item.recipe_name, 
+                                calories:0,
+                                fat:0,
+                                protein:0,            
+                                carbs:0, 
+                                id:item.recipe_id
+                            }
+                        }
+                        counter++                        
+                    })
+                    console.log(lineItems)
+                    setMealLineItems(lineItems)
+                    
+                }
+                catch (e) {
+
+                }
+
+            }
+            fetchData();
+        }
+        return () => {
+            called = true
+        }
+    }, [])
+
+    function reducer (state, action) {
+        const {type, payload} = action
+        return {payload}
+    }
+    return [mealLineItems, setMealLineItems]
+}
 const INITIAL_MEALS = {
     //object of objects, each child object 
     meals:{},
@@ -163,10 +239,10 @@ function CustomRecipeAutoComplete({customRecipes, dispatch}) {
             />
 }
 export default function CreateMealForm() {
-    const ingredients = useGetIngredients()
-    const customRecipes = useGetCustomRecipes()
-    const staticRecipes = useGetStaticRecipes()
-
+    //const ingredients = useGetIngredients()
+    //const customRecipes = useGetCustomRecipes()
+    //const staticRecipes = useGetStaticRecipes()
+    const [mealLineItems, setMealLineItems] = useGetAllFood()
     const [meals, dispatch] = useReducer(reducer, INITIAL_MEALS)
 
     function reducer(state, action) {
@@ -206,7 +282,7 @@ export default function CreateMealForm() {
                 
                 <Stack gap={3}>
 
-                    <CustomRecipeAutoComplete customRecipes={customRecipes} dispatch={dispatch}/>
+                    {/* <CustomRecipeAutoComplete customRecipes={customRecipes} dispatch={dispatch}/> */}
 
 
                 </Stack>
