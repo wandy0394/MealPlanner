@@ -246,6 +246,16 @@ export default function CreateMealForm() {
                     return {...state, meals: {...state.meals, [payload.id]:{name:payload.name, qty:state.meals[payload.id].qty + 1}}}
                 }
                 return {...state, meals: {...state.meals, [payload.id]:{name:payload.name, qty:1}}}
+            case ACTION_TYPES.REMOVE_MEAL:
+                if (payload.id in state.meals) {
+                    const currQty = state.meals[payload.id].qty
+                    if (currQty === 1) {
+                        const newMeals = {...state.meals}
+                        delete newMeals[payload.id]
+                        return {...state, meals:{...newMeals}}
+                    }
+                    return {...state, meals: {...state.meals, [payload.id]:{...state.meals[payload.id], qty:state.meals[payload.id].qty - 1}}}
+                }    
             case ACTION_TYPES.SET_CALORIES:
                 return {...state, targetCalories:payload}
             case ACTION_TYPES.SET_FAT:
@@ -267,15 +277,17 @@ export default function CreateMealForm() {
         <Box>
             {/* create meals */}
             <form onSubmit={handleSubmit}>
-                <TextField variant='standard' label='Calories' value={meals.targetCalories} onChange={e=>dispatch({type:ACTION_TYPES.SET_CALORIES, payload:e.target.value})}/>
-                <TextField variant='standard' label='Carbs' value={meals.targetCarbs} onChange={e=>dispatch({type:ACTION_TYPES.SET_CARBS, payload:e.target.value})}/>
-                <TextField variant='standard' label='Fat' value={meals.targetFat} onChange={e=>dispatch({type:ACTION_TYPES.SET_FAT, payload:e.target.value})}/>
-                <TextField variant='standard' label='Protein' value={meals.targetProtein} onChange={e=>dispatch({type:ACTION_TYPES.SET_PROTEIN, payload:e.target.value})}/>
+                <Box sx={{display:'flex', gap:'2rem'}}>
+                    <TextField variant='standard' label='Calories' value={meals.targetCalories} onChange={e=>dispatch({type:ACTION_TYPES.SET_CALORIES, payload:e.target.value})}/>
+                    <TextField variant='standard' label='Carbs' value={meals.targetCarbs} onChange={e=>dispatch({type:ACTION_TYPES.SET_CARBS, payload:e.target.value})}/>
+                    <TextField variant='standard' label='Fat' value={meals.targetFat} onChange={e=>dispatch({type:ACTION_TYPES.SET_FAT, payload:e.target.value})}/>
+                    <TextField variant='standard' label='Protein' value={meals.targetProtein} onChange={e=>dispatch({type:ACTION_TYPES.SET_PROTEIN, payload:e.target.value})}/>
+                </Box>
                 
                 <Stack gap={3}>
 
                     {/* <CustomRecipeAutoComplete customRecipes={customRecipes} dispatch={dispatch}/> */}
-                    <MealPane mealLineItems={meals.meals}/>
+                    <MealPane mealLineItems={meals.meals} dispatch={dispatch} />
                     <MealSelection selectOptions={mealLineItems} dispatch={dispatch} />
 
                 </Stack>
