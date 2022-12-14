@@ -13,7 +13,7 @@ function OptionCard(props) {
         <Card onClick={e=>handleClick(e, id)} sx={{margin:'1rem', display:'inline-block', border:'solid', aspectRatio:'1/1', height:'15vh', color:'black'}}>
             <CardContent sx={{}}>
                 <Typography variant='h6'>{mealLineItem.name}</Typography>
-                <Typography variant='h6'>{mealLineItem.qty}</Typography>
+                <Typography variant='h6'>Qty: {mealLineItem.qty}</Typography>
             </CardContent> 
         </Card>
     )
