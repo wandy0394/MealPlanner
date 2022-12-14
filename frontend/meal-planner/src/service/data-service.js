@@ -150,6 +150,15 @@ class DataService {
     getMeals() {
         return
     }
+    async addMeal(meals) {
+        try {
+            const resp =  await instance.post(`/meal/`, meals)
+            return resp
+        }
+        catch (e) {
+            return {error:'Error'}
+        }
+    }
     getMealPlans() {
         return
     }

@@ -20,19 +20,19 @@ const useGetAllFood = () => {
                     const recipeResult = await DataService.getRecipes()
                     const staticResult = await DataService.getStaticRecipes()
                     let lineItems = {}
-                    ingredientResult.forEach(element => {
-                        lineItems = {...lineItems,
-                            [counter]: {
-                                name:element.name, 
-                                calories:element.calories,
-                                fat:element.fat,
-                                protein:element.protein,            
-                                carbs:element.carbs, 
-                                id:element.id
-                            }
-                        }
-                        counter++
-                    });
+                    // ingredientResult.forEach(element => {
+                    //     lineItems = {...lineItems,
+                    //         [counter]: {
+                    //             name:element.name, 
+                    //             calories:element.calories,
+                    //             fat:element.fat,
+                    //             protein:element.protein,            
+                    //             carbs:element.carbs, 
+                    //             id:element.id
+                    //         }
+                    //     }
+                    //     counter++
+                    // });
                     Object.entries(recipeResult).forEach(([key, data])=> {
                         lineItems = {...lineItems, 
                                     [counter] : {
@@ -86,8 +86,8 @@ const INITIAL_MEALS = {
     totalFat:0,
     totalProtein:0,
     counter:0,
-    days:[],
-    dateObjects:[]
+    days:[(new DateObject()).format('YYYY-MM-DD')],
+    dateObjects:[new DateObject()]
 }
 
 function MacroCounter(props) {
@@ -171,12 +171,7 @@ function MacroCounter(props) {
 export default function CreateMealForm() {
     const [mealLineItems, setMealLineItems] = useGetAllFood()
     const [meals, dispatch] = useReducer(reducer, INITIAL_MEALS)
-    const [totalMacros, setTotalMacros] = useState({
-        calories:0,
-        carbs:0,
-        fat:0,
-        protein:0
-    })
+
     function reducer(state, action) {
         const {type, payload} = action
         switch (type) {
@@ -249,6 +244,7 @@ export default function CreateMealForm() {
     function handleSubmit(e) {
         e.preventDefault()
         console.log(meals)
+        DataService.addMeal(meals)
     }
 
     //api call to get static recipes, custom recipes and ingredients

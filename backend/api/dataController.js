@@ -357,10 +357,32 @@ export default class DataController {
         return
     }
     //meal methods
-    static async apiGetMeal(req, res, next) {
-        return
-    }
     static async apiCreateMeal(req, res, next) {
+        const params = req.body
+        console.log(params)
+        DatabaseService.insertMeal(DUMMY_EMAIL, req.body)
+            .then((resp)=>{
+                console.log(resp)
+                // DatabaseService.insertMealRecipe(DUMMY_EMAIL, req.body)
+                //     .then((resp)=>{
+                //         DatabaseService.insertMealStaticRecipe(DUMMY_EMAIL, req.body)
+                //             .then((resp)=>{
+                //                 res.json({success:'success'})
+                //             })
+                //             .catch((resp)=>{
+                //                 res.json({error:'Could not insert into meal_static_recipe'})
+                //             })
+                //     })
+                //     .catch((resp)=>{
+                //         res.json({error:'Could not insert into meal_recipe'})
+                //     })
+             })
+            .catch((resp)=>{
+                res.json({error: 'Could not insert meal into database'})
+            })
+
+    }
+    static async apiGetMeal(req, res, next) {
         return
     }
     static async apiRemoveMeal(req, res, next) {

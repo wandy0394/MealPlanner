@@ -10,7 +10,7 @@ function OptionCard(props) {
     }
     
     return (
-        <Card onClick={e=>handleClick(e, id, selectOptions.name)} sx={{margin:'1rem', display:'inline-block', border:'solid', aspectRatio:'1/1', height:'15vh', color:'black'}}>
+        <Card key={id} onClick={e=>handleClick(e, id, selectOptions.name)} sx={{margin:'1rem', display:'inline-block', border:'solid', aspectRatio:'1/1', height:'15vh', color:'black'}}>
             <CardContent sx={{border:'solid'}}>
                 <Typography variant='h6'>{selectOptions.name}</Typography>
             </CardContent> 
@@ -23,9 +23,9 @@ export default function MealSelection({selectOptions, dispatch}) {
     return (
         <Box sx={{width:'100%', border:'solid', height:'40vh', overflowY:'scroll'}}>
             {
-                Object.entries(selectOptions).map(([key, item]) => {
+                Object.entries(selectOptions).map(([key, item], index) => {
                     // return <p>{item.name}</p>
-                    return <OptionCard key={key} id={key} selectOptions={item} dispatch={dispatch} />
+                    return <OptionCard key={index} id={key} selectOptions={item} dispatch={dispatch} />
                 })
             }
         </Box>

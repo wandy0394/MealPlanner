@@ -10,7 +10,7 @@ function OptionCard(props) {
     }
     
     return (
-        <Card onClick={e=>handleClick(e, id)} sx={{margin:'1rem', display:'inline-block', border:'solid', aspectRatio:'1/1', height:'15vh', color:'black'}}>
+        <Card key={id} onClick={e=>handleClick(e, id)} sx={{margin:'1rem', display:'inline-block', border:'solid', aspectRatio:'1/1', height:'15vh', color:'black'}}>
             <CardContent sx={{}}>
                 <Typography variant='h6'>{mealLineItem.name}</Typography>
                 <Typography variant='h6'>Qty: {mealLineItem.qty}</Typography>
@@ -26,8 +26,8 @@ export default function MealPane(props) {
     return (
         <Box sx={{width:'100%', border:'solid', height:'20vh', overflowX:'scroll', overflowY:'hidden', whiteSpace:'nowrap'}}>
             {
-                Object.entries(mealLineItems).map(([key, data])=>{
-                    return <OptionCard mealLineItem={data} dispatch={dispatch} id={key}/>
+                Object.entries(mealLineItems).map(([key, data], index)=>{
+                    return <OptionCard key={index} mealLineItem={data} dispatch={dispatch} id={key}/>
                 })
             }
         </Box>

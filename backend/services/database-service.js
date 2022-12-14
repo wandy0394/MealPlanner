@@ -480,6 +480,60 @@ class DatabaseService {
             return promise
         }          
     }
+    static insertMeal(userEmail, params) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=> {
+                
+                //loop through params.days array
+                //for each day, insert a meal with that day as the timestamp
+                //insert unique value, (uuid? Math.random().toString(16) + Date.Now()),into bulkId (varchar(255)) column
+                //use U to SELECT all ids from those inserted rows. this is used to populate junction tables
+                
+                const uniqueID = Date.now() + Math.random().toString(16)
+                const sqlQuery = params.days.reduce((result, item)=>{
+                    return (result + `INSERT INTO daily_meal
+                                        (
+                                            datestamp,
+                                            user_id,
+                                            target_calories,
+                                            target_carbs,
+                                            target_fat,
+                                            target_protein,
+                                            bulkId,
+                                            total_calories,    
+                                            total_carbs,
+                                            total_fat,
+                                            total_protein
+                                        )
+                                        VALUES
+                                        (
+                                            '${item}',
+                                            '${userEmail}',
+                                            ${params.targetCalories},
+                                            ${params.targetCarbs},
+                                            ${params.targetFat},
+                                            ${params.targetProtein},
+                                            '${uniqueID}',
+                                            ${params.totalCalories},
+                                            ${params.totalCarbs},
+                                            ${params.totalFat},
+                                            ${params.totalProtein}
+                                        );`
+                                    
+                    )
+                },'')                                    
+                                    
+                db.query(sqlQuery, (err, results, fields)=>{
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not insert into meal')
+                    }
+                    resolve({results:results, uniqueID:uniqueID})
+                })
+            })
+            return promise
+        }
+    }
 
     static dummyCommand() {
         if (db !== undefined) {
