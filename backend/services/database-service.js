@@ -528,7 +528,37 @@ class DatabaseService {
                         console.error(err)
                         return reject('Could not insert into meal')
                     }
-                    resolve({results:results, uniqueID:uniqueID})
+                    db.query(`SELECT id from daily_meal where user_id='${userEmail}' and bulkId='${uniqueID}'`, 
+                        (err, results, fields)=>{
+                            if (err) {
+                                console.error(err)
+                                return reject('Could not select meal ids')
+                            }
+                            resolve(results)
+                    })
+                })
+            })
+            return promise
+        }
+    }
+
+    static insertMealRecipe(userEmail, mealIds, meals) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=>{
+                const sqlQuery = mealIds.reduce((result,  [index, {id}])=>{
+                    const output = meals.reduce((result, [index, meal])=>{
+                        return result + `INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (${id}, ${meal.recipe_id});`
+                    }, '')
+
+                     return result + output
+                },'')
+                console.log(sqlQuery)
+                db.query(sqlQuery, (err, results, fields)=>{
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not insert into meal_recipe')
+                    }
+                    resolve(results)
                 })
             })
             return promise
