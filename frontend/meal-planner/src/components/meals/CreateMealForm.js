@@ -1,4 +1,4 @@
-import {Box, Button, Stack, TextField} from "@mui/material"
+import {Box, Button, Stack, TextField, Typography} from "@mui/material"
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ACTION_TYPES } from "./ActionTypes";
 import { useEffect, useReducer, useState } from "react"
@@ -165,9 +165,30 @@ const INITIAL_MEALS = {
     targetCalories:0,
     targetProtein:0,
     targetFat:0,
+    totalCarbs:0,
+    totalCalories:0,
+    totalFat:0,
+    totalProtein:0,
     counter:0
 }
 
+function MacroCounter(props) {
+    const {labelText,  macroValue, macroTarget, dispatch, ...other} = props
+    return (
+        <Box>
+            <Typography sx={{textAlign:'center'}} variant='h3'>{macroValue}</Typography>
+            <TextField 
+                variant='standard' 
+                helperText='Target' 
+                label={labelText} 
+                value={macroTarget} 
+                onChange={e=>dispatch({type:ACTION_TYPES.SET_CALORIES, payload:e.target.value})} 
+                inputProps={{style:{textAlign:'center'}}}
+            />
+        </Box>
+
+    )
+}
 
 
 function CustomRecipeAutoComplete({customRecipes, dispatch}) {
@@ -236,25 +257,65 @@ export default function CreateMealForm() {
     //const staticRecipes = useGetStaticRecipes()
     const [mealLineItems, setMealLineItems] = useGetAllFood()
     const [meals, dispatch] = useReducer(reducer, INITIAL_MEALS)
-
+    const [totalMacros, setTotalMacros] = useState({
+        calories:0,
+        carbs:0,
+        fat:0,
+        protein:0
+    })
+    function calculateCarbs() {
+        console.log('hello')
+        //setTotalMacros((prev)=>({...prev, calories:1}))
+        setTotalMacros('asdf')
+    }
     function reducer(state, action) {
         const {type, payload} = action
         switch (type) {
             case ACTION_TYPES.ADD_MEAL:
+                // calculateCarbs();
                 if (payload.id in state.meals) {
-                    console.log('in')
-                    return {...state, meals: {...state.meals, [payload.id]:{name:payload.name, qty:state.meals[payload.id].qty + 1}}}
+                    return {...state, 
+                                meals: {...state.meals, 
+                                        [payload.id]:{name:payload.name, qty:state.meals[payload.id].qty + 1}
+                                },
+                                totalCarbs: state.totalCarbs + mealLineItems[payload.id].carbs,
+                                totalCalories: state.totalCalories + mealLineItems[payload.id].calories,
+                                totalFat: state.totalFat + mealLineItems[payload.id].fat,
+                                totalProtein: state.totalProtein + mealLineItems[payload.id].protein,
+                    }
                 }
-                return {...state, meals: {...state.meals, [payload.id]:{name:payload.name, qty:1}}}
+                return {...state, 
+                            meals: {...state.meals, 
+                                    [payload.id]:{name:payload.name, qty:1}
+                            },
+                            totalCarbs: state.totalCarbs + mealLineItems[payload.id].carbs,
+                            totalCalories: state.totalCalories + mealLineItems[payload.id].calories,
+                            totalFat: state.totalFat + mealLineItems[payload.id].fat,
+                            totalProtein: state.totalProtein + mealLineItems[payload.id].protein,
+                }
             case ACTION_TYPES.REMOVE_MEAL:
                 if (payload.id in state.meals) {
                     const currQty = state.meals[payload.id].qty
                     if (currQty === 1) {
                         const newMeals = {...state.meals}
                         delete newMeals[payload.id]
-                        return {...state, meals:{...newMeals}}
+                        return {...state, 
+                                meals:{...newMeals},
+                                totalCarbs: state.totalCarbs - mealLineItems[payload.id].carbs,
+                                totalCalories: state.totalCalories - mealLineItems[payload.id].calories,
+                                totalFat: state.totalFat - mealLineItems[payload.id].fat,
+                                totalProtein: state.totalProtein - mealLineItems[payload.id].protein,
+                        }
                     }
-                    return {...state, meals: {...state.meals, [payload.id]:{...state.meals[payload.id], qty:state.meals[payload.id].qty - 1}}}
+                    return {...state, 
+                                meals: {...state.meals, 
+                                    [payload.id]:{...state.meals[payload.id], qty:state.meals[payload.id].qty - 1}
+                                },
+                                totalCarbs: state.totalCarbs - mealLineItems[payload.id].carbs,
+                                totalCalories: state.totalCalories - mealLineItems[payload.id].calories,
+                                totalFat: state.totalFat - mealLineItems[payload.id].fat,
+                                totalProtein: state.totalProtein - mealLineItems[payload.id].protein,
+                    }
                 }    
             case ACTION_TYPES.SET_CALORIES:
                 return {...state, targetCalories:payload}
@@ -264,6 +325,17 @@ export default function CreateMealForm() {
                 return {...state, targetProtein:payload}
             case ACTION_TYPES.SET_CARBS:
                 return {...state, targetCarbs:payload}
+        }
+
+
+        function calculateCalories() {
+            return 0
+        }
+        function calculateProtein() {
+            return 0
+        }
+        function calculateFat() {
+            return 0
         }
     }
 
@@ -278,10 +350,10 @@ export default function CreateMealForm() {
             {/* create meals */}
             <form onSubmit={handleSubmit}>
                 <Box sx={{display:'flex', gap:'2rem'}}>
-                    <TextField variant='standard' label='Calories' value={meals.targetCalories} onChange={e=>dispatch({type:ACTION_TYPES.SET_CALORIES, payload:e.target.value})}/>
-                    <TextField variant='standard' label='Carbs' value={meals.targetCarbs} onChange={e=>dispatch({type:ACTION_TYPES.SET_CARBS, payload:e.target.value})}/>
-                    <TextField variant='standard' label='Fat' value={meals.targetFat} onChange={e=>dispatch({type:ACTION_TYPES.SET_FAT, payload:e.target.value})}/>
-                    <TextField variant='standard' label='Protein' value={meals.targetProtein} onChange={e=>dispatch({type:ACTION_TYPES.SET_PROTEIN, payload:e.target.value})}/>
+                    <MacroCounter dispatch={dispatch} macroTarget={meals.targetCalories} macroValue={meals.totalCalories} labelText='Calories' />
+                    <MacroCounter dispatch={dispatch} macroTarget={meals.targetCarbs} macroValue={meals.totalCarbs} labelText='Carbs' />
+                    <MacroCounter dispatch={dispatch} macroTarget={meals.targetFat} macroValue={meals.totalFat} labelText='Fat' />
+                    <MacroCounter dispatch={dispatch} macroTarget={meals.targetProtein} macroValue={meals.totalProtein} labelText='Protein' />
                 </Box>
                 
                 <Stack gap={3}>
