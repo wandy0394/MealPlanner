@@ -6,85 +6,6 @@ import DataService from "../../service/data-service"
 import MealSelection from "./MealSelection";
 import MealPane from "./MealPane";
 
-const useGetStaticRecipes = () => {
-    const [recipes, setRecipes] = useState({})
-    let called = false
-    useEffect(()=> {        
-        if (!called) getStaticRecipes()
-        return () => {
-            called = true
-        }
-    }, [])
-    async function getStaticRecipes() {
-        try {
-            console.log('Refreshing static recipe')
-            const result = await DataService.getStaticRecipes()
-            // dispatch({type:ACTION_TYPES.SET_RECIPE, payload:result[id]})
-            // originalRecipe = result[id]
-            console.log(result)
-        }
-        catch (e) {
-            console.error(e)
-        }
-    }
-    function reducer (state, action) {
-        const {type, payload} = action
-        return {payload}
-    }
-    return recipes
-}
-
-const useGetCustomRecipes = () => {
-    const [recipes, setRecipes] = useState({})
-    
-
-    let called = false
-    useEffect(()=> {        
-        if (!called) getRecipes()
-        return () => {
-            called = true
-        }
-    }, [])
-    async function getRecipes() {
-        try {
-            console.log('Refreshing custom recipe')
-            const result = await DataService.getRecipes()
-            // dispatch({type:ACTION_TYPES.SET_RECIPE, payload:result[id]})
-            // originalRecipe = result[id]
-            console.log(result)
-            setRecipes(result)
-        }
-        catch (e) {
-            console.error(e)
-        }
-    }
-    return recipes
-}
-const useGetIngredients = () => {
-
-    const [ingredients, setIngredients] = useState({})
-
-    let called = false
-    useEffect(()=> {        
-        if (!called) getIngredients()
-        return () => {
-            called = true
-        }
-    }, [])
-    async function getIngredients() {
-        try {
-            console.log('Refreshing ingredients')
-            const result = await DataService.getIngredients()
-            // dispatch({type:ACTION_TYPES.SET_RECIPE, payload:result[id]})
-            // originalRecipe = result[id]
-            console.log(result)
-        }
-        catch (e) {
-            console.error(e)
-        }
-    }
-    return ingredients
-}
 const useGetAllFood = () => {
     const [mealLineItems, setMealLineItems] = useState({})
     let counter=0
@@ -136,9 +57,7 @@ const useGetAllFood = () => {
                         }
                         counter++                        
                     })
-                    console.log(lineItems)
                     setMealLineItems(lineItems)
-                    
                 }
                 catch (e) {
 
@@ -151,11 +70,6 @@ const useGetAllFood = () => {
             called = true
         }
     }, [])
-
-    function reducer (state, action) {
-        const {type, payload} = action
-        return {payload}
-    }
     return [mealLineItems, setMealLineItems]
 }
 const INITIAL_MEALS = {
@@ -173,18 +87,17 @@ const INITIAL_MEALS = {
 }
 
 function MacroCounter(props) {
-    const {labelText,  macroValue, macroTarget, dispatch, ...other} = props
+    const {labelText,  macroValue, macroTarget, dispatch, handleChange, ...other} = props
     return (
         <Box>
-            <Typography sx={{textAlign:'center'}} variant='h3'>{macroValue}</Typography>
             <TextField 
                 variant='standard' 
-                helperText='Target' 
-                label={labelText} 
+                label={'Target ' + labelText} 
                 value={macroTarget} 
-                onChange={e=>dispatch({type:ACTION_TYPES.SET_CALORIES, payload:e.target.value})} 
+                onChange={handleChange} 
                 inputProps={{style:{textAlign:'center'}}}
             />
+            <Typography sx={{textAlign:'center', color:(macroValue >= macroTarget)?'red':'black'}} variant='h3'>{macroValue}</Typography>
         </Box>
 
     )
@@ -252,9 +165,6 @@ function CustomRecipeAutoComplete({customRecipes, dispatch}) {
             />
 }
 export default function CreateMealForm() {
-    //const ingredients = useGetIngredients()
-    //const customRecipes = useGetCustomRecipes()
-    //const staticRecipes = useGetStaticRecipes()
     const [mealLineItems, setMealLineItems] = useGetAllFood()
     const [meals, dispatch] = useReducer(reducer, INITIAL_MEALS)
     const [totalMacros, setTotalMacros] = useState({
@@ -263,16 +173,10 @@ export default function CreateMealForm() {
         fat:0,
         protein:0
     })
-    function calculateCarbs() {
-        console.log('hello')
-        //setTotalMacros((prev)=>({...prev, calories:1}))
-        setTotalMacros('asdf')
-    }
     function reducer(state, action) {
         const {type, payload} = action
         switch (type) {
             case ACTION_TYPES.ADD_MEAL:
-                // calculateCarbs();
                 if (payload.id in state.meals) {
                     return {...state, 
                                 meals: {...state.meals, 
@@ -326,17 +230,6 @@ export default function CreateMealForm() {
             case ACTION_TYPES.SET_CARBS:
                 return {...state, targetCarbs:payload}
         }
-
-
-        function calculateCalories() {
-            return 0
-        }
-        function calculateProtein() {
-            return 0
-        }
-        function calculateFat() {
-            return 0
-        }
     }
 
     function handleSubmit(e) {
@@ -350,10 +243,33 @@ export default function CreateMealForm() {
             {/* create meals */}
             <form onSubmit={handleSubmit}>
                 <Box sx={{display:'flex', gap:'2rem'}}>
-                    <MacroCounter dispatch={dispatch} macroTarget={meals.targetCalories} macroValue={meals.totalCalories} labelText='Calories' />
-                    <MacroCounter dispatch={dispatch} macroTarget={meals.targetCarbs} macroValue={meals.totalCarbs} labelText='Carbs' />
-                    <MacroCounter dispatch={dispatch} macroTarget={meals.targetFat} macroValue={meals.totalFat} labelText='Fat' />
-                    <MacroCounter dispatch={dispatch} macroTarget={meals.targetProtein} macroValue={meals.totalProtein} labelText='Protein' />
+                    <MacroCounter 
+                        dispatch={dispatch} 
+                        macroTarget={meals.targetCalories} 
+                        macroValue={meals.totalCalories} 
+                        labelText='Calories' 
+                        handleChange={e=>dispatch({type:ACTION_TYPES.SET_CALORIES, payload:e.target.value})}/>
+                    <MacroCounter 
+                        dispatch={dispatch} 
+                        macroTarget={meals.targetCarbs} 
+                        macroValue={meals.totalCarbs} 
+                        labelText='Carbs' 
+                        handleChange={e=>dispatch({type:ACTION_TYPES.SET_CARBS, payload:e.target.value})}/>
+                        
+                    <MacroCounter 
+                        dispatch={dispatch} 
+                        macroTarget={meals.targetFat} 
+                        macroValue={meals.totalFat} 
+                        labelText='Fat' 
+                        handleChange={e=>dispatch({type:ACTION_TYPES.SET_FAT, payload:e.target.value})}/>
+                        
+                    <MacroCounter 
+                        dispatch={dispatch} 
+                        macroTarget={meals.targetProtein} 
+                        macroValue={meals.totalProtein} 
+                        labelText='Protein' 
+                        handleChange={e=>dispatch({type:ACTION_TYPES.SET_PROTEIN, payload:e.target.value})}/>
+                        
                 </Box>
                 
                 <Stack gap={3}>
