@@ -41,7 +41,7 @@ const useGetAllFood = () => {
                                         fat:data.macros.fat,
                                         protein:data.macros.protein,            
                                         carbs:data.macros.carbs, 
-                                        id:key
+                                        recipe_id:key
                                     }
                         }
                         counter++
@@ -54,7 +54,7 @@ const useGetAllFood = () => {
                                 fat:0,
                                 protein:0,            
                                 carbs:0, 
-                                id:item.recipe_id
+                                recipe_id:item.recipe_id
                             }
                         }
                         counter++                        
@@ -179,7 +179,7 @@ export default function CreateMealForm() {
                 if (payload.id in state.meals) {
                     return {...state, 
                                 meals: {...state.meals, 
-                                        [payload.id]:{name:payload.name, qty:state.meals[payload.id].qty + 1}
+                                        [payload.id]:{name:payload.name, recipe_id:payload.recipe_id, qty:state.meals[payload.id].qty + 1},
                                 },
                                 totalCarbs: state.totalCarbs + mealLineItems[payload.id].carbs,
                                 totalCalories: state.totalCalories + mealLineItems[payload.id].calories,
@@ -189,7 +189,7 @@ export default function CreateMealForm() {
                 }
                 return {...state, 
                             meals: {...state.meals, 
-                                    [payload.id]:{name:payload.name, qty:1}
+                                    [payload.id]:{name:payload.name, recipe_id:payload.recipe_id, qty:1}
                             },
                             totalCarbs: state.totalCarbs + mealLineItems[payload.id].carbs,
                             totalCalories: state.totalCalories + mealLineItems[payload.id].calories,

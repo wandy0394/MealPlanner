@@ -14,6 +14,8 @@ function OptionCard(props) {
             <CardContent sx={{}}>
                 <Typography variant='h6'>{mealLineItem.name}</Typography>
                 <Typography variant='h6'>Qty: {mealLineItem.qty}</Typography>
+                <Typography variant='h6'>RecipeID: {mealLineItem.recipe_id}</Typography>
+
             </CardContent> 
         </Card>
     )

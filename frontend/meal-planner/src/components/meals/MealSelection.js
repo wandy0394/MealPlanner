@@ -6,13 +6,14 @@ function OptionCard(props) {
     function handleClick(e, id, name) {
         console.log('clicked')
         console.log()
-        dispatch({type:ACTION_TYPES.ADD_MEAL, payload:{id:id, name:name}})
+        dispatch({type:ACTION_TYPES.ADD_MEAL, payload:{id:id, name:name, recipe_id:selectOptions.recipe_id}})
     }
     
     return (
         <Card key={id} onClick={e=>handleClick(e, id, selectOptions.name)} sx={{margin:'1rem', display:'inline-block', border:'solid', aspectRatio:'1/1', height:'15vh', color:'black'}}>
             <CardContent sx={{border:'solid'}}>
                 <Typography variant='h6'>{selectOptions.name}</Typography>
+                <Typography variant='h6'>{selectOptions.recipe_id}</Typography>
             </CardContent> 
         </Card>
     )
