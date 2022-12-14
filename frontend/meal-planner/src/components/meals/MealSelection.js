@@ -21,7 +21,7 @@ function OptionCard(props) {
 export default function MealSelection({selectOptions, dispatch}) {
     
     return (
-        <Box sx={{width:'100%', border:'solid', height:'20vh', overflowY:'scroll'}}>
+        <Box sx={{width:'100%', border:'solid', height:'40vh', overflowY:'scroll'}}>
             {
                 Object.entries(selectOptions).map(([key, item]) => {
                     // return <p>{item.name}</p>
