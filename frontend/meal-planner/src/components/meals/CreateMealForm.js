@@ -5,6 +5,8 @@ import { useEffect, useReducer, useState } from "react"
 import DataService from "../../service/data-service"
 import MealSelection from "./MealSelection";
 import MealPane from "./MealPane";
+import {Calendar, DateObject} from "react-multi-date-picker"
+import DatePicker from "react-multi-date-picker"
 
 const useGetAllFood = () => {
     const [mealLineItems, setMealLineItems] = useState({})
@@ -83,7 +85,9 @@ const INITIAL_MEALS = {
     totalCalories:0,
     totalFat:0,
     totalProtein:0,
-    counter:0
+    counter:0,
+    days:[],
+    dateObjects:[]
 }
 
 function MacroCounter(props) {
@@ -104,66 +108,66 @@ function MacroCounter(props) {
 }
 
 
-function CustomRecipeAutoComplete({customRecipes, dispatch}) {
+// function CustomRecipeAutoComplete({customRecipes, dispatch}) {
 
-    const filter = createFilterOptions();
-    const [value, setValue] = useState('');
-    const recipes = Object.entries(customRecipes).map(([key, data])=>{
-        return {...data, id:key}
-    })
+//     const filter = createFilterOptions();
+//     const [value, setValue] = useState('');
+//     const recipes = Object.entries(customRecipes).map(([key, data])=>{
+//         return {...data, id:key}
+//     })
 
-    function handleSelect(id, title) {
-        console.log(id)
-        console.log(title)
-        dispatch({type:ACTION_TYPES.ADD_MEAL, payload: {id:id, name:title}})
-    }
-    return <Autocomplete
-                value={value}
-                onChange={(event, newValue) => {
-                    if (typeof newValue === 'string') {
-                        setValue({
-                            name: newValue,
-                        });
-                    } else {
-                        // console.log(event.target.id)
-                        // console.log(newValue)
-                        setValue(newValue);
-                        handleSelect(event.target.id, newValue.title)
-                        //setFoodId(event.target.id)
-                    }
-                }}
-                filterOptions={(options, params) => {
-                    const filtered = filter(options, params);
+//     function handleSelect(id, title) {
+//         console.log(id)
+//         console.log(title)
+//         dispatch({type:ACTION_TYPES.ADD_MEAL, payload: {id:id, name:title}})
+//     }
+//     return <Autocomplete
+//                 value={value}
+//                 onChange={(event, newValue) => {
+//                     if (typeof newValue === 'string') {
+//                         setValue({
+//                             name: newValue,
+//                         });
+//                     } else {
+//                         // console.log(event.target.id)
+//                         // console.log(newValue)
+//                         setValue(newValue);
+//                         handleSelect(event.target.id, newValue.title)
+//                         //setFoodId(event.target.id)
+//                     }
+//                 }}
+//                 filterOptions={(options, params) => {
+//                     const filtered = filter(options, params);
 
-                    const { inputValue } = params;
-                    // Suggest the creation of a new value
-                    const isExisting = options.some((option) => inputValue === option.title);
-                    return filtered;
-                }}
-                selectOnFocus
-                clearOnBlur
-                handleHomeEndKeys
-                id="custom-recipe-autocomplete"
-                options={recipes}
-                getOptionLabel={(option) => {
-                    // Value selected with enter, right from the input
-                    if (typeof option === 'string') {
-                        return option;
-                    }
-                    // Add "xxx" option created dynamically
-                    if (option.inputValue) {
-                        return option.inputValue;
-                    }
-                    // Regular option
-                    return option.title;
-                }}
-                renderOption={(props, option) => <li {...props} id={option.id}>{option.title}</li>}
-                //sx={{ width: 300 }}
-                renderInput={(params) => (
-                    <TextField {...params} variant='standard' label="Recipe name" required/>
-                )}
-            />
-}
+//                     const { inputValue } = params;
+//                     // Suggest the creation of a new value
+//                     const isExisting = options.some((option) => inputValue === option.title);
+//                     return filtered;
+//                 }}
+//                 selectOnFocus
+//                 clearOnBlur
+//                 handleHomeEndKeys
+//                 id="custom-recipe-autocomplete"
+//                 options={recipes}
+//                 getOptionLabel={(option) => {
+//                     // Value selected with enter, right from the input
+//                     if (typeof option === 'string') {
+//                         return option;
+//                     }
+//                     // Add "xxx" option created dynamically
+//                     if (option.inputValue) {
+//                         return option.inputValue;
+//                     }
+//                     // Regular option
+//                     return option.title;
+//                 }}
+//                 renderOption={(props, option) => <li {...props} id={option.id}>{option.title}</li>}
+//                 //sx={{ width: 300 }}
+//                 renderInput={(params) => (
+//                     <TextField {...params} variant='standard' label="Recipe name" required/>
+//                 )}
+//             />
+// }
 export default function CreateMealForm() {
     const [mealLineItems, setMealLineItems] = useGetAllFood()
     const [meals, dispatch] = useReducer(reducer, INITIAL_MEALS)
@@ -229,6 +233,16 @@ export default function CreateMealForm() {
                 return {...state, targetProtein:payload}
             case ACTION_TYPES.SET_CARBS:
                 return {...state, targetCarbs:payload}
+            case ACTION_TYPES.SET_DAYS:
+                const newDays = payload.map((item)=>{
+                    if (item instanceof DateObject) return item.format('YYYY-MM-DD')
+                    return item
+                })    
+                return {...state, days:newDays, dateObjects:payload}
+            case ACTION_TYPES.FORMAT_DAYS:
+                return state
+            default:
+                return state
         }
     }
 
@@ -236,6 +250,7 @@ export default function CreateMealForm() {
         e.preventDefault()
         console.log(meals)
     }
+
     //api call to get static recipes, custom recipes and ingredients
 
     return (
@@ -277,7 +292,15 @@ export default function CreateMealForm() {
                     {/* <CustomRecipeAutoComplete customRecipes={customRecipes} dispatch={dispatch}/> */}
                     <MealPane mealLineItems={meals.meals} dispatch={dispatch} />
                     <MealSelection selectOptions={mealLineItems} dispatch={dispatch} />
-
+                    <Typography>When?</Typography>
+                    <DatePicker 
+                        style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 
+                        multiple 
+                        onChange={e=>dispatch({type:ACTION_TYPES.SET_DAYS, payload:e})}
+                        value={meals.dateObjects}
+                        format='DD MMM YY'
+                    />
+                    {/* <Calendar/> */}
                 </Stack>
                 {/* Create a grid of cards. Top Row is scrolling ingredients, middle row is custom recipes, bottom row is static recipes */}
                 {/* Each card has a Add or remove button. Add can be clicked multiple times to add multiple of that meal, Each card tracks the number of times its been clicked */}
