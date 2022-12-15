@@ -364,13 +364,7 @@ export default class DataController {
             .then((resp)=>{
                 DatabaseService.insertMealRecipe(DUMMY_EMAIL, Object.entries(resp), Object.entries(req.body.meals))
                     .then((resp)=>{
-                        // DatabaseService.insertMealStaticRecipe(DUMMY_EMAIL, req.body)
-                        //     .then((resp)=>{
-                        //         res.json({success:'success'})
-                        //     })
-                        //     .catch((resp)=>{
-                        //         res.json({error:'Could not insert into meal_static_recipe'})
-                        //     })
+                        res.json({success:'success'})
                     })
                     .catch((resp)=>{
                         console.log(resp)

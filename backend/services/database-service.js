@@ -547,7 +547,9 @@ class DatabaseService {
             const promise = new Promise((resolve, reject)=>{
                 const sqlQuery = mealIds.reduce((result,  [index, {id}])=>{
                     const output = meals.reduce((result, [index, meal])=>{
-                        return result + `INSERT INTO meal_recipe (meal_id, recipe_id) VALUES (${id}, ${meal.recipe_id});`
+                        let table='meal_recipe'
+                        if (meal.type === 'static') table='meal_static_recipe' 
+                        return result + `INSERT INTO ${table} (meal_id, recipe_id) VALUES (${id}, ${meal.recipe_id});`
                     }, '')
 
                      return result + output
