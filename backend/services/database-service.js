@@ -581,7 +581,7 @@ class DatabaseService {
                     let output = {}
                     results.forEach((item)=>{
                         console.log(item.datestamp.getDate())
-                        const key = item.datestamp.getFullYear() + '-' + item.datestamp.getMonth() + '-' + item.datestamp.getDate()
+                        const key = item.datestamp.getFullYear() + '-' + (item.datestamp.getMonth()+1) + '-' + item.datestamp.getDate()
                         if (!(key in output)) {
                             output[key] = {
                                 recipes: {},
