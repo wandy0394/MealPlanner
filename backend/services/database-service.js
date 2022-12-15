@@ -483,12 +483,6 @@ class DatabaseService {
     static insertMeal(userEmail, params) {
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
-                
-                //loop through params.days array
-                //for each day, insert a meal with that day as the timestamp
-                //insert unique value, (uuid? Math.random().toString(16) + Date.Now()),into bulkId (varchar(255)) column
-                //use U to SELECT all ids from those inserted rows. this is used to populate junction tables
-                
                 const uniqueID = Date.now() + Math.random().toString(16)
                 const sqlQuery = params.days.reduce((result, item)=>{
                     return (result + `INSERT INTO daily_meal
@@ -554,7 +548,6 @@ class DatabaseService {
 
                      return result + output
                 },'')
-                console.log(sqlQuery)
                 db.query(sqlQuery, (err, results, fields)=>{
                     if (err) {
                         console.error(err)
@@ -567,6 +560,77 @@ class DatabaseService {
         }
     }
 
+    static getAllMeals(userEmail) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=>{
+                const sqlQuery = `select 
+                                    daily_meal.*, 
+                                    meal_recipe.recipe_id, 
+                                    meal_static_recipe.recipe_id as static_recipe_id 
+                                    from daily_meal 
+                                    left join meal_recipe on daily_meal.id=meal_recipe.meal_id 
+                                    left join meal_static_recipe on daily_meal.id=meal_static_recipe.meal_id 
+                                    where daily_meal.user_id='${userEmail}' 
+                                    order by datestamp asc;`
+                db.query(sqlQuery, (err, results, fields)=>{
+                    if (err) {
+                        console.error(err)
+                        return reject('Could not get meals')
+                    }
+                    console.log(results)
+                    let output = {}
+                    results.forEach((item)=>{
+                        console.log(item.datestamp.getDate())
+                        const key = item.datestamp.getFullYear() + '-' + item.datestamp.getMonth() + '-' + item.datestamp.getDate()
+                        if (!(key in output)) {
+                            output[key] = {
+                                recipes: {},
+                                staticRecipes:{},
+                                targetCalories: item.target_calories,
+                                targetCarbs: item.target_carbs,
+                                targetFat: item.target_fat,
+                                targetProtein: item.target_protein,
+                                totalCalories: item.total_calories,
+                                totalCarbs: item.total_carbs,
+                                totalFat: item.total_fat,
+                                totalProtein: item.total_protein,
+                            }
+                        }
+                        else {
+                            output[key] = {
+                                ...output[key],
+                                targetCalories: output[key].targetCalories + item.target_calories,
+                                targetCarbs: output[key].targetCarbs + item.target_carbs,
+                                targetFat: output[key].targetFat + item.target_fat,
+                                targetProtein: output[key].targetProtein + item.target_protein,
+                                totalCalories: output[key].totalCalories + item.total_calories,
+                                totalCarbs: output[key].totalCarbs + item.total_carbs,
+                                totalFat: output[key].totalFat + item.total_fat,
+                                totalProtein: output[key].totalProtein+item.total_protein,
+                            }
+                        }
+                        if (item.recipe_id) {
+                            if (!(item?.recipe_id in output[key]['recipes'])) {
+                                output[key]['recipes'][item.recipe_id] = item.recipe_id 
+                            }
+
+                        }
+                        if (item.static_recipe_id) {
+                            if (!(item?.static_recipe_id in output[key]['staticRecipes'])) {
+                                output[key]['staticRecipes'][item.static_recipe_id] = item.static_recipe_id 
+                            }
+
+                        }
+                        return 
+                    })
+                    console.log(output)
+                    // console.log(results)
+                    resolve(output)
+                })
+            })
+            return promise
+        }
+    }
     static dummyCommand() {
         if (db !== undefined) {
             let sqlQuery = `SELECT * from user`;

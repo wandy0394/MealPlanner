@@ -20,19 +20,6 @@ const useGetAllFood = () => {
                     const recipeResult = await DataService.getRecipes()
                     const staticResult = await DataService.getStaticRecipes()
                     let lineItems = {}
-                    // ingredientResult.forEach(element => {
-                    //     lineItems = {...lineItems,
-                    //         [counter]: {
-                    //             name:element.name, 
-                    //             calories:element.calories,
-                    //             fat:element.fat,
-                    //             protein:element.protein,            
-                    //             carbs:element.carbs, 
-                    //             id:element.id
-                    //         }
-                    //     }
-                    //     counter++
-                    // });
                     Object.entries(recipeResult).forEach(([key, data])=> {
                         lineItems = {...lineItems, 
                                     [counter] : {
@@ -67,7 +54,6 @@ const useGetAllFood = () => {
                 catch (e) {
 
                 }
-
             }
             fetchData();
         }
@@ -171,7 +157,7 @@ function MacroCounter(props) {
 //                 )}
 //             />
 // }
-export default function CreateMealForm() {
+export default function CreateMealForm(props) {
     const [mealLineItems, setMealLineItems] = useGetAllFood()
     const [meals, dispatch] = useReducer(reducer, INITIAL_MEALS)
 
@@ -253,61 +239,57 @@ export default function CreateMealForm() {
     //api call to get static recipes, custom recipes and ingredients
 
     return (
-        <Box>
+        <form onSubmit={handleSubmit}>
+            <Box sx={{height:'70vh', width:'70vw', display:'flex', alignItems:'center', justifyContent:'center'}}>
             {/* create meals */}
-            <form onSubmit={handleSubmit}>
-                <Box sx={{display:'flex', gap:'2rem'}}>
-                    <MacroCounter 
-                        dispatch={dispatch} 
-                        macroTarget={meals.targetCalories} 
-                        macroValue={meals.totalCalories} 
-                        labelText='Calories' 
-                        handleChange={e=>dispatch({type:ACTION_TYPES.SET_CALORIES, payload:e.target.value})}/>
-                    <MacroCounter 
-                        dispatch={dispatch} 
-                        macroTarget={meals.targetCarbs} 
-                        macroValue={meals.totalCarbs} 
-                        labelText='Carbs' 
-                        handleChange={e=>dispatch({type:ACTION_TYPES.SET_CARBS, payload:e.target.value})}/>
-                        
-                    <MacroCounter 
-                        dispatch={dispatch} 
-                        macroTarget={meals.targetFat} 
-                        macroValue={meals.totalFat} 
-                        labelText='Fat' 
-                        handleChange={e=>dispatch({type:ACTION_TYPES.SET_FAT, payload:e.target.value})}/>
-                        
-                    <MacroCounter 
-                        dispatch={dispatch} 
-                        macroTarget={meals.targetProtein} 
-                        macroValue={meals.totalProtein} 
-                        labelText='Protein' 
-                        handleChange={e=>dispatch({type:ACTION_TYPES.SET_PROTEIN, payload:e.target.value})}/>
-                        
+                <Box>
+                    <Box sx={{display:'flex', gap:'2rem'}}>
+                        <MacroCounter 
+                            dispatch={dispatch} 
+                            macroTarget={meals.targetCalories} 
+                            macroValue={meals.totalCalories} 
+                            labelText='Calories' 
+                            handleChange={e=>dispatch({type:ACTION_TYPES.SET_CALORIES, payload:e.target.value})}/>
+                        <MacroCounter 
+                            dispatch={dispatch} 
+                            macroTarget={meals.targetCarbs} 
+                            macroValue={meals.totalCarbs} 
+                            labelText='Carbs' 
+                            handleChange={e=>dispatch({type:ACTION_TYPES.SET_CARBS, payload:e.target.value})}/>
+                            
+                        <MacroCounter 
+                            dispatch={dispatch} 
+                            macroTarget={meals.targetFat} 
+                            macroValue={meals.totalFat} 
+                            labelText='Fat' 
+                            handleChange={e=>dispatch({type:ACTION_TYPES.SET_FAT, payload:e.target.value})}/>
+                            
+                        <MacroCounter 
+                            dispatch={dispatch} 
+                            macroTarget={meals.targetProtein} 
+                            macroValue={meals.totalProtein} 
+                            labelText='Protein' 
+                            handleChange={e=>dispatch({type:ACTION_TYPES.SET_PROTEIN, payload:e.target.value})}/>
+                            
+                    </Box>
+                    <Stack gap={3}>
+                        {/* <CustomRecipeAutoComplete customRecipes={customRecipes} dispatch={dispatch}/> */}
+                        <MealPane mealLineItems={meals.meals} dispatch={dispatch} />
+                        <MealSelection selectOptions={mealLineItems} dispatch={dispatch} />
+                        <Typography>When?</Typography>
+                        <DatePicker 
+                            style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 
+                            multiple 
+                            onChange={e=>dispatch({type:ACTION_TYPES.SET_DAYS, payload:e})}
+                            value={meals.dateObjects}
+                            format='DD MMM YY'
+                        />
+                        {/* <Calendar/> */}
+                    <Button type='submit'>Add</Button>
+                    </Stack>
+
                 </Box>
-                
-                <Stack gap={3}>
-
-                    {/* <CustomRecipeAutoComplete customRecipes={customRecipes} dispatch={dispatch}/> */}
-                    <MealPane mealLineItems={meals.meals} dispatch={dispatch} />
-                    <MealSelection selectOptions={mealLineItems} dispatch={dispatch} />
-                    <Typography>When?</Typography>
-                    <DatePicker 
-                        style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 
-                        multiple 
-                        onChange={e=>dispatch({type:ACTION_TYPES.SET_DAYS, payload:e})}
-                        value={meals.dateObjects}
-                        format='DD MMM YY'
-                    />
-                    {/* <Calendar/> */}
-                </Stack>
-                {/* Create a grid of cards. Top Row is scrolling ingredients, middle row is custom recipes, bottom row is static recipes */}
-                {/* Each card has a Add or remove button. Add can be clicked multiple times to add multiple of that meal, Each card tracks the number of times its been clicked */}
-                <Button type='submit'>Add</Button>
-
-            </form>
-        
-        
-        </Box>
+            </Box>
+        </form>
     )
 }

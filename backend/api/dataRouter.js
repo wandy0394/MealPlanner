@@ -69,6 +69,8 @@ router.route("/meal")
     .delete(DataController.apiRemoveMeal)
     .put(DataController.apiUpdateMealContent)
 
+router.route("/meals")
+    .get(DataController.apiGetAllMeals)
 
 router.route("/meal-plan")
     .get(DataController.apiGetMealPlan)
