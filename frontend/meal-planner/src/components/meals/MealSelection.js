@@ -6,7 +6,7 @@ function OptionCard(props) {
     function handleClick(e, id, name) {
         console.log('clicked')
         console.log()
-        dispatch({type:ACTION_TYPES.ADD_MEAL, payload:{id:id, name:name, recipe_id:selectOptions.recipe_id}})
+        dispatch({type:ACTION_TYPES.ADD_MEAL, payload:{id:id, name:name, recipe_id:selectOptions.recipe_id, type:selectOptions.type}})
     }
     
     return (
