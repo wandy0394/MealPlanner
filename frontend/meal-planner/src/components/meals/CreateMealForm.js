@@ -7,62 +7,8 @@ import MealSelection from "./MealSelection";
 import MealPane from "./MealPane";
 import {Calendar, DateObject} from "react-multi-date-picker"
 import DatePicker from "react-multi-date-picker"
+import MacroCounter from "./MacroCounter";
 
-const useGetAllFood = () => {
-    const [mealLineItems, setMealLineItems] = useState({})
-    let counter=0
-    let called = false
-    useEffect(()=> {        
-        if (!called) {
-            async function fetchData() {
-                try {
-                    const ingredientResult = await DataService.getIngredients()
-                    const recipeResult = await DataService.getRecipes()
-                    const staticResult = await DataService.getStaticRecipes()
-                    let lineItems = {}
-                    Object.entries(recipeResult).forEach(([key, data])=> {
-                        lineItems = {...lineItems, 
-                                    [counter] : {
-                                        name:data.title, 
-                                        calories:data.macros.calories,
-                                        fat:data.macros.fat,
-                                        protein:data.macros.protein,            
-                                        carbs:data.macros.carbs, 
-                                        recipe_id:key,
-                                        type:'custom'
-                                    }
-                        }
-                        counter++
-                    })
-                    staticResult.forEach((item) => {
-                        lineItems = {...lineItems, 
-                            [counter] : {
-                                name:item.recipe_name, 
-                                calories:0,
-                                fat:0,
-                                protein:0,            
-                                carbs:0, 
-                                recipe_id:item.id,  //consider renaming id
-                                api_id:item.recipe_id,
-                                type:'static'
-                            }
-                        }
-                        counter++                        
-                    })
-                    setMealLineItems(lineItems)
-                }
-                catch (e) {
-
-                }
-            }
-            fetchData();
-        }
-        return () => {
-            called = true
-        }
-    }, [])
-    return [mealLineItems, setMealLineItems]
-}
 const INITIAL_MEALS = {
     //object of objects, each child object 
     meals:{},
@@ -79,22 +25,6 @@ const INITIAL_MEALS = {
     dateObjects:[new DateObject()]
 }
 
-function MacroCounter(props) {
-    const {labelText,  macroValue, macroTarget, dispatch, handleChange, ...other} = props
-    return (
-        <Box>
-            <TextField 
-                variant='standard' 
-                label={'Target ' + labelText} 
-                value={macroTarget} 
-                onChange={handleChange} 
-                inputProps={{style:{textAlign:'center'}}}
-            />
-            <Typography sx={{textAlign:'center', color:(macroValue >= macroTarget)?'red':'black'}} variant='h3'>{macroValue}</Typography>
-        </Box>
-
-    )
-}
 
 
 // function CustomRecipeAutoComplete({customRecipes, dispatch}) {
@@ -158,7 +88,8 @@ function MacroCounter(props) {
 //             />
 // }
 export default function CreateMealForm(props) {
-    const [mealLineItems, setMealLineItems] = useGetAllFood()
+    const {mealLineItems} = props
+    // const [mealLineItems, setMealLineItems] = useGetAllFood()
     const [meals, dispatch] = useReducer(reducer, INITIAL_MEALS)
 
     function reducer(state, action) {
