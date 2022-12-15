@@ -379,6 +379,16 @@ export default class DataController {
     static async apiGetMeal(req, res, next) {
         return
     }
+    static async apiGetAllMeals(req, res, next) {
+        DatabaseService.getAllMeals(DUMMY_EMAIL)
+            .then((resp)=>{
+                //console.log(resp)
+                res.json(resp)
+            })
+            .catch((resp)=>{
+                res.json({error:'Could not get all meals'})
+            })
+    }
     static async apiRemoveMeal(req, res, next) {
         return
     }
