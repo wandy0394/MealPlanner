@@ -13,32 +13,74 @@ function MealCard(props) {
     }
     
     return (
-        <Card key={meal.id} onClick={handleClick} sx={{margin:'1rem', display:'inline-block', border:'solid', aspectRatio:'1/1', height:'15vh', color:'black'}}>
+        <Card key={meal.id} onClick={handleClick} sx={{margin:'1rem', display:'inline-block', border:'solid', aspectRatio:'1/1', height:'30vh', color:'black'}}>
             <CardContent sx={{border:'solid'}}>
                 <Typography variant='h6'>{meal.name}</Typography>
-                <Typography variant='h6'>{meal.recipe_id}</Typography>
+                <Typography variant='h6'>ID: {meal.recipe_id}</Typography>
+                <Typography variant='h6'>Qty: {meal.qty}</Typography>
+                <Typography variant='h6'>Calories: {meal.calories}</Typography>
+                <Typography variant='h6'>Carbs: {meal.carbs}</Typography>
+                <Typography variant='h6'>Fat: {meal.fat}</Typography>
+                <Typography variant='h6'>Protein: {meal.protein}</Typography>
+
             </CardContent> 
         </Card>
     )
+}
+
+function StaticMealcard(props) {
+    const {meal, ...other} = props
+    let data = meal
+    const [newMeal, setNewMeal] = useState(meal)
+    async function getRecipeData() {
+        console.log('called')
+        return await DataService.getRecipe(meal.api_id)
+    } 
+
+    let called = false
+    useEffect(()=>{
+        if (!called) {
+            console.log('effect')
+            getRecipeData().then((resp)=>{
+                console.log(resp)
+                const newMeal = {
+                    name: resp.recipe.recipe_name,
+                    recipe_id: meal.recipe_id,
+                    calories:resp.recipe.serving_sizes.serving.calories,
+                    carbs: resp.recipe.serving_sizes.serving.carbohydrate,
+                    fat: resp.recipe.serving_sizes.serving.fat,
+                    protein: resp.recipe.serving_sizes.serving.protein
+                }
+                setNewMeal(newMeal)
+            })
+        }
+        return () => {
+            called = true
+        }
+    }, [meal])
+
+    //return <MealCard meal={newMeal}/>
+    return <MealCard meal={newMeal}/>
 }
 
 export default function MealViewer(props) {
     const {meals, mealLineItems} = props
     const [dateValue, setDateValue] = useState(new Date())
     const [selectedMeal, setSelectedMeal] = useState({})
-    const [recipes, setRecipes] = useState([])
+    const [recipes, setRecipes] = useState({custom:[], static:[]})
     
     // const [meals, setMeals] = useGetMeals()
     
     //api call to get meals belonging to this user
+    let called = false
     useEffect(()=>{
-        let called = false
         if (!called) {
             const today = new Date()
             const dateNow = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate()
             if (dateNow in meals) {
                 setSelectedMeal(meals[dateNow])
-                getAllRecipes(meals[dateNow])
+                const newRecpies = getAllRecipes(meals[dateNow])
+                setRecipes(newRecpies)
             }
         }
         return ()=>{
@@ -66,7 +108,6 @@ export default function MealViewer(props) {
     }
 
     function getAllRecipes(recipeIdObj) {
-        //console.log(recipeIdObj)
         const customRecipes = Object.values(recipeIdObj.recipes).reduce((result, data)=>{
             const newData = getRecipe(data)
             return [...result, newData] 
@@ -76,11 +117,8 @@ export default function MealViewer(props) {
             const newData = getStaticRecipe(data)
             return [...result, newData]
         },[])
-        const newRecipes = [...customRecipes, ...staticRecipes]
-        console.log(newRecipes)
-        setRecipes(newRecipes) 
+        return {custom:customRecipes, static:staticRecipes}
     }
-
     function handleDateChange(e) {
         setDateValue(e)
         const dateNow = e.format('YYYY-MM-DD')
@@ -89,7 +127,7 @@ export default function MealViewer(props) {
         console.log(meals[dateNow])
         if (dateNow in meals) {
             setSelectedMeal(meals[dateNow])
-            getAllRecipes(meals[dateNow])
+            setRecipes(getAllRecipes(meals[dateNow]))
         }
         else {
             setSelectedMeal({})
@@ -138,14 +176,20 @@ export default function MealViewer(props) {
                 </Box>
                 <Box sx={{width:'100%', display:'flex', gap:'1rem'}}>
                     {
-                        (recipes.length !== 0) && 
-                            (recipes.map((item, index)=>{
+                        (recipes.custom.length !== 0) && 
+                            (recipes.custom.map((item, index)=>{
                                 if (item === null) return
                                 return (
-                                    <Box key={index}>
-                                        {item.name}
-                                        {item.recipe_id}
-                                    </Box>
+                                    <MealCard key={index} meal={item}/>
+                                )        
+                            }))
+                    }
+                    {
+                        (recipes.static.length !== 0) && 
+                            (recipes.static.map((item, index)=>{
+                                if (item === null) return
+                                return (
+                                    <StaticMealcard key={index} meal={item}/>
                                 )        
                             }))
                     }
