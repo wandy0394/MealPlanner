@@ -110,14 +110,12 @@ export default function MealViewer(props) {
     function getAllRecipes(recipeIdObj) {
         const customRecipes = Object.keys(recipeIdObj.recipes).reduce((result, data)=>{
             const newData = getRecipe(parseInt(data))
-            console.log(recipeIdObj.recipes[parseInt(data)])
-            return [...result, {...newData, qty:recipeIdObj.recipes[data]}] 
+            return [...result, {...newData, qty:recipeIdObj.recipes[data].qty}] 
         }, [])
 
         const staticRecipes = Object.keys(recipeIdObj.staticRecipes).reduce((result, data)=>{
             const newData = getStaticRecipe(parseInt(data))
-            console.log(recipeIdObj.staticRecipes[parseInt(data)])
-            return [...result, {...newData, qty:recipeIdObj.staticRecipes[data]}]
+            return [...result, {...newData, qty:recipeIdObj.staticRecipes[data].qty}]
         },[])
         return {custom:customRecipes, static:staticRecipes}
     }

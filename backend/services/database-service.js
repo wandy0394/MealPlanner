@@ -615,7 +615,7 @@ class DatabaseService {
                             if (!(item?.recipe_id in output[key]['recipes'])) {
                                 //output[key]['recipes']['recipe_id'] = item.recipe_id 
                                 //output[key]['recipes']['qty'] = item.recipe_qty 
-                                output[key]['recipes'][item.recipe_id] = item.recipe_qty 
+                                output[key]['recipes'][item.recipe_id] = {recipe_id:item.recipe_id, qty:item.recipe_qty} 
                             }
 
                         }
@@ -623,7 +623,7 @@ class DatabaseService {
                             if (!(item?.static_recipe_id in output[key]['staticRecipes'])) {
                                 // output[key]['staticRecipes']['recipe_id'] = item.static_recipe_id 
                                 // output[key]['staticRecipes']['qty'] = item.static_recipe_qty 
-                                output[key]['staticRecipes'][item.static_recipe_id] = item.static_recipe_qty 
+                                output[key]['staticRecipes'][item.static_recipe_id] = {recipe_id: item.static_recipe_id, qty:item.static_recipe_qty} 
                             }
 
                         }
