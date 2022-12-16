@@ -386,6 +386,7 @@ export default class DataController {
                 res.json(resp)
             })
             .catch((resp)=>{
+                console.log(resp)
                 res.json({error:'Could not get all meals'})
             })
     }

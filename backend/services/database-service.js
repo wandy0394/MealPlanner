@@ -543,7 +543,7 @@ class DatabaseService {
                     const output = meals.reduce((result, [index, meal])=>{
                         let table='meal_recipe'
                         if (meal.type === 'static') table='meal_static_recipe' 
-                        return result + `INSERT INTO ${table} (meal_id, recipe_id) VALUES (${id}, ${meal.recipe_id});`
+                        return result + `INSERT INTO ${table} (meal_id, recipe_id, qty VALUES (${id}, ${meal.recipe_id}, ${meal.qty});`
                     }, '')
 
                      return result + output
@@ -566,7 +566,9 @@ class DatabaseService {
                 const sqlQuery = `select 
                                     daily_meal.*, 
                                     meal_recipe.recipe_id, 
-                                    meal_static_recipe.recipe_id as static_recipe_id 
+                                    meal_recipe.qty as recipe_qty,
+                                    meal_static_recipe.recipe_id as static_recipe_id,
+                                    meal_static_recipe.qty as static_recipe_qty 
                                     from daily_meal 
                                     left join meal_recipe on daily_meal.id=meal_recipe.meal_id 
                                     left join meal_static_recipe on daily_meal.id=meal_static_recipe.meal_id 
@@ -611,17 +613,20 @@ class DatabaseService {
                         }
                         if (item.recipe_id) {
                             if (!(item?.recipe_id in output[key]['recipes'])) {
-                                output[key]['recipes'][item.recipe_id] = item.recipe_id 
+                                //output[key]['recipes']['recipe_id'] = item.recipe_id 
+                                //output[key]['recipes']['qty'] = item.recipe_qty 
+                                output[key]['recipes'][item.recipe_id] = item.recipe_qty 
                             }
 
                         }
                         if (item.static_recipe_id) {
                             if (!(item?.static_recipe_id in output[key]['staticRecipes'])) {
-                                output[key]['staticRecipes'][item.static_recipe_id] = item.static_recipe_id 
+                                // output[key]['staticRecipes']['recipe_id'] = item.static_recipe_id 
+                                // output[key]['staticRecipes']['qty'] = item.static_recipe_qty 
+                                output[key]['staticRecipes'][item.static_recipe_id] = item.static_recipe_qty 
                             }
 
                         }
-                        return 
                     })
                     console.log(output)
                     // console.log(results)

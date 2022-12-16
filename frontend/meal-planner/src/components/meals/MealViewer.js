@@ -30,7 +30,6 @@ function MealCard(props) {
 
 function StaticMealcard(props) {
     const {meal, ...other} = props
-    let data = meal
     const [newMeal, setNewMeal] = useState(meal)
     async function getRecipeData() {
         console.log('called')
@@ -46,6 +45,7 @@ function StaticMealcard(props) {
                 const newMeal = {
                     name: resp.recipe.recipe_name,
                     recipe_id: meal.recipe_id,
+                    qty:meal.qty,
                     calories:resp.recipe.serving_sizes.serving.calories,
                     carbs: resp.recipe.serving_sizes.serving.carbohydrate,
                     fat: resp.recipe.serving_sizes.serving.fat,
@@ -108,14 +108,16 @@ export default function MealViewer(props) {
     }
 
     function getAllRecipes(recipeIdObj) {
-        const customRecipes = Object.values(recipeIdObj.recipes).reduce((result, data)=>{
-            const newData = getRecipe(data)
-            return [...result, newData] 
+        const customRecipes = Object.keys(recipeIdObj.recipes).reduce((result, data)=>{
+            const newData = getRecipe(parseInt(data))
+            console.log(recipeIdObj.recipes[parseInt(data)])
+            return [...result, {...newData, qty:recipeIdObj.recipes[data]}] 
         }, [])
 
-        const staticRecipes = Object.values(recipeIdObj.staticRecipes).reduce((result, data)=>{
-            const newData = getStaticRecipe(data)
-            return [...result, newData]
+        const staticRecipes = Object.keys(recipeIdObj.staticRecipes).reduce((result, data)=>{
+            const newData = getStaticRecipe(parseInt(data))
+            console.log(recipeIdObj.staticRecipes[parseInt(data)])
+            return [...result, {...newData, qty:recipeIdObj.staticRecipes[data]}]
         },[])
         return {custom:customRecipes, static:staticRecipes}
     }
