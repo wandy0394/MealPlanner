@@ -53,6 +53,7 @@ export const useGetAllFood = () => {
                         }
                         counter++                        
                     })
+                    console.log(lineItems)
                     setMealLineItems(lineItems)
                 }
                 catch (e) {
