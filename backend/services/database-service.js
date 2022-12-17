@@ -338,18 +338,24 @@ class DatabaseService {
             const promise = new Promise((resolve, reject)=> {
                 const sqlQuery =  Object.entries(ingredients).reduce((query, [key, value]) => {
                     let command = ''
+                    
                     if (value.operation === 'insert') {
                         command = `INSERT INTO recipe_ingredient (recipe_id, ingredient_id, qty, units) VALUES (${recipeId}, ${value.food_id}, ${value.qty}, '${value.unit}');`
                     }
-                    else if (value.operation === 'update') {
-                        command = `UPDATE recipe_ingredient SET ingredient_id=${value.food_id}, qty=${value.qty}, units='${value.unit}' WHERE id=${value.recipeIngredientId};`
-                    }
-                    else if (value.operation === 'delete') {
-                        command = `DELETE FROM recipe_ingredient WHERE id=${value.recipeIngredientId};`
+                    else {
+                        if (value.recipeIngredientId) {
+                            if (value.operation === 'update') {
+                                command = `UPDATE recipe_ingredient SET ingredient_id=${value.food_id}, qty=${value.qty}, units='${value.unit}' WHERE id=${value.recipeIngredientId};`
+                            }
+                            else if (value.operation === 'delete') {
+                                command = `DELETE FROM recipe_ingredient WHERE id=${value.recipeIngredientId};`
+                            }
+                        }
                     }
                      
                     return (query + command)
                 }, '')
+                console.log(sqlQuery)
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
                         console.error(err)
