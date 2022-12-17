@@ -4,7 +4,6 @@ import { useState } from "react";
 import CreateMealForm from "../components/meals/CreateMealForm";
 import MealViewer from "../components/meals/MealViewer";
 import { useGetAllFood, useGetMeals } from "../components/meals/MealLineItem";
-
 import { ContentBox } from "../components/utility/ContentBox";
 
 export default function MealPlans() {

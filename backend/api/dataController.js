@@ -382,7 +382,6 @@ export default class DataController {
     static async apiGetAllMeals(req, res, next) {
         DatabaseService.getAllMeals(DUMMY_EMAIL)
             .then((resp)=>{
-                //console.log(resp)
                 res.json(resp)
             })
             .catch((resp)=>{

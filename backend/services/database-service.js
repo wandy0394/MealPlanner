@@ -48,7 +48,7 @@ class DatabaseService {
                     console.error(err)
                     return console.error('Could not insert search history');
                 }
-                console.log(results);
+                // console.log(results);
                 //console.log(fields);
                 //return results;
             }) 
@@ -67,7 +67,7 @@ class DatabaseService {
                     console.error(err)
                     return console.error('Could not insert search history');
                 }
-                console.log(results);
+                // console.log(results);
                 //console.log(fields);
                 //return results;
             }) 
@@ -78,7 +78,6 @@ class DatabaseService {
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
                 const sqlQuery = `SELECT * from search_history where user_id='${userEmail}' order by search_time desc`
-                console.log(sqlQuery)
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
                         console.error(err)
@@ -99,7 +98,6 @@ class DatabaseService {
                 if ((type !== 'ingred') && (type !== 'recipe')) return reject('Improper input type')
 
                 const sqlQuery = `SELECT * from search_history where user_id='${userEmail}' and search_type='${type}' order by search_time desc`
-                console.log(sqlQuery)
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
                         console.error(err)
@@ -233,7 +231,7 @@ class DatabaseService {
                         console.error(err)
                         return reject('Could not make SQL INSERT');
                     }
-                    console.log(results.insertId);
+                    // console.log(results.insertId);
                     //console.log(fields);
                     resolve(results);
                 }) 
@@ -260,7 +258,7 @@ class DatabaseService {
                         console.error(err)
                         return reject('Could not make SQL INSERT');
                     }
-                    console.log(results.insertId);
+                    // console.log(results.insertId);
                     //console.log(fields);
                     resolve(results);
                 }) 
@@ -277,7 +275,7 @@ class DatabaseService {
                         console.error(err)
                         return reject('Could not make SQL SELECT');
                     }
-                    console.log(results.insertId);
+                    // console.log(results.insertId);
                     //console.log(fields);
                     resolve(results);
                 }) 
@@ -309,7 +307,7 @@ class DatabaseService {
                         console.error(err)
                         return reject('Could not make SQL UPDATE');
                     }
-                    console.log(results.insertId);
+                    // console.log(results.insertId);
                     //console.log(fields);
                     resolve(results);
                 }) 
@@ -472,7 +470,7 @@ class DatabaseService {
                         console.error(err)
                         return reject('Could not make SQL SELECT for ingredients');
                     }
-                    console.log(results);
+                    // console.log(results);
                     //console.log(fields);
                     resolve(results);
                 }) 
@@ -543,7 +541,7 @@ class DatabaseService {
                     const output = meals.reduce((result, [index, meal])=>{
                         let table='meal_recipe'
                         if (meal.type === 'static') table='meal_static_recipe' 
-                        return result + `INSERT INTO ${table} (meal_id, recipe_id, qty VALUES (${id}, ${meal.recipe_id}, ${meal.qty});`
+                        return result + `INSERT INTO ${table} (meal_id, recipe_id, qty) VALUES (${id}, ${meal.recipe_id}, ${meal.qty});`
                     }, '')
 
                      return result + output
@@ -579,13 +577,13 @@ class DatabaseService {
                         console.error(err)
                         return reject('Could not get meals')
                     }
-                    console.log(results)
+                    // console.log(results)
                     let output = {}
                     results.forEach((item)=>{
-                        console.log(item.datestamp.getDate())
                         const key = item.datestamp.getFullYear() + '-' + (item.datestamp.getMonth()+1) + '-' + item.datestamp.getDate()
                         if (!(key in output)) {
                             output[key] = {
+                                meal_id:item.id,
                                 recipes: {},
                                 staticRecipes:{},
                                 targetCalories: item.target_calories,
@@ -613,23 +611,17 @@ class DatabaseService {
                         }
                         if (item.recipe_id) {
                             if (!(item?.recipe_id in output[key]['recipes'])) {
-                                //output[key]['recipes']['recipe_id'] = item.recipe_id 
-                                //output[key]['recipes']['qty'] = item.recipe_qty 
                                 output[key]['recipes'][item.recipe_id] = {recipe_id:item.recipe_id, qty:item.recipe_qty} 
                             }
 
                         }
                         if (item.static_recipe_id) {
                             if (!(item?.static_recipe_id in output[key]['staticRecipes'])) {
-                                // output[key]['staticRecipes']['recipe_id'] = item.static_recipe_id 
-                                // output[key]['staticRecipes']['qty'] = item.static_recipe_qty 
                                 output[key]['staticRecipes'][item.static_recipe_id] = {recipe_id: item.static_recipe_id, qty:item.static_recipe_qty} 
                             }
 
                         }
                     })
-                    console.log(output)
-                    // console.log(results)
                     resolve(output)
                 })
             })
