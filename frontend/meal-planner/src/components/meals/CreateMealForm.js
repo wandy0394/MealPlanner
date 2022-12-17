@@ -210,7 +210,7 @@ export default function CreateMealForm(props) {
                         <Typography>When?</Typography>
                         <DatePicker 
                             style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 
-                            multiple 
+                            //multiple 
                             onChange={e=>dispatch({type:ACTION_TYPES.SET_DAYS, payload:e})}
                             value={meals.dateObjects}
                             format='DD MMM YY'

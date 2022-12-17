@@ -157,6 +157,15 @@ class DataService {
             return {error:'Error'}
         }
     }
+    async updateMeal(meals) {
+        try {
+            const resp =  await instance.put(`/meal/`, meals)
+            return resp
+        }
+        catch (e) {
+            return {error:'Error'}
+        }        
+    }
     async addMeal(meals) {
         try {
             const resp =  await instance.post(`/meal/`, meals)

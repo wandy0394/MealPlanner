@@ -9,21 +9,6 @@ import {Calendar, DateObject} from "react-multi-date-picker"
 import DatePicker from "react-multi-date-picker"
 import MacroCounter from "./MacroCounter";
 
-// const INITIAL_MEALS = {
-//     //object of objects, each child object 
-//     meals:{},
-//     targetCarbs:0,
-//     targetCalories:0,
-//     targetProtein:0,
-//     targetFat:0,
-//     totalCarbs:0,
-//     totalCalories:0,
-//     totalFat:0,
-//     totalProtein:0,
-//     counter:0,
-//     days:[(new DateObject()).format('YYYY-MM-DD')],
-//     dateObjects:[new DateObject()]
-// }
 
 function initMeal(selectedMeal, mealLineItems) {
     let meals={}
@@ -37,6 +22,7 @@ function initMeal(selectedMeal, mealLineItems) {
                 recipe_id:mealLineItems[key].recipe_id,
                 type:mealLineItems[key].type, 
                 qty:item.qty,
+                operation:'update'
         }
     })
     Object.values(selectedMeal.staticRecipes).forEach((item)=>{
@@ -48,6 +34,8 @@ function initMeal(selectedMeal, mealLineItems) {
                 recipe_id:mealLineItems[key].recipe_id,
                 type:mealLineItems[key].type, 
                 qty:item.qty,
+                operation:'update',
+                isNew:false
         }
     })
 
@@ -59,6 +47,7 @@ export default function EditMealForm(props) {
     const {selectedMeal, dateValue, mealLineItems} = props
     // const [mealLineItems, setMealLineItems] = useGetAllFood()
     const INITIAL_MEALS = {
+        meal_id:selectedMeal.meal_id,
         meals:initMeal(selectedMeal, mealLineItems),
         targetCarbs:selectedMeal.targetCarbs,
         targetCalories:selectedMeal.targetCalories,
@@ -69,10 +58,9 @@ export default function EditMealForm(props) {
         totalFat:selectedMeal.totalFat,
         totalProtein:selectedMeal.totalProtein,
         days:[dateValue.format('YYYY-MM-DD')],
-        dateObjects:[dateValue]        
+        dateObjects:[dateValue]
     }
     const [meals, dispatch] = useReducer(reducer, INITIAL_MEALS)
-
     function reducer(state, action) {
         const {type, payload} = action
         switch (type) {
@@ -81,10 +69,13 @@ export default function EditMealForm(props) {
                     return {...state, 
                                 meals: {...state.meals, 
                                         [payload.id]:
-                                            {name:payload.name, 
-                                                recipe_id:payload.recipe_id,
-                                                type:payload.type, 
+                                            {   
+                                                ...state.meals[payload.id],
+                                                // name:payload.name, 
+                                                // recipe_id:payload.recipe_id,
+                                                // type:payload.type, 
                                                 qty:state.meals[payload.id].qty + 1,
+                                                operation: (state.meals[payload.id].isNew) ? 'insert' : 'update'
                                             },
                                 },
                                 totalCarbs: state.totalCarbs + mealLineItems[payload.id].carbs,
@@ -95,7 +86,7 @@ export default function EditMealForm(props) {
                 }
                 return {...state, 
                             meals: {...state.meals, 
-                                    [payload.id]:{name:payload.name, recipe_id:payload.recipe_id, type:payload.type, qty:1}
+                                    [payload.id]:{name:payload.name, recipe_id:payload.recipe_id, type:payload.type, qty:1, operation:'insert', isNew:true}
                             },
                             totalCarbs: state.totalCarbs + mealLineItems[payload.id].carbs,
                             totalCalories: state.totalCalories + mealLineItems[payload.id].calories,
@@ -107,6 +98,17 @@ export default function EditMealForm(props) {
                     const currQty = state.meals[payload.id].qty
                     if (currQty === 0) {
                         return state
+                    }
+                    if (currQty === 1) {
+                        return {...state, 
+                                meals: {...state.meals, 
+                                    [payload.id]:{...state.meals[payload.id], qty:state.meals[payload.id].qty - 1, operation:'delete'}
+                                },
+                                totalCarbs: state.totalCarbs - mealLineItems[payload.id].carbs,
+                                totalCalories: state.totalCalories - mealLineItems[payload.id].calories,
+                                totalFat: state.totalFat - mealLineItems[payload.id].fat,
+                                totalProtein: state.totalProtein - mealLineItems[payload.id].protein,
+                        }
                     }
                     return {...state, 
                                 meals: {...state.meals, 
@@ -142,7 +144,7 @@ export default function EditMealForm(props) {
     function handleSubmit(e) {
         e.preventDefault()
         console.log(meals)
-        //DataService.addMeal(meals)
+        DataService.updateMeal(meals)
     }
 
     //api call to get static recipes, custom recipes and ingredients
