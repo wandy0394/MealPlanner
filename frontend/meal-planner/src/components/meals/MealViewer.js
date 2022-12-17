@@ -1,8 +1,11 @@
-import {Box, Card, CardContent, Stack, Typography} from "@mui/material"
+import {Box, Button, Card, CardContent, Modal, Stack, Typography} from "@mui/material"
 import { useEffect, useState } from "react"
 import DataService from "../../service/data-service"
 import DatePicker from "react-multi-date-picker"
+import {DateObject} from "react-multi-date-picker"
 import MacroCounter from "./MacroCounter"
+import EditMealForm from "./EditMealForm"
+
 
 function MealCard(props) {
     const {meal, ...other} = props
@@ -13,8 +16,8 @@ function MealCard(props) {
     }
     
     return (
-        <Card key={meal.id} onClick={handleClick} sx={{margin:'1rem', display:'inline-block', border:'solid', aspectRatio:'1/1', height:'30vh', color:'black'}}>
-            <CardContent sx={{border:'solid'}}>
+        <Card key={meal.id} onClick={handleClick} sx={{margin:'1rem', display:'inline-block', aspectRatio:'1/1', height:'30vh', color:'black'}}>
+            <CardContent>
                 <Typography variant='h6'>{meal.name}</Typography>
                 <Typography variant='h6'>ID: {meal.recipe_id}</Typography>
                 <Typography variant='h6'>Qty: {meal.qty}</Typography>
@@ -65,11 +68,14 @@ function StaticMealcard(props) {
 
 export default function MealViewer(props) {
     const {meals, mealLineItems} = props
-    const [dateValue, setDateValue] = useState(new Date())
+    const [dateValue, setDateValue] = useState(new DateObject())
     const [selectedMeal, setSelectedMeal] = useState({})
     const [recipes, setRecipes] = useState({custom:[], static:[]})
+    const [open, setOpen] = useState(false)
     
-    // const [meals, setMeals] = useGetMeals()
+    function handleClose() {
+        setOpen(false)
+    }
     
     //api call to get meals belonging to this user
     let called = false
@@ -90,21 +96,18 @@ export default function MealViewer(props) {
 
     function getRecipe(id) {
         let retval = null
-        Object.values(mealLineItems).forEach((data)=>{
-            if (data.type === 'custom' && data.recipe_id === id) {
-                retval = data
-            }
+        retval = Object.values(mealLineItems).filter((data)=>{
+            return (data.type === 'custom' && data.recipe_id === id) 
         })
-        return retval
+
+        return(retval.length === 1)?retval[0]:null
     }
     function getStaticRecipe(id) {
         let retval = null
-        Object.values(mealLineItems).forEach((data)=>{
-            if (data.type === 'static' && data.recipe_id === id) {
-                retval = data
-            }
+        retval = Object.values(mealLineItems).filter((data)=>{
+            return (data.type === 'static' && data.recipe_id === id)
         })
-        return retval
+        return (retval.length === 1)?retval[0]:null
     }
 
     function getAllRecipes(recipeIdObj) {
@@ -122,8 +125,6 @@ export default function MealViewer(props) {
     function handleDateChange(e) {
         setDateValue(e)
         const dateNow = e.format('YYYY-MM-DD')
-        // console.log(dateNow.toString() in meals)
-
         console.log(meals[dateNow])
         if (dateNow in meals) {
             setSelectedMeal(meals[dateNow])
@@ -133,10 +134,18 @@ export default function MealViewer(props) {
             setSelectedMeal({})
         }
     }
+    function handleEditClick() {
+        console.log(dateValue)
+        console.log(dateValue.format('YYYY-MM-DD'))
+        console.log(selectedMeal)
+        console.log(mealLineItems)
+        setOpen(true)
+    }
     
     return (
         <Box sx={{width:'100%', height:'100%', border:'solid'}}>
             <Stack sx={{width:'100%'}}>
+                <Button variant='contained' onClick={handleEditClick}>Edit</Button>
                 <DatePicker 
                     style={{margin:'0', padding:'0', width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 
                     onChange={handleDateChange}
@@ -195,8 +204,13 @@ export default function MealViewer(props) {
                     }
                 </Box>
             </Stack>
-            {/* view meals for each day of the week */}
-            {/* each meal describes the recipes/ingredients and macros and targert macros */}
+            <Modal
+                open={open}
+                onClose={handleClose}
+                sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
+            >
+                <EditMealForm selectedMeal={selectedMeal} dateValue={dateValue} mealLineItems={mealLineItems}/>
+            </Modal>
             
         </Box>
     )
