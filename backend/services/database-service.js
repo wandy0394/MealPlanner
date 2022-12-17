@@ -628,6 +628,55 @@ class DatabaseService {
             return promise
         }
     }
+
+    static updateMeal(userEmail, meals, mealId) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=>{
+                let sqlQuery = `UPDATE daily_meal 
+                                SET
+                                    target_carbs=${meals.targetCarbs},
+                                    target_calories=${meals.targetCalories},
+                                    target_protein=${meals.targetProtein},
+                                    target_fat=${meals.targetFat},
+                                    total_carbs=${meals.totalCarbs},
+                                    total_calories=${meals.totalCalories},
+                                    total_fat=${meals.totalFat},
+                                    total_protein=${meals.totalProtein}
+                                WHERE
+                                    user_id='${userEmail}' AND id=${mealId};
+                `
+                
+                const output = Object.values(meals.meals).reduce((result, meal)=>{
+                    let table='meal_recipe'
+                    if (meal.type === 'static') table='meal_static_recipe' 
+                    if (meal.operation === 'insert') {
+                        return result + `INSERT INTO ${table} (meal_id, recipe_id, qty) VALUES (${mealId}, ${meal.recipe_id}, ${meal.qty});`
+                    }
+                    else if (meal.operation === 'update') {
+                        return result + `UPDATE  ${table} SET qty=${meal.qty} where meal_id=${mealId} and recipe_id=${meal.recipe_id};`
+                    }
+                    else if (meal.operation === 'delete') {
+                        return result + `DELETE FROM ${table} where meal_id=${mealId} AND recipe_id=${meal.recipe_id};`
+                    }
+                    else {
+                        return result
+                    }
+                    
+                }, '')
+
+      
+                //console.log(sqlQuery+output)
+                db.query(sqlQuery+output, (err, results, fields)=>{
+                    if (err) {
+                        console.error(err)
+                        reject('Could not update meal')
+                    }
+                    resolve(results)
+                })
+            })
+            return promise
+        }
+    }
     static dummyCommand() {
         if (db !== undefined) {
             let sqlQuery = `SELECT * from user`;

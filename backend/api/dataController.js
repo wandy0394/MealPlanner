@@ -396,7 +396,16 @@ export default class DataController {
         return
     }
     static async apiUpdateMealContent(req, res, next) {
-        return
+        const meals = req.body
+        const mealId = req.body.meal_id
+        DatabaseService.updateMeal(DUMMY_EMAIL, meals, mealId)
+        .then((resp)=>{
+            res.json(resp)
+        })
+        .catch((resp)=>{
+            console.log(resp)
+            res.json({error:'Could not get all meals'})
+        })
     }
     //meal plan methods
     static async apiGetMealPlan(req, res, next) {
