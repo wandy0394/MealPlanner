@@ -243,6 +243,7 @@ export default function CustomRecipePostCard(props) {
             prepTime:recipe.prepTime
         }
         setReadOnly(true)
+        console.log(data)
         DataService.updateRecipe(data, recipeId)
     }
     function handleCancelClicked() {
