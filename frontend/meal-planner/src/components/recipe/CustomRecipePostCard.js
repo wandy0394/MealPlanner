@@ -8,85 +8,15 @@ import IngredientsPane from "./IngredientsPane";
 import RecipeNameInput from "./RecipeNameInput";
 import EditIcon from '@mui/icons-material/Edit'
 import CancelIcon from '@mui/icons-material/Cancel'
-
+import TabPanel, { postcardHeight } from "./utility/RecipePostCardUtil";
+import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, summaryStyle, sectionStyle} from "./utility/RecipePostCardUtil";
 import {UnitConverter} from "../utility/Units"
 import { ACTION_TYPES } from "./ActionTypes";
 import styled from "@emotion/styled";
 
 const MAX_CHARS = 4000
-function TabPanel(props) {
-    const {children, value, index, ...other} = props;
-    return (
-        <>
-            {(value === index) ? (
-                <Box hidden={value !== index} sx={{padding:'3rem 3rem 0rem 3rem', height:'100%', overflow:'auto', display:'flex', flexDirection:'column', gap:'1rem'}}>
-                    {children}
-                </Box>
-            ) : ('')}
-        </>
-    )
-}
-function InfoCard(props) {
-    const {children, label, value, index, sx, ...other} = props;
-    return (
-        <>
-            <Box sx={{...sx, display:'flex', flexDirection:'column', alignItems:'center'}}>                
-                <Typography variant='h4' sx={{color:'goldenrod'}}>
-                    {value}
-                </Typography>
-                <Typography variant='body2' sx={{color:'white', display:'flex', flexDirection:'column', alignItems:'center'}}>
-                    {label} 
-                </Typography>
-            </Box>
-           
-        </>
-    )    
-}
-function ImageBlank() {
-    return (
-        <Box sx={{backgroundColor:'lightgrey', width:'100%', height:'100%', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-            <Typography variant='h4'>Image Unavailable</Typography>
-        </Box>    
-    )
-}
 
-const RecipeNameTextField = styled(TextField)(({theme})=> ({
-    fontSize: theme.typography.h4.fontSize
-}))
-const style = {
-    display:'block',
-    height:'80vh',
-    maxHeight:'80vh',
-    aspectRatio:'6/4', 
-    display:'grid',
-    gridTemplateColumns:'1fr 1fr',
-    zIndex:'1',
-    position:'relative'
 
-}
-const buttonStyle = {
-    left:'calc(100%)',
-    transform: 'translate(-280%, 50%)',
-    margin:'0',
-    padding:'0',
-    zIndex:'2',
-    height:'15%',
-    aspectRatio:'1/1',
-    backgroundColor:'goldenrod',
-    '&:hover': {
-        backgroundColor:'#EAEAC0'
-    },
-    position:'absolute',
-    bottom:'0',
-    
-}
-
-const tabStyle = {
-    borderBottom:1, 
-    borderColor:'divider',
-    position:'absolute',
-    bottom:'0',
-}
 const INITIAL_MACROS = {
     carbs:0,
     fat:0,
@@ -247,7 +177,6 @@ export default function CustomRecipePostCard(props) {
         DataService.updateRecipe(data, recipeId)
     }
     function handleCancelClicked() {
-        //refreshComponent()
         dispatch({type:ACTION_TYPES.RESET_RECIPE})
         setReadOnly(true)
     }
@@ -258,12 +187,12 @@ export default function CustomRecipePostCard(props) {
     return (
     
         <form onSubmit={handleSaveClicked}>
-            <Box sx={style}>
-                <Box sx={{height:'80vh'}}>
+            <Box sx={postcardStyle}>
+                <Box sx={{height:postcardHeight}}>
                     <ImageBlank/>                   
                 </Box>
-                <Box sx={{height:'80vh'}}>
-                    <Box sx={{backgroundColor:'gray', padding:'1rem 3rem 0rem 3rem', zIndex:'1', height:'35%', position:'relative'}}>
+                <Box sx={{height:postcardHeight}}>
+                    <Box sx={summaryStyle}>
                         <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                             
                             <TextField 
@@ -273,11 +202,6 @@ export default function CustomRecipePostCard(props) {
                                 value={recipe.title}
                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_TITLE, payload:e.target.value})}
                             />
-                            {/* <Typography sx={{color:'white'}} variant='h3'>
-
-                            </Typography> */}
-
-
                             <Box sx={{display:'flex', justifyContent:'space-between', gap:'3rem'}}>
                                     <InfoCard 
                                         value={<TextField 
@@ -310,8 +234,12 @@ export default function CustomRecipePostCard(props) {
                                         label='Cook Time*'
                                     />
                             </Box>
-                            <TextField variant='standard' helperText='Recipe Description' value={recipe.recipe_description} onChange={e=>dispatch({type:ACTION_TYPES.SET_RECIPE_DESCRIPTION, payload:e.target.value})}></TextField>
-                            {/* <Typography sx={{color:'white'}} variant='body'>Description goes here</Typography> */}
+                            <TextField 
+                                variant='standard' 
+                                helperText='Recipe Description' 
+                                value={recipe.recipe_description} 
+                                onChange={e=>dispatch({type:ACTION_TYPES.SET_RECIPE_DESCRIPTION, payload:e.target.value})}
+                            />
                         </Box>
                         <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>
                             <Tab label='Ingredients' sx={{color:'white'}}/>
@@ -320,14 +248,13 @@ export default function CustomRecipePostCard(props) {
                             {
                                 readOnly ? '' : (<IconButton disabled={readOnly} sx={buttonStyle} type='submit'><SaveIcon/></IconButton>)
                             }
-                                                        {
-                             readOnly ? ( 
-                                <Button variant='contained' sx={{width:'100%'}} onClick={handleEditClick}>
-                                    <EditIcon/>
-                                    <Typography variant='body' sx={{padding:'0 1rem'}}>Edit</Typography>
-                                </Button>   
-                             ) : null
-                                
+                            {
+                                readOnly ? ( 
+                                    <Button variant='contained' sx={{width:'100%'}} onClick={handleEditClick}>
+                                        <EditIcon/>
+                                        <Typography variant='body' sx={{padding:'0 1rem'}}>Edit</Typography>
+                                    </Button>   
+                                ) : null
                             }
                             {
                                 !readOnly && (<Button variant='contained' type='submit' sx={{width:'100%'}} onClick={handleCancelClicked}>
@@ -335,9 +262,9 @@ export default function CustomRecipePostCard(props) {
                                     <Typography variant='body' sx={{padding:'0 1rem'}}>Cancel</Typography>
                                 </Button>)
                             }
-                        </Box>
+                    </Box>
 
-                    <Box sx={{display:'grid', gridTemplateColumns:'2fr 1fr', height:'100%'}}>
+                    <Box sx={sectionStyle}>
                         <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'65%'}}>
                             <TabPanel value={tabNum} index={0}>
                                 <IngredientsPane 
@@ -365,7 +292,6 @@ export default function CustomRecipePostCard(props) {
                                     <InfoCard value={recipe.macros.carbs} label='Carbs'/>
                                     <InfoCard value={recipe.macros.fat} label='Fat'/>
                                     <InfoCard value={recipe.macros.protein} label='Protein'/>
-                                    {/* <Typography variant='body2' sx={{color:'white', textAlign:'center'}}>Serving size: </Typography> */}
                                     <TextField value={recipe.serving_size} onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVING_SIZE, payload:e.target.value})}/>
                                 </Stack>
                         </Box>
