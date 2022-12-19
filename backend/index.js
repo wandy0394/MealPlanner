@@ -22,7 +22,7 @@ connection.connect((err) => {
     if (err) {
         console.error('Could not connect to SQL database');
     }
-    DatabaseService.injectConn(connection)
+    //DatabaseService.injectConn(connection)
     Ingredient.injectConn(connection)
     Recipe.injectConn(connection)
     SearchHistory.injectConn(connection)

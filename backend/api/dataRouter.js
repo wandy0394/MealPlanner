@@ -1,5 +1,5 @@
 import express from "express"
-import DataController from "./dataController.js"
+import SearchHistoryController from "./searchHistoryController.js"
 import IngredientController from "./ingredientController.js"
 import MealController from "./mealController.js"
 import RecipeController from "./recipeController.js"
@@ -50,13 +50,13 @@ router.route("/recipe/:id")
     
 
 router.route("/searchHistory/query/all")
-    .get(DataController.apiGetSearchHistory)
+    .get(SearchHistoryController.apiGetSearchHistory)
 
 router.route("/searchHistory/query/:type")
-    .get(DataController.apiGetSearchHistoryByType)
+    .get(SearchHistoryController.apiGetSearchHistoryByType)
 
 router.route("/searchHistory/:id")
-    .delete(DataController.apiRemoveSearchQuery)
+    .delete(SearchHistoryController.apiRemoveSearchQuery)
 
 
 router.route("/meal")
