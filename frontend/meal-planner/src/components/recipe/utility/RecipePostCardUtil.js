@@ -104,4 +104,26 @@ export const sectionStyle = {
     gridTemplateColumns:'2fr 1fr', 
     height:'100%'
 }
+
+export const MAX_CHARS = 4000
+
+export const INITIAL_MACROS = {
+    carbs:0,
+    fat:0,
+    protein:0,
+    calories:0
+}
+export const INITIAL_RECIPE = {
+    title:'',
+    instructions:'',
+    recipe_description:'',
+    ingredients:{},
+    macros:INITIAL_MACROS,
+    counter:0,
+    servings:0,
+    serving_size:'',
+    prepTime:0,
+    cookTime:0
+}
+
 export default TabPanel

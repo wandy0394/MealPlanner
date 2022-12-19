@@ -7,8 +7,6 @@ import SearchRecipes from "../components/search/SearchRecipes";
 import SearchHistory from "../components/search/SearchHistory";
 import {ACTION_TYPES} from "../components/search/ActionTypes"
 import SidePane from "../layouts/SidePane";
-import IngredientInfo from "../components/search/IngredientInfo";
-import RecipeInfo from "../components/search/ReipceInfo";
 import DataService from "../service/data-service";
 import RecipePostCard from "../components/recipe/RecipePostCard";
 
