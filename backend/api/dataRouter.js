@@ -1,51 +1,52 @@
 import express from "express"
 import DataController from "./dataController.js"
+import IngredientController from "./ingredientController.js"
+import MealController from "./mealController.js"
+import RecipeController from "./recipeController.js"
 
 const router = express.Router()
 
 //adding new ingredients to sql database
 router.route("/ingredient")
-    .post(DataController.apiAddIngredient)
-
+    .post(IngredientController.apiAddIngredient)
 
 router.route("/ingredient/all")
-    .get(DataController.apiGetAllIngredients)
+    .get(IngredientController.apiGetAllIngredients)
 
 
 //:id is the primary key id in SQL database
 router.route("/ingredient/:id")
-    .get(DataController.apiGetIngredient)
-    .put(DataController.apiUpdateIngredient)
-    .delete(DataController.apiRemoveIngredient)
+    .get(IngredientController.apiGetIngredient)
+    .put(IngredientController.apiUpdateIngredient)
+    .delete(IngredientController.apiRemoveIngredient)
 
 //interfaces to external API
 router.route("/ingredient/search/:searchText/:page")
-    .get(DataController.apiSearchIngredients)
+    .get(IngredientController.apiSearchIngredients)
 
 router.route("/recipe/search/:searchText/")
-    .get(DataController.apiSearchRecipes)
+    .get(RecipeController.apiSearchRecipes)
 
 router.route("/recipe/all")
-    .get(DataController.apiGetAllRecipes)
+    .get(RecipeController.apiGetAllRecipes)
 
 router.route("/recipe/add")
-    .post(DataController.apiAddRecipe)
+    .post(RecipeController.apiAddCustomRecipe)
 
 router.route("/recipe/static")
-    .post(DataController.apiAddStaticRecipe)
+    .post(RecipeController.apiAddStaticRecipe)
 
 router.route("/recipe/static/all")
-    .get(DataController.apiGetStaticRecipes)
+    .get(RecipeController.apiGetStaticRecipes)
 
 router.route("/recipe/internal/:id")
-    .get(DataController.apiGetStoredRecipe)
-    .put(DataController.apiUpdateRecipe)
-    //.put(DataController.apiUpdateRecipeContent)
+    .get(RecipeController.apiGetCustomRecipe)
+    .put(RecipeController.apiUpdateCustomRecipe)
+    .delete(RecipeController.apiRemoveRecipe)
+
 
 router.route("/recipe/:id")
-    .get(DataController.apiGetRecipe)
-    .post(DataController.apiCreateRecipe)
-    .delete(DataController.apiRemoveRecipe)
+    .get(RecipeController.apiFetchStaticRecipe)
     
 
 router.route("/searchHistory/query/all")
@@ -57,24 +58,15 @@ router.route("/searchHistory/query/:type")
 router.route("/searchHistory/:id")
     .delete(DataController.apiRemoveSearchQuery)
 
-router.route("/recipe-book")
-    .get(DataController.apiGetRecipeBook)
-    .post(DataController.apiCreateRecipeBook)
-    .delete(DataController.apiRemoveRecipeBook)
-    .put(DataController.apiUpdateRecipeBookContent)
 
 router.route("/meal")
-    .get(DataController.apiGetMeal)
-    .post(DataController.apiCreateMeal)
-    .delete(DataController.apiRemoveMeal)
-    .put(DataController.apiUpdateMealContent)
+    .get(MealController.apiGetMeal)
+    .post(MealController.apiCreateMeal)
+    .delete(MealController.apiRemoveMeal)
+    .put(MealController.apiUpdateMealContent)
 
 router.route("/meals")
-    .get(DataController.apiGetAllMeals)
+    .get(MealController.apiGetAllMeals)
 
-router.route("/meal-plan")
-    .get(DataController.apiGetMealPlan)
-    .post(DataController.apiCreateMealPlan)
-    .delete(DataController.apiRemoveMealPlan)
-    .put(DataController.apiUpdateMealPlanContent)
+
 export default router
