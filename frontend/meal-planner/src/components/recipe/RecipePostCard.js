@@ -2,80 +2,11 @@ import { Box, Button, Card, IconButton, Modal, Paper, Stack, Tab, Tabs, Typograp
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add"
 import DataService from "../../service/data-service";
-
-function TabPanel(props) {
-    const {children, value, index, ...other} = props;
-    return (
-        <>
-            {(value === index) ? (
-                <Box hidden={value !== index} sx={{padding:'3rem 3rem 0rem 3rem', height:'100%', overflow:'auto', display:'flex', flexDirection:'column', gap:'1rem'}}>
-                    {children}
-                </Box>
-            ) : ('')}
-        </>
-    )
-}
-function InfoCard(props) {
-    const {children, label, value, index, sx, ...other} = props;
-    return (
-        <>
-            <Box sx={{...sx, display:'flex', flexDirection:'column', alignItems:'center'}}>                
-                <Typography variant='h4' sx={{color:'goldenrod'}}>
-                    {value}
-                </Typography>
-                <Typography variant='body2' sx={{color:'white', display:'flex', flexDirection:'column', alignItems:'center'}}>
-                    {label} 
-                </Typography>
-            </Box>
-           
-        </>
-    )    
-}
-function ImageBlank() {
-    return (
-        <Box sx={{backgroundColor:'lightgrey', width:'100%', height:'100%', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-            <Typography variant='h4'>Image Unavailable</Typography>
-        </Box>    
-    )
-}
-const style = {
-    display:'block',
-    height:'80vh',
-    maxHeight:'80vh',
-    aspectRatio:'6/4', 
-    display:'grid',
-    gridTemplateColumns:'1fr 1fr',
-    zIndex:'1',
-    position:'relative'
-
-}
-const buttonStyle = {
-    left:'calc(100%)',
-    transform: 'translate(-280%, 50%)',
-    margin:'0',
-    padding:'0',
-    zIndex:'2',
-    height:'15%',
-    aspectRatio:'1/1',
-    backgroundColor:'goldenrod',
-    '&:hover': {
-        backgroundColor:'#EAEAC0'
-    },
-    position:'absolute',
-    bottom:'0',
-    
-}
-
-const tabStyle = {
-    borderBottom:1, 
-    borderColor:'divider',
-    position:'absolute',
-    bottom:'0',
-}
+import TabPanel from "./utility/RecipePostCardUtil";
+import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, postcardHeight, summaryStyle, sectionStyle} from "./utility/RecipePostCardUtil";
 
 export default function RecipePostCard(props) {
     const {recipe, readOnly=false} = props
-
     const [tabNum, setTabNum] = useState(0)
     
     const handleTabChange = (event, newValue) => {
@@ -93,8 +24,8 @@ export default function RecipePostCard(props) {
     }
 
     return (
-        <Box sx={style}>
-            <Box sx={{height:'80vh'}}>
+        <Box sx={postcardStyle}>
+            <Box sx={{height:postcardHeight}}>
                 {
                     (recipe?.recipe_images?.recipe_image !== undefined) ? 
                     (<img style={{objectFit:'cover', width:'100%', height:'100%'}} 
@@ -102,11 +33,10 @@ export default function RecipePostCard(props) {
                     (   
                         <ImageBlank/>                   
                     )
-                        
                 }  
             </Box>
-            <Box sx={{height:'80vh'}}>
-                <Box sx={{backgroundColor:'gray', padding:'1rem 3rem 0rem 3rem', zIndex:'1', height:'35%', position:'relative'}}>
+            <Box sx={{height:postcardHeight}}>
+                <Box sx={summaryStyle}>
                     <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                         <Typography sx={{color:'white'}} variant='h3'>{recipe.recipe_name}</Typography>
                         <Box sx={{display:'flex', justifyContent:'space-between'}}>
@@ -124,7 +54,7 @@ export default function RecipePostCard(props) {
                             readOnly ? '' : (<IconButton disabled={readOnly} sx={buttonStyle} onClick={handleAddClick}><AddIcon/></IconButton>)
                         }
                     </Box>
-                <Box sx={{display:'grid', gridTemplateColumns:'2fr 1fr', height:'100%'}}>
+                <Box sx={sectionStyle}>
                     <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'65%'}}>
                         <TabPanel value={tabNum} index={0}>
                             {
@@ -162,7 +92,5 @@ export default function RecipePostCard(props) {
 
             </Box>
         </Box>
-
-       
     )
 }

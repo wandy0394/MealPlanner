@@ -3,9 +3,7 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 import { Paper, Stack, Box, Typography, IconButton, Tabs, Tab, Button, Modal } from "@mui/material";
 import { ContentBox } from "../components/utility/ContentBox";
 import { useEffect, useState } from "react";
-import CreateRecipeForm from "../components/recipe/CreateRecipeForm";
 import DataService from "../service/data-service";
-import RecipeContent from "../components/recipe/RecipeContent";
 import RecipePostCard from "../components/recipe/RecipePostCard";
 import CreateRecipePostCard from "../components/recipe/CreateRecipePostCard";
 import CustomRecipePostCard from "../components/recipe/CustomRecipePostCard";
@@ -78,9 +76,17 @@ export default function Recipes() {
             console.log(e)
         }
     }
+
+    let called = false
     useEffect(()=> {
-        refresh()
-        getStaticRecipes()
+        if (!called) {
+            refresh()
+            getStaticRecipes()
+        }
+
+        return () => {
+            called = true
+        }
     }, [])
     
 
@@ -144,16 +150,13 @@ export default function Recipes() {
                             )
                         })
                     }
-                    {/* <TabPanel value={tabValue} index={Object.keys(recipes).length + Object.keys(staticRecipes).length}> */}
                     <Modal
                         open={open}
                         onClose={handleClose}
                         sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
                     >
-                        {/* <CreateRecipeForm/> */}
                         <CreateRecipePostCard/>
                     </Modal>
-                    {/* </TabPanel> */}
                 </Box>
             </Stack>
         </ContentBox>
