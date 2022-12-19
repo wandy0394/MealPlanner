@@ -2,9 +2,10 @@ import app from "./server.js"
 import dotenv from "dotenv"
 import mysql from "mysql"
 import Ingredient from "./data/ingredient.js"
-import TokenHandler from "./data/token-handler.js"
-import DataController from "./api/dataController.js"
 import DatabaseService from './services/database-service.js'
+import Recipe from "./data/recipe.js"
+import SearchHistory from "./data/searchHistory.js"
+import Meal from "./data/meal.js"
 
 dotenv.config();
 
@@ -22,20 +23,12 @@ connection.connect((err) => {
         console.error('Could not connect to SQL database');
     }
     DatabaseService.injectConn(connection)
-    DatabaseService.dummyCommand()
-    //Ingredient.injectConn(connection) 
-    //Meal.inject
-    //Recipe.inject
-    //const output = Ingredient.getAllIngredients()
-    //console.log(output)
+    Ingredient.injectConn(connection)
+    Recipe.injectConn(connection)
+    SearchHistory.injectConn(connection)
+    Meal.injectConn(connection)
 }) 
 
-
-//little tests
-//const output = await Ingredient.fetchIngredientByID(33691)
-//console.log(output.food.servings)
-//const output = await DataController.apigetIngredient({query:{id:33691}})
-//console.log(output)
 
 const port = process.env.PORT || 8000;
 app.listen(port, ()=> {
