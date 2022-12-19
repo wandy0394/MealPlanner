@@ -2,7 +2,7 @@ import SearchHistory from "../data/searchHistory.js"
 
 const DUMMY_EMAIL = 'dev@email.com'
 
-export default class DataController {
+export default class SearchHistoryController {
     //methods go here
 
     static apiGetSearchHistory(req, res, next) {
