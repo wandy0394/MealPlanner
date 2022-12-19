@@ -1,107 +1,15 @@
-import { Box, Button, FormControl, FormGroup, Grid, IconButton, InputLabel, MenuItem, Paper, Select, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { Box, IconButton, Tab, Tabs, TextField, Typography } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save'
 import { Stack } from "@mui/system";
 import { useEffect, useReducer, useState } from "react";
 import DataService from "../../service/data-service";
-import Nutrition from "./Nutrition";
 import IngredientsPane from "./IngredientsPane";
-import RecipeNameInput from "./RecipeNameInput";
 import {UnitConverter} from "../utility/Units"
-import { ACTION_TYPES } from "./ActionTypes";
-import styled from "@emotion/styled";
+import { ACTION_TYPES } from "./utility/ActionTypes";
+import TabPanel, { postcardHeight } from "./utility/RecipePostCardUtil";
+import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, summaryStyle, sectionStyle, INITIAL_RECIPE, MAX_CHARS} from "./utility/RecipePostCardUtil";
 
-const MAX_CHARS = 4000
-function TabPanel(props) {
-    const {children, value, index, ...other} = props;
-    return (
-        <>
-            {(value === index) ? (
-                <Box hidden={value !== index} sx={{padding:'3rem 3rem 0rem 3rem', height:'100%', overflow:'auto', display:'flex', flexDirection:'column', gap:'1rem'}}>
-                    {children}
-                </Box>
-            ) : ('')}
-        </>
-    )
-}
-function InfoCard(props) {
-    const {children, label, value, index, sx, ...other} = props;
-    return (
-        <>
-            <Box sx={{...sx, display:'flex', flexDirection:'column', alignItems:'center'}}>                
-                <Typography variant='h4' sx={{color:'goldenrod'}}>
-                    {value}
-                </Typography>
-                <Typography variant='body2' sx={{color:'white', display:'flex', flexDirection:'column', alignItems:'center'}}>
-                    {label} 
-                </Typography>
-            </Box>
-           
-        </>
-    )    
-}
-function ImageBlank() {
-    return (
-        <Box sx={{backgroundColor:'lightgrey', width:'100%', height:'100%', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-            <Typography variant='h4'>Image Unavailable</Typography>
-        </Box>    
-    )
-}
 
-const RecipeNameTextField = styled(TextField)(({theme})=> ({
-    fontSize: theme.typography.h4.fontSize
-}))
-const style = {
-    display:'block',
-    height:'80vh',
-    maxHeight:'80vh',
-    aspectRatio:'6/4', 
-    display:'grid',
-    gridTemplateColumns:'1fr 1fr',
-    zIndex:'1',
-    position:'relative'
-
-}
-const buttonStyle = {
-    left:'calc(100%)',
-    transform: 'translate(-280%, 50%)',
-    margin:'0',
-    padding:'0',
-    zIndex:'2',
-    height:'15%',
-    aspectRatio:'1/1',
-    backgroundColor:'goldenrod',
-    '&:hover': {
-        backgroundColor:'#EAEAC0'
-    },
-    position:'absolute',
-    bottom:'0',
-    
-}
-
-const tabStyle = {
-    borderBottom:1, 
-    borderColor:'divider',
-    position:'absolute',
-    bottom:'0',
-}
-const INITIAL_MACROS = {
-    carbs:0,
-    fat:0,
-    protein:0,
-    calories:0
-}
-const INITIAL_RECIPE = {
-    title:'',
-    instructions:'',
-    recipe_description:'',
-    ingredients:{},
-    macros:INITIAL_MACROS,
-    counter:0,
-    servings:0,
-    serving_size:'',
-    prepTime:0,
-    cookTime:0
-}
 const calculator = new UnitConverter()
 
 export default function CreateRecipePostCard(props) {
@@ -208,12 +116,12 @@ export default function CreateRecipePostCard(props) {
     return (
     
         <form onSubmit={handleSaveClicked}>
-            <Box sx={style}>
-                <Box sx={{height:'80vh'}}>
+            <Box sx={postcardStyle}>
+                <Box sx={{height:postcardHeight}}>
                     <ImageBlank/>                   
                 </Box>
-                <Box sx={{height:'80vh'}}>
-                    <Box sx={{backgroundColor:'gray', padding:'1rem 3rem 0rem 3rem', zIndex:'1', height:'35%', position:'relative'}}>
+                <Box sx={{height:postcardHeight}}>
+                    <Box sx={summaryStyle}>
                         <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                             
                             <TextField 
@@ -223,11 +131,6 @@ export default function CreateRecipePostCard(props) {
                                 value={recipe.title}
                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_TITLE, payload:e.target.value})}
                             />
-                            {/* <Typography sx={{color:'white'}} variant='h3'>
-
-                            </Typography> */}
-
-
                             <Box sx={{display:'flex', justifyContent:'space-between', gap:'3rem'}}>
                                     <InfoCard 
                                         value={<TextField 
@@ -260,8 +163,12 @@ export default function CreateRecipePostCard(props) {
                                         label='Cook Time*'
                                     />
                             </Box>
-                            <TextField variant='standard' helperText='Recipe Description' value={recipe.recipe_description} onChange={e=>dispatch({type:ACTION_TYPES.SET_RECIPE_DESCRIPTION, payload:e.target.value})}></TextField>
-                            {/* <Typography sx={{color:'white'}} variant='body'>Description goes here</Typography> */}
+                            <TextField 
+                                variant='standard' 
+                                helperText='Recipe Description' 
+                                value={recipe.recipe_description} 
+                                onChange={e=>dispatch({type:ACTION_TYPES.SET_RECIPE_DESCRIPTION, payload:e.target.value})}
+                            />
                         </Box>
                         <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>
                             <Tab label='Ingredients' sx={{color:'white'}}/>
@@ -272,14 +179,14 @@ export default function CreateRecipePostCard(props) {
                             }
                         </Box>
 
-                    <Box sx={{display:'grid', gridTemplateColumns:'2fr 1fr', height:'100%'}}>
+                    <Box sx={sectionStyle}>
                         <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'65%'}}>
                             <TabPanel value={tabNum} index={0}>
                                 <IngredientsPane 
-                                        recipeIngredients={recipe.ingredients}
-                                        dispatch={dispatch}
-                                        isDisabled={false}
-                                    />
+                                    recipeIngredients={recipe.ingredients}
+                                    dispatch={dispatch}
+                                    isDisabled={false}
+                                />
                             </TabPanel>
                             <TabPanel value={tabNum} index={1}>
                                 <TextField variant='standard' label='Write your instructions here' 
@@ -300,7 +207,6 @@ export default function CreateRecipePostCard(props) {
                                     <InfoCard value={recipe.macros.carbs} label='Carbs'/>
                                     <InfoCard value={recipe.macros.fat} label='Fat'/>
                                     <InfoCard value={recipe.macros.protein} label='Protein'/>
-                                    {/* <Typography variant='body2' sx={{color:'white', textAlign:'center'}}>Serving size: </Typography> */}
                                     <TextField value={recipe.serving_size} onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVING_SIZE, payload:e.target.value})}/>
                                 </Stack>
                         </Box>

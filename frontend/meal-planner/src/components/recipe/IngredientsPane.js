@@ -4,7 +4,7 @@ import IngredientsPaneEdit from "./IngredientsPaneEdit";
 import IngredientsPaneRead from "./IngredientsPaneRead";
 import DataService from "../../service/data-service";
 import { useEffect, useState } from "react";
-import { ACTION_TYPES } from "./ActionTypes";
+import { ACTION_TYPES } from "./utility/ActionTypes";
 
 
 const INITIAL = {

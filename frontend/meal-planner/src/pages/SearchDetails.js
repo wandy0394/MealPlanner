@@ -2,7 +2,6 @@ import { Box, Paper, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ContentBox } from "../components/utility/ContentBox";
-import RecipeDetails from "../components/recipe/RecipeDetails";
 import DataService from "../service/data-service";
 
 
