@@ -131,7 +131,9 @@ export default function MealViewer(props) {
             setRecipes(getAllRecipes(meals[dateNow]))
         }
         else {
+            console.log('ok')
             setSelectedMeal({})
+            setRecipes({custom:[], static:[]})
         }
     }
     function handleEditClick() {
