@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
-import DataService from "../../service/data-service"
+import IngredientService from "../../service/ingredient-service"
+import MealService from "../../service/meal-service"
+import RecipeService from "../../service/recipe-service"
 
 function IngredientToMealLineItem(ingredient) {
     return
@@ -20,9 +22,9 @@ export const useGetAllFood = () => {
         if (!called) {
             async function fetchData() {
                 try {
-                    const ingredientResult = await DataService.getIngredients()
-                    const recipeResult = await DataService.getRecipes()
-                    const staticResult = await DataService.getStaticRecipes()
+                    const ingredientResult = await IngredientService.getIngredients()
+                    const recipeResult = await RecipeService.getRecipes()
+                    const staticResult = await RecipeService.getStaticRecipes()
                     let lineItems = {}
                     Object.entries(recipeResult).forEach(([key, data])=> {
                         lineItems = {...lineItems, 
@@ -77,7 +79,7 @@ export const useGetMeals = () => {
         if (!called) {
             async function fetchData() {
                 try {
-                    const result = await DataService.getMeals()
+                    const result = await MealService.getMeals()
                     console.log(result)
                     setMeals(result)
                 }

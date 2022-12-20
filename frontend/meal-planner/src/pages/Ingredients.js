@@ -5,9 +5,9 @@ import AddIcon from '@mui/icons-material/Add'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import CreateIngredientForm from "../components/ingredient/CreateIngredientForm";
 import { useEffect, useState } from "react";
-import DataService from "../service/data-service";
 import IngredientsList from "../components/ingredient/IngredientsList";
 import EditIcon from "@mui/icons-material/Edit"
+import IngredientService from "../service/ingredient-service";
 
 export default function Ingredients() {
     const [open, setOpen] = useState(false)
@@ -23,7 +23,7 @@ export default function Ingredients() {
     async function refresh() {
         try {
             console.log('Refreshing')
-            const result = await DataService.getIngredients()
+            const result = await IngredientService.getIngredients()
             setIngredients(result)
         }
         catch (e) {
@@ -34,7 +34,7 @@ export default function Ingredients() {
         refresh()
     }, [])
     async function handleDelete(id) {
-        await DataService.removeIngredient(id) 
+        await IngredientService.removeIngredient(id) 
         refresh() 
     }
 

@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
 import { ACTION_TYPES } from "./ActionTypes";
 import { INITIAL_RECIPE } from "./RecipePostCardUtil";
-import DataService from "../../../service/data-service";
+import RecipeService from "../../../service/recipe-service";
 
 let originalRecipe
 export default function useGetRecipe(id) {
@@ -16,7 +16,7 @@ export default function useGetRecipe(id) {
     async function getRecipe(id) {
         try {
             console.log('Refreshing recipe')
-            const result = await DataService.getStoredRecipe(id)
+            const result = await RecipeService.getStoredRecipe(id)
             dispatch({type:ACTION_TYPES.SET_RECIPE, payload:result[id]})
             originalRecipe = result[id]
             console.log(result)

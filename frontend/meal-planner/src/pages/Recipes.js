@@ -3,10 +3,10 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 import { Paper, Stack, Box, Typography, IconButton, Tabs, Tab, Button, Modal } from "@mui/material";
 import { ContentBox } from "../components/utility/ContentBox";
 import { useEffect, useState } from "react";
-import DataService from "../service/data-service";
 import RecipePostCard from "../components/recipe/RecipePostCard";
 import CreateRecipePostCard from "../components/recipe/CreateRecipePostCard";
 import CustomRecipePostCard from "../components/recipe/CustomRecipePostCard";
+import RecipeService from "../service/recipe-service";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -44,7 +44,7 @@ export default function Recipes() {
     async function refresh() {
         try {
             console.log('Refreshing Recipes again')
-            const result = await DataService.getRecipes()
+            const result = await RecipeService.getRecipes()
             console.log(result)
             setRecipes(result)
         }
@@ -56,7 +56,7 @@ export default function Recipes() {
     async function getStaticRecipes() {
         try {
             console.log('Refreshing Static Recipes again')
-            const result = await DataService.getStaticRecipes()
+            const result = await RecipeService.getStaticRecipes()
             console.log(result)
             setStaticRecipes(result)
         }
@@ -66,7 +66,7 @@ export default function Recipes() {
     }
     async function handleRecipeTabClick(e, recipeId) {
         try {
-            const data = await DataService.getRecipe(recipeId)
+            const data = await RecipeService.getRecipe(recipeId)
             console.log(data.recipe)  
             setRecipe(data.recipe)
             //setOpen(true)

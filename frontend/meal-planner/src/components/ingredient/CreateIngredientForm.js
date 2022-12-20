@@ -1,6 +1,6 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, InputAdornment, TextField } from "@mui/material"
 import { useEffect, useState } from "react";
-import DataService from "../../service/data-service";
+import ingredientService from "../../service/ingredient-service";
 import IngredientAutoComplete from "./IngredientAutocomplete";
 
 
@@ -27,10 +27,10 @@ export default function CreateIngredientForm(props) {
         let data
         if (isEditing) {
             params['id'] = keyId 
-            data = await DataService.updateIngredient(params)
+            data = await ingredientService.updateIngredient(params)
         }
         else {
-            data = await DataService.addIngredient(params)
+            data = await ingredientService.addIngredient(params)
         }
         console.log(data)
         handleClose()

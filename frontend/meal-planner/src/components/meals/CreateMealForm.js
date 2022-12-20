@@ -2,12 +2,12 @@ import {Box, Button, Stack, TextField, Typography} from "@mui/material"
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ACTION_TYPES } from "./ActionTypes";
 import { useEffect, useReducer, useState } from "react"
-import DataService from "../../service/data-service"
 import MealSelection from "./MealSelection";
 import MealPane from "./MealPane";
 import {Calendar, DateObject} from "react-multi-date-picker"
 import DatePicker from "react-multi-date-picker"
 import MacroCounter from "./MacroCounter";
+import MealService from "../../service/meal-service";
 
 const INITIAL_MEALS = {
     //object of objects, each child object 
@@ -164,7 +164,7 @@ export default function CreateMealForm(props) {
     function handleSubmit(e) {
         e.preventDefault()
         console.log(meals)
-        DataService.addMeal(meals)
+        MealService.addMeal(meals)
     }
 
     //api call to get static recipes, custom recipes and ingredients

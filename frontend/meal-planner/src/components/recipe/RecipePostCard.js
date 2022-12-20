@@ -1,9 +1,9 @@
 import { Box, IconButton, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add"
-import DataService from "../../service/data-service";
 import TabPanel from "./utility/RecipePostCardUtil";
 import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, postcardHeight, summaryStyle, sectionStyle} from "./utility/RecipePostCardUtil";
+import RecipeService from "../../service/recipe-service";
 
 export default function RecipePostCard(props) {
     const {recipe, readOnly=false} = props
@@ -20,7 +20,7 @@ export default function RecipePostCard(props) {
             recipe_name:recipe.recipe_name
         }
         console.log(data)
-        const result = await DataService.addStaticRecipe(data)
+        const result = await RecipeService.addStaticRecipe(data)
     }
 
     return (

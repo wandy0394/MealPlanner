@@ -1,8 +1,8 @@
 import { TextField, Button, Box, FormGroup, FormLabel, Typography, Pagination } from "@mui/material";
-import DataService from "../../service/data-service";
 import SearchIngredientResults from "./SearchIngredientsResults";
 import {ACTION_TYPES} from './ActionTypes'
 import SearchIcon from '@mui/icons-material/Search'
+import SearchService from "../../service/search-service";
 const dummyOutput = {
 
     food: [
@@ -23,7 +23,7 @@ export default function SearchIngredients({state, dispatch, ingredientId, setIng
         try {
             console.log(`useffect ${page}` )
             const callSearch = (async() => {
-                const data = await DataService.searchIngredients(query, (page-1), doStoreSearch)
+                const data = await SearchService.searchIngredients(query, (page-1), doStoreSearch)
                 console.log('Got Data')
                 console.log(data)
                 dispatch({type:ACTION_TYPES.SET_PREV_QUERY, payload:state.query})

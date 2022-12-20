@@ -2,7 +2,7 @@ import { Box, Paper, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ContentBox } from "../components/utility/ContentBox";
-import DataService from "../service/data-service";
+import RecipeService from "../service/recipe-service";
 
 
 
@@ -62,7 +62,7 @@ export default function SearchDetails(props) {
 
     async function getRecipe() {
         try {
-            const data = await DataService.getRecipe(params.id)
+            const data = await RecipeService.getRecipe(params.id)
             console.log(data)  
             parseData(data.recipe)
         }
