@@ -2,7 +2,6 @@ import { Box, Button, IconButton, Tab, Tabs, TextField, Typography } from "@mui/
 import SaveIcon from '@mui/icons-material/Save'
 import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
-import DataService from "../../service/data-service";
 import IngredientsPane from "./IngredientsPane";
 import EditIcon from '@mui/icons-material/Edit'
 import CancelIcon from '@mui/icons-material/Cancel'
@@ -11,6 +10,7 @@ import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, summaryStyle
 import {UnitConverter} from "../utility/Units"
 import { ACTION_TYPES } from "./utility/ActionTypes";
 import useGetRecipe from "./utility/useGetRecipe";
+import RecipeService from "../../service/recipe-service";
 
 
 const calculator = new UnitConverter()
@@ -61,7 +61,7 @@ export default function CustomRecipePostCard(props) {
         }
         setReadOnly(true)
         console.log(data)
-        DataService.updateRecipe(data, recipeId)
+        RecipeService.updateRecipe(data, recipeId)
     }
     function handleCancelClicked() {
         dispatch({type:ACTION_TYPES.RESET_RECIPE})

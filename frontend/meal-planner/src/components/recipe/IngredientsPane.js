@@ -2,9 +2,9 @@ import { Stack, Paper, Typography,  Button, Box } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add";
 import IngredientsPaneEdit from "./IngredientsPaneEdit";
 import IngredientsPaneRead from "./IngredientsPaneRead";
-import DataService from "../../service/data-service";
 import { useEffect, useState } from "react";
 import { ACTION_TYPES } from "./utility/ActionTypes";
+import IngredientService from "../../service/ingredient-service";
 
 
 const INITIAL = {
@@ -31,7 +31,7 @@ function useGetIngredients() {
     async function getIngredients() {
         try {
             console.log('Refreshing Ingredients')
-            const result = await DataService.getIngredients()
+            const result = await IngredientService.getIngredients()
             console.log(result)
             setIngredients(result)
 

@@ -1,7 +1,7 @@
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox'
-import DataService from "../../service/data-service";
 import {strawTheme} from '../utility/StrawTheme'
+import IngredientService from "../../service/ingredient-service";
 
 const DUMMY_DATA = [
     {food_id:11, food_name:'Food1', food_description:'Food'},
@@ -82,7 +82,7 @@ export default function SearchIngredientResults({data, setIngredientId}) {
             food_id:food[0].food_id,
             unit: macros.unit
         }
-        DataService.addIngredient(params)
+        IngredientService.addIngredient(params)
     }
 
     function handleIngredientClick(e, id) {

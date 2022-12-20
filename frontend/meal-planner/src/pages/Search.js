@@ -7,8 +7,8 @@ import SearchRecipes from "../components/search/SearchRecipes";
 import SearchHistory from "../components/search/SearchHistory";
 import {ACTION_TYPES} from "../components/search/ActionTypes"
 import SidePane from "../layouts/SidePane";
-import DataService from "../service/data-service";
 import RecipePostCard from "../components/recipe/RecipePostCard";
+import RecipeService from "../service/recipe-service";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -123,7 +123,7 @@ export default function Search() {
     
     async function getRecipe(recipeId) {
         try {
-            const data = await DataService.getRecipe(recipeId)
+            const data = await RecipeService.getRecipe(recipeId)
             console.log(data.recipe)
             setRecipe(data.recipe)
             setOpen(true)

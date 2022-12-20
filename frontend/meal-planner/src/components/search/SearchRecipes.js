@@ -3,9 +3,9 @@ import { useState } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import { ACTION_TYPES } from "./ActionTypes";
-import DataService from "../../service/data-service";
 import SearchRecipeResults from "./SearchRecipeResults"
 import SearchIcon from '@mui/icons-material/Search'
+import SearchService from "../../service/search-service";
 
 const CRITERIA_LABELS = {
     maxCal:"Maximum Calories",
@@ -78,7 +78,7 @@ export default function SearchRecipes({state, dispatch, getRecipe}) {
                 searchData['doStoreSearch'] = 'true'
             }
             console.log(searchData)
-            const data = await DataService.searchRecipes(searchData)
+            const data = await SearchService.searchRecipes(searchData)
             dispatch({type:ACTION_TYPES.SET_RESULTS, payload:data})
             dispatch({type:ACTION_TYPES.SET_PAGE, payload:page})
             dispatch({type:ACTION_TYPES.SET_PREV_QUERY, payload:state.query})

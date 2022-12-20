@@ -2,12 +2,12 @@ import { Box, IconButton, Tab, Tabs, TextField, Typography } from "@mui/material
 import SaveIcon from '@mui/icons-material/Save'
 import { Stack } from "@mui/system";
 import { useEffect, useReducer, useState } from "react";
-import DataService from "../../service/data-service";
 import IngredientsPane from "./IngredientsPane";
 import {UnitConverter} from "../utility/Units"
 import { ACTION_TYPES } from "./utility/ActionTypes";
 import TabPanel, { postcardHeight } from "./utility/RecipePostCardUtil";
 import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, summaryStyle, sectionStyle, INITIAL_RECIPE, MAX_CHARS} from "./utility/RecipePostCardUtil";
+import RecipeService from "../../service/recipe-service";
 
 
 const calculator = new UnitConverter()
@@ -109,7 +109,7 @@ export default function CreateRecipePostCard(props) {
             macros:recipe.macros
         }
         console.log(data)
-        const result = await DataService.addRecipe(data)
+        const result = await RecipeService.addRecipe(data)
     }
 
 

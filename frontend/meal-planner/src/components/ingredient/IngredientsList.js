@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import DataService from "../../service/data-service";
 import EnhancedTable from "../utility/EnhancedTable";
 
 const headCells = [

@@ -1,11 +1,10 @@
 
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react"
-import DataService from "../../service/data-service";
-import EnhancedTable from "../utility/EnhancedTable";
 import SideMenuHeader from "../menu/SideMenuHeader";
 import { IconButton, Paper, Stack, Table, TableContainer, TableRow, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete'
+import SearchService from "../../service/search-service";
 
 const headCells = [
     {
@@ -48,7 +47,7 @@ export default function SearchHistory({type='all'}) {
 
     async function refresh() {
         try {
-            const output = await DataService.getSearchHistory(type)
+            const output = await SearchService.getSearchHistory(type)
             const formattedOutput = output.map((item) => {
                 return { id: item.id, 
                         timeStamp:item.searchTime, 
@@ -68,7 +67,7 @@ export default function SearchHistory({type='all'}) {
 
     async function handleDelete(e, id) {
         console.log(id)
-        await DataService.removeSearchQuery(id)
+        await SearchService.removeSearchQuery(id)
         refresh()
     }
 

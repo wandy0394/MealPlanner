@@ -16,7 +16,6 @@ function OptionCard(props) {
                 <Typography variant='h6'>Qty: {mealLineItem.qty}</Typography>
                 <Typography variant='h6'>RecipeID: {mealLineItem.recipe_id}</Typography>
                 <Typography variant='h6'>Type: {mealLineItem.type}</Typography>
-
             </CardContent> 
         </Card>
     )

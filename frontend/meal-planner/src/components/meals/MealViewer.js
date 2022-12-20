@@ -1,10 +1,10 @@
 import {Box, Button, Card, CardContent, Modal, Stack, Typography} from "@mui/material"
 import { useEffect, useState } from "react"
-import DataService from "../../service/data-service"
 import DatePicker from "react-multi-date-picker"
 import {DateObject} from "react-multi-date-picker"
 import MacroCounter from "./MacroCounter"
 import EditMealForm from "./EditMealForm"
+import RecipeService from "../../service/recipe-service"
 
 
 function MealCard(props) {
@@ -36,7 +36,7 @@ function StaticMealcard(props) {
     const [newMeal, setNewMeal] = useState(meal)
     async function getRecipeData() {
         console.log('called')
-        return await DataService.getRecipe(meal.api_id)
+        return await RecipeService.getRecipe(meal.api_id)
     } 
 
     let called = false
