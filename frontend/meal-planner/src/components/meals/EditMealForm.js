@@ -2,37 +2,37 @@ import {Box, Button, Stack, TextField, Typography} from "@mui/material"
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ACTION_TYPES } from "./ActionTypes";
 import { useEffect, useReducer, useState } from "react"
-import MealSelection from "./MealSelection";
-import MealPane from "./MealPane";
+import MealPane from "./MealSelect";
+import MealSelect from "./MealSelect";
 import {Calendar, DateObject} from "react-multi-date-picker"
 import DatePicker from "react-multi-date-picker"
 import MacroCounter from "./MacroCounter";
 import MealService from "../../service/meal-service";
 
 
-function initMeal(selectedMeal, mealLineItems) {
+function initMeal(selectedMeal, mealItems) {
     let meals={}
 
     Object.values(selectedMeal.recipes).forEach((item)=>{
-        const key = Object.keys(mealLineItems).filter((key)=>{
-            return (mealLineItems[key].recipe_id === item.recipe_id && mealLineItems[key].type === 'custom')
+        const key = Object.keys(mealItems).filter((key)=>{
+            return (mealItems[key].recipe_id === item.recipe_id && mealItems[key].type === 'custom')
         })
         meals[key] = {
-                name:mealLineItems[key].name, 
-                recipe_id:mealLineItems[key].recipe_id,
-                type:mealLineItems[key].type, 
+                name:mealItems[key].name, 
+                recipe_id:mealItems[key].recipe_id,
+                type:mealItems[key].type, 
                 qty:item.qty,
                 operation:'update'
         }
     })
     Object.values(selectedMeal.staticRecipes).forEach((item)=>{
-        const key = Object.keys(mealLineItems).filter((key)=>{
-            return (mealLineItems[key].recipe_id === item.recipe_id && mealLineItems[key].type === 'static')
+        const key = Object.keys(mealItems).filter((key)=>{
+            return (mealItems[key].recipe_id === item.recipe_id && mealItems[key].type === 'static')
         })
         meals[key] = {
-                name:mealLineItems[key].name, 
-                recipe_id:mealLineItems[key].recipe_id,
-                type:mealLineItems[key].type, 
+                name:mealItems[key].name, 
+                recipe_id:mealItems[key].recipe_id,
+                type:mealItems[key].type, 
                 qty:item.qty,
                 operation:'update',
                 isNew:false
@@ -44,11 +44,11 @@ function initMeal(selectedMeal, mealLineItems) {
 
 
 export default function EditMealForm(props) {
-    const {selectedMeal, dateValue, mealLineItems} = props
-    // const [mealLineItems, setMealLineItems] = useGetAllFood()
+    const {selectedMeal, dateValue, mealItems} = props
+    // const [mealItems, setmealItems] = useGetAllFood()
     const INITIAL_MEALS = {
         meal_id:selectedMeal.meal_id,
-        meals:initMeal(selectedMeal, mealLineItems),
+        meals:initMeal(selectedMeal, mealItems),
         targetCarbs:selectedMeal.targetCarbs,
         targetCalories:selectedMeal.targetCalories,
         targetProtein:selectedMeal.targetProtein,
@@ -78,20 +78,20 @@ export default function EditMealForm(props) {
                                                 operation: (state.meals[payload.id].isNew) ? 'insert' : 'update'
                                             },
                                 },
-                                totalCarbs: state.totalCarbs + mealLineItems[payload.id].carbs,
-                                totalCalories: state.totalCalories + mealLineItems[payload.id].calories,
-                                totalFat: state.totalFat + mealLineItems[payload.id].fat,
-                                totalProtein: state.totalProtein + mealLineItems[payload.id].protein,
+                                totalCarbs: state.totalCarbs + mealItems[payload.id].carbs,
+                                totalCalories: state.totalCalories + mealItems[payload.id].calories,
+                                totalFat: state.totalFat + mealItems[payload.id].fat,
+                                totalProtein: state.totalProtein + mealItems[payload.id].protein,
                     }
                 }
                 return {...state, 
                             meals: {...state.meals, 
                                     [payload.id]:{name:payload.name, recipe_id:payload.recipe_id, type:payload.type, qty:1, operation:'insert', isNew:true}
                             },
-                            totalCarbs: state.totalCarbs + mealLineItems[payload.id].carbs,
-                            totalCalories: state.totalCalories + mealLineItems[payload.id].calories,
-                            totalFat: state.totalFat + mealLineItems[payload.id].fat,
-                            totalProtein: state.totalProtein + mealLineItems[payload.id].protein,
+                            totalCarbs: state.totalCarbs + mealItems[payload.id].carbs,
+                            totalCalories: state.totalCalories + mealItems[payload.id].calories,
+                            totalFat: state.totalFat + mealItems[payload.id].fat,
+                            totalProtein: state.totalProtein + mealItems[payload.id].protein,
                 }
             case ACTION_TYPES.REMOVE_MEAL:
                 if (payload.id in state.meals) {
@@ -104,20 +104,20 @@ export default function EditMealForm(props) {
                                 meals: {...state.meals, 
                                     [payload.id]:{...state.meals[payload.id], qty:state.meals[payload.id].qty - 1, operation:'delete'}
                                 },
-                                totalCarbs: state.totalCarbs - mealLineItems[payload.id].carbs,
-                                totalCalories: state.totalCalories - mealLineItems[payload.id].calories,
-                                totalFat: state.totalFat - mealLineItems[payload.id].fat,
-                                totalProtein: state.totalProtein - mealLineItems[payload.id].protein,
+                                totalCarbs: state.totalCarbs - mealItems[payload.id].carbs,
+                                totalCalories: state.totalCalories - mealItems[payload.id].calories,
+                                totalFat: state.totalFat - mealItems[payload.id].fat,
+                                totalProtein: state.totalProtein - mealItems[payload.id].protein,
                         }
                     }
                     return {...state, 
                                 meals: {...state.meals, 
                                     [payload.id]:{...state.meals[payload.id], qty:state.meals[payload.id].qty - 1}
                                 },
-                                totalCarbs: state.totalCarbs - mealLineItems[payload.id].carbs,
-                                totalCalories: state.totalCalories - mealLineItems[payload.id].calories,
-                                totalFat: state.totalFat - mealLineItems[payload.id].fat,
-                                totalProtein: state.totalProtein - mealLineItems[payload.id].protein,
+                                totalCarbs: state.totalCarbs - mealItems[payload.id].carbs,
+                                totalCalories: state.totalCalories - mealItems[payload.id].calories,
+                                totalFat: state.totalFat - mealItems[payload.id].fat,
+                                totalProtein: state.totalProtein - mealItems[payload.id].protein,
                     }
                 }    
             case ACTION_TYPES.SET_CALORIES:
@@ -146,7 +146,12 @@ export default function EditMealForm(props) {
         console.log(meals)
         MealService.updateMeal(meals)
     }
-
+    function handleAddMeal(id, item) {
+        dispatch({type:ACTION_TYPES.ADD_MEAL, payload:{id:id, name:item.name, recipe_id:item.recipe_id, type:item.type}})
+    }
+    function handleRemoveMeal(id, item) {
+        dispatch({type:ACTION_TYPES.REMOVE_MEAL, payload:{id:id, item:item}}) 
+    }
     //api call to get static recipes, custom recipes and ingredients
 
     return (
@@ -184,9 +189,16 @@ export default function EditMealForm(props) {
                             
                     </Box>
                     <Stack gap={3}>
-                        {/* <CustomRecipeAutoComplete customRecipes={customRecipes} dispatch={dispatch}/> */}
-                        <MealPane mealLineItems={meals.meals} dispatch={dispatch} />
-                        <MealSelection selectOptions={mealLineItems} dispatch={dispatch} />
+                        <MealSelect 
+                            mealItems={meals.meals} 
+                            handleSelect={handleRemoveMeal} 
+                            sx={{width:'100%', border:'solid', height:'30vh', overflowX:'scroll', overflowY:'hidden', whiteSpace:'nowrap'}}
+                        />
+                        <MealSelect 
+                            mealItems={mealItems} 
+                            handleSelect={handleAddMeal} 
+                            sx={{width:'100%', border:'solid', height:'40vh', overflowY:'scroll'}}
+                        />
                         <Typography>When?</Typography>
                         <DatePicker 
                             style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 
