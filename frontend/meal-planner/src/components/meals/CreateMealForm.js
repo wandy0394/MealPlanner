@@ -2,8 +2,7 @@ import {Box, Button, Stack, TextField, Typography} from "@mui/material"
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ACTION_TYPES } from "./ActionTypes";
 import { useEffect, useReducer, useState } from "react"
-import MealSelection from "./MealSelection";
-import MealPane from "./MealPane";
+import MealSelect from "./MealSelect";
 import {Calendar, DateObject} from "react-multi-date-picker"
 import DatePicker from "react-multi-date-picker"
 import MacroCounter from "./MacroCounter";
@@ -26,72 +25,11 @@ const INITIAL_MEALS = {
 }
 
 
-
-// function CustomRecipeAutoComplete({customRecipes, dispatch}) {
-
-//     const filter = createFilterOptions();
-//     const [value, setValue] = useState('');
-//     const recipes = Object.entries(customRecipes).map(([key, data])=>{
-//         return {...data, id:key}
-//     })
-
-//     function handleSelect(id, title) {
-//         console.log(id)
-//         console.log(title)
-//         dispatch({type:ACTION_TYPES.ADD_MEAL, payload: {id:id, name:title}})
-//     }
-//     return <Autocomplete
-//                 value={value}
-//                 onChange={(event, newValue) => {
-//                     if (typeof newValue === 'string') {
-//                         setValue({
-//                             name: newValue,
-//                         });
-//                     } else {
-//                         // console.log(event.target.id)
-//                         // console.log(newValue)
-//                         setValue(newValue);
-//                         handleSelect(event.target.id, newValue.title)
-//                         //setFoodId(event.target.id)
-//                     }
-//                 }}
-//                 filterOptions={(options, params) => {
-//                     const filtered = filter(options, params);
-
-//                     const { inputValue } = params;
-//                     // Suggest the creation of a new value
-//                     const isExisting = options.some((option) => inputValue === option.title);
-//                     return filtered;
-//                 }}
-//                 selectOnFocus
-//                 clearOnBlur
-//                 handleHomeEndKeys
-//                 id="custom-recipe-autocomplete"
-//                 options={recipes}
-//                 getOptionLabel={(option) => {
-//                     // Value selected with enter, right from the input
-//                     if (typeof option === 'string') {
-//                         return option;
-//                     }
-//                     // Add "xxx" option created dynamically
-//                     if (option.inputValue) {
-//                         return option.inputValue;
-//                     }
-//                     // Regular option
-//                     return option.title;
-//                 }}
-//                 renderOption={(props, option) => <li {...props} id={option.id}>{option.title}</li>}
-//                 //sx={{ width: 300 }}
-//                 renderInput={(params) => (
-//                     <TextField {...params} variant='standard' label="Recipe name" required/>
-//                 )}
-//             />
-// }
 export default function CreateMealForm(props) {
-    const {mealLineItems} = props
-    // const [mealLineItems, setMealLineItems] = useGetAllFood()
+    const {mealItems} = props
+    // const [mealItems, setmealItems] = useGetAllFood()
     const [meals, dispatch] = useReducer(reducer, INITIAL_MEALS)
-
+    // console.log(mealItems)
     function reducer(state, action) {
         const {type, payload} = action
         switch (type) {
@@ -101,20 +39,20 @@ export default function CreateMealForm(props) {
                                 meals: {...state.meals, 
                                         [payload.id]:{name:payload.name, recipe_id:payload.recipe_id,type:payload.type, qty:state.meals[payload.id].qty + 1},
                                 },
-                                totalCarbs: state.totalCarbs + mealLineItems[payload.id].carbs,
-                                totalCalories: state.totalCalories + mealLineItems[payload.id].calories,
-                                totalFat: state.totalFat + mealLineItems[payload.id].fat,
-                                totalProtein: state.totalProtein + mealLineItems[payload.id].protein,
+                                totalCarbs: state.totalCarbs + mealItems[payload.id].carbs,
+                                totalCalories: state.totalCalories + mealItems[payload.id].calories,
+                                totalFat: state.totalFat + mealItems[payload.id].fat,
+                                totalProtein: state.totalProtein + mealItems[payload.id].protein,
                     }
                 }
                 return {...state, 
                             meals: {...state.meals, 
                                     [payload.id]:{name:payload.name, recipe_id:payload.recipe_id, type:payload.type, qty:1}
                             },
-                            totalCarbs: state.totalCarbs + mealLineItems[payload.id].carbs,
-                            totalCalories: state.totalCalories + mealLineItems[payload.id].calories,
-                            totalFat: state.totalFat + mealLineItems[payload.id].fat,
-                            totalProtein: state.totalProtein + mealLineItems[payload.id].protein,
+                            totalCarbs: state.totalCarbs + mealItems[payload.id].carbs,
+                            totalCalories: state.totalCalories + mealItems[payload.id].calories,
+                            totalFat: state.totalFat + mealItems[payload.id].fat,
+                            totalProtein: state.totalProtein + mealItems[payload.id].protein,
                 }
             case ACTION_TYPES.REMOVE_MEAL:
                 if (payload.id in state.meals) {
@@ -124,20 +62,20 @@ export default function CreateMealForm(props) {
                         delete newMeals[payload.id]
                         return {...state, 
                                 meals:{...newMeals},
-                                totalCarbs: state.totalCarbs - mealLineItems[payload.id].carbs,
-                                totalCalories: state.totalCalories - mealLineItems[payload.id].calories,
-                                totalFat: state.totalFat - mealLineItems[payload.id].fat,
-                                totalProtein: state.totalProtein - mealLineItems[payload.id].protein,
+                                totalCarbs: state.totalCarbs - mealItems[payload.id].carbs,
+                                totalCalories: state.totalCalories - mealItems[payload.id].calories,
+                                totalFat: state.totalFat - mealItems[payload.id].fat,
+                                totalProtein: state.totalProtein - mealItems[payload.id].protein,
                         }
                     }
                     return {...state, 
                                 meals: {...state.meals, 
                                     [payload.id]:{...state.meals[payload.id], qty:state.meals[payload.id].qty - 1}
                                 },
-                                totalCarbs: state.totalCarbs - mealLineItems[payload.id].carbs,
-                                totalCalories: state.totalCalories - mealLineItems[payload.id].calories,
-                                totalFat: state.totalFat - mealLineItems[payload.id].fat,
-                                totalProtein: state.totalProtein - mealLineItems[payload.id].protein,
+                                totalCarbs: state.totalCarbs - mealItems[payload.id].carbs,
+                                totalCalories: state.totalCalories - mealItems[payload.id].calories,
+                                totalFat: state.totalFat - mealItems[payload.id].fat,
+                                totalProtein: state.totalProtein - mealItems[payload.id].protein,
                     }
                 }    
             case ACTION_TYPES.SET_CALORIES:
@@ -167,6 +105,12 @@ export default function CreateMealForm(props) {
         MealService.addMeal(meals)
     }
 
+    function handleAddMeal(id, item) {
+        dispatch({type:ACTION_TYPES.ADD_MEAL, payload:{id:id, name:item.name, recipe_id:item.recipe_id, type:item.type}})
+    }
+    function handleRemoveMeal(id, item) {
+        dispatch({type:ACTION_TYPES.REMOVE_MEAL, payload:{id:id, item:item}}) 
+    }
     //api call to get static recipes, custom recipes and ingredients
 
     return (
@@ -205,8 +149,16 @@ export default function CreateMealForm(props) {
                     </Box>
                     <Stack gap={3}>
                         {/* <CustomRecipeAutoComplete customRecipes={customRecipes} dispatch={dispatch}/> */}
-                        <MealPane mealLineItems={meals.meals} dispatch={dispatch} />
-                        <MealSelection selectOptions={mealLineItems} dispatch={dispatch} />
+                        <MealSelect 
+                            mealItems={meals.meals} 
+                            handleSelect={handleRemoveMeal} 
+                            sx={{width:'100%', border:'solid', height:'30vh', overflowX:'scroll', overflowY:'hidden', whiteSpace:'nowrap'}}
+                        />
+                        <MealSelect 
+                            mealItems={mealItems} 
+                            handleSelect={handleAddMeal} 
+                            sx={{width:'100%', border:'solid', height:'40vh', overflowY:'scroll'}}
+                        />
                         <Typography>When?</Typography>
                         <DatePicker 
                             style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 

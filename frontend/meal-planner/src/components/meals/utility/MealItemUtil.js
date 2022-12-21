@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import IngredientService from "../../service/ingredient-service"
-import MealService from "../../service/meal-service"
-import RecipeService from "../../service/recipe-service"
+import IngredientService from "../../../service/ingredient-service"
+import MealService from "../../../service/meal-service"
+import RecipeService from "../../../service/recipe-service"
 
 function IngredientToMealLineItem(ingredient) {
     return
