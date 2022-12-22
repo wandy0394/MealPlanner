@@ -2,6 +2,7 @@ import AddBox from "@mui/icons-material/AddBox";
 import { Paper, Stack, Box, Typography, Modal, Button } from "@mui/material";
 import { useState } from "react";
 import CreateMealForm from "../components/meals/CreateMealForm";
+import MealList from "../components/meals/MealList";
 import MealViewer from "../components/meals/MealViewer";
 import { useGetAllFood, useGetMeals } from "../components/meals/utility/MealItemUtil";
 import { ContentBox } from "../components/utility/ContentBox";
@@ -23,7 +24,8 @@ export default function MealPlans() {
                 <Box sx={{flexGrow:'1'}}>
                     <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>What do you plan to eat?</Typography>
                     <Button onClick={handleClickOpen}>Add</Button>
-                    <MealViewer mealSet={mealSet} mealItems={mealItems}/>
+                    <MealList mealSets={mealSet} mealItems={mealItems}/>
+                    {/* <MealViewer mealSet={mealSet} mealItems={mealItems}/> */}
                 </Box>
             </Stack>
             <Modal
