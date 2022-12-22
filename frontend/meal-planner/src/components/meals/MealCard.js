@@ -14,7 +14,7 @@ export default function MealCard(props) {
     return (
         <Card key={meal.id} onClick={handleClick} sx={{margin:'1rem', display:'inline-block', aspectRatio:'1/1', height:'35%', minHeight:'20vh', color:'black'}}>
             <CardContent>
-                <Typography variant='h6'>{meal.name}</Typography>
+                <Typography variant='h6'>Name: {meal.name}</Typography>
                 <Typography variant='h6'>ID: {meal.recipe_id}</Typography>
                 <Typography variant='h6'>Qty: {meal.qty}</Typography>
                 <Typography variant='h6'>Calories: {meal.calories}</Typography>
@@ -32,7 +32,7 @@ export function StaticMealcard(props) {
     const [newMeal, setNewMeal] = useState(meal)
 
     async function getRecipeData() {
-        console.log('called')
+        console.log(`called ${meal.api_id}`)
         return await RecipeService.getRecipe(meal.api_id)
     } 
 
@@ -42,16 +42,18 @@ export function StaticMealcard(props) {
             console.log('effect')
             getRecipeData().then((resp)=>{
                 console.log(resp)
-                const newMeal = {
-                    name: resp.recipe.recipe_name,
-                    recipe_id: meal.recipe_id,
-                    qty:meal.qty,
-                    calories:resp.recipe.serving_sizes.serving.calories,
-                    carbs: resp.recipe.serving_sizes.serving.carbohydrate,
-                    fat: resp.recipe.serving_sizes.serving.fat,
-                    protein: resp.recipe.serving_sizes.serving.protein
+                if (resp?.error === undefined) {
+                    const newMeal = {
+                        name: resp.recipe.recipe_name,
+                        recipe_id: meal.recipe_id,
+                        qty:meal.qty,
+                        calories:resp.recipe.serving_sizes.serving.calories,
+                        carbs: resp.recipe.serving_sizes.serving.carbohydrate,
+                        fat: resp.recipe.serving_sizes.serving.fat,
+                        protein: resp.recipe.serving_sizes.serving.protein
+                    }
+                    setNewMeal(newMeal)
                 }
-                setNewMeal(newMeal)
             })
         }
         return () => {

@@ -35,24 +35,38 @@ export default function CreateMealForm(props) {
         switch (type) {
             case ACTION_TYPES.ADD_MEAL:
                 if (payload.id in state.meals) {
-                    return {...state, 
-                                meals: {...state.meals, 
-                                        [payload.id]:{name:payload.name, recipe_id:payload.recipe_id,type:payload.type, qty:state.meals[payload.id].qty + 1},
-                                },
-                                totalCarbs: state.totalCarbs + mealItems[payload.id].carbs,
-                                totalCalories: state.totalCalories + mealItems[payload.id].calories,
-                                totalFat: state.totalFat + mealItems[payload.id].fat,
-                                totalProtein: state.totalProtein + mealItems[payload.id].protein,
+                    return {
+                        ...state, 
+                        meals: {
+                            ...state.meals, 
+                            [payload.id]:{
+                                name:payload.name, 
+                                recipe_id:payload.recipe_id,
+                                type:payload.type, 
+                                qty:state.meals[payload.id].qty + 1
+                            },
+                        },
+                        totalCarbs: state.totalCarbs + mealItems[payload.id].carbs,
+                        totalCalories: state.totalCalories + mealItems[payload.id].calories,
+                        totalFat: state.totalFat + mealItems[payload.id].fat,
+                        totalProtein: state.totalProtein + mealItems[payload.id].protein,
                     }
                 }
-                return {...state, 
-                            meals: {...state.meals, 
-                                    [payload.id]:{name:payload.name, recipe_id:payload.recipe_id, type:payload.type, qty:1}
-                            },
-                            totalCarbs: state.totalCarbs + mealItems[payload.id].carbs,
-                            totalCalories: state.totalCalories + mealItems[payload.id].calories,
-                            totalFat: state.totalFat + mealItems[payload.id].fat,
-                            totalProtein: state.totalProtein + mealItems[payload.id].protein,
+                return {
+                    ...state, 
+                    meals: {
+                    ...state.meals, 
+                        [payload.id]:{
+                            name:payload.name, 
+                            recipe_id:payload.recipe_id, 
+                            type:payload.type, 
+                            qty:1
+                        }
+                    },
+                    totalCarbs: state.totalCarbs + mealItems[payload.id].carbs,
+                    totalCalories: state.totalCalories + mealItems[payload.id].calories,
+                    totalFat: state.totalFat + mealItems[payload.id].fat,
+                    totalProtein: state.totalProtein + mealItems[payload.id].protein,
                 }
             case ACTION_TYPES.REMOVE_MEAL:
                 if (payload.id in state.meals) {
@@ -148,7 +162,6 @@ export default function CreateMealForm(props) {
                             
                     </Box>
                     <Stack gap={3}>
-                        {/* <CustomRecipeAutoComplete customRecipes={customRecipes} dispatch={dispatch}/> */}
                         <MealSelect 
                             mealItems={meals.meals} 
                             handleSelect={handleRemoveMeal} 
@@ -162,15 +175,12 @@ export default function CreateMealForm(props) {
                         <Typography>When?</Typography>
                         <DatePicker 
                             style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 
-                            //multiple 
                             onChange={e=>dispatch({type:ACTION_TYPES.SET_DAYS, payload:e})}
                             value={meals.dateObjects}
                             format='DD MMM YY'
                         />
-                        {/* <Calendar/> */}
                     <Button type='submit'>Add</Button>
                     </Stack>
-
                 </Box>
             </Box>
         </form>

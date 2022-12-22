@@ -12,32 +12,34 @@ import MealService from "../../service/meal-service";
 
 function initMeal(selectedMeal, mealItems) {
     let meals={}
+    if (selectedMeal?.recipes !== undefined) {
+        Object.values(selectedMeal.recipes).forEach((item)=>{
+            const key = Object.keys(mealItems).filter((key)=>{
+                return (mealItems[key].recipe_id === item.recipe_id && mealItems[key].type === 'custom')
+            })
+            meals[key] = {
+                    name:mealItems[key].name, 
+                    recipe_id:mealItems[key].recipe_id,
+                    type:mealItems[key].type, 
+                    qty:item.qty,
+                    operation:'update'
+            }
+        })
+        Object.values(selectedMeal.staticRecipes).forEach((item)=>{
+            const key = Object.keys(mealItems).filter((key)=>{
+                return (mealItems[key].recipe_id === item.recipe_id && mealItems[key].type === 'static')
+            })
+            meals[key] = {
+                    name:mealItems[key].name, 
+                    recipe_id:mealItems[key].recipe_id,
+                    type:mealItems[key].type, 
+                    qty:item.qty,
+                    operation:'update',
+                    isNew:false
+            }
+        })
 
-    Object.values(selectedMeal.recipes).forEach((item)=>{
-        const key = Object.keys(mealItems).filter((key)=>{
-            return (mealItems[key].recipe_id === item.recipe_id && mealItems[key].type === 'custom')
-        })
-        meals[key] = {
-                name:mealItems[key].name, 
-                recipe_id:mealItems[key].recipe_id,
-                type:mealItems[key].type, 
-                qty:item.qty,
-                operation:'update'
-        }
-    })
-    Object.values(selectedMeal.staticRecipes).forEach((item)=>{
-        const key = Object.keys(mealItems).filter((key)=>{
-            return (mealItems[key].recipe_id === item.recipe_id && mealItems[key].type === 'static')
-        })
-        meals[key] = {
-                name:mealItems[key].name, 
-                recipe_id:mealItems[key].recipe_id,
-                type:mealItems[key].type, 
-                qty:item.qty,
-                operation:'update',
-                isNew:false
-        }
-    })
+    }
 
     return meals
 }
@@ -202,13 +204,10 @@ export default function EditMealForm(props) {
                         <Typography>When?</Typography>
                         <DatePicker 
                             style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 
-                            //multiple 
-                            //onChange={e=>dispatch({type:ACTION_TYPES.SET_DAYS, payload:e})}
                             value={dateValue}
                             format='DD MMM YY'
                             disabled
                         />
-                        {/* <Calendar/> */}
                         <Button type='submit'>Save</Button>
                     </Stack>
 
