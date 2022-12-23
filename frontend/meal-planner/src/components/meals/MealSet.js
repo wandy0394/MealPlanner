@@ -1,8 +1,9 @@
-import { Box, Button, Modal, Typography } from "@mui/material"
+import { Box, Button, IconButton, Modal, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import EditMealForm from "./EditMealForm"
 import MealCard, { StaticMealcard } from "./MealCard"
 import {DateObject} from "react-multi-date-picker"
+import EditIcon from '@mui/icons-material/Edit'
 
 
 function getRecipe(id, mealItems) {
@@ -34,26 +35,50 @@ function getAllRecipes(recipeIdObj, mealItems) {
     return {custom:customRecipes, static:staticRecipes}
 }
 
-function Header({date, totalCalories}) {
+function Header({left, right}) {
     return (
         <Box sx={{width:'100%', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
             <Box>
-                <Typography variant='h4'>{date}</Typography>
+                {left}
             
             </Box>
             <Box>
-                <Typography variant='h4'>{totalCalories}</Typography>
+                {right}
             </Box>
         </Box>
     )
 }
 
-function MacroSummary({totalCarbs, totalFat, totalProtein}) {
+function MacroCard({type, value, units}) {
     return (
-        <Box sx={{display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}>
-            {totalCarbs}
-            {totalFat}
-            {totalProtein}
+        <Box sx={{display:'flex', flexDirection:'column', gap:'0rem', alignItems:'center', justifyContent:'center'}}>
+            <Box>
+                <Typography sx={{display:'inline'}} variant='h4'>
+                    {value}
+                </Typography>
+                <Typography sx={{display:'inline'}} variant='body1'>
+                    {units}
+                </Typography>  
+            </Box>
+            <Typography variant='body'>
+                {type}
+            </Typography>
+        </Box>
+    )
+}
+
+function MacroSummary({totalCalories, totalCarbs, totalFat, totalProtein}) {
+    return (
+        <Box sx={{display:'flex', flexDirection:'row', gap:'1rem', alignItems:'center', justifyContent:'space-evenly'}}>
+            <Box sx={{display:'flex'}}>
+                <MacroCard type='Calories' value={totalCalories} units='kcal'/>  
+            </Box>
+            <Box sx={{display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column', gap:'1rem'}}>
+                <MacroCard type='Carbs' value={totalCarbs} units='g'/>
+                <MacroCard type='Fat' value={totalFat} units='g'/>
+                <MacroCard type='Protein' value={totalProtein} units='g'/>
+            </Box>
+
         </Box>
     )
 }
@@ -90,10 +115,13 @@ export default function MealSet(props) {
     }
 
     return (
-        <Box sx={{border:'solid', width:'100%', height:'20%'}}>
-            <Header date={dateValue} totalCalories={mealSet.totalCalories} />
+        <Box sx={{border:'1px solid #CCCCCC', width:'100%', height:'20%', padding:'1rem'}}>
+            <Header 
+                left={<Typography variant='h4'>{dateValue}</Typography>} 
+                right={<IconButton onClick={handleEditClick}>{<EditIcon/>}</IconButton>}
+            />
             <Box sx={{width:'100%', display:'grid', gridTemplateColumns:'3fr 1fr'}}>
-                <Box sx={{width:'100%', border:'solid', height:'100%', overflowX:'scroll', overflowY:'hidden', whiteSpace:'nowrap'}}>
+                <Box sx={{padding:'1rem', display:'flex', alignItems:'center', gap:'1rem', border:'solid', width:'100%', height:'100%', overflowX:'auto', overflowY:'hidden', whiteSpace:'nowrap'}}>
                     {
                         (recipes.custom.length !== 0) && 
                             (recipes.custom.map((item, index)=>{
@@ -113,13 +141,14 @@ export default function MealSet(props) {
                             }))
                     }
                 </Box>
-                <MacroSummary 
+                <MacroSummary
+                    totalCalories ={mealSet.totalCalories}
                     totalCarbs={mealSet.totalCarbs} 
                     totalProtein={mealSet.totalProtein} 
                     totalFat={mealSet.totalFat}
                 />
             </Box>
-            <Button variant='contained' onClick={handleEditClick}>Edit</Button>
+            
             <Modal
                 open={open}
                 onClose={handleClose}
