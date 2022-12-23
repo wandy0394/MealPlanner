@@ -1,7 +1,6 @@
-import { Stack, Paper, Typography,  Button, Box } from "@mui/material"
+import { Stack,  Typography,  Button, Box } from "@mui/material"
 import AddIcon from "@mui/icons-material/Add";
 import IngredientsPaneEdit from "./IngredientsPaneEdit";
-import IngredientsPaneRead from "./IngredientsPaneRead";
 import { useEffect, useState } from "react";
 import { ACTION_TYPES } from "./utility/ActionTypes";
 import IngredientService from "../../service/ingredient-service";
@@ -67,30 +66,24 @@ export default function IngredientsPane({recipeIngredients, dispatch, readOnly=f
                         <AddIcon/>
                     </Button>
                 </Box>
-                
+                <Box sx={{width:'100%', display:'flex', justifyContent:'space-around', alignItems:'flex-end'}}>
+                    <Typography variant='body2' sx={{width:'10%'}}>Qty</Typography>
+                    <Typography variant='body2' sx={{width:'10%'}}>Unit</Typography>
+                    <Typography variant='body2' sx={{width:'60%'}}>Ingredient</Typography>
+                </Box>
                 {
-                   readOnly ? (Object.entries(recipeIngredients).map(([keyID, ingrObj], index)=> {
+                    Object.entries(recipeIngredients).map(([keyID, ingrObj], index)=> {
                         return (
-                            <IngredientsPaneRead 
+                            <IngredientsPaneEdit
                                 keyID={keyID}
-                                ingredient={ingrObj}
+                                recipeIngredients={recipeIngredients}
+                                dispatch={dispatch}
+                                ingredients={ingredients}
+                                isDisabled={readOnly}
                             />
                         )
-                    })) : (
-                        Object.entries(recipeIngredients).map(([keyID, ingrObj], index)=> {
-                            return (
-                                <IngredientsPaneEdit
-                                    keyID={keyID}
-                                    recipeIngredients={recipeIngredients}
-                                    dispatch={dispatch}
-                                    ingredients={ingredients}
-                                    isDisabled={readOnly}
-                                />
-                            )
-                        })
-                    )
+                    })
                 }
-
             </Stack>
         </Box>
     )   
