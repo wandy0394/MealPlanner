@@ -16,12 +16,7 @@ const INITIAL = {
 export default function IngredientsPaneRead({keyID, recipeIngredients, setRecipeIngredients, ingredient}) {
     return (
         <Box key={keyID} sx={{display:'flex', gap:'1rem', alignItems:'center'}}>
-            <Typography variant='body' sx={{}}>ID: {keyID}</Typography>
-            
-            <Typography>{ingredient.qty}</Typography>
-            <Typography>{ingredient.unit}</Typography>
-            <Typography>{ingredient.name}</Typography>
-            
+            <Typography variant='body'>{ingredient.qty} {ingredient.unit} {ingredient.name}</Typography>
         </Box>
     )
 }
