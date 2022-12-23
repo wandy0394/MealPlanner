@@ -1,4 +1,4 @@
-import { Box, Typography, FormControl, InputLabel, Select, Button, TextField, Autocomplete, MenuItem } from "@mui/material"
+import { Box, Typography, FormControl, InputLabel, Select, Button, TextField, Autocomplete, MenuItem, IconButton } from "@mui/material"
 import RemoveIcon from "@mui/icons-material/Remove";
 import UndoIcon from "@mui/icons-material/Undo"
 import units from "../utility/Units";
@@ -45,7 +45,7 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
     }
 
     return (
-        <Box key={keyID} sx={{width:'100%', display:'flex', justifyContent:'space-around', alignItems:'flex-end'}}>
+        <Box key={keyID} sx={{width:'100%', display:'flex', justifyContent:'space-around', alignItems:'flex-end', border:'solid'}}>
             {/* <Typography variant='body' sx={{}}>ID: {keyID}</Typography> */}
             <TextField 
                 variant='standard'
@@ -94,21 +94,21 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
             </FormControl>
             {
                 (recipeIngredients[keyID].operation === 'delete') ? (
-                    <Button 
-                        variant='outlined' 
+                    <IconButton 
+                        // variant='outlined' 
                         onClick={e=>handleUndoRemoveIngredient(e, keyID)}
                         disabled={isDisabled}
                     >
                         <UndoIcon />
-                    </Button>
+                    </IconButton>
                 ) : ( 
-                    <Button 
-                        variant='outlined' 
+                    <IconButton
+                        // variant='outlined' 
                         onClick={e=>handleRemoveIngredient(e, keyID)}
                         disabled={isDisabled}
                     >
                         <RemoveIcon />
-                    </Button>
+                    </IconButton>
                 )
             }
         </Box>

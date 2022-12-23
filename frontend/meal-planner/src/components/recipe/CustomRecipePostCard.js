@@ -15,12 +15,6 @@ import RecipeService from "../../service/recipe-service";
 
 
 const calculator = new UnitConverter()
-const buttons = [
-    {icon:<EditIcon/>, name:'Edit'},
-    {icon:<DeleteIcon/>, name:'Delete'},
-    {icon:<SaveIcon/>, name:'Save'},
-]
-
 
 export default function CustomRecipePostCard(props) {
     const {recipeId} = props
@@ -103,7 +97,7 @@ export default function CustomRecipePostCard(props) {
                         <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                             
                             <TextField 
-                                helperText='Recipe Name' 
+                                placeholder='Recipe Name' 
                                 required 
                                 variant='standard'
                                 value={recipe.title}
@@ -143,7 +137,7 @@ export default function CustomRecipePostCard(props) {
                             </Box>
                             <TextField 
                                 variant='standard' 
-                                helperText='Recipe Description' 
+                                placeholder='Recipe Description' 
                                 value={recipe.recipe_description} 
                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_RECIPE_DESCRIPTION, payload:e.target.value})}
                             />
@@ -215,13 +209,15 @@ export default function CustomRecipePostCard(props) {
                           
                             </TabPanel>
                         </Box>
-                        <Box sx={{backgroundColor:'dimgrey', height:'65%', padding:'3rem 0'}}>
+                        <Box sx={{backgroundColor:'dimgrey', height:'65%', padding:'2rem 0'}}>
                             <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
                                 <InfoCard value={recipe.macros.calories} label='Calories'/>
                                 <InfoCard value={recipe.macros.carbs} label='Carbs'/>
                                 <InfoCard value={recipe.macros.fat} label='Fat'/>
                                 <InfoCard value={recipe.macros.protein} label='Protein'/>
-                                <TextField value={recipe.serving_size} onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVING_SIZE, payload:e.target.value})}/>
+                                <InfoCard value={recipe.serving_size} label='Serving Size'/>
+                                
+                                {/* <TextField value={recipe.serving_size} onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVING_SIZE, payload:e.target.value})}/> */}
                             </Stack>
                         </Box>
                     </Box>

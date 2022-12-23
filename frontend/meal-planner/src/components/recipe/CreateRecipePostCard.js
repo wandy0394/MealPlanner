@@ -125,7 +125,7 @@ export default function CreateRecipePostCard(props) {
                         <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                             
                             <TextField 
-                                helperText='Recipe Name' 
+                                placeholder='Recipe Name' 
                                 required 
                                 variant='standard'
                                 value={recipe.title}
@@ -165,7 +165,7 @@ export default function CreateRecipePostCard(props) {
                             </Box>
                             <TextField 
                                 variant='standard' 
-                                helperText='Recipe Description' 
+                                placeholder='Recipe Description' 
                                 value={recipe.recipe_description} 
                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_RECIPE_DESCRIPTION, payload:e.target.value})}
                             />

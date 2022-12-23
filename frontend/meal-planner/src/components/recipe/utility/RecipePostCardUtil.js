@@ -6,7 +6,7 @@ function TabPanel(props) {
         <>
             {(value === index) ? (
                 <Box hidden={value !== index} sx={{
-                    padding:'3rem 3rem 0rem 3rem', 
+                    padding:'2rem 2rem 0rem 2rem', 
                     height:'100%', 
                     overflow:'auto', 
                     display:'flex', 
@@ -93,7 +93,7 @@ export const postcardStyle = {
 
 export const summaryStyle = {
     backgroundColor:'gray', 
-    padding:'1rem 3rem 0rem 3rem', 
+    padding:'2rem 2rem 0rem 2rem', 
     zIndex:'1', 
     height:'35%', 
     position:'relative'
