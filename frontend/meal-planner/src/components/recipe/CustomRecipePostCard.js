@@ -31,7 +31,7 @@ export default function CustomRecipePostCard(props) {
                 (readOnly) && (<ReadCustomRecipePostCard recipe={recipe} readOnly={readOnly} setReadOnly={setReadOnly}/>)
             }
             {
-                (!readOnly) && (<EditRecipePostCard recipeId={recipeId} readOnly={readOnly} setReadOnly={setReadOnly}/>)
+                (!readOnly) && (<EditRecipePostCard recipeId={recipeId} recipe={recipe} dispatch={dispatch} readOnly={readOnly} setReadOnly={setReadOnly}/>)
             }
         </>
         

@@ -6,20 +6,17 @@ import { useEffect, useState } from "react";
 import IngredientsPane from "./IngredientsPane";
 import CancelIcon from '@mui/icons-material/Cancel'
 import TabPanel, { postcardHeight } from "./utility/RecipePostCardUtil";
-import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, summaryStyle, sectionStyle, MAX_CHARS} from "./utility/RecipePostCardUtil";
+import {InfoCard, ImageBlank, tabStyle, postcardStyle, summaryStyle, sectionStyle, MAX_CHARS} from "./utility/RecipePostCardUtil";
 import {UnitConverter} from "../utility/Units"
 import { ACTION_TYPES } from "./utility/ActionTypes";
-import useGetRecipe from "./utility/useGetRecipe";
 import RecipeService from "../../service/recipe-service";
 
 
 const calculator = new UnitConverter()
 
 export default function EditRecipePostCard(props) {
-    const {recipeId, readOnly, setReadOnly} = props
+    const {recipeId, recipe, dispatch, readOnly, setReadOnly} = props
 
-    // const [readOnly, setReadOnly] = useState(true)
-    const [recipe, dispatch] = useGetRecipe(recipeId)
     const [tabNum, setTabNum] = useState(0)
     const handleTabChange = (event, newValue) => {
         setTabNum(newValue)
@@ -192,14 +189,13 @@ export default function EditRecipePostCard(props) {
                             </TabPanel>
                         </Box>
                         <Box sx={{backgroundColor:'dimgrey', height:'65%', padding:'2rem 0'}}>
-                            <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
+                            <Stack alignItems='center' justifyContent='space-between' sx={{height:'90%'}}>
                                 <InfoCard value={recipe.macros.calories} label='Calories'/>
                                 <InfoCard value={recipe.macros.carbs} label='Carbs'/>
                                 <InfoCard value={recipe.macros.fat} label='Fat'/>
                                 <InfoCard value={recipe.macros.protein} label='Protein'/>
                                 <InfoCard value={recipe.serving_size} label='Serving Size'/>
                                 
-                                {/* <TextField value={recipe.serving_size} onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVING_SIZE, payload:e.target.value})}/> */}
                             </Stack>
                         </Box>
                     </Box>
