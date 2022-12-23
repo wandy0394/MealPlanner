@@ -12,7 +12,7 @@ export default function MealCard(props) {
     }
     
     return (
-        <Card key={meal.id} onClick={handleClick} sx={{margin:'1rem', display:'inline-block', aspectRatio:'1/1', height:'35%', minHeight:'20vh', color:'black'}}>
+        <Card key={meal.id} onClick={handleClick} sx={{margin:'1rem', display:'inline-block', aspectRatio:'1/1', height:'100%', minHeight:'20vh', color:'black'}}>
             <CardContent>
                 <Typography variant='h6'>Name: {meal.name}</Typography>
                 <Typography variant='h6'>ID: {meal.recipe_id}</Typography>
@@ -40,7 +40,7 @@ export function StaticMealcard(props) {
     useEffect(()=>{
         if (!called) {
             console.log('effect')
-            getRecipeData().then((resp)=>{
+            RecipeService.getRecipe(meal.api_id).then((resp)=>{
                 console.log(resp)
                 if (resp?.error === undefined) {
                     const newMeal = {
