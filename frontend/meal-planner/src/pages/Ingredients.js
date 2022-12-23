@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import IngredientsList from "../components/ingredient/IngredientsList";
 import EditIcon from "@mui/icons-material/Edit"
 import IngredientService from "../service/ingredient-service";
+import MainPane from "../layouts/MainPane";
 
 export default function Ingredients() {
     const [open, setOpen] = useState(false)
@@ -30,8 +31,14 @@ export default function Ingredients() {
             console.error(e)
         }
     }
+    let called = false
     useEffect(()=> {
-        refresh()
+        if (!called) {
+            refresh()
+        }
+        return () => {
+            called = true
+        }
     }, [])
     async function handleDelete(id) {
         await IngredientService.removeIngredient(id) 
@@ -39,29 +46,29 @@ export default function Ingredients() {
     }
 
     return (
-        <ContentBox sx={{height:'100%'}}>
-            <Stack sx={{height:'100%'}} gap={1}>
-                <Box>
-                    <Typography variant={'h3'} sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>
-                        A List of your Favourite Ingredients
-                        <IconButton onClick={refresh}><RefreshIcon/></IconButton>
-                    </Typography>
-                </Box>
-                <Box sx={{width:'100%'}}>
-                    <Button variant='contained' sx={{width:'100%'}} onClick={handleClickOpen} startIcon={<EditIcon/>}>Edit List</Button>
-                </Box>
-                <CreateIngredientForm 
-                    open={open} 
-                    handleClose={handleClose} 
-                    refresh={refresh}
-                    ingredients={ingredients}
-                />
+        <MainPane
+            title='A List of your Favourite Ingredients'
+            mainContent={
+                <>
+                    <Stack gap={1}>
+                        <Box sx={{width:'100%'}}>
+                            <Button variant='contained' sx={{width:'100%'}} onClick={handleClickOpen} startIcon={<EditIcon/>}>Edit List</Button>
+                        </Box>
+                        <CreateIngredientForm 
+                            open={open} 
+                            handleClose={handleClose} 
+                            refresh={refresh}
+                            ingredients={ingredients}
+                            />
 
-                <IngredientsList 
-                    ingredients={ingredients}
-                    handleDelete={handleDelete}
-                />
-            </Stack>
-        </ContentBox>
+                        <IngredientsList 
+                            ingredients={ingredients}
+                            handleDelete={handleDelete}
+                            />
+                    </Stack>
+                </>
+            }
+        >
+        </MainPane>
     )
 }
