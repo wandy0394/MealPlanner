@@ -167,7 +167,7 @@ export default function EditRecipePostCard(props) {
                     </Box>
 
                     <Box sx={sectionStyle}>
-                        <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'65%'}}>
+                        <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'43vh'}}>
                             <TabPanel value={tabNum} index={0}>
                                 <IngredientsPane 
                                     recipeIngredients={recipe.ingredients}
