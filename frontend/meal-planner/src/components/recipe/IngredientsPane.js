@@ -53,7 +53,7 @@ export default function IngredientsPane({recipeIngredients, dispatch, readOnly=f
 
     return (
         <Box sx={{overflow:'auto', height:'100%', padding:''}}>
-            <Box sx={{display:'flex', flexDirection:'column', gap:'2rem', overflow:'scroll'}}>
+            <Box sx={{display:'flex', flexDirection:'column', gap:'2rem'}}>
                 <Box sx={{display:'flex', alignItems:'center', gap:'0rem', width:'100%'}}>
                     <Button 
                         type='button' 
