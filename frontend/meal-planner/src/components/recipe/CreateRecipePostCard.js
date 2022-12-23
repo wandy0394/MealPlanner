@@ -208,7 +208,6 @@ export default function CreateRecipePostCard(props) {
                                     <InfoCard value={recipe.macros.fat} label='Fat'/>
                                     <InfoCard value={recipe.macros.protein} label='Protein'/>
                                     <InfoCard value='1' label='Serving Size'/>
-                                    {/* <TextField value={recipe.serving_size} onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVING_SIZE, payload:e.target.value})}/> */}
                                 </Stack>
                         </Box>
                     </Box>

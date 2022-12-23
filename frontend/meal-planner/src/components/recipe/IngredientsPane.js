@@ -53,7 +53,7 @@ export default function IngredientsPane({recipeIngredients, dispatch, readOnly=f
 
     return (
         <Box sx={{overflow:'auto', height:'100%', padding:''}}>
-            <Stack gap={2}>
+            <Box sx={{display:'flex', flexDirection:'column', gap:'2rem', overflow:'scroll'}}>
                 <Box sx={{display:'flex', alignItems:'center', gap:'0rem', width:'100%'}}>
                     <Button 
                         type='button' 
@@ -61,7 +61,6 @@ export default function IngredientsPane({recipeIngredients, dispatch, readOnly=f
                         sx={{width:'100%'}}
                         onClick={handleAddIngredient}
                         disabled={readOnly}
-                        
                     >
                         <AddIcon/>
                     </Button>
@@ -84,7 +83,7 @@ export default function IngredientsPane({recipeIngredients, dispatch, readOnly=f
                         )
                     })
                 }
-            </Stack>
+            </Box>
         </Box>
     )   
 }
