@@ -55,13 +55,14 @@ export default function IngredientsPane({recipeIngredients, dispatch, readOnly=f
     return (
         <Box sx={{overflow:'auto', height:'100%', padding:''}}>
             <Stack gap={2}>
-                <Box sx={{display:'flex', alignItems:'center', gap:'1rem'}}>
+                <Box sx={{display:'flex', alignItems:'center', gap:'0rem', width:'100%'}}>
                     <Button 
                         type='button' 
                         variant='contained' 
-                        
+                        sx={{width:'100%'}}
                         onClick={handleAddIngredient}
                         disabled={readOnly}
+                        
                     >
                         <AddIcon/>
                     </Button>
