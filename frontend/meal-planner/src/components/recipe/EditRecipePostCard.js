@@ -1,82 +1,34 @@
-import { Box, IconButton, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, SpeedDial, SpeedDialAction, SpeedDialIcon, Tab, Tabs, TextField, Typography } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save'
+import DeleteIcon from '@mui/icons-material/Delete'
 import { Stack } from "@mui/system";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import IngredientsPane from "./IngredientsPane";
+import EditIcon from '@mui/icons-material/Edit'
+import CancelIcon from '@mui/icons-material/Cancel'
+import TabPanel, { postcardHeight } from "./utility/RecipePostCardUtil";
+import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, summaryStyle, sectionStyle, MAX_CHARS} from "./utility/RecipePostCardUtil";
 import {UnitConverter} from "../utility/Units"
 import { ACTION_TYPES } from "./utility/ActionTypes";
-import TabPanel, { postcardHeight } from "./utility/RecipePostCardUtil";
-import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, summaryStyle, sectionStyle, INITIAL_RECIPE, MAX_CHARS} from "./utility/RecipePostCardUtil";
+import useGetRecipe from "./utility/useGetRecipe";
 import RecipeService from "../../service/recipe-service";
 
 
 const calculator = new UnitConverter()
 
-export default function CreateRecipePostCard(props) {
-    const {readOnly=false} = props
-    const [recipe, dispatch] = useReducer(reducer, INITIAL_RECIPE)
+export default function EditRecipePostCard(props) {
+    const {recipeId} = props
+
+    const [readOnly, setReadOnly] = useState(true)
+    const [recipe, dispatch] = useGetRecipe(recipeId)
     const [tabNum, setTabNum] = useState(0)
     const handleTabChange = (event, newValue) => {
         setTabNum(newValue)
     }
 
-    function reducer (state, action) {
-        const {type, payload} = action
-        switch(type) {
-            case ACTION_TYPES.SET_TITLE:
-                return {...state, title:payload}
-            case ACTION_TYPES.SET_MACROS:
-                return {...state, macros:payload}
-            case ACTION_TYPES.SET_INSTRUCTIONS:
-                return {...state, instructions:payload}
-            case ACTION_TYPES.SET_COUNTER:
-                return {...state, counter:payload}
-            case ACTION_TYPES.SET_INGREDIENTS:
-                return {...state, ingredients:payload}
-            case ACTION_TYPES.UPDATE_INGREDIENTS:
-                return {...state, ingredients:{...state.ingredients, [payload.id]:payload.data}}
-            case ACTION_TYPES.INCREMENT_COUNTER:
-                return{...state, counter: state.counter + 1}
-            case ACTION_TYPES.ADD_INGREDIENT:
-                return {...state, ingredients:{...state.ingredients, [state.counter]:payload}, counter:state.counter+1} 
-            case ACTION_TYPES.DELETE_INGREDIENT:
-                const newIngredients = {...state.ingredients}
-                delete newIngredients[payload]
-                return {...state, ingredients:newIngredients}    
-            case ACTION_TYPES.UPDATE_QTY:
-                return {...state, 
-                    ingredients:{
-                        ...state.ingredients, 
-                        [payload.id]:{
-                            ...state.ingredients[payload.id], 
-                            qty:payload.data
-                        }
-                    }
-                }
-            case ACTION_TYPES.UPDATE_UNIT:
-                return {...state, 
-                    ingredients:{
-                        ...state.ingredients, 
-                        [payload.id]:{
-                            ...state.ingredients[payload.id], 
-                            unit:payload.data
-                        }
-                    }
-                }
-            case ACTION_TYPES.SET_SERVINGS:
-                return {...state, servings:payload}
-            case ACTION_TYPES.SET_PREP_TIME:
-                return {...state, prepTime:payload}
-            case ACTION_TYPES.SET_COOK_TIME:
-                return {...state, cookTime:payload}
-            case ACTION_TYPES.SET_SERVING_SIZE:
-                return {...state, serving_size:payload}
-            case ACTION_TYPES.SET_RECIPE_DESCRIPTION:
-                return {...state, recipe_description:payload}
-            default:
-                return state
-        }
-    }
+    useEffect(()=> {
+        console.log(recipe)
+    }, [])
 
     useEffect(()=> {
         const newMacros = {
@@ -99,20 +51,40 @@ export default function CreateRecipePostCard(props) {
         e.preventDefault();
         const data = {
             title:recipe.title,
-            servings:recipe.servings,
-            servings_size:recipe.serving_size,
-            cookTime:recipe.cookTime,
-            prepTime:recipe.prepTime,
             ingredients:recipe.ingredients,
             instructions:recipe.instructions,
+            macros:recipe.macros,
+            servings:recipe.servings,
+            serving_size:recipe.serving_size,
             recipe_description:recipe.recipe_description,
-            macros:recipe.macros
+            cookTime:recipe.cookTime,
+            prepTime:recipe.prepTime
         }
+        setReadOnly(true)
         console.log(data)
-        const result = await RecipeService.addRecipe(data)
+        console.log('saved')
+        RecipeService.updateRecipe(data, recipeId)
+    }
+    function handleCancelClicked() {
+        dispatch({type:ACTION_TYPES.RESET_RECIPE})
+        setReadOnly(true)
+    }
+    function handleEditClick(e) {
+        setReadOnly(false)
+        console.log('edit')
+        console.log(recipe)
     }
 
-
+    const dialStyle = {
+        right:'0%',
+        transform: 'translate(-3vw, 4vh) scale(85%)',
+        margin:'0',
+        padding:'0',
+        zIndex:'2',
+        height:'100%',
+        position:'absolute',
+        bottom:'0',
+    }
     return (
     
         <form onSubmit={handleSaveClicked}>
@@ -170,14 +142,50 @@ export default function CreateRecipePostCard(props) {
                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_RECIPE_DESCRIPTION, payload:e.target.value})}
                             />
                         </Box>
+                        
+
                         <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>
                             <Tab label='Ingredients' sx={{color:'white'}}/>
                             <Tab label='Instructions' sx={{color:'white'}}/>  
                         </Tabs>  
-                            {
-                                readOnly ? '' : (<IconButton disabled={readOnly} sx={buttonStyle} type='submit'><SaveIcon/></IconButton>)
-                            }
-                        </Box>
+                        {
+                            readOnly && 
+
+                            (
+                                <SpeedDial
+                                ariaLabel='Speed Dial Save Icon'
+                                sx={dialStyle}
+                                icon={<EditIcon/>}
+                                onClick={handleEditClick}
+                            >
+                                <SpeedDialAction
+                                    
+                                    key='Delete'
+                                    icon={<DeleteIcon/>}
+                                    onClick={handleCancelClicked}
+                                />
+                            </SpeedDial>
+                            )
+                        }
+                        {
+                            !readOnly &&
+                            (
+                                <SpeedDial
+                                    ariaLabel='Speed Dial Save Icon'
+                                    sx={dialStyle}
+                                    icon={<SaveIcon/>}
+                                    onClick={handleSaveClicked}
+                                >
+                                    <SpeedDialAction
+                                        
+                                        key='Delete'
+                                        icon={<CancelIcon/>}
+                                        onClick={handleCancelClicked}
+                                    />
+                                </SpeedDial>
+                            )
+                        }
+                    </Box>
 
                     <Box sx={sectionStyle}>
                         <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'65%'}}>
@@ -185,7 +193,7 @@ export default function CreateRecipePostCard(props) {
                                 <IngredientsPane 
                                     recipeIngredients={recipe.ingredients}
                                     dispatch={dispatch}
-                                    isDisabled={false}
+                                    readOnly={readOnly}
                                 />
                             </TabPanel>
                             <TabPanel value={tabNum} index={1}>
@@ -201,15 +209,16 @@ export default function CreateRecipePostCard(props) {
                           
                             </TabPanel>
                         </Box>
-                        <Box sx={{backgroundColor:'dimgrey', height:'65%', padding:'3rem 0'}}>
-                                <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
-                                    <InfoCard value={recipe.macros.calories} label='Calories'/>
-                                    <InfoCard value={recipe.macros.carbs} label='Carbs'/>
-                                    <InfoCard value={recipe.macros.fat} label='Fat'/>
-                                    <InfoCard value={recipe.macros.protein} label='Protein'/>
-                                    <InfoCard value='1' label='Serving Size'/>
-                                    {/* <TextField value={recipe.serving_size} onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVING_SIZE, payload:e.target.value})}/> */}
-                                </Stack>
+                        <Box sx={{backgroundColor:'dimgrey', height:'65%', padding:'2rem 0'}}>
+                            <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
+                                <InfoCard value={recipe.macros.calories} label='Calories'/>
+                                <InfoCard value={recipe.macros.carbs} label='Carbs'/>
+                                <InfoCard value={recipe.macros.fat} label='Fat'/>
+                                <InfoCard value={recipe.macros.protein} label='Protein'/>
+                                <InfoCard value={recipe.serving_size} label='Serving Size'/>
+                                
+                                {/* <TextField value={recipe.serving_size} onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVING_SIZE, payload:e.target.value})}/> */}
+                            </Stack>
                         </Box>
                     </Box>
 
