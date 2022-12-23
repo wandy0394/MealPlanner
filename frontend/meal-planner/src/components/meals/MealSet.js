@@ -90,7 +90,7 @@ export default function MealSet(props) {
     }
 
     return (
-        <Box sx={{border:'solid', width:'100%', height:'25%'}}>
+        <Box sx={{border:'solid', width:'100%', height:'20%'}}>
             <Header date={dateValue} totalCalories={mealSet.totalCalories} />
             <Box sx={{width:'100%', display:'grid', gridTemplateColumns:'3fr 1fr'}}>
                 <Box sx={{width:'100%', border:'solid', height:'100%', overflowX:'scroll', overflowY:'hidden', whiteSpace:'nowrap'}}>
