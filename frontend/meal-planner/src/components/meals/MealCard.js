@@ -12,7 +12,7 @@ export default function MealCard(props) {
     }
     
     return (
-        <Card key={meal.id} onClick={handleClick} sx={{margin:'1rem', display:'inline-block', aspectRatio:'1/1', height:'100%', minHeight:'20vh', color:'black'}}>
+        <Card key={meal.id} onClick={handleClick} sx={{margin:'1rem', display:'inline-block', aspectRatio:'1/1', height:'100%', color:'black'}}>
             <CardContent>
                 <Typography variant='h6'>Name: {meal.name}</Typography>
                 <Typography variant='h6'>ID: {meal.recipe_id}</Typography>
