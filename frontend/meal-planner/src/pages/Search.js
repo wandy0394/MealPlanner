@@ -9,32 +9,10 @@ import {ACTION_TYPES} from "../components/search/ActionTypes"
 import SidePane from "../layouts/SidePane";
 import RecipePostCard from "../components/recipe/RecipePostCard";
 import RecipeService from "../service/recipe-service";
+import TabPanel from "../components/utility/TabPanel";
+import SidePanelContent from "../components/utility/SidePanelContent";
+import MainPane from "../layouts/MainPane";
 
-function TabPanel(props) {
-    const {children, value, index, ...other} = props;
-    return (
-        <>
-            {(value === index) ? (
-                <Box hidden={value !== index} sx={{marginTop:'2rem', border:'solid'}}>
-                    {children}
-                </Box>
-            ) : ('')}
-        </>
-    )
-}
-
-function SidePanelContent(props) {
-    const {children, value, index, ...other} = props;
-    return (
-            <>
-                {(value === index) ? (
-                    <Box hidden={value !== index} sx={{ flexGrow:'1'}}>
-                        {children}
-                    </Box>
-                ) : ('')}    
-            </>
-    )
-}
 
 const INITIAL_PAGE = 0
 const INITIAL_CRITERIA = {
@@ -136,51 +114,42 @@ export default function Search() {
     
 
     return (
-        <Box sx={{height:'100%'}}>
-            <Stack direction='row' sx={{height:'100%'}}>
-                <ContentBox>
-                    <Box sx={{height:'15vh', display:'flex', flexDirection:'column', justifyContent:'flex-end'}}>
-                        <Box>
-                            <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>
-                                Find Something to Eat       
-                            </Typography>
-                        </Box>
-                        <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
-                            
-                            <Tab label='Ingredients' sx={{width:'100%'}}/>
-                            <Tab label='Recipes' sx={{width:'100%'}}/>  
-                        </Tabs>                        
-                    </Box>
-                    <Stack sx={{height:'100%'}}>
-                        <TabPanel value={tabNum} index={0}>
-                            <SearchIngredients
-                                state={ingredientsState}
-                                dispatch={ingredientsDispatch}
-                                setIngredientId={setIngredientId}
-                            />
-                        </TabPanel>
-                        <TabPanel value={tabNum} index={1}>
-                            <SearchRecipes
-                                state={recipeState}
-                                dispatch={recipeDispatch}
-                                getRecipe={getRecipe}
-                            />
-                        </TabPanel>
 
-                            
-                    </Stack>
-                </ContentBox>
-                <SidePane>
+        <MainPane title='Find Something to Eat'
+            mainContent={<Stack sx={{height:'100%'}}>
+                <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
+                    
+                    <Tab label='Ingredients' sx={{width:'100%'}}/>
+                    <Tab label='Recipes' sx={{width:'100%'}}/>  
+                </Tabs>                        
+                <TabPanel value={tabNum} index={0}>
+                    <SearchIngredients
+                        state={ingredientsState}
+                        dispatch={ingredientsDispatch}
+                        setIngredientId={setIngredientId}
+                    />
+                </TabPanel>
+                <TabPanel value={tabNum} index={1}>
+                    <SearchRecipes
+                        state={recipeState}
+                        dispatch={recipeDispatch}
+                        getRecipe={getRecipe}
+                    />
+                </TabPanel>
+
+                    
+            </Stack>}
+            sideContent={
+                <>
                     <SidePanelContent value={tabNum} index={0}>
                         <SearchHistory type='ingred'/>
                     </SidePanelContent>
                     <SidePanelContent value={tabNum} index={1}>
                         <SearchHistory type='recipe'/>                    
                     </SidePanelContent>
-                </SidePane>
-                
-                        
-            </Stack> 
+                </>
+            }
+        >
             {
                 (recipe !== '') && 
                 (<Modal
@@ -191,6 +160,6 @@ export default function Search() {
                     <RecipePostCard recipe={recipe} readOnly={false}/>
                 </Modal>)
             }  
-        </Box>
+        </MainPane>
     )
 }
