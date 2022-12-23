@@ -4,10 +4,11 @@ import { Paper, Stack, Box, Typography, IconButton, Tabs, Tab, Button, Modal } f
 import { useEffect, useState } from "react";
 import RecipePostCard from "../components/recipe/RecipePostCard";
 import CreateRecipePostCard from "../components/recipe/CreateRecipePostCard";
-import CustomRecipePostCard from "../components/recipe/CustomRecipePostCard";
+import ReadCustomRecipePostCard from "../components/recipe/ReadCustomRecipePostCard";
 import RecipeService from "../service/recipe-service";
 import TabPanel from "../components/utility/TabPanel"
 import MainPane from "../layouts/MainPane"
+import CustomRecipePostCard from "../components/recipe/CustomRecipePostCard";
 
 export default function Recipes() {
     const [open, setOpen] = useState(false)

@@ -40,9 +40,9 @@ export default function RecipePostCard(props) {
                     <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                         <Typography sx={{color:'white'}} variant='h3'>{recipe.recipe_name}</Typography>
                         <Box sx={{display:'flex', justifyContent:'space-between'}}>
-                                <InfoCard value={recipe.number_of_servings}  label='Servings'/>
-                                <InfoCard value={recipe.preparation_time_min+'min'} label='Prep Time'/>
-                                <InfoCard value={recipe.cooking_time_min + 'min'} label='Cook Time'/>
+                            <InfoCard value={recipe.number_of_servings}  label='Servings'/>
+                            <InfoCard value={recipe.preparation_time_min+'min'} label='Prep Time'/>
+                            <InfoCard value={recipe.cooking_time_min + 'min'} label='Cook Time'/>
                         </Box>
                         <Typography sx={{color:'white'}} variant='body'>{recipe.recipe_description}</Typography>
                     </Box>
@@ -79,15 +79,15 @@ export default function RecipePostCard(props) {
                             }
                         </TabPanel>
                     </Box>
-                    <Box sx={{backgroundColor:'dimgrey', height:'65%', padding:'3rem 0'}}>
-                            <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
-                                <InfoCard value={recipe.serving_sizes.serving.calories} label='Calories'/>
-                                <InfoCard value={recipe.serving_sizes.serving.carbohydrate} label='Carbs'/>
-                                <InfoCard value={recipe.serving_sizes.serving.fat} label='Fat'/>
-                                <InfoCard value={recipe.serving_sizes.serving.protein} label='Protein'/>
-                                <Typography variant='body2' sx={{color:'white', textAlign:'center'}}>Serving size: {recipe.serving_sizes.serving.serving_size}</Typography>
-                            </Stack>
-                    </Box>
+                    <Box sx={{backgroundColor:'dimgrey', height:'65%', padding:'2rem 0'}}>
+                        <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
+                            <InfoCard value={recipe.serving_sizes.serving.calories} label='Calories'/>
+                            <InfoCard value={recipe.serving_sizes.serving.carbohydrate} label='Carbs'/>
+                            <InfoCard value={recipe.serving_sizes.serving.fat} label='Fat'/>
+                            <InfoCard value={recipe.serving_sizes.serving.protein} label='Protein'/>
+                            <Typography variant='body2' sx={{color:'white', textAlign:'center'}}>Serving size: {recipe.serving_sizes.serving.serving_size}</Typography>
+                        </Stack>
+                </Box>
                 </Box>
 
             </Box>

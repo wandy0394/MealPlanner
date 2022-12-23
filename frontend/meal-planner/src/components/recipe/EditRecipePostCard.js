@@ -1,10 +1,9 @@
-import { Box, Button, IconButton, SpeedDial, SpeedDialAction, SpeedDialIcon, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { Box, SpeedDial, SpeedDialAction, Tab, Tabs, TextField, Typography } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save'
-import DeleteIcon from '@mui/icons-material/Delete'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import IngredientsPane from "./IngredientsPane";
-import EditIcon from '@mui/icons-material/Edit'
 import CancelIcon from '@mui/icons-material/Cancel'
 import TabPanel, { postcardHeight } from "./utility/RecipePostCardUtil";
 import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, summaryStyle, sectionStyle, MAX_CHARS} from "./utility/RecipePostCardUtil";
@@ -17,9 +16,9 @@ import RecipeService from "../../service/recipe-service";
 const calculator = new UnitConverter()
 
 export default function EditRecipePostCard(props) {
-    const {recipeId} = props
+    const {recipeId, readOnly, setReadOnly} = props
 
-    const [readOnly, setReadOnly] = useState(true)
+    // const [readOnly, setReadOnly] = useState(true)
     const [recipe, dispatch] = useGetRecipe(recipeId)
     const [tabNum, setTabNum] = useState(0)
     const handleTabChange = (event, newValue) => {
@@ -148,34 +147,18 @@ export default function EditRecipePostCard(props) {
                             <Tab label='Ingredients' sx={{color:'white'}}/>
                             <Tab label='Instructions' sx={{color:'white'}}/>  
                         </Tabs>  
-                        {
-                            readOnly && 
 
-                            (
                                 <SpeedDial
-                                ariaLabel='Speed Dial Save Icon'
-                                sx={dialStyle}
-                                icon={<EditIcon/>}
-                                onClick={handleEditClick}
-                            >
-                                <SpeedDialAction
-                                    
-                                    key='Delete'
-                                    icon={<DeleteIcon/>}
-                                    onClick={handleCancelClicked}
-                                />
-                            </SpeedDial>
-                            )
-                        }
-                        {
-                            !readOnly &&
-                            (
-                                <SpeedDial
-                                    ariaLabel='Speed Dial Save Icon'
+                                    ariaLabel='Speed Dial More Icon'
                                     sx={dialStyle}
-                                    icon={<SaveIcon/>}
-                                    onClick={handleSaveClicked}
+                                    icon={<MoreVertIcon/>}
                                 >
+                                    <SpeedDialAction
+                                        
+                                        key='Save'
+                                        icon={<SaveIcon/>}
+                                        onClick={handleSaveClicked}
+                                    />
                                     <SpeedDialAction
                                         
                                         key='Delete'
@@ -183,8 +166,7 @@ export default function EditRecipePostCard(props) {
                                         onClick={handleCancelClicked}
                                     />
                                 </SpeedDial>
-                            )
-                        }
+
                     </Box>
 
                     <Box sx={sectionStyle}>
