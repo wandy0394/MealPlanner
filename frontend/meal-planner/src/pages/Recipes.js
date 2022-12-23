@@ -7,20 +7,8 @@ import RecipePostCard from "../components/recipe/RecipePostCard";
 import CreateRecipePostCard from "../components/recipe/CreateRecipePostCard";
 import CustomRecipePostCard from "../components/recipe/CustomRecipePostCard";
 import RecipeService from "../service/recipe-service";
-
-function TabPanel(props) {
-    const {children, value, index, ...other} = props;
-    return (
-        <div hidden={value !== index}>
-            {(value === index) ? (
-                <Box>
-                    {children}
-                </Box>
-
-            ) : ('')}
-        </div>
-    )
-}
+import TabPanel from "../components/utility/TabPanel"
+import MainPane from "../layouts/MainPane"
 
 export default function Recipes() {
     const [open, setOpen] = useState(false)
@@ -69,7 +57,6 @@ export default function Recipes() {
             const data = await RecipeService.getRecipe(recipeId)
             console.log(data.recipe)  
             setRecipe(data.recipe)
-            //setOpen(true)
         }
         catch (e) {
             console.error('error')
@@ -91,74 +78,152 @@ export default function Recipes() {
     
 
     return (
-        <ContentBox sx={{height:'100%'}}>
-            <Stack sx={{height:'100%'}}>
-                <Box>
-                    <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>
-                        What would you like to make?
-                        <IconButton onClick={refresh}><RefreshIcon/></IconButton>
-                        <IconButton onClick={handleClickOpen}><AddIcon/></IconButton>
-                    </Typography>
-                </Box>
-                <Box sx={{width:'100%'}}>
-                    <Tabs
-                        value={tabValue}
-                        onChange={handleTabChange}
-                        variant='scrollable'
-                        scrollButtons='auto'
-                    >
-                        
-                        {
-                            Object.entries(recipes).map(([key, data])=> {
-                                return <Tab key={key} label={data.title}></Tab>
-                            })
-                        }
-                        {
-                            Object.entries(staticRecipes).map(([key, data])=> {
-                                return <Tab key={key} label={data.recipe_name} onClick={e=>handleRecipeTabClick(e, data.recipe_id)}></Tab>
-                            })
-                        }
-                        {/* <Tab icon={<AddIcon/>} iconPosition='start' label='Create'></Tab> */}
-                    </Tabs>
-                </Box>
-                <Box sx={{flexGrow:1}}>
-                    {
-                        Object.entries(recipes).map(([key, data], index)=> {
-                            return (
-                                <TabPanel key={key} value={tabValue} index={index}>
-                                    <CustomRecipePostCard
-                                        recipe={data}
-                                        readOnly={true}
-                                        recipeId={key}
-                                    />
-                                </TabPanel>
-                            )
-                        })
 
-                    }
-                    {
-                        Object.entries(staticRecipes).map(([key, data], index)=> {
-                            return (
-                                <TabPanel key={key} value={tabValue} index={Object.keys(recipes).length+index}>
-                                    {
-                                        (recipe !== '') &&<RecipePostCard
-                                                            recipe={recipe}
-                                                            readOnly={true}
-                                                            />
-                                    }
-                                </TabPanel>
-                            )
-                        })
-                    }
-                    <Modal
-                        open={open}
-                        onClose={handleClose}
-                        sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
-                    >
-                        <CreateRecipePostCard/>
-                    </Modal>
-                </Box>
-            </Stack>
-        </ContentBox>
+        <MainPane
+            title='What would you like to make'
+            buttons={
+                <>
+                    <IconButton onClick={refresh}><RefreshIcon/></IconButton>
+                    <IconButton onClick={handleClickOpen}><AddIcon/></IconButton>
+                </>
+            }
+            mainContent={
+                <>
+                    <Box sx={{width:'100%'}}>
+                        <Tabs
+                            value={tabValue}
+                            onChange={handleTabChange}
+                            variant='scrollable'
+                            scrollButtons='auto'
+                        >
+                            
+                            {
+                                Object.entries(recipes).map(([key, data])=> {
+                                    return <Tab key={key} label={data.title}></Tab>
+                                })
+                            }
+                            {
+                                Object.entries(staticRecipes).map(([key, data])=> {
+                                    return <Tab key={key} label={data.recipe_name} onClick={e=>handleRecipeTabClick(e, data.recipe_id)}></Tab>
+                                })
+                            }
+                        </Tabs>
+                    </Box>
+                    <Box sx={{display:'flex', justifyContent:'center', width:'100%'}}>
+                        {
+                            Object.entries(recipes).map(([key, data], index)=> {
+                                return (
+                                    <TabPanel key={key} value={tabValue} index={index}>
+                                        <CustomRecipePostCard
+                                            recipe={data}
+                                            readOnly={true}
+                                            recipeId={key}
+                                        />
+                                    </TabPanel>
+                                )
+                            })
+
+                        }
+                        {
+                            Object.entries(staticRecipes).map(([key, data], index)=> {
+                                return (
+                                    <TabPanel key={key} value={tabValue} index={Object.keys(recipes).length+index}>
+                                        {
+                                            (recipe !== '') &&
+                                                <RecipePostCard
+                                                    recipe={recipe}
+                                                    readOnly={true}
+                                                />
+                                        }
+                                    </TabPanel>
+                                )
+                            })
+                        }
+                        <Modal
+                            open={open}
+                            onClose={handleClose}
+                            sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
+                        >
+                            <CreateRecipePostCard/>
+                        </Modal>
+                    </Box>                
+                </>
+            }
+
+        >
+
+
+        </MainPane>
+
+
+
+        // <ContentBox sx={{height:'100%'}}>
+        //     <Stack sx={{height:'100%'}}>
+        //         <Box>
+        //             <Typography variant='h3' sx={{margin:'1rem auto', textAlign:'left', border:'none'}}>
+        //                 What would you like to make?
+        //                 <IconButton onClick={refresh}><RefreshIcon/></IconButton>
+        //                 <IconButton onClick={handleClickOpen}><AddIcon/></IconButton>
+        //             </Typography>
+        //         </Box>
+        //         <Box sx={{width:'100%'}}>
+        //             <Tabs
+        //                 value={tabValue}
+        //                 onChange={handleTabChange}
+        //                 variant='scrollable'
+        //                 scrollButtons='auto'
+        //             >
+                        
+        //                 {
+        //                     Object.entries(recipes).map(([key, data])=> {
+        //                         return <Tab key={key} label={data.title}></Tab>
+        //                     })
+        //                 }
+        //                 {
+        //                     Object.entries(staticRecipes).map(([key, data])=> {
+        //                         return <Tab key={key} label={data.recipe_name} onClick={e=>handleRecipeTabClick(e, data.recipe_id)}></Tab>
+        //                     })
+        //                 }
+        //             </Tabs>
+        //         </Box>
+        //         <Box sx={{flexGrow:1}}>
+        //             {
+        //                 Object.entries(recipes).map(([key, data], index)=> {
+        //                     return (
+        //                         <TabPanel key={key} value={tabValue} index={index}>
+        //                             <CustomRecipePostCard
+        //                                 recipe={data}
+        //                                 readOnly={true}
+        //                                 recipeId={key}
+        //                             />
+        //                         </TabPanel>
+        //                     )
+        //                 })
+
+        //             }
+        //             {
+        //                 Object.entries(staticRecipes).map(([key, data], index)=> {
+        //                     return (
+        //                         <TabPanel key={key} value={tabValue} index={Object.keys(recipes).length+index}>
+        //                             {
+        //                                 (recipe !== '') &&<RecipePostCard
+        //                                                     recipe={recipe}
+        //                                                     readOnly={true}
+        //                                                     />
+        //                             }
+        //                         </TabPanel>
+        //                     )
+        //                 })
+        //             }
+        //             <Modal
+        //                 open={open}
+        //                 onClose={handleClose}
+        //                 sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
+        //             >
+        //                 <CreateRecipePostCard/>
+        //             </Modal>
+        //         </Box>
+        //     </Stack>
+        // </ContentBox>
     )
 }
