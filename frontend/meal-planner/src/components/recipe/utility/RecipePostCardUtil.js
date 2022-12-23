@@ -62,7 +62,7 @@ export const tabStyle = {
 
 export const buttonStyle = {
     left:'calc(100%)',
-    transform: 'translate(-280%, 50%)',
+    transform: 'translate(-360%, 50%)',
     margin:'0',
     padding:'0',
     zIndex:'2',

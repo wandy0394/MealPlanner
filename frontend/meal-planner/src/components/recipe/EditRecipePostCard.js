@@ -76,7 +76,7 @@ export default function EditRecipePostCard(props) {
 
     const dialStyle = {
         right:'0%',
-        transform: 'translate(-3vw, 4vh) scale(85%)',
+        transform: 'translate(-4vw, 4vh) scale(85%)',
         margin:'0',
         padding:'0',
         zIndex:'2',
@@ -87,7 +87,7 @@ export default function EditRecipePostCard(props) {
     return (
     
         <form onSubmit={handleSaveClicked}>
-            <Box sx={postcardStyle}>
+            <Box sx={{...postcardStyle, gridTemplateColumns:'1fr 2fr',}}>
                 <Box sx={{height:postcardHeight}}>
                     <ImageBlank/>                   
                 </Box>

@@ -45,20 +45,20 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
     }
 
     return (
-        <Box key={keyID} sx={{width:'100%', display:'flex', justifyContent:'space-around', alignItems:'flex-end', border:'solid'}}>
-            {/* <Typography variant='body' sx={{}}>ID: {keyID}</Typography> */}
+        <Box key={keyID} sx={{width:'100%', display:'flex', justifyContent:'space-around', alignItems:'flex-end'}}>
+            
             <TextField 
                 variant='standard'
                 type='number' 
-                label='Qty' 
+                // label='Qty' 
                 InputProps={{inputProps:{min:0}}} 
                 sx={{width:'15%'}}
                 onChange={(e)=>{handleQtyChange(e, keyID)}}
                 value={recipeIngredients[keyID]['qty']}
                 disabled={isDisabled || (recipeIngredients[keyID].operation === 'delete')}
             />
-            <FormControl sx={{width:'20%'}}>
-                <InputLabel>Units</InputLabel>
+            <FormControl sx={{width:'15%'}}>
+                {/* <InputLabel>Units</InputLabel> */}
                 <Select
                     label='units'
                     variant='standard'
@@ -73,8 +73,8 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
                     }
                 </Select> 
             </FormControl>
-            <FormControl sx={{width:'40%'}}>
-                <InputLabel>Ingredient</InputLabel>
+            <FormControl sx={{width:'50%'}}>
+                {/* <InputLabel>Ingredient</InputLabel> */}
                 <Select
                     label='Name'
                     variant='standard'
@@ -98,14 +98,17 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
                         // variant='outlined' 
                         onClick={e=>handleUndoRemoveIngredient(e, keyID)}
                         disabled={isDisabled}
+                        sx={{color:'goldenrod'}}
                     >
                         <UndoIcon />
                     </IconButton>
                 ) : ( 
                     <IconButton
-                        // variant='outlined' 
+                        variant='outlined' 
                         onClick={e=>handleRemoveIngredient(e, keyID)}
                         disabled={isDisabled}
+                        sx={{color:'red'}}
+
                     >
                         <RemoveIcon />
                     </IconButton>
