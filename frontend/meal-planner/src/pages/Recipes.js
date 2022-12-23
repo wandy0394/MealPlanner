@@ -1,7 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import RefreshIcon from '@mui/icons-material/Refresh'
 import { Paper, Stack, Box, Typography, IconButton, Tabs, Tab, Button, Modal } from "@mui/material";
-import { ContentBox } from "../components/utility/ContentBox";
 import { useEffect, useState } from "react";
 import RecipePostCard from "../components/recipe/RecipePostCard";
 import CreateRecipePostCard from "../components/recipe/CreateRecipePostCard";

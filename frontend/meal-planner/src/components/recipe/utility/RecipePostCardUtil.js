@@ -77,7 +77,7 @@ export const buttonStyle = {
     
 }
 
-export const postcardHeight = '70vh'
+export const postcardHeight = '65vh'
 
 export const postcardStyle = {
     display:'block',
