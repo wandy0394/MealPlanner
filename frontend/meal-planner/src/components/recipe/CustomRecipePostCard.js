@@ -1,5 +1,6 @@
-import { Box, Button, IconButton, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, SpeedDial, SpeedDialAction, SpeedDialIcon, Tab, Tabs, TextField, Typography } from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save'
+import DeleteIcon from '@mui/icons-material/Delete'
 import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import IngredientsPane from "./IngredientsPane";
@@ -14,6 +15,12 @@ import RecipeService from "../../service/recipe-service";
 
 
 const calculator = new UnitConverter()
+const buttons = [
+    {icon:<EditIcon/>, name:'Edit'},
+    {icon:<DeleteIcon/>, name:'Delete'},
+    {icon:<SaveIcon/>, name:'Save'},
+]
+
 
 export default function CustomRecipePostCard(props) {
     const {recipeId} = props
@@ -61,6 +68,7 @@ export default function CustomRecipePostCard(props) {
         }
         setReadOnly(true)
         console.log(data)
+        console.log('saved')
         RecipeService.updateRecipe(data, recipeId)
     }
     function handleCancelClicked() {
@@ -69,7 +77,19 @@ export default function CustomRecipePostCard(props) {
     }
     function handleEditClick(e) {
         setReadOnly(false)
+        console.log('edit')
         console.log(recipe)
+    }
+
+    const dialStyle = {
+        right:'0%',
+        transform: 'translate(-3vw, 4vh) scale(85%)',
+        margin:'0',
+        padding:'0',
+        zIndex:'2',
+        height:'100%',
+        position:'absolute',
+        bottom:'0',
     }
     return (
     
@@ -128,37 +148,59 @@ export default function CustomRecipePostCard(props) {
                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_RECIPE_DESCRIPTION, payload:e.target.value})}
                             />
                         </Box>
+                        
+
                         <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>
                             <Tab label='Ingredients' sx={{color:'white'}}/>
                             <Tab label='Instructions' sx={{color:'white'}}/>  
                         </Tabs>  
-                            {
-                                readOnly ? '' : (<IconButton disabled={readOnly} sx={buttonStyle} type='submit'><SaveIcon/></IconButton>)
-                            }
-                            {
-                                readOnly ? ( 
-                                    <Button variant='contained' sx={{width:'100%'}} onClick={handleEditClick}>
-                                        <EditIcon/>
-                                        <Typography variant='body' sx={{padding:'0 1rem'}}>Edit</Typography>
-                                    </Button>   
-                                ) : null
-                            }
-                            {
-                                !readOnly && (<Button variant='contained' type='submit' sx={{width:'100%'}} onClick={handleCancelClicked}>
-                                    <CancelIcon/>
-                                    <Typography variant='body' sx={{padding:'0 1rem'}}>Cancel</Typography>
-                                </Button>)
-                            }
+                        {
+                            readOnly && 
+
+                            (
+                                <SpeedDial
+                                ariaLabel='Speed Dial Save Icon'
+                                sx={dialStyle}
+                                icon={<EditIcon/>}
+                                onClick={handleEditClick}
+                            >
+                                <SpeedDialAction
+                                    
+                                    key='Delete'
+                                    icon={<DeleteIcon/>}
+                                    onClick={handleCancelClicked}
+                                />
+                            </SpeedDial>
+                            )
+                        }
+                        {
+                            !readOnly &&
+                            (
+                                <SpeedDial
+                                    ariaLabel='Speed Dial Save Icon'
+                                    sx={dialStyle}
+                                    icon={<SaveIcon/>}
+                                    onClick={handleSaveClicked}
+                                >
+                                    <SpeedDialAction
+                                        
+                                        key='Delete'
+                                        icon={<CancelIcon/>}
+                                        onClick={handleCancelClicked}
+                                    />
+                                </SpeedDial>
+                            )
+                        }
                     </Box>
 
                     <Box sx={sectionStyle}>
                         <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'65%'}}>
                             <TabPanel value={tabNum} index={0}>
                                 <IngredientsPane 
-                                        recipeIngredients={recipe.ingredients}
-                                        dispatch={dispatch}
-                                        isDisabled={false}
-                                    />
+                                    recipeIngredients={recipe.ingredients}
+                                    dispatch={dispatch}
+                                    readOnly={readOnly}
+                                />
                             </TabPanel>
                             <TabPanel value={tabNum} index={1}>
                                 <TextField variant='standard' label='Write your instructions here' 
@@ -174,13 +216,13 @@ export default function CustomRecipePostCard(props) {
                             </TabPanel>
                         </Box>
                         <Box sx={{backgroundColor:'dimgrey', height:'65%', padding:'3rem 0'}}>
-                                <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
-                                    <InfoCard value={recipe.macros.calories} label='Calories'/>
-                                    <InfoCard value={recipe.macros.carbs} label='Carbs'/>
-                                    <InfoCard value={recipe.macros.fat} label='Fat'/>
-                                    <InfoCard value={recipe.macros.protein} label='Protein'/>
-                                    <TextField value={recipe.serving_size} onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVING_SIZE, payload:e.target.value})}/>
-                                </Stack>
+                            <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
+                                <InfoCard value={recipe.macros.calories} label='Calories'/>
+                                <InfoCard value={recipe.macros.carbs} label='Carbs'/>
+                                <InfoCard value={recipe.macros.fat} label='Fat'/>
+                                <InfoCard value={recipe.macros.protein} label='Protein'/>
+                                <TextField value={recipe.serving_size} onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVING_SIZE, payload:e.target.value})}/>
+                            </Stack>
                         </Box>
                     </Box>
 

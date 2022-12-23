@@ -53,7 +53,7 @@ export default function IngredientsPane({recipeIngredients, dispatch, readOnly=f
 
 
     return (
-        <Paper elevation={3} sx={{overflow:'auto', height:'100%', padding:'1rem'}}>
+        <Box sx={{overflow:'auto', height:'100%', padding:''}}>
             <Stack gap={2}>
                 <Box sx={{display:'flex', alignItems:'center', gap:'1rem'}}>
                     <Button 
@@ -65,7 +65,6 @@ export default function IngredientsPane({recipeIngredients, dispatch, readOnly=f
                     >
                         <AddIcon/>
                     </Button>
-                    <Typography variant='h6'>Ingredients List</Typography>
                 </Box>
                 
                 {
@@ -92,6 +91,6 @@ export default function IngredientsPane({recipeIngredients, dispatch, readOnly=f
                 }
 
             </Stack>
-        </Paper>
+        </Box>
     )   
 }
