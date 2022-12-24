@@ -21,7 +21,7 @@ const INITIAL_MEALS = {
     totalProtein:0,
     counter:0,
     days:[(new DateObject()).format('YYYY-MM-DD')],
-    dateObjects:[new DateObject()]
+    dateObjects:new DateObject()
 }
 
 
@@ -101,11 +101,12 @@ export default function CreateMealForm(props) {
             case ACTION_TYPES.SET_CARBS:
                 return {...state, targetCarbs:payload}
             case ACTION_TYPES.SET_DAYS:
-                const newDays = payload.map((item)=>{
-                    if (item instanceof DateObject) return item.format('YYYY-MM-DD')
-                    return item
-                })    
-                return {...state, days:newDays, dateObjects:payload}
+                // const newDays = payload.map((item)=>{
+                //     if (item instanceof DateObject) return item.format('YYYY-MM-DD')
+                //     return item
+                // })    
+                // return {...state, days:newDays, dateObjects:payload}
+                return {...state, days:[payload.format('YYYY-MM-DD')], dateObjects:payload}
             case ACTION_TYPES.FORMAT_DAYS:
                 return state
             default:
