@@ -112,6 +112,7 @@ export default class Meal {
                     let output = {}
                     results.forEach((item)=>{
                         const key = item.datestamp.getFullYear() + '-' + (item.datestamp.getMonth()+1) + '-' + item.datestamp.getDate()
+                        console.log(key)
                         if (!(key in output)) {
                             output[key] = {
                                 meal_id:item.id,
@@ -127,18 +128,18 @@ export default class Meal {
                                 totalProtein: item.total_protein,
                             }
                         }
-                        else {
-                            output[key] = {
-                                ...output[key],
-                                targetCalories: output[key].targetCalories + item.target_calories,
-                                targetCarbs: output[key].targetCarbs + item.target_carbs,
-                                targetFat: output[key].targetFat + item.target_fat,
-                                targetProtein: output[key].targetProtein + item.target_protein,
-                                totalCalories: output[key].totalCalories + item.total_calories,
-                                totalCarbs: output[key].totalCarbs + item.total_carbs,
-                                totalFat: output[key].totalFat + item.total_fat,
-                                totalProtein: output[key].totalProtein+item.total_protein,
-                            }
+                        else if (key in output) {
+                            // output[key] = {
+                            //     ...output[key],
+                            //     targetCalories: output[key].targetCalories + item.target_calories,
+                            //     targetCarbs: output[key].targetCarbs + item.target_carbs,
+                            //     targetFat: output[key].targetFat + item.target_fat,
+                            //     targetProtein: output[key].targetProtein + item.target_protein,
+                            //     totalCalories: output[key].totalCalories + item.total_calories,
+                            //     totalCarbs: output[key].totalCarbs + item.total_carbs,
+                            //     totalFat: output[key].totalFat + item.total_fat,
+                            //     totalProtein: output[key].totalProtein+item.total_protein,
+                            // }
                         }
                         if (item.recipe_id) {
                             if (!(item?.recipe_id in output[key]['recipes'])) {
