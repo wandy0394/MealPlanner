@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Modal, Typography } from "@mui/material"
+import { Box, Button, Dialog, IconButton, Modal, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import EditMealForm from "./EditMealForm"
 import MealCard, { StaticMealcard } from "./MealCard"
@@ -111,14 +111,6 @@ export default function MealSet(props) {
                             }))
                     }
                 </Box>
-                {/* <MacroSummary
-                    totalCalories ={mealSet.totalCalories}
-                    totalCarbs={mealSet.totalCarbs} 
-                    totalProtein={mealSet.totalProtein} 
-                    totalFat={mealSet.totalFat}
-                    directionX='row'
-                    directionY='column'
-                /> */}
                 <MealInfo
                     totalCalories={mealSet.totalCalories}
                     totalCarbs={mealSet.totalCarbs}
@@ -131,13 +123,13 @@ export default function MealSet(props) {
                 />
             </Box>
             
-            <Modal
+            <Dialog
                 open={open}
                 onClose={handleClose}
                 sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
             >
                 <EditMealForm selectedMeal={mealSet} dateValue={new DateObject(dateValue)} mealItems={mealItems}/>
-            </Modal>
+            </Dialog>
         </Box>
     )
 }

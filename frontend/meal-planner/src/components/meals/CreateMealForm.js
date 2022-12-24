@@ -1,9 +1,7 @@
-import {Box, Button, Stack, TextField, Typography} from "@mui/material"
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import {Box, Button, Stack} from "@mui/material"
 import { ACTION_TYPES } from "./ActionTypes";
-import { useEffect, useReducer, useState } from "react"
-import MealSelect from "./MealSelect";
-import {Calendar, DateObject} from "react-multi-date-picker"
+import { useReducer } from "react"
+import {DateObject} from "react-multi-date-picker"
 import DatePicker from "react-multi-date-picker"
 import MacroCounter from "./MacroCounter";
 import MealService from "../../service/meal-service";
@@ -28,7 +26,7 @@ const INITIAL_MEALS = {
 
 
 export default function CreateMealForm(props) {
-    const {mealItems} = props
+    const {mealItems, ref} = props
     // const [mealItems, setmealItems] = useGetAllFood()
     const [meals, dispatch] = useReducer(reducer, INITIAL_MEALS)
     // console.log(mealItems)
@@ -131,7 +129,7 @@ export default function CreateMealForm(props) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Box sx={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', background:'grey', overflowY:'scroll', padding:'2rem'}}>
+            <Box sx={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', background:'grey', padding:'2rem'}}>
             {/* create meals */}
                     <Box sx={{display:'flex', gap:'2rem'}}>
                         <MacroCounter 
@@ -177,7 +175,7 @@ export default function CreateMealForm(props) {
                             value={meals.dateObjects}
                             format='DD MMM YY'
                         />
-                    <Button variant='contained' type='submit' sx={{width:'100%'}}><AddIcon/></Button>
+                        <Button variant='contained' type='submit' sx={{width:'100%'}}><AddIcon/></Button>
                     </Stack>
             </Box>
         </form>

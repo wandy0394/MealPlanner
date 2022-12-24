@@ -1,6 +1,6 @@
 import AddBox from "@mui/icons-material/AddBox";
 import AddIcon from "@mui/icons-material/Add";
-import { Paper, Stack, Box, Typography, Modal, Button, IconButton } from "@mui/material";
+import { Paper, Stack, Box, Typography, Modal, Button, IconButton, Dialog } from "@mui/material";
 import { useState } from "react";
 import CreateMealForm from "../components/meals/CreateMealForm";
 import MealList from "../components/meals/MealList";
@@ -29,13 +29,13 @@ export default function MealPlans() {
             mainContent={
                 <>
                     <MealList mealSets={mealSet} mealItems={mealItems}/>
-                    <Modal
+                    <Dialog
                         open={open}
                         onClose={handleClose}
                         sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
                     >
                         <CreateMealForm mealItems={mealItems}/>
-                    </Modal>
+                    </Dialog>
                 </>
             }
         >
