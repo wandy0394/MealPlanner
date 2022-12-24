@@ -9,14 +9,21 @@ import MainPane from "../layouts/MainPane";
 
 export default function MealPlans() {
     const [open, setOpen] = useState(false)
-    const [mealItems, setmealItems] = useGetAllFood()
-    const [mealSet, setmealSet] = useGetMeals()
+    const [mealItems, setMealItems] = useGetAllFood()
+    const [mealSets, setMealSets] = useGetMeals()
 
     function handleClickOpen() {
         setOpen(true)
     }
     function handleClose() {
         setOpen(false)
+    }
+    function removeMeal(key) {
+        const newMealSets = {...mealSets}
+        delete newMealSets[key]
+        console.log('removed')
+        console.log(newMealSets)
+        setMealSets(newMealSets)
     }
     return (
         <MainPane
@@ -28,7 +35,7 @@ export default function MealPlans() {
             }
             mainContent={
                 <>
-                    <MealList mealSets={mealSet} mealItems={mealItems}/>
+                    <MealList mealSets={mealSets} mealItems={mealItems} removeMeal={removeMeal}/>
                     <Dialog
                         open={open}
                         onClose={handleClose}
