@@ -77,7 +77,7 @@ function OptionDial(props) {
 }
 
 export default function MealSet(props) {
-    const {mealSet, mealItems, dateValue} = props
+    const {mealSet, mealItems, dateValue, removeMeal} = props
 
     const [recipes, setRecipes] = useState({custom:[], static:[]})
     const [open, setOpen] = useState(false)
@@ -102,16 +102,15 @@ export default function MealSet(props) {
         setOpen(true)
     }
 
-    function handleDeleteClick(id) {
-        //console.log('hello')
-        //console.log(id)
-        MealService.removeMeal(id)
+    function handleDeleteClick() {
+        MealService.removeMeal(mealSet.meal_id)
+        removeMeal(dateValue)
     }
     return (
         <Box sx={{border:'1px solid #CCCCCC', background:'dimgrey', width:'100%', height:'20%', padding:'2rem 2rem'}}>
             <Header 
                 left={<Typography variant='h4' sx={{color:'white'}}>{dateValue}</Typography>} 
-                right={<OptionDial handleEditClick={handleEditClick} handleDeleteClick={e=>handleDeleteClick(mealSet.meal_id)}/>}
+                right={<OptionDial handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick}/>}
             />
             <Box sx={{width:'100%', display:'grid', gridTemplateColumns:'3fr 1fr', padding:'0', margin:'0', gap:'2rem'}}>
                 <Box sx={{padding:'2rem 0rem', display:'flex', alignItems:'center', gap:'2rem', width:'100%', height:'100%', overflowX:'auto', overflowY:'hidden', whiteSpace:'nowrap'}}>
