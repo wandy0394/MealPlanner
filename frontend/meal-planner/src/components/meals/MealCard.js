@@ -1,9 +1,12 @@
-import { Card, CardContent, Typography } from "@mui/material"
+import { Box, Card, CardContent, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import RecipeService from "../../service/recipe-service"
+import { ImageBlank } from "../recipe/utility/RecipePostCardUtil"
+import MacroCard, {MacroSummary} from "./MacroCard"
+
 
 export default function MealCard(props) {
-    const {id, meal, handler=null, ...other} = props
+    const {id, meal, image=undefined, handler=null, ...other} = props
     function handleClick() {
         console.log('clicked')
         if (handler !== null) {
@@ -12,18 +15,35 @@ export default function MealCard(props) {
     }
     
     return (
-        <Card key={meal.id} onClick={handleClick} sx={{margin:'1rem', display:'inline-block', aspectRatio:'1/1', height:'100%', color:'black'}}>
-            <CardContent>
-                <Typography variant='h6'>Name: {meal.name}</Typography>
-                <Typography variant='h6'>ID: {meal.recipe_id}</Typography>
-                <Typography variant='h6'>Qty: {meal.qty}</Typography>
-                <Typography variant='h6'>Calories: {meal.calories}</Typography>
-                <Typography variant='h6'>Carbs: {meal.carbs}</Typography>
-                <Typography variant='h6'>Fat: {meal.fat}</Typography>
-                <Typography variant='h6'>Protein: {meal.protein}</Typography>
-
-            </CardContent> 
-        </Card>
+        <Box key={meal.id} onClick={handleClick} sx={{margin:'0rem',height:'100%', aspectRatio:'5/4', color:'black'}}>
+            <Box sx={{display:'grid', gridTemplateColumns:'3fr 1fr'}}>
+                <Box sx={{height:'100%', display:"flex", flexDirection:'column'}}>
+                    <Typography 
+                        variant='h4'
+                        sx={{color:'white',background:'grey', paddingLeft:'1rem'}}
+                    >
+                        {meal.name}
+                    </Typography>
+                    {                    
+                        (image !== undefined) ? 
+                        (<img style={{objectFit:'cover', width:'100%', height:'100%'}} 
+                            src={image} />) :
+                        (<ImageBlank/>)
+                    }
+                </Box>
+                <MacroSummary
+                    totalCalories = {meal.calories}
+                    totalCarbs= {meal.carbs}
+                    totalProtein={meal.protein}
+                    totalFat={meal.fat}
+                    servings={meal.qty}
+                    directionX='column'
+                    directionY='column'
+                    sx={{background:'grey', padding:'1rem'}}
+                    variant='body1'
+                />
+            </Box>
+        </Box>
     )
 }
 
@@ -50,8 +70,10 @@ export function StaticMealcard(props) {
                         calories:resp.recipe.serving_sizes.serving.calories,
                         carbs: resp.recipe.serving_sizes.serving.carbohydrate,
                         fat: resp.recipe.serving_sizes.serving.fat,
-                        protein: resp.recipe.serving_sizes.serving.protein
+                        protein: resp.recipe.serving_sizes.serving.protein,
+                        image: resp.recipe.recipe_images.recipe_image 
                     }
+                    // console.log(newMeal.image)
                     setNewMeal(newMeal)
                 }
             })
@@ -61,5 +83,5 @@ export function StaticMealcard(props) {
         }
     }, [meal])
 
-    return <MealCard meal={newMeal}/>
+    return <MealCard meal={newMeal} image={newMeal.image}/>
 }
