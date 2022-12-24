@@ -5,6 +5,7 @@ import MealCard, { StaticMealcard } from "./MealCard"
 import {DateObject} from "react-multi-date-picker"
 import EditIcon from '@mui/icons-material/Edit'
 import MacroCard, {MacroSummary} from "./MacroCard"
+import MealInfo from "./MealInfo"
 
 
 function getRecipe(id, mealItems) {
@@ -110,13 +111,23 @@ export default function MealSet(props) {
                             }))
                     }
                 </Box>
-                <MacroSummary
+                {/* <MacroSummary
                     totalCalories ={mealSet.totalCalories}
                     totalCarbs={mealSet.totalCarbs} 
                     totalProtein={mealSet.totalProtein} 
                     totalFat={mealSet.totalFat}
                     directionX='row'
                     directionY='column'
+                /> */}
+                <MealInfo
+                    totalCalories={mealSet.totalCalories}
+                    totalCarbs={mealSet.totalCarbs}
+                    totalFat={mealSet.totalFat}
+                    totalProtein={mealSet.totalProtein}
+                    targetCalories={mealSet.targetCalories}
+                    targetCarbs={mealSet.targetCarbs}
+                    targetFat={mealSet.targetFat}
+                    targetProtein={mealSet.targetProtein}
                 />
             </Box>
             
