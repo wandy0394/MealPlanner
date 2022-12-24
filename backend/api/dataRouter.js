@@ -62,8 +62,10 @@ router.route("/searchHistory/:id")
 router.route("/meal")
     .get(MealController.apiGetMeal)
     .post(MealController.apiCreateMeal)
-    .delete(MealController.apiRemoveMeal)
     .put(MealController.apiUpdateMealContent)
+
+router.route("/meal/:id")
+    .delete(MealController.apiRemoveMeal)
 
 router.route("/meals")
     .get(MealController.apiGetAllMeals)

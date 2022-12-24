@@ -37,7 +37,14 @@ export default class MealController {
             })
     }
     static async apiRemoveMeal(req, res, next) {
-        return
+        const mealId = req.params.id
+        Meal.deleteMeal(DUMMY_EMAIL, mealId)
+            .then((resp)=>{
+                res.json(resp)
+            })
+            .catch((resp)=>{
+                req.json({error:'Could not delete meal'})
+            })
     }
     static async apiRenameMeal(req, res, next) {
         return

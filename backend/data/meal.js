@@ -209,4 +209,20 @@ export default class Meal {
             return promise
         }
     }
+
+    static deleteMeal(userEmail, mealId) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=>{
+                const sqlQuery = `DELETE FROM daily_meal where user_id='${userEmail}' and id=${mealId}`
+                db.query(sqlQuery, (err, results, fields)=>{
+                    if (err) {
+                        console.error(err)
+                        reject('Could not delete meal')
+                    }
+                    resolve(results)
+                })
+            })
+            return promise
+        }
+    }
 }

@@ -29,6 +29,17 @@ class MealService {
             return {error:'Error'}
         }
     }
+
+    async removeMeal(id) {
+        console.log('called remove')
+        try {
+            const resp = await instance.delete(`/meal/${id}`)
+            return resp
+        }
+        catch(e) {
+            return {error:'Error'}
+        }
+    }
 }
 
 export default new MealService

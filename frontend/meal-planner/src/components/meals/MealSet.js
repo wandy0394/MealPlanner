@@ -1,12 +1,13 @@
-import { Box, Button, Dialog, IconButton, Modal, Typography } from "@mui/material"
+import { Box, Button, Dialog, IconButton, Modal, SpeedDial, SpeedDialAction, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import EditMealForm from "./EditMealForm"
 import MealCard from "./MealCard"
 import {DateObject} from "react-multi-date-picker"
 import EditIcon from '@mui/icons-material/Edit'
-import MacroCard, {MacroSummary} from "./MacroCard"
 import MealInfo from "./MealInfo"
-
+import DeleteIcon from '@mui/icons-material/Delete'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import MealService from "../../service/meal-service"
 
 function getRecipe(id, mealItems) {
     let retval = null
@@ -51,6 +52,29 @@ function Header({left, right}) {
     )
 }
 
+function OptionDial(props) {
+    const {handleEditClick, handleDeleteClick} = props
+    return (
+        <SpeedDial
+            ariaLabel='Speed Dial More Icon'
+            sx={{transform:'translate(-100%, -10%)', position:'absolute'}}
+            icon={<MoreVertIcon/>}
+            direction='down'
+        >
+            <SpeedDialAction
+                key='Edit'
+                icon={<EditIcon/>}
+                onClick={handleEditClick}
+            />
+            <SpeedDialAction
+                
+                key='Delete'
+                icon={<DeleteIcon/>}
+                onClick={handleDeleteClick}
+            />
+        </SpeedDial>
+    )
+}
 
 export default function MealSet(props) {
     const {mealSet, mealItems, dateValue} = props
@@ -78,11 +102,16 @@ export default function MealSet(props) {
         setOpen(true)
     }
 
+    function handleDeleteClick(id) {
+        //console.log('hello')
+        //console.log(id)
+        MealService.removeMeal(id)
+    }
     return (
         <Box sx={{border:'1px solid #CCCCCC', background:'dimgrey', width:'100%', height:'20%', padding:'2rem 2rem'}}>
             <Header 
                 left={<Typography variant='h4' sx={{color:'white'}}>{dateValue}</Typography>} 
-                right={<IconButton sx={{background:'goldenrod'}} onClick={handleEditClick}>{<EditIcon/>}</IconButton>}
+                right={<OptionDial handleEditClick={handleEditClick} handleDeleteClick={e=>handleDeleteClick(mealSet.meal_id)}/>}
             />
             <Box sx={{width:'100%', display:'grid', gridTemplateColumns:'3fr 1fr', padding:'0', margin:'0', gap:'2rem'}}>
                 <Box sx={{padding:'2rem 0rem', display:'flex', alignItems:'center', gap:'2rem', width:'100%', height:'100%', overflowX:'auto', overflowY:'hidden', whiteSpace:'nowrap'}}>
