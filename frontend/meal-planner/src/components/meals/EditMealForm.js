@@ -1,10 +1,7 @@
-import {Box, Button, Stack, TextField, Typography} from "@mui/material"
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import {Box, Button, Stack} from "@mui/material"
 import { ACTION_TYPES } from "./ActionTypes";
-import { useEffect, useReducer, useState } from "react"
-import MealPane from "./MealSelect";
-import MealSelect from "./MealSelect";
-import {Calendar, DateObject} from "react-multi-date-picker"
+import { useReducer} from "react"
+import {DateObject} from "react-multi-date-picker"
 import DatePicker from "react-multi-date-picker"
 import MacroCounter from "./MacroCounter";
 import MealService from "../../service/meal-service";
@@ -48,7 +45,7 @@ function initMeal(selectedMeal, mealItems) {
 
 
 export default function EditMealForm(props) {
-    const {selectedMeal, dateValue, mealItems} = props
+    const {selectedMeal, dateValue, mealItems, ref} = props
     // const [mealItems, setmealItems] = useGetAllFood()
     const INITIAL_MEALS = {
         meal_id:selectedMeal.meal_id,
@@ -162,9 +159,11 @@ export default function EditMealForm(props) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Box sx={{height:'70vh', width:'70vw', display:'flex', alignItems:'center', justifyContent:'center'}}>
+            {/* <Box sx={{height:'70vh', width:'70vw', display:'flex', alignItems:'center', justifyContent:'center'}}> */}
+            <Box sx={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', background:'grey', padding:'2rem'}}>
+
             {/* create meals */}
-                <Box>
+                
                     <Box sx={{display:'flex', gap:'2rem'}}>
                         <MacroCounter 
                             dispatch={dispatch} 
@@ -194,7 +193,7 @@ export default function EditMealForm(props) {
                             handleChange={e=>dispatch({type:ACTION_TYPES.SET_PROTEIN, payload:e.target.value})}/>
                             
                     </Box>
-                    <Stack gap={3}>
+                    <Stack gap={2} sx={{width:'100%'}}>
                         <MealPicker
                             mealItems={mealItems} 
                             meals={meals.meals}
@@ -202,17 +201,7 @@ export default function EditMealForm(props) {
                             handleDecrement={handleRemoveMeal}
                             sx={{ display:'flex', flexDirection:'column', gap:'2rem', width:'100%', border:'solid', height:'50vh', overflowY:'scroll', padding:'2rem', background:'white'}}
                         />
-                        {/* <MealSelect 
-                            mealItems={meals.meals} 
-                            handleSelect={handleRemoveMeal} 
-                            sx={{width:'100%', border:'solid', height:'30vh', overflowX:'scroll', overflowY:'scroll', whiteSpace:'nowrap'}}
-                        />
-                        <MealSelect 
-                            mealItems={mealItems} 
-                            handleSelect={handleAddMeal} 
-                            sx={{width:'100%', border:'solid', height:'40vh', overflowY:'scroll'}}
-                        /> */}
-                        <Typography>When?</Typography>
+
                         <DatePicker 
                             style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 
                             value={dateValue}
@@ -223,7 +212,7 @@ export default function EditMealForm(props) {
 
                     </Stack>
 
-                </Box>
+                
             </Box>
         </form>
     )

@@ -14,7 +14,7 @@ export default function MealPicker(props) {
                 Object.entries(mealItems).map(([key, item], index)=>{
                     return (
                         // <Box sx={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-                        <Box sx={{display:'grid', gridTemplateColumns:'3fr 1fr'}}>
+                        <Box key={index}    sx={{display:'grid', gridTemplateColumns:'3fr 1fr'}}>
                             {
                                 (item.type === 'custom') ? <MealCard key={index} id={key} meal={item}/> : <StaticMealcard key={index} id={key} meal={item}/>
                             }
