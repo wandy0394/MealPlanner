@@ -1,8 +1,6 @@
-import { Box, Card, CardContent, Typography } from "@mui/material"
-import { useEffect, useState } from "react"
-import RecipeService from "../../service/recipe-service"
+import { Box, Typography } from "@mui/material"
 import { ImageBlank } from "../recipe/utility/RecipePostCardUtil"
-import MacroCard, {MacroSummary} from "./MacroCard"
+import {MacroSummary} from "./MacroCard"
 
 
 export default function MealCard(props) {
