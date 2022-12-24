@@ -4,6 +4,7 @@ import EditMealForm from "./EditMealForm"
 import MealCard, { StaticMealcard } from "./MealCard"
 import {DateObject} from "react-multi-date-picker"
 import EditIcon from '@mui/icons-material/Edit'
+import MacroCard, {MacroSummary} from "./MacroCard"
 
 
 function getRecipe(id, mealItems) {
@@ -37,7 +38,7 @@ function getAllRecipes(recipeIdObj, mealItems) {
 
 function Header({left, right}) {
     return (
-        <Box sx={{width:'100%', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+        <Box sx={{width:'100%', display:'flex', justifyContent:'space-between', alignItems:'center', padding:'0 0rem'}}>
             <Box>
                 {left}
             
@@ -49,39 +50,7 @@ function Header({left, right}) {
     )
 }
 
-function MacroCard({type, value, units}) {
-    return (
-        <Box sx={{display:'flex', flexDirection:'column', gap:'0rem', alignItems:'center', justifyContent:'center'}}>
-            <Box>
-                <Typography sx={{display:'inline'}} variant='h4'>
-                    {value}
-                </Typography>
-                <Typography sx={{display:'inline'}} variant='body1'>
-                    {units}
-                </Typography>  
-            </Box>
-            <Typography variant='body'>
-                {type}
-            </Typography>
-        </Box>
-    )
-}
 
-function MacroSummary({totalCalories, totalCarbs, totalFat, totalProtein}) {
-    return (
-        <Box sx={{display:'flex', flexDirection:'row', gap:'1rem', alignItems:'center', justifyContent:'space-evenly'}}>
-            <Box sx={{display:'flex'}}>
-                <MacroCard type='Calories' value={totalCalories} units='kcal'/>  
-            </Box>
-            <Box sx={{display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column', gap:'1rem'}}>
-                <MacroCard type='Carbs' value={totalCarbs} units='g'/>
-                <MacroCard type='Fat' value={totalFat} units='g'/>
-                <MacroCard type='Protein' value={totalProtein} units='g'/>
-            </Box>
-
-        </Box>
-    )
-}
 function RecipeBox({recipes}) {
     return null
 }
@@ -115,13 +84,13 @@ export default function MealSet(props) {
     }
 
     return (
-        <Box sx={{border:'1px solid #CCCCCC', width:'100%', height:'20%', padding:'1rem'}}>
+        <Box sx={{border:'1px solid #CCCCCC', background:'dimgrey', width:'100%', height:'20%', padding:'2rem 2rem'}}>
             <Header 
-                left={<Typography variant='h4'>{dateValue}</Typography>} 
-                right={<IconButton onClick={handleEditClick}>{<EditIcon/>}</IconButton>}
+                left={<Typography variant='h4' sx={{color:'white'}}>{dateValue}</Typography>} 
+                right={<IconButton sx={{background:'goldenrod'}} onClick={handleEditClick}>{<EditIcon/>}</IconButton>}
             />
-            <Box sx={{width:'100%', display:'grid', gridTemplateColumns:'3fr 1fr'}}>
-                <Box sx={{padding:'1rem', display:'flex', alignItems:'center', gap:'1rem', border:'solid', width:'100%', height:'100%', overflowX:'auto', overflowY:'hidden', whiteSpace:'nowrap'}}>
+            <Box sx={{width:'100%', display:'grid', gridTemplateColumns:'3fr 1fr', padding:'0', margin:'0', gap:'2rem'}}>
+                <Box sx={{padding:'2rem 0rem', display:'flex', alignItems:'center', gap:'2rem', width:'100%', height:'100%', overflowX:'auto', overflowY:'hidden', whiteSpace:'nowrap'}}>
                     {
                         (recipes.custom.length !== 0) && 
                             (recipes.custom.map((item, index)=>{
@@ -146,6 +115,8 @@ export default function MealSet(props) {
                     totalCarbs={mealSet.totalCarbs} 
                     totalProtein={mealSet.totalProtein} 
                     totalFat={mealSet.totalFat}
+                    directionX='row'
+                    directionY='column'
                 />
             </Box>
             
