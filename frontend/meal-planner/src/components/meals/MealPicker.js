@@ -16,7 +16,8 @@ export default function MealPicker(props) {
                         // <Box sx={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                         <Box key={index}    sx={{display:'grid', gridTemplateColumns:'3fr 1fr'}}>
                             {
-                                (item.type === 'custom') ? <MealCard key={index} id={key} meal={item}/> : <StaticMealcard key={index} id={key} meal={item}/>
+                                <MealCard key={index} id={key} meal={item} image={item.image}/>
+                                //(item.type === 'custom') ? <MealCard key={index} id={key} meal={item}/> : <StaticMealcard key={index} id={key} meal={item}/>
                             }
                             <Box sx={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'100%', gap:'2rem', padding:'1rem'}}>
                                 <Typography variant='h4'>{meals[key]?.qty !== undefined ? meals[key]?.qty : 0 }</Typography>

@@ -44,6 +44,7 @@ class RecipeService {
     }
     async getRecipe(recipeId) {
         try {
+            console.log(recipeId)
             const resp = await instance.get(`/recipe/${recipeId}`)
             return resp.data
         }

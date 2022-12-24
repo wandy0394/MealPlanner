@@ -49,39 +49,5 @@ export default function MealCard(props) {
 
 export function StaticMealcard(props) {
     const {meal, ...other} = props
-    const [newMeal, setNewMeal] = useState(meal)
-
-    async function getRecipeData() {
-        console.log(`called ${meal.api_id}`)
-        return await RecipeService.getRecipe(meal.api_id)
-    } 
-
-    let called = false
-    useEffect(()=>{
-        if (!called) {
-            console.log('effect')
-            RecipeService.getRecipe(meal.api_id).then((resp)=>{
-                console.log(resp)
-                if (resp?.error === undefined) {
-                    const newMeal = {
-                        name: resp.recipe.recipe_name,
-                        recipe_id: meal.recipe_id,
-                        qty:meal.qty,
-                        calories:resp.recipe.serving_sizes.serving.calories,
-                        carbs: resp.recipe.serving_sizes.serving.carbohydrate,
-                        fat: resp.recipe.serving_sizes.serving.fat,
-                        protein: resp.recipe.serving_sizes.serving.protein,
-                        image: resp.recipe.recipe_images.recipe_image 
-                    }
-                    // console.log(newMeal.image)
-                    setNewMeal(newMeal)
-                }
-            })
-        }
-        return () => {
-            called = true
-        }
-    }, [meal])
-
-    return <MealCard meal={newMeal} image={newMeal.image}/>
+    return <MealCard meal={meal} image={meal.image}/>
 }

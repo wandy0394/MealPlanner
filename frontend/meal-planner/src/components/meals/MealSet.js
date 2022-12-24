@@ -106,7 +106,7 @@ export default function MealSet(props) {
                             (recipes.static.map((item, index)=>{
                                 if (item === undefined || item === null) return
                                 return (
-                                    <StaticMealcard key={index} meal={item}/>
+                                    <MealCard key={index} meal={item} image={item.image}/>
                                 )        
                             }))
                     }
