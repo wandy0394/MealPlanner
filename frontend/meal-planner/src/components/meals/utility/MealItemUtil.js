@@ -99,7 +99,6 @@ export const useGetAllFood = () => {
                         counter++
                     })
                     Promise.all(staticResult.map((item)=>{
-                        console.log(item)
                         if (item.recipe_id !== undefined) {
                             return {data:RecipeService.getRecipe(item.recipe_id), id:item.id}
                         }
@@ -120,7 +119,6 @@ export const useGetAllFood = () => {
                                     }
                                 }
                                 counter++    
-                                // console.log(resp)
                                 console.log(lineItems)
                                 setMealLineItems(lineItems)                    
                             })

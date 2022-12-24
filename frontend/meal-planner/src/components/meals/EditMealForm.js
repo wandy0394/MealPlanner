@@ -120,7 +120,8 @@ export default function EditMealForm(props) {
                                 totalFat: state.totalFat - mealItems[payload.id].fat,
                                 totalProtein: state.totalProtein - mealItems[payload.id].protein,
                     }
-                }    
+                }
+                return state    
             case ACTION_TYPES.SET_CALORIES:
                 return {...state, targetCalories:payload}
             case ACTION_TYPES.SET_FAT:
