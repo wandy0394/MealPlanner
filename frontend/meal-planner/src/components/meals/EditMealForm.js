@@ -8,6 +8,8 @@ import {Calendar, DateObject} from "react-multi-date-picker"
 import DatePicker from "react-multi-date-picker"
 import MacroCounter from "./MacroCounter";
 import MealService from "../../service/meal-service";
+import MealPicker from "./MealPicker";
+import SaveIcon from '@mui/icons-material/Save'
 
 
 function initMeal(selectedMeal, mealItems) {
@@ -150,9 +152,11 @@ export default function EditMealForm(props) {
     }
     function handleAddMeal(id, item) {
         dispatch({type:ACTION_TYPES.ADD_MEAL, payload:{id:id, name:item.name, recipe_id:item.recipe_id, type:item.type}})
+        console.log(meals)
     }
     function handleRemoveMeal(id, item) {
         dispatch({type:ACTION_TYPES.REMOVE_MEAL, payload:{id:id, item:item}}) 
+        console.log(meals)
     }
     //api call to get static recipes, custom recipes and ingredients
 
@@ -191,16 +195,23 @@ export default function EditMealForm(props) {
                             
                     </Box>
                     <Stack gap={3}>
-                        <MealSelect 
+                        <MealPicker
+                            mealItems={mealItems} 
+                            meals={meals.meals}
+                            handleIncrement={handleAddMeal} 
+                            handleDecrement={handleRemoveMeal}
+                            sx={{ display:'flex', flexDirection:'column', gap:'2rem', width:'100%', border:'solid', height:'50vh', overflowY:'scroll', padding:'2rem', background:'white'}}
+                        />
+                        {/* <MealSelect 
                             mealItems={meals.meals} 
                             handleSelect={handleRemoveMeal} 
-                            sx={{width:'100%', border:'solid', height:'30vh', overflowX:'scroll', overflowY:'hidden', whiteSpace:'nowrap'}}
+                            sx={{width:'100%', border:'solid', height:'30vh', overflowX:'scroll', overflowY:'scroll', whiteSpace:'nowrap'}}
                         />
                         <MealSelect 
                             mealItems={mealItems} 
                             handleSelect={handleAddMeal} 
                             sx={{width:'100%', border:'solid', height:'40vh', overflowY:'scroll'}}
-                        />
+                        /> */}
                         <Typography>When?</Typography>
                         <DatePicker 
                             style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 
@@ -208,7 +219,8 @@ export default function EditMealForm(props) {
                             format='DD MMM YY'
                             disabled
                         />
-                        <Button type='submit'>Save</Button>
+                        <Button variant='contained' type='submit' sx={{width:'100%'}}><SaveIcon/></Button>
+
                     </Stack>
 
                 </Box>
