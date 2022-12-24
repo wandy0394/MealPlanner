@@ -46,8 +46,3 @@ export default function MealCard(props) {
         </Box>
     )
 }
-
-export function StaticMealcard(props) {
-    const {meal, ...other} = props
-    return <MealCard meal={meal} image={meal.image}/>
-}

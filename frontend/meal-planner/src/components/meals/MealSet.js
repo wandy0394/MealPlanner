@@ -1,7 +1,7 @@
 import { Box, Button, Dialog, IconButton, Modal, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import EditMealForm from "./EditMealForm"
-import MealCard, { StaticMealcard } from "./MealCard"
+import MealCard from "./MealCard"
 import {DateObject} from "react-multi-date-picker"
 import EditIcon from '@mui/icons-material/Edit'
 import MacroCard, {MacroSummary} from "./MacroCard"
@@ -52,13 +52,9 @@ function Header({left, right}) {
 }
 
 
-function RecipeBox({recipes}) {
-    return null
-}
 export default function MealSet(props) {
     const {mealSet, mealItems, dateValue} = props
 
-    const [selectedMeal, setSelectedMeal] = useState({})
     const [recipes, setRecipes] = useState({custom:[], static:[]})
     const [open, setOpen] = useState(false)
     
@@ -69,9 +65,7 @@ export default function MealSet(props) {
     let called = false
     useEffect(()=>{
         if (!called) {
-            setSelectedMeal(mealSet)
             const newRecipes = getAllRecipes(mealSet, mealItems)
-            //console.log(newRecipes)
             setRecipes(newRecipes)
         }
         return ()=>{
