@@ -4,9 +4,7 @@ import { Paper, Stack, Box, Typography, Modal, Button, IconButton } from "@mui/m
 import { useState } from "react";
 import CreateMealForm from "../components/meals/CreateMealForm";
 import MealList from "../components/meals/MealList";
-import MealViewer from "../components/meals/MealViewer";
 import { useGetAllFood, useGetMeals } from "../components/meals/utility/MealItemUtil";
-import { ContentBox } from "../components/utility/ContentBox";
 import MainPane from "../layouts/MainPane";
 
 export default function MealPlans() {

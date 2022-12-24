@@ -5,6 +5,7 @@ import MealCard from "./MealCard"
 
 export default function MealSelect(props) {
     const {mealItems, handleSelect, sx, ...other} = props
+
     return (
         <Box sx={sx}>
             {

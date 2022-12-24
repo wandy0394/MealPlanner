@@ -7,6 +7,8 @@ import {Calendar, DateObject} from "react-multi-date-picker"
 import DatePicker from "react-multi-date-picker"
 import MacroCounter from "./MacroCounter";
 import MealService from "../../service/meal-service";
+import MealPicker from "./MealPicker";
+import AddIcon from "@mui/icons-material/Add";
 
 const INITIAL_MEALS = {
     //object of objects, each child object 
@@ -129,9 +131,8 @@ export default function CreateMealForm(props) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Box sx={{height:'70vh', width:'70vw', display:'flex', alignItems:'center', justifyContent:'center'}}>
+            <Box sx={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', background:'grey', overflowY:'scroll', padding:'2rem'}}>
             {/* create meals */}
-                <Box>
                     <Box sx={{display:'flex', gap:'2rem'}}>
                         <MacroCounter 
                             dispatch={dispatch} 
@@ -161,27 +162,23 @@ export default function CreateMealForm(props) {
                             handleChange={e=>dispatch({type:ACTION_TYPES.SET_PROTEIN, payload:e.target.value})}/>
                             
                     </Box>
-                    <Stack gap={3}>
-                        <MealSelect 
-                            mealItems={meals.meals} 
-                            handleSelect={handleRemoveMeal} 
-                            sx={{width:'100%', border:'solid', height:'30vh', overflowX:'scroll', overflowY:'hidden', whiteSpace:'nowrap'}}
-                        />
-                        <MealSelect 
+                    <Stack gap={2} sx={{width:'100%'}}>
+
+                        <MealPicker
                             mealItems={mealItems} 
-                            handleSelect={handleAddMeal} 
-                            sx={{width:'100%', border:'solid', height:'40vh', overflowY:'scroll'}}
+                            meals={meals.meals}
+                            handleIncrement={handleAddMeal} 
+                            handleDecrement={handleRemoveMeal}
+                            sx={{ display:'flex', flexDirection:'column', gap:'2rem', width:'100%', border:'solid', height:'50vh', overflowY:'scroll', padding:'2rem', background:'white'}}
                         />
-                        <Typography>When?</Typography>
                         <DatePicker 
                             style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 
                             onChange={e=>dispatch({type:ACTION_TYPES.SET_DAYS, payload:e})}
                             value={meals.dateObjects}
                             format='DD MMM YY'
                         />
-                    <Button type='submit'>Add</Button>
+                    <Button variant='contained' type='submit' sx={{width:'100%'}}><AddIcon/></Button>
                     </Stack>
-                </Box>
             </Box>
         </form>
     )
