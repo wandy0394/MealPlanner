@@ -45,7 +45,7 @@ function Header({left, right}) {
                 {left}
             
             </Box>
-            <Box>
+            <Box sx={{position:'relative'}}>
                 {right}
             </Box>
         </Box>
@@ -57,7 +57,7 @@ function OptionDial(props) {
     return (
         <SpeedDial
             ariaLabel='Speed Dial More Icon'
-            sx={{transform:'translate(-100%, -10%)', position:'absolute'}}
+            sx={{transform:'translate(-100%, -15%)', position:'absolute'}}
             icon={<MoreVertIcon/>}
             direction='down'
         >
