@@ -88,7 +88,7 @@ export default function MealSet(props) {
     
     let called = false
     useEffect(()=>{
-        if (!called) {
+        if (!called && Object.keys(mealSet).length > 0) {
             const newRecipes = getAllRecipes(mealSet, mealItems)
             setRecipes(newRecipes)
         }
