@@ -15,63 +15,7 @@ function RecipeToMealLineItem(recipe) {
 function StaticRecipeToMealLineItem(recipe) {
     return
 }
-export const useGetAllFood0 = () => {
-    const [mealLineItems, setMealLineItems] = useState({})
-    let counter=0
-    let called = false
-    useEffect(()=> {        
-        if (!called) {
-            async function fetchData() {
-                try {
-                    const ingredientResult = await IngredientService.getIngredients()
-                    const recipeResult = await RecipeService.getRecipes()
-                    const staticResult = await RecipeService.getStaticRecipes()
-                    let lineItems = {}
-                    Object.entries(recipeResult).forEach(([key, data])=> {
-                        lineItems = {...lineItems, 
-                                    [counter] : {
-                                        name:data.title, 
-                                        calories:data.macros.calories,
-                                        fat:data.macros.fat,
-                                        protein:data.macros.protein,            
-                                        carbs:data.macros.carbs, 
-                                        recipe_id:parseInt(key),
-                                        type:'custom'
-                                    }
-                        }
-                        counter++
-                    })
-                    staticResult.forEach((item) => {
-                        
-                        lineItems = {...lineItems, 
-                            [counter] : {
-                                name:item.recipe_name, 
-                                calories:0,
-                                fat:0,
-                                protein:0,            
-                                carbs:0, 
-                                recipe_id:item.id,  //consider renaming id
-                                api_id:item.recipe_id,
-                                type:'static'
-                            }
-                        }
-                        counter++                        
-                    })
-                    console.log(lineItems)
-                    setMealLineItems(lineItems)
-                }
-                catch (e) {
 
-                }
-            }
-            fetchData();
-        }
-        return () => {
-            called = true
-        }
-    }, [])
-    return [mealLineItems, setMealLineItems]
-}
 export const useGetAllFood = () => {
     const [mealLineItems, setMealLineItems] = useState({})
     let counter=0
@@ -148,13 +92,31 @@ export const useGetAllFood = () => {
     return [mealLineItems, setMealLineItems]
 }
 
+export const INITIAL_MEAL = {
+    meal_id:null,
+    recipes:{},
+    staticRecipes:{},
+    meals:{},
+    targetCarbs:0,
+    targetCalories:0,
+    targetProtein:0,
+    targetFat:0,
+    totalCarbs:0,
+    totalCalories:0,
+    totalFat:0,
+    totalProtein:0,
+    counter:0,
+    days:[],
+    dateObjects:null
+
+}
 
 export const getMealSets = (from, to) => {
     let retval = {}
     const startDate = new DateObject(from)
     const endDate = new DateObject(to)
     for (let day=startDate; day < endDate; day.add(1, 'days')) {
-        retval[day.format('YYYY-M-D')] = {}
+        retval[day.format('YYYY-M-D')] = {...INITIAL_MEAL, days:[day], dateObjects:day}
     }
     
     const promise = new Promise((resolve, reject)=>{
@@ -167,6 +129,7 @@ export const getMealSets = (from, to) => {
                 
             })
             .catch((result) => {
+                console.error('reject')
                 reject(retval)
             })
 
@@ -176,8 +139,6 @@ export const getMealSets = (from, to) => {
 
 export const useGetMealsInRange = (from, to) => {
     //from and to are strings in format 'YYYY-M-D'
-    // console.log(from)
-    // console.log(to)
     const [meals, setMeals] = useState({})
     let counter=0
     let called = false
@@ -185,7 +146,6 @@ export const useGetMealsInRange = (from, to) => {
         if (!called) {
             getMealSets(from, to)
                 .then((result)=>{
-                    console.log(result)
                     setMeals(result)
                 })
                 .catch((result)=>{

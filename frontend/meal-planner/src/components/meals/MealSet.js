@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, IconButton, Modal, SpeedDial, SpeedDialAction, Typography } from "@mui/material"
+import { Box, Dialog,  SpeedDial, SpeedDialAction, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import EditMealForm from "./EditMealForm"
 import MealCard from "./MealCard"
@@ -103,6 +103,11 @@ export default function MealSet(props) {
     }
 
     function handleDeleteClick() {
+        console.log(mealSet.meal_id)
+        if (mealSet.meal_id === null) {
+            console.log('No remove')
+            return
+        }
         MealService.removeMeal(mealSet.meal_id)
         removeMeal(dateValue)
     }
