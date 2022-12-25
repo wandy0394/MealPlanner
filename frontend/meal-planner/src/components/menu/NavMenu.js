@@ -21,7 +21,7 @@ export default function NavMenu() {
             }}
         >
             <SideMenuHeader>
-                <MenuLink to='/' style={{textDecoration:'none'}}>
+                <MenuLink to='/Dashboard' style={{textDecoration:'none'}}>
                     <Typography variant='h4'>Meal Manager</Typography>
                 </MenuLink>
             </SideMenuHeader>
