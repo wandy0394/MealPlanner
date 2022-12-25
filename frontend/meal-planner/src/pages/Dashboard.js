@@ -1,13 +1,47 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { useGetAllFood, useGetMealsInRange, calculateTotalMacros, getMealSets } from "../components/meals/utility/MealItemUtil";
 import SideMenuHeader from "../components/menu/SideMenuHeader";
 import MainPane from "../layouts/MainPane";
 import DateObject from 'react-date-object'
 import WeekPicker from "../components/utility/WeekPicker";
+import MacroWeeklySummary from "../components/meals/utility/MacroWeeklySummary";
+
+const dayStyle = {
+    position:'relative', 
+    border:'1px solid #555555',
+    '&:hover': {
+        background:'#f5f6c9'
+    }
+}
+
+const active = {
+    background: 'goldenrod'
+}
 
 function DayPicker(props) {
-    const {startDate, endDate} = props
+    const {mealSets} = props
+    const [active, setActive] = useState(0)
+
+    function handleClick(index) {
+        setActive(index)
+    }
+
+    return (
+        <Box sx={{width:'100%', height:'5vh', display:'grid', gridTemplateRows:'1fr', gridTemplateColumns:'repeat(7, 1fr)'}}>
+            {
+                Object.keys(mealSets).map((item, index)=>{
+                    const dateObj = new DateObject(item)
+                    return (
+                        <Box key={index} sx={{...dayStyle, background:((active === index) ? 'goldenrod' : '')}} onClick={e=>handleClick(index)}>
+                            <Typography variant='h5' sx={{position:'absolute', top:0, left:0, padding:'1rem',}}>{dateObj.format('ddd')}</Typography>
+                            <Typography variant='h5' sx={{position:'absolute', bottom:0, right:0, padding:'1rem'}}>{dateObj.day}</Typography>
+                        </Box>
+                    )
+                })
+            }
+        </Box>
+    )
 }
 
 export default function Dashboard() {
@@ -44,14 +78,15 @@ export default function Dashboard() {
             }
             mainContent={
                 <>
+                    <DayPicker mealSets={mealSets} />
                 </>
             }
             sideContent={
                 <>
                     <SideMenuHeader>
                         <Typography variant='h4'>Macro Summary</Typography>
-
                     </SideMenuHeader>
+                    <MacroWeeklySummary mealSets={mealSets}/>
                 </>
             }
 
