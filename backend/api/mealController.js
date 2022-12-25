@@ -27,8 +27,18 @@ export default class MealController {
         return
     }
     static async apiGetAllMeals(req, res, next) {
-        Meal.getAllMeals(DUMMY_EMAIL)
+        console.log('get')
+        console.log(req.query)
+
+        let from=null, to=null
+        if (req.query && Object.keys(req.query).length > 0) {
+            from = req.query.from
+            to = req.query.to
+        }
+
+        Meal.getAllMeals(DUMMY_EMAIL, from, to)
             .then((resp)=>{
+                console.log(resp)
                 res.json(resp)
             })
             .catch((resp)=>{

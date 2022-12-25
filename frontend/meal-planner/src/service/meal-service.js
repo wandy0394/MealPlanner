@@ -11,6 +11,20 @@ class MealService {
             return {error:'Error'}
         }
     }
+    async getMealsInRange(from, to) {
+        try {
+            const params = {
+                from:from,
+                to:to
+            }
+            const resp = await instance.get(`/meals`, {params:params})
+            // console.log(resp)
+            return resp.data
+        }
+        catch(e) {
+            return {error:'Error'}
+        }
+    }
     async updateMeal(meals) {
         try {
             const resp =  await instance.put(`/meal/`, meals)

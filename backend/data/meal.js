@@ -89,9 +89,13 @@ export default class Meal {
         }
     }
 
-    static getAllMeals(userEmail) {
+    static getAllMeals(userEmail, from, to) {
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=>{
+                let filter = ''
+                if (from !== null && to !== null) {
+                    filter = `AND datestamp >= '${from}' and datestamp < '${to}'`
+                }
                 const sqlQuery = `select 
                                     daily_meal.*, 
                                     meal_recipe.recipe_id, 
@@ -101,7 +105,7 @@ export default class Meal {
                                     from daily_meal 
                                     left join meal_recipe on daily_meal.id=meal_recipe.meal_id 
                                     left join meal_static_recipe on daily_meal.id=meal_static_recipe.meal_id 
-                                    where daily_meal.user_id='${userEmail}' 
+                                    where daily_meal.user_id='${userEmail}' ${filter}
                                     order by datestamp asc;`
                 db.query(sqlQuery, (err, results, fields)=>{
                     if (err) {
@@ -112,7 +116,7 @@ export default class Meal {
                     let output = {}
                     results.forEach((item)=>{
                         const key = item.datestamp.getFullYear() + '-' + (item.datestamp.getMonth()+1) + '-' + item.datestamp.getDate()
-                        console.log(key)
+                        // console.log(key)
                         if (!(key in output)) {
                             output[key] = {
                                 meal_id:item.id,

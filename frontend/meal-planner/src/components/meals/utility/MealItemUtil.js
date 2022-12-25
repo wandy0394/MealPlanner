@@ -171,3 +171,34 @@ export const useGetMeals = () => {
     },[])
     return [meals, setMeals]
 }
+
+export const useGetMealsInRange = (from, to) => {
+    //from and to are strings in format 'YYYY-MM-DD'
+    // console.log(from)
+    // console.log(to)
+    const [meals, setMeals] = useState({})
+    let counter=0
+    let called = false
+    useEffect(()=> {        
+        if (!called) {
+            async function fetchData() {
+                try {
+                    console.log(from)
+                    console.log(to)
+                    const result = await MealService.getMealsInRange(from, to)
+                    console.log(`Meals: ${result}`)
+                    console.log(result)
+                    setMeals(result)
+                }
+                catch (e) {
+
+                }
+            }
+            fetchData();
+        }
+        return () =>{
+            called = true
+        }
+    },[])
+    return [meals, setMeals]
+}
