@@ -15,7 +15,32 @@ function RecipeToMealLineItem(recipe) {
 function StaticRecipeToMealLineItem(recipe) {
     return
 }
-
+export function calculateTotalMacros(mealSets) {
+    const retval = Object.values(mealSets).reduce((result, data)=>{
+        result = {
+            totalCalories:result.totalCalories+data.totalCalories,
+            totalCarbs:result.totalCarbs+data.totalCarbs,
+            totalFat:result.totalFat+data.totalFat,
+            totalProtein:result.totalProtein+data.totalProtein,
+            targetCalories:result.targetCalories+data.targetCalories,
+            targetCarbs:result.targetCarbs+data.targetCarbs,
+            targetFat:result.targetFat+data.targetFat,
+            targetProtein:result.targetProtein+data.targetProtein,
+        }
+        
+        return result 
+    }, {
+        totalCalories:0,
+        totalCarbs:0,
+        totalFat:0,
+        totalProtein:0,
+        targetCalories:0,
+        targetCarbs:0,
+        targetFat:0,
+        targetProtein:0,
+    })
+    return retval
+}
 export const useGetAllFood = () => {
     const [mealLineItems, setMealLineItems] = useState({})
     let counter=0
