@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import IngredientService from "../../../service/ingredient-service"
 import MealService from "../../../service/meal-service"
 import RecipeService from "../../../service/recipe-service"
+import DateObject from 'react-date-object'
 
 function IngredientToMealLineItem(ingredient) {
     return
@@ -147,33 +148,34 @@ export const useGetAllFood = () => {
     return [mealLineItems, setMealLineItems]
 }
 
-export const useGetMeals = () => {
-    const [meals, setMeals] = useState({})
-    let counter=0
-    let called = false
-    useEffect(()=> {        
-        if (!called) {
-            async function fetchData() {
-                try {
-                    const result = await MealService.getMeals()
-                    console.log(result)
-                    setMeals(result)
-                }
-                catch (e) {
 
-                }
-            }
-            fetchData();
-        }
-        return () =>{
-            called = true
-        }
-    },[])
-    return [meals, setMeals]
+export const getMealSets = (from, to) => {
+    let retval = {}
+    const startDate = new DateObject(from)
+    const endDate = new DateObject(to)
+    for (let day=startDate; day < endDate; day.add(1, 'days')) {
+        retval[day.format('YYYY-M-D')] = {}
+    }
+    
+    const promise = new Promise((resolve, reject)=>{
+        MealService.getMealsInRange(from, to)
+            .then((result)=>{
+                Object.entries(result).forEach(([key, value])=>{
+                    retval[key] = value
+                })
+                resolve(retval)
+                
+            })
+            .catch((result) => {
+                reject(retval)
+            })
+
+    })
+    return promise
 }
 
 export const useGetMealsInRange = (from, to) => {
-    //from and to are strings in format 'YYYY-MM-DD'
+    //from and to are strings in format 'YYYY-M-D'
     // console.log(from)
     // console.log(to)
     const [meals, setMeals] = useState({})
@@ -181,20 +183,13 @@ export const useGetMealsInRange = (from, to) => {
     let called = false
     useEffect(()=> {        
         if (!called) {
-            async function fetchData() {
-                try {
-                    console.log(from)
-                    console.log(to)
-                    const result = await MealService.getMealsInRange(from, to)
-                    console.log(`Meals: ${result}`)
-                    console.log(result)
+            getMealSets(from, to)
+                .then((result)=>{
                     setMeals(result)
-                }
-                catch (e) {
-
-                }
-            }
-            fetchData();
+                })
+                .catch((result)=>{
+                    setMeals(result)
+                })
         }
         return () =>{
             called = true

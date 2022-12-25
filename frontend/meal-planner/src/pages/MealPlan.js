@@ -4,7 +4,7 @@ import { Paper, Stack, Box, Typography, Modal, Button, IconButton, Dialog, TextF
 import { useState } from "react";
 import CreateMealForm from "../components/meals/CreateMealForm";
 import MealList from "../components/meals/MealList";
-import { useGetAllFood, useGetMeals, useGetMealsInRange } from "../components/meals/utility/MealItemUtil";
+import { useGetAllFood, useGetMealsInRange, getMealSets } from "../components/meals/utility/MealItemUtil";
 import MainPane from "../layouts/MainPane";
 import DateObject from 'react-date-object'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
@@ -54,7 +54,7 @@ export default function MealPlans() {
     
     const [open, setOpen] = useState(false)
     const [mealItems, setMealItems] = useGetAllFood()
-    const [mealSets, setMealSets] = useGetMealsInRange(prevMonday.format('YYYY-MM-DD'), nextMonday.format('YYYY-MM-DD'))
+    const [mealSets, setMealSets] = useGetMealsInRange(prevMonday.format('YYYY-M-D'), nextMonday.format('YYYY-M-D'))
 
     function handleClickOpen() {
         setOpen(true)
@@ -64,15 +64,13 @@ export default function MealPlans() {
     }
     function removeMeal(key) {
         const newMealSets = {...mealSets}
-        delete newMealSets[key]
+        newMealSets[key] = {}
         setMealSets(newMealSets)
     }
 
     function handleDateChange(newDate) {
-        console.log(newDate.format('YYYY-MM-DD'))
         const endDate = new DateObject(newDate)
-        
-        MealService.getMealsInRange(newDate.format('YYYY-MM-DD'), endDate.add(7, 'days'))
+        getMealSets(newDate.format('YYYY-M-D'), (new DateObject(newDate)).add(7, 'days').format('YYYY-M-D'))
             .then((result)=>{
                 console.log(result)
                 setMealSets(result)

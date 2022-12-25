@@ -20,7 +20,7 @@ const INITIAL_MEALS = {
     totalFat:0,
     totalProtein:0,
     counter:0,
-    days:[(new DateObject()).format('YYYY-MM-DD')],
+    days:[(new DateObject()).format('YYYY-M-D')],
     dateObjects:new DateObject()
 }
 
@@ -106,7 +106,7 @@ export default function CreateMealForm(props) {
                 //     return item
                 // })    
                 // return {...state, days:newDays, dateObjects:payload}
-                return {...state, days:[payload.format('YYYY-MM-DD')], dateObjects:payload}
+                return {...state, days:[payload.format('YYYY-M-D')], dateObjects:payload}
             case ACTION_TYPES.FORMAT_DAYS:
                 return state
             default:

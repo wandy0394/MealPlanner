@@ -58,7 +58,7 @@ export default function EditMealForm(props) {
         totalCalories:selectedMeal.totalCalories,
         totalFat:selectedMeal.totalFat,
         totalProtein:selectedMeal.totalProtein,
-        days:[dateValue.format('YYYY-MM-DD')],
+        days:[dateValue.format('YYYY-M-D')],
         dateObjects:[dateValue]
     }
     const [meals, dispatch] = useReducer(reducer, INITIAL_MEALS)
@@ -132,7 +132,7 @@ export default function EditMealForm(props) {
                 return {...state, targetCarbs:payload}
             case ACTION_TYPES.SET_DAYS:
                 const newDays = payload.map((item)=>{
-                    if (item instanceof DateObject) return item.format('YYYY-MM-DD')
+                    if (item instanceof DateObject) return item.format('YYYY-M-D')
                     return item
                 })    
                 return {...state, days:newDays, dateObjects:payload}
