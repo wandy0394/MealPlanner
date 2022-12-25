@@ -17,8 +17,8 @@ export default function useGetRecipe(id) {
         try {
             console.log('Refreshing recipe')
             const result = await RecipeService.getStoredRecipe(id)
-            dispatch({type:ACTION_TYPES.SET_RECIPE, payload:result[id]})
-            originalRecipe = result[id]
+            dispatch({type:ACTION_TYPES.SET_RECIPE, payload:{...result[id], recipe_id:id}})
+            originalRecipe = {...result[id], recipe_id:id}
             console.log(result)
         }
         catch (e) {

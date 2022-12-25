@@ -246,6 +246,23 @@ export default class Recipe {
             return promise
         }          
     }
+
+    static deleteCustomRecipe(userEmail, recipeId) {
+        if (db !== undefined) {
+            const promise = new Promise((resolve, reject)=>{
+                const sqlQuery = `DELETE FROM recipe where user_id='${userEmail}' and id=${recipeId}`
+                db.query(sqlQuery, (err, results, fields)=>{
+                    if (err) {
+                        console.error(err)
+                        reject('Could not delete')
+                    }
+                    resolve(results)
+                })
+            })
+            return promise
+        }
+    }
+
     static insertStaticRecipe(userEmail, params) {
         if (db !== undefined) {
             const promiseRecipe = new Promise((resolve, reject)=> {

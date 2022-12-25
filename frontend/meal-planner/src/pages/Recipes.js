@@ -115,9 +115,8 @@ export default function Recipes() {
                                 return (
                                     <TabPanel key={key} value={tabValue} index={index}>
                                         <CustomRecipePostCard
-                                            recipe={data}
-                                            readOnly={true}
                                             recipeId={key}
+                                            refresh={refresh}
                                         />
                                     </TabPanel>
                                 )

@@ -9,14 +9,13 @@ import {InfoCard, ImageBlank, tabStyle, postcardStyle, summaryStyle, sectionStyl
 import {UnitConverter} from "../utility/Units"
 
 import IngredientsPaneRead from "./IngredientsPaneRead";
+import RecipeService from "../../service/recipe-service";
 
 
 const calculator = new UnitConverter()
 
 export default function ReadCustomRecipePostCard(props) {
-    const {recipe, readOnly, setReadOnly} = props
-
-    // const [recipe, dispatch] = useGetRecipe(recipeId)
+    const {recipe, readOnly, setReadOnly, refresh} = props
     const [tabNum, setTabNum] = useState(0)
 
     const handleTabChange = (event, newValue) => {
@@ -24,8 +23,15 @@ export default function ReadCustomRecipePostCard(props) {
     }
 
     function handleCancelClicked() {
-        // dispatch({type:ACTION_TYPES.RESET_RECIPE})
         setReadOnly(true)
+    }
+    function handleDeleteClick() {
+        console.log(recipe)
+        RecipeService.removeRecipe(recipe.recipe_id)
+            .then((resp)=>{
+                console.log(resp)
+                refresh()
+            })
     }
     function handleEditClick(e) {
         setReadOnly(false)
@@ -83,7 +89,7 @@ export default function ReadCustomRecipePostCard(props) {
                                 
                                 key='Delete'
                                 icon={<DeleteIcon/>}
-                                onClick={handleCancelClicked}
+                                onClick={handleDeleteClick}
                             />
                         </SpeedDial>
                         )
