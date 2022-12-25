@@ -88,7 +88,7 @@ export default function MealSet(props) {
     
     let called = false
     useEffect(()=>{
-        if (!called && Object.keys(mealSet).length > 0) {
+        if (!called && Object.keys(mealSet).length > 0 && Object.keys(mealItems).length > 0) {
             const newRecipes = getAllRecipes(mealSet, mealItems)
             setRecipes(newRecipes)
         }
@@ -112,7 +112,7 @@ export default function MealSet(props) {
         removeMeal(dateValue)
     }
     return (
-        <Box sx={{border:'1px solid #CCCCCC', background:'dimgrey', width:'100%', height:'20%', padding:'2rem 2rem'}}>
+        <Box sx={{border:'1px solid #CCCCCC', background:'dimgrey', width:'100%', height:'auto', padding:'2rem 2rem'}}>
             <Header 
                 left={<Typography variant='h4' sx={{color:'white'}}>{dateValue}</Typography>} 
                 right={<OptionDial handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick}/>}
