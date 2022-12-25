@@ -38,6 +38,8 @@ router.route("/recipe/static")
 
 router.route("/recipe/static/all")
     .get(RecipeController.apiGetStaticRecipes)
+router.route("/recipe/static/:id")
+    .delete(RecipeController.apiRemoveStaticRecipe)
 
 router.route("/recipe/internal/:id")
     .get(RecipeController.apiGetCustomRecipe)

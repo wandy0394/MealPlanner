@@ -46,6 +46,17 @@ export default class RecipeController {
             })
 
     }
+    static apiRemoveStaticRecipe(req, res, next) {
+        const recipeId = req.params.id
+        console.log(recipeId)
+        Recipe.deleteStaticRecipe(DUMMY_EMAIL, recipeId)
+            .then((resp)=>{
+                res.json({success:'success'})
+            })
+            .catch((resp)=>{
+                res.json({error:`Could not delete ${recipeId}`})
+            })
+    }
     static apiGetStaticRecipes(req, res, next) {
         const params = req.body
         // console.log(params)

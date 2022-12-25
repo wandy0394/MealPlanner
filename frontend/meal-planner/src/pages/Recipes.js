@@ -35,6 +35,7 @@ export default function Recipes() {
             const result = await RecipeService.getRecipes()
             console.log(result)
             setRecipes(result)
+            setTabValue(0)
         }
         catch (e) {
             console.error(e)
@@ -47,16 +48,17 @@ export default function Recipes() {
             const result = await RecipeService.getStaticRecipes()
             console.log(result)
             setStaticRecipes(result)
+            setTabValue(0)
         }
         catch (e) {
             console.error(e)
         }
     }
-    async function handleRecipeTabClick(e, recipeId) {
+    async function handleRecipeTabClick(e, recipeId, id) {
         try {
             const data = await RecipeService.getRecipe(recipeId)
-            console.log(data.recipe)  
-            setRecipe(data.recipe)
+            console.log({...data.recipe, id:id})  
+            setRecipe({...data.recipe, id:id})
         }
         catch (e) {
             console.error('error')
@@ -104,7 +106,7 @@ export default function Recipes() {
                             }
                             {
                                 Object.entries(staticRecipes).map(([key, data])=> {
-                                    return <Tab key={key} label={data.recipe_name} onClick={e=>handleRecipeTabClick(e, data.recipe_id)}></Tab>
+                                    return <Tab key={key} label={data.recipe_name} onClick={e=>handleRecipeTabClick(e, data.recipe_id, data.id)}></Tab>
                                 })
                             }
                         </Tabs>
@@ -132,6 +134,8 @@ export default function Recipes() {
                                                 <RecipePostCard
                                                     recipe={recipe}
                                                     readOnly={true}
+                                                    deleteable={true}
+                                                    refresh={getStaticRecipes}
                                                 />
                                         }
                                     </TabPanel>
