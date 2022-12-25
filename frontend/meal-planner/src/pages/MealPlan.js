@@ -70,7 +70,17 @@ function calculateTotalMacros(mealSets) {
 }
 
 function MacroWeeklyCard(props) {
-    const {value, target, percentage, name, unit} = props
+    const {value, target, name, unit} = props
+    let percentage = 0
+    if (target === 0) {
+        percentage = 0
+    }
+    else if (value > target) {
+        percentage = 100
+    }
+    else {
+        percentage = value/target*100
+    }
     return (
         <Box sx={{height:'auto', width:'75%', display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
             <Box sx={{position:'relative', display:'inline-flex', alignItems:'center', justifyContent:'center', flexDirection:'column', width:'100%', aspectRatio:'1/1'}}>
@@ -121,10 +131,10 @@ function MacroWeeklySummary({mealSets}) {
 
     return (
         <Box sx={{display:'flex', flexDirection:'column', gap:'1rem', alignItems:'center', justifyContent:'center'}}>
-            <MacroWeeklyCard value={macros.totalCalories} percentage={(macros.totalCalories / macros.targetCalories)*100} name='Calories' unit='kcal' target={macros.targetCalories}/>
-            <MacroWeeklyCard value={macros.totalCarbs} percentage={(macros.totalCarbs / macros.targetCarbs)*100} name='Carbs' unit='g' target={macros.targetCarbs}/>
-            <MacroWeeklyCard value={macros.totalFat} percentage={(macros.totalFat / macros.targetFat)*100} name='Fat' unit='g' target={macros.targetFat}/>
-            <MacroWeeklyCard value={macros.totalProtein} percentage={(macros.totalProtein / macros.targetProtein)*100} name='Protein' unit='g' target={macros.targetProtein}/>
+            <MacroWeeklyCard value={macros.totalCalories} name='Calories' unit='kcal' target={macros.targetCalories}/>
+            <MacroWeeklyCard value={macros.totalCarbs} name='Carbs' unit='g' target={macros.targetCarbs}/>
+            <MacroWeeklyCard value={macros.totalFat} name='Fat' unit='g' target={macros.targetFat}/>
+            <MacroWeeklyCard value={macros.totalProtein} name='Protein' unit='g' target={macros.targetProtein}/>
         </Box>
     )
 }
