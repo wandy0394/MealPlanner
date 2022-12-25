@@ -73,6 +73,16 @@ class RecipeService {
             return {error:'Error'}
         }
     }
+
+    async removeRecipe(recipeId) {
+        try {
+            const resp =  await instance.delete(`/recipe/internal/${recipeId}`)
+            return resp
+        }
+        catch (e) {
+            return {error:'Error'}
+        }
+    }
 }
 
 export default new RecipeService

@@ -25,12 +25,18 @@ export default class RecipeController {
     }
 
     static apiRemoveRecipe(req, res, next) {
-        return
+        const recipeId = req.params.id
+        Recipe.deleteCustomRecipe(DUMMY_EMAIL, recipeId)
+            .then((resp)=>{
+                res.json({success:'success'})
+            })
+            .catch((resp)=>{
+                res.json({error:`Could not delete ${recipeId}`})
+            })
     }
 
     static apiAddStaticRecipe(req, res, next) {
         const params = req.body
-        // console.log(params)
         Recipe.insertStaticRecipe(DUMMY_EMAIL, req.body)
             .then((resp)=>{
                 res.json({success: 'success'})
