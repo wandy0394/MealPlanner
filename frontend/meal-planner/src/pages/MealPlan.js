@@ -79,7 +79,7 @@ export default function MealPlans() {
             title='What do you plan to eat?'
             buttons={
                 <>
-                    <IconButton onClick={handleClickOpen}><AddIcon/></IconButton>
+                    {/* <IconButton onClick={handleClickOpen}><AddIcon/></IconButton> */}
                 </>
             }
             mainContent={
