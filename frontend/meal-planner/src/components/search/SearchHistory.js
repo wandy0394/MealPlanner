@@ -86,22 +86,21 @@ export default function SearchHistory({type='all'}) {
                     {
                         searchHistory.map((item, index)=> {
                             return (
-                                    <Paper key={index} elevation={2} sx={{padding:'1rem 1rem'}}>
-                                        <Box sx={{display:'flex', justifyContent: 'space-between'}}>
-                                            <Box sx={{display:'flex', flexDirection:'column'}}>
-                                                <Typography variant='body'>{item.query}</Typography> 
-                                                <Typography variant='subtitle2'>{item.timeStamp}</Typography>
-                                            </Box>
-                                            <Box>
-                                                <IconButton onClick={e=>handleDelete(e, item.id)}><DeleteIcon/></IconButton>
-                                            </Box>
-
+                                <Paper key={index} elevation={2} sx={{padding:'1rem 1rem'}}>
+                                    <Box sx={{display:'flex', justifyContent: 'space-between'}}>
+                                        <Box sx={{display:'flex', flexDirection:'column'}}>
+                                            <Typography variant='body'>{item.query}</Typography> 
+                                            <Typography variant='subtitle2'>{item.timeStamp}</Typography>
                                         </Box>
-                                        
-                                    </Paper>
+                                        <Box>
+                                            <IconButton onClick={e=>handleDelete(e, item.id)}><DeleteIcon/></IconButton>
+                                        </Box>
+
+                                    </Box>
+                                    
+                                </Paper>
                             )
                         })
-                        
                     }
                 </Stack>
         </Box>

@@ -1,6 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
-import { Box, Typography, Button, IconButton, Dialog } from "@mui/material";
-import { useState } from "react";
+import { Box, Typography, Button, IconButton, Dialog, Stack, CircularProgress } from "@mui/material";
+import { useEffect, useState } from "react";
 import CreateMealForm from "../components/meals/CreateMealForm";
 import MealList from "../components/meals/MealList";
 import { useGetAllFood, useGetMealsInRange, getMealSets, INITIAL_MEAL } from "../components/meals/utility/MealItemUtil";
@@ -8,6 +8,9 @@ import MainPane from "../layouts/MainPane";
 import DateObject from 'react-date-object'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import SidePane from "../layouts/SidePane";
+import SidePanelContent from "../components/utility/SidePanelContent";
+import SideMenuHeader from "../components/menu/SideMenuHeader";
 
 function DatePicker(props) {
     const {day, setDay, handleDateChange} = props
@@ -36,6 +39,92 @@ function DatePicker(props) {
             </Box>
             <Button variant='contained' onClick={incrementWeek}><ChevronRightIcon/></Button>
 
+        </Box>
+    )
+}
+function calculateTotalMacros(mealSets) {
+    const retval = Object.values(mealSets).reduce((result, data)=>{
+        result = {
+            totalCalories:result.totalCalories+data.totalCalories,
+            totalCarbs:result.totalCarbs+data.totalCarbs,
+            totalFat:result.totalFat+data.totalFat,
+            totalProtein:result.totalProtein+data.totalProtein,
+            targetCalories:result.targetCalories+data.targetCalories,
+            targetCarbs:result.targetCarbs+data.targetCarbs,
+            targetFat:result.targetFat+data.targetFat,
+            targetProtein:result.targetProtein+data.targetProtein,
+        }
+        
+        return result 
+    }, {
+        totalCalories:0,
+        totalCarbs:0,
+        totalFat:0,
+        totalProtein:0,
+        targetCalories:0,
+        targetCarbs:0,
+        targetFat:0,
+        targetProtein:0,
+    })
+    return retval
+}
+
+function MacroWeeklyCard(props) {
+    const {value, target, percentage, name, unit} = props
+    return (
+        <Box sx={{height:'auto', width:'75%', display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
+            <Box sx={{position:'relative', display:'inline-flex', alignItems:'center', justifyContent:'center', flexDirection:'column', width:'100%', aspectRatio:'1/1'}}>
+                <CircularProgress 
+                    variant='determinate' 
+                    value={(percentage>100)?100:percentage} 
+                    size='75%'
+                    sx={{zIndex:'1'}}
+                />
+                    
+                <Box sx={{
+                        position:'absolute', 
+                        display:'flex', 
+                        flexDirection:'column',
+                        alignItems:'center', 
+                        justifyContent:'center', 
+                        top:0, 
+                        left:0, 
+                        bottom:0,
+                        right:0,
+                        margin:0,
+                        padding:0,
+                        zIndex:'2',
+                    }}
+                >
+                        <Typography variant='h4'>{value}</Typography>
+                        <Typography variant='body2'>/{target} {unit}</Typography>
+                </Box>
+            </Box>
+            <Typography variant='h4'>{name}</Typography>
+        </Box>
+    )
+}
+
+function MacroWeeklySummary({mealSets}) {
+    const [macros, setMacros] = useState({})
+
+    let called = false
+    useEffect(()=>{
+        if (!called) {
+            setMacros(calculateTotalMacros(mealSets))
+        }
+
+        return ()=>{
+            called = true
+        }
+    }, [mealSets])
+
+    return (
+        <Box sx={{display:'flex', flexDirection:'column', gap:'1rem', alignItems:'center', justifyContent:'center'}}>
+            <MacroWeeklyCard value={macros.totalCalories} percentage={(macros.totalCalories / macros.targetCalories)*100} name='Calories' unit='kcal' target={macros.targetCalories}/>
+            <MacroWeeklyCard value={macros.totalCarbs} percentage={(macros.totalCarbs / macros.targetCarbs)*100} name='Carbs' unit='g' target={macros.targetCarbs}/>
+            <MacroWeeklyCard value={macros.totalFat} percentage={(macros.totalFat / macros.targetFat)*100} name='Fat' unit='g' target={macros.targetFat}/>
+            <MacroWeeklyCard value={macros.totalProtein} percentage={(macros.totalProtein / macros.targetProtein)*100} name='Protein' unit='g' target={macros.targetProtein}/>
         </Box>
     )
 }
@@ -93,6 +182,15 @@ export default function MealPlans() {
                     >
                         <CreateMealForm mealItems={mealItems}/>
                     </Dialog>
+                </>
+            }
+
+            sideContent={
+                <>
+                    <SideMenuHeader>
+                        <Typography variant='h4'>Weekly Stats</Typography>
+                    </SideMenuHeader>
+                    <MacroWeeklySummary mealSets={mealSets}/>
                 </>
             }
         >
