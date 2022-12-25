@@ -1,12 +1,13 @@
 import { Box, IconButton, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add"
+import DeleteIcon from '@mui/icons-material/Delete'
 import TabPanel from "./utility/RecipePostCardUtil";
 import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, postcardHeight, summaryStyle, sectionStyle} from "./utility/RecipePostCardUtil";
 import RecipeService from "../../service/recipe-service";
 
 export default function RecipePostCard(props) {
-    const {recipe, readOnly=false} = props
+    const {recipe, readOnly=false, deleteable=false, refresh} = props
     const [tabNum, setTabNum] = useState(0)
     
     const handleTabChange = (event, newValue) => {
@@ -21,6 +22,14 @@ export default function RecipePostCard(props) {
         }
         console.log(data)
         const result = await RecipeService.addStaticRecipe(data)
+    }
+
+    function handleDeleteClick() {
+        console.log(recipe)
+        RecipeService.removeStaticRecipe(recipe.id)
+            .then((resp)=>{
+                refresh()
+            })
     }
 
     return (
@@ -52,6 +61,28 @@ export default function RecipePostCard(props) {
                     </Tabs>  
                         {
                             readOnly ? '' : (<IconButton disabled={readOnly} sx={buttonStyle} onClick={handleAddClick}><AddIcon/></IconButton>)
+                        }
+                        {
+                            deleteable ? (
+                                <IconButton disabled={!deleteable} 
+                                    sx={{
+                                        right:'0%',
+                                        transform: 'translate(-3.2vw, 1.6vh)',
+                                        margin:'0',
+                                        padding:'0',
+                                        zIndex:'2',
+                                        position:'absolute',
+                                        bottom:'0',
+                                        aspectRatio:'1/1',
+                                        backgroundColor:'goldenrod',
+                                        '&:hover': {
+                                            backgroundColor:'#EAEAC0'
+                                        },
+                                        height:'15%'
+                                    }} 
+                                    onClick={handleDeleteClick}>
+                                        <DeleteIcon/>
+                                </IconButton>) : ''
                         }
                     </Box>
                 <Box sx={sectionStyle}>
