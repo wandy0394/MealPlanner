@@ -1,73 +1,15 @@
-import AddIcon from "@mui/icons-material/Add";
 import { Box, Typography, Button, IconButton, Dialog, Stack, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import CreateMealForm from "../components/meals/CreateMealForm";
 import MealList from "../components/meals/MealList";
-import { useGetAllFood, useGetMealsInRange, getMealSets, INITIAL_MEAL } from "../components/meals/utility/MealItemUtil";
+import { useGetAllFood, useGetMealsInRange, getMealSets, INITIAL_MEAL, calculateTotalMacros } from "../components/meals/utility/MealItemUtil";
 import MainPane from "../layouts/MainPane";
 import DateObject from 'react-date-object'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import SidePane from "../layouts/SidePane";
-import SidePanelContent from "../components/utility/SidePanelContent";
 import SideMenuHeader from "../components/menu/SideMenuHeader";
-
-function DatePicker(props) {
-    const {day, setDay, handleDateChange} = props
+import WeekPicker from "../components/utility/WeekPicker";
 
 
-    function incrementWeek() {
-        const newDay = new DateObject()
-        newDay.setDate(day.add(7, 'days'))
-        setDay(newDay)
-        handleDateChange(newDay)
-    }
 
-    function decrementWeek() {
-        const newDay = new DateObject()
-        newDay.setDate(day.subtract(7, 'days'))
-        setDay(newDay)
-        handleDateChange(newDay)
-    }
-
-    return (
-        <Box sx={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center', gap:'2rem', paddingBottom:'2rem'}}>
-            <Button variant='contained' onClick={decrementWeek}><ChevronLeftIcon/></Button>
-            <Box sx={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-                <Typography variant='h3'>{day.format('ddd DD/MM/YY')}</Typography>
-                <Typography variant='subtitle'>Week starting</Typography>
-            </Box>
-            <Button variant='contained' onClick={incrementWeek}><ChevronRightIcon/></Button>
-
-        </Box>
-    )
-}
-function calculateTotalMacros(mealSets) {
-    const retval = Object.values(mealSets).reduce((result, data)=>{
-        result = {
-            totalCalories:result.totalCalories+data.totalCalories,
-            totalCarbs:result.totalCarbs+data.totalCarbs,
-            totalFat:result.totalFat+data.totalFat,
-            totalProtein:result.totalProtein+data.totalProtein,
-            targetCalories:result.targetCalories+data.targetCalories,
-            targetCarbs:result.targetCarbs+data.targetCarbs,
-            targetFat:result.targetFat+data.targetFat,
-            targetProtein:result.targetProtein+data.targetProtein,
-        }
-        
-        return result 
-    }, {
-        totalCalories:0,
-        totalCarbs:0,
-        totalFat:0,
-        totalProtein:0,
-        targetCalories:0,
-        targetCarbs:0,
-        targetFat:0,
-        targetProtein:0,
-    })
-    return retval
-}
 
 function MacroWeeklyCard(props) {
     const {value, target, name, unit} = props
@@ -181,9 +123,13 @@ export default function MealPlans() {
                     {/* <IconButton onClick={handleClickOpen}><AddIcon/></IconButton> */}
                 </>
             }
+            headerContent={
+                <>
+                    <WeekPicker day={day} setDay={setDay} handleDateChange={handleDateChange}/> 
+                </>
+            }
             mainContent={
                 <>
-                    <DatePicker day={day} setDay={setDay} handleDateChange={handleDateChange}/>
                     <MealList mealSets={mealSets} mealItems={mealItems} removeMeal={removeMeal}/>
                     <Dialog
                         open={open}
