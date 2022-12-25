@@ -35,7 +35,7 @@ export default function Recipes() {
             const result = await RecipeService.getRecipes()
             console.log(result)
             setRecipes(result)
-            setTabValue(0)
+            //setTabValue(0)
         }
         catch (e) {
             console.error(e)
@@ -48,7 +48,7 @@ export default function Recipes() {
             const result = await RecipeService.getStaticRecipes()
             console.log(result)
             setStaticRecipes(result)
-            setTabValue(0)
+            //setTabValue(0)
         }
         catch (e) {
             console.error(e)
