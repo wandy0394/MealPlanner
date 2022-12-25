@@ -6,11 +6,13 @@ import Recipes from './pages/Recipes'
 import Search from './pages/Search'
 import ShoppingList from './pages/ShoppingList'
 import SearchDetails from './pages/SearchDetails'
+import Dashboard from './pages/Dashboard'
 
 export default function AppRoutes() {
     return (
         <Routes>
             <Route path="/" element={<Layout/>}>
+                <Route path="/Dashboard" element={<Dashboard/>} />
                 <Route path="/search" element={<Search/>} />
                 <Route path="/search/details/:id" element={<SearchDetails />} />
                 <Route path="/ingredients" element={<Ingredients/>} />

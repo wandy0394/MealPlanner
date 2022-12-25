@@ -5,7 +5,7 @@ import EggIcon from "@mui/icons-material/Egg"
 import MenuBookIcon from "@mui/icons-material/MenuBook"
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-
+import AssessmentIcon from '@mui/icons-material/Assessment'
 import MenuLink from "./MenuLink"
 
 import {styled} from "@mui/material";
@@ -35,7 +35,12 @@ export default function MenuContents() {
 
     return (
         <>
-            
+            <MenuLink id={0} to='/dashboard' style={({isActive})=> isActive ? activeStyle:undefined}>
+                <StyledMenuItem>
+                    <AssessmentIcon fontSize='large'/>
+                    <Typography variant="h6">Dashboard</Typography>
+                </StyledMenuItem>
+            </MenuLink>
             <MenuLink id={1} to='/search' style={({isActive})=> isActive ? activeStyle:undefined}>
                 <StyledMenuItem>
                     <SearchIcon fontSize='large'/>

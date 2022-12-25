@@ -31,7 +31,7 @@ export default function Layout() {
             </div>
             <Drawer anchor='left' open={menuOpen} onClose={toggleMenu}>
                 <ListItem sx={{height:'15vh', display:'flex', justifyContent:'center'}}>
-                    <MenuLink to='/' style={{textDecoration:'none'}}>
+                    <MenuLink to='/Dashboard' style={{textDecoration:'none'}}>
                         <Typography variant='h4'>Meal Manager</Typography>
                     </MenuLink>
                 </ListItem>   
