@@ -185,6 +185,7 @@ export const useGetMealsInRange = (from, to) => {
         if (!called) {
             getMealSets(from, to)
                 .then((result)=>{
+                    console.log(result)
                     setMeals(result)
                 })
                 .catch((result)=>{

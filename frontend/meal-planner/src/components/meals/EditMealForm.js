@@ -46,18 +46,17 @@ function initMeal(selectedMeal, mealItems) {
 
 export default function EditMealForm(props) {
     const {selectedMeal, dateValue, mealItems, ref} = props
-    // const [mealItems, setmealItems] = useGetAllFood()
     const INITIAL_MEALS = {
-        meal_id:selectedMeal.meal_id,
+        meal_id:(selectedMeal.meal_id ? selectedMeal.meal_id : null),
         meals:initMeal(selectedMeal, mealItems),
-        targetCarbs:selectedMeal.targetCarbs,
-        targetCalories:selectedMeal.targetCalories,
-        targetProtein:selectedMeal.targetProtein,
-        targetFat:selectedMeal.targetFat,
-        totalCarbs:selectedMeal.totalCarbs,
-        totalCalories:selectedMeal.totalCalories,
-        totalFat:selectedMeal.totalFat,
-        totalProtein:selectedMeal.totalProtein,
+        targetCarbs:(selectedMeal.targetCarbs ? selectedMeal.targetCarbs : 0),
+        targetCalories:(selectedMeal.targetCalories ? selectedMeal.targetCalories : 0),
+        targetProtein:(selectedMeal.targetProtein ? selectedMeal.targetProtein : 0),
+        targetFat:(selectedMeal.targetFat ? selectedMeal.targetFat : 0),
+        totalCarbs:(selectedMeal.totalCarbs ? selectedMeal.totalCarbs : 0),
+        totalCalories:(selectedMeal.totalCalories ? selectedMeal.totalCalories : 0),
+        totalFat:(selectedMeal.totalFat ? selectedMeal.totalFat : 0),
+        totalProtein:(selectedMeal.totalProtein ? selectedMeal.totalProtein : 0),
         days:[dateValue.format('YYYY-M-D')],
         dateObjects:[dateValue]
     }
@@ -72,9 +71,9 @@ export default function EditMealForm(props) {
                                         [payload.id]:
                                             {   
                                                 ...state.meals[payload.id],
-                                                // name:payload.name, 
-                                                // recipe_id:payload.recipe_id,
-                                                // type:payload.type, 
+                                                name:payload.name, 
+                                                recipe_id:payload.recipe_id,
+                                                type:payload.type, 
                                                 qty:state.meals[payload.id].qty + 1,
                                                 operation: (state.meals[payload.id].isNew) ? 'insert' : 'update'
                                             },
@@ -146,7 +145,14 @@ export default function EditMealForm(props) {
     function handleSubmit(e) {
         e.preventDefault()
         console.log(meals)
-        MealService.updateMeal(meals)
+        if (meals.meal_id !== null) {
+            console.log('editing')
+            MealService.updateMeal(meals)
+        }
+        else {
+            console.log('adding')
+            MealService.addMeal(meals)
+        }
     }
     function handleAddMeal(id, item) {
         dispatch({type:ACTION_TYPES.ADD_MEAL, payload:{id:id, name:item.name, recipe_id:item.recipe_id, type:item.type}})
