@@ -1,15 +1,13 @@
-import AddBox from "@mui/icons-material/AddBox";
 import AddIcon from "@mui/icons-material/Add";
-import { Paper, Stack, Box, Typography, Modal, Button, IconButton, Dialog, TextField } from "@mui/material";
+import { Box, Typography, Button, IconButton, Dialog } from "@mui/material";
 import { useState } from "react";
 import CreateMealForm from "../components/meals/CreateMealForm";
 import MealList from "../components/meals/MealList";
-import { useGetAllFood, useGetMealsInRange, getMealSets } from "../components/meals/utility/MealItemUtil";
+import { useGetAllFood, useGetMealsInRange, getMealSets, INITIAL_MEAL } from "../components/meals/utility/MealItemUtil";
 import MainPane from "../layouts/MainPane";
 import DateObject from 'react-date-object'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import MealService from "../service/meal-service";
 
 function DatePicker(props) {
     const {day, setDay, handleDateChange} = props
@@ -64,7 +62,7 @@ export default function MealPlans() {
     }
     function removeMeal(key) {
         const newMealSets = {...mealSets}
-        newMealSets[key] = {}
+        newMealSets[key] = INITIAL_MEAL
         setMealSets(newMealSets)
     }
 
