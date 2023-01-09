@@ -49,8 +49,9 @@ export default function SearchHistory({type='all'}) {
         try {
             const output = await SearchService.getSearchHistory(type)
             const formattedOutput = output.map((item) => {
+                let timeStamp = `${item.searchTime.split('T')[0]} ${item.searchTime.split('T')[1].split('.')[0]}`
                 return { id: item.id, 
-                        timeStamp:item.searchTime, 
+                        timeStamp:timeStamp, 
                         query:item.searchText, 
                         type: item.searchType
                 }
@@ -61,8 +62,14 @@ export default function SearchHistory({type='all'}) {
             console.error(e)
         }
     }
+    let called = false
     useEffect(()=> {
-        refresh()
+        if (!called) {
+            refresh()
+        }
+        return ()=>{
+            called = true
+        }
     },[])
 
     async function handleDelete(e, id) {
@@ -76,7 +83,7 @@ export default function SearchHistory({type='all'}) {
             <SideMenuHeader>
                 <Typography variant='h4'>Past Queries</Typography>
             </SideMenuHeader>
-                <Stack gap={1}>
+                <Stack gap={3}>
                     {
                         searchHistory.map((item, index)=> {
                             return (
@@ -89,9 +96,7 @@ export default function SearchHistory({type='all'}) {
                                         <Box>
                                             <IconButton onClick={e=>handleDelete(e, item.id)}><DeleteIcon/></IconButton>
                                         </Box>
-
                                     </Box>
-                                    
                                 </Paper>
                             )
                         })
