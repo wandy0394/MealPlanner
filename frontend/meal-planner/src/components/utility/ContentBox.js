@@ -9,5 +9,6 @@ export const ContentBox = styled(Box)({
     overflowX:'hidden',
     width:'76vw',
     padding: '0 5vw',
+    scrollbarWidth:"thin"
 })
 

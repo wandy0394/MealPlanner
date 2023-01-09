@@ -5,8 +5,8 @@ export default function MealList(props) {
     const {mealSets, mealItems, removeMeal} = props
 
     return (
-        <Box sx={{width:'100%', height:'100%'}}>
-            <Stack sx={{width:'100%'}} gap={3}>
+        <Box sx={{width:'100%', height:'100%', paddingBottom:'10rem'}}>
+            <Stack sx={{width:'100%', paddingBottom:'10rem'}} gap={3}>
                 {
                     Object.entries(mealSets).map(([key, value], index)=>{
                         return (

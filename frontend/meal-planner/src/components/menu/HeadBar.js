@@ -17,7 +17,7 @@ export default function HeadBar({toggleMenu}) {
                     </IconButton>
                     <Typography variant='h5'>Meal Manager</Typography>
                 </Box>
-                <SearchBar />                    
+                {/* <SearchBar />                     */}
             </Toolbar>
         </AppBar>
     )
