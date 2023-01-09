@@ -8,7 +8,7 @@ export default class SearchHistory {
         if (db === undefined) {
             db = conn;
         } else {
-            console.log('db already assigned');
+            console.error('db already assigned');
         }   
     }
     static isValidInteger(input) {
@@ -44,18 +44,14 @@ export default class SearchHistory {
             db.query(sqlQuery, (err, results, fields) => {
                 if (err) {
                     console.error(err)
-                    return console.error('Could not insert search history');
+                    return reject('Could not insert search history');
                 }
-                // console.log(results);
-                //console.log(fields);
-                //return results;
             }) 
         }        
     }
 
     static storeIngredientSearchQuery(searchText, userEmail) {
         if (db !== undefined) {
-            console.log('storing')
             const searchTime = new Date().toISOString().slice(0,19).replace('T', ' ')
             const sqlQuery = `INSERT INTO search_history 
                                 (search_text, search_type, search_time, user_id)
@@ -64,15 +60,12 @@ export default class SearchHistory {
             db.query(sqlQuery, (err, results, fields) => {
                 if (err) {
                     console.error(err)
-                    return console.error('Could not insert search history');
+                    return reject('Could not insert search history');
                 }
-                console.log(results);
-                //console.log(fields);
-                //return results;
             }) 
         }
         else {
-            console.log('db undefined')
+            console.error('db undefined')
         }           
     }    
     static  getRecipeSearchHistory(userEmail) {
@@ -85,8 +78,6 @@ export default class SearchHistory {
                         console.error(err)
                         return reject('Could not make SQL SELECT from search_history');
                     }
-                    //console.log(results);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })
@@ -105,8 +96,6 @@ export default class SearchHistory {
                         console.error(err)
                         return reject('Could not make SQL SELECT from search_history');
                     }
-                    //console.log(results);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })
@@ -123,8 +112,6 @@ export default class SearchHistory {
                         console.error(err)
                         return reject('Could not make SQL DELETE');
                     }
-                    //console.log(results);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })

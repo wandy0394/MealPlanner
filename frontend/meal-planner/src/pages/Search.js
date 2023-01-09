@@ -102,13 +102,12 @@ export default function Search() {
     async function getRecipe(recipeId) {
         try {
             const data = await RecipeService.getRecipe(recipeId)
-            console.log(data.recipe)
             setRecipe(data.recipe)
             setOpen(true)
         }
         catch (e) {
             console.error('error')
-            console.log(e)
+            console.error(e)
         }
     }
     

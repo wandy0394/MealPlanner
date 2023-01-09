@@ -68,9 +68,7 @@ export default function EnhancedTable(props) {
 
     function handleDelete() {
         //call request delete
-        console.log('Deleteing')
         Object.keys(selected.content).forEach(element => {
-            console.log(`Delete ${element}`)
             requestDelete(element)
         }) 
     }
@@ -87,7 +85,6 @@ export default function EnhancedTable(props) {
             newCount += 1
         }
         setSelected({count:newCount, content:newSelected})
-        console.log(selected)
     }
     const handleChangePage = (e, newPage) => {
         setPage(newPage);

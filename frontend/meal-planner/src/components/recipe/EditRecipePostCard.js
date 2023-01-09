@@ -23,7 +23,7 @@ export default function EditRecipePostCard(props) {
     }
 
     useEffect(()=> {
-        console.log(recipe)
+        //console.log(recipe)
     }, [])
 
     useEffect(()=> {
@@ -57,8 +57,6 @@ export default function EditRecipePostCard(props) {
             prepTime:recipe.prepTime
         }
         setReadOnly(true)
-        console.log(data)
-        console.log('saved')
         RecipeService.updateRecipe(data, recipeId)
     }
     function handleCancelClicked() {
@@ -67,8 +65,6 @@ export default function EditRecipePostCard(props) {
     }
     function handleEditClick(e) {
         setReadOnly(false)
-        console.log('edit')
-        console.log(recipe)
     }
 
     const dialStyle = {

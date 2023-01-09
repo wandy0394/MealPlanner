@@ -63,12 +63,10 @@ export default function SearchRecipes({state, dispatch, getRecipe}) {
             return
         }
         await callSearchRecipes(state.query, state.criteria, 1, true)
-        console.log('Clicked')
     }
 
     async function callSearchRecipes(query, searchCriteria, page, doStoreSearch) {
         try {
-            console.log(`recipe useffect ${page}` )
             const searchData = {
                 searchText:query, 
                 ...searchCriteria,
@@ -77,14 +75,12 @@ export default function SearchRecipes({state, dispatch, getRecipe}) {
             if (doStoreSearch) {
                 searchData['doStoreSearch'] = 'true'
             }
-            console.log(searchData)
             const data = await SearchService.searchRecipes(searchData)
             dispatch({type:ACTION_TYPES.SET_RESULTS, payload:data})
             dispatch({type:ACTION_TYPES.SET_PAGE, payload:page})
             dispatch({type:ACTION_TYPES.SET_PREV_QUERY, payload:state.query})
             dispatch({type:ACTION_TYPES.SET_QUERY, payload:query})
             dispatch({type:ACTION_TYPES.SET_PREV_CRITERIA, payload:state.criteria})
-            console.log(state)
         }
         catch(e) {
             console.error(e)
@@ -102,7 +98,6 @@ export default function SearchRecipes({state, dispatch, getRecipe}) {
             <Box>
                 <form onSubmit={handleClick}>
                     <FormGroup sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
-                        {/* <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What are you hungry for?</FormLabel> */}
                         <Box sx={{display:'flex', flexDirection:'row', alignItems:'flex-end', gap:'2rem', padding:'0px 0rem'}}>
                             <TextField 
                                 label='Search by name or ingredient..' 

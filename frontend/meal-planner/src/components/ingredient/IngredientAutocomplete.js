@@ -26,7 +26,6 @@ export default function IngredientAutoComplete({ingredients, dispatch}) {
                     name: newValue.inputValue,
                 });
             } else {
-                console.log(event.target.id)
                 setValue(newValue);
                 setFoodId(event.target.id)
             }

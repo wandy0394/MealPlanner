@@ -40,7 +40,6 @@ export default function MealPlans() {
         const endDate = new DateObject(newDate)
         getMealSets(newDate.format('YYYY-M-D'), (new DateObject(newDate)).add(7, 'days').format('YYYY-M-D'))
             .then((result)=>{
-                console.log(result)
                 setMealSets(result)
             })
     }

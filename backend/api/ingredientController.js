@@ -10,12 +10,11 @@ export default class IngredientController {
             const searchText = req.params.searchText;
             const page = req.params.page
             const query = req.query
-            console.log(query)
             const output = await Ingredient.searchIngredients(searchText, page, query)
             res.json(output.foods)
             //return response;
         } catch (e) {
-            console.log('error')
+            console.error('error')
             res.status(500).json({error:e.message})
         }
     }
@@ -35,14 +34,13 @@ export default class IngredientController {
             res.json(output)
             //return response;
         } catch (e) {
-            console.log('error')
+            console.error('error')
             res.status(500).json({error:e.message})
         }
     }
 
     static apiAddIngredient(req, res, next) {
         const params = req.body
-        //console.log(params)
         Ingredient.insertIngredient(DUMMY_EMAIL, req.body)
             .then((resp)=>{
                 res.json({success: 'Ingredient Added'})
@@ -54,7 +52,6 @@ export default class IngredientController {
 
     static apiGetAllIngredients(req, res, next) {
         const params = req.body
-        // console.log(params)
         Ingredient.getAllIngredients(DUMMY_EMAIL)
             .then((resp)=>{
                 res.json(resp)
@@ -65,7 +62,6 @@ export default class IngredientController {
     }
     static async apiRemoveIngredient(req, res, next) {
         const params = req.body
-        //console.log(req.params)
         Ingredient.removeIngredient(req.params.id)
             .then((resp)=>{
                 res.json(resp)
@@ -76,7 +72,6 @@ export default class IngredientController {
     }
     static async apiUpdateIngredient(req, res, next) {
         const params = req.body
-        // console.log(params)
         Ingredient.updateIngredient(DUMMY_EMAIL, params, req.params.id)
             .then((resp)=>{
                 res.json(resp)

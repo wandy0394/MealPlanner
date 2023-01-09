@@ -66,18 +66,12 @@ export default function SearchHistory({type='all'}) {
     },[])
 
     async function handleDelete(e, id) {
-        console.log(id)
         await SearchService.removeSearchQuery(id)
         refresh()
     }
 
     return (
-        // <EnhancedTable
-        //     headCells={headCells}
-        //     rows={searchHistory}
-        //     title="Past Queries"
-        //     requestDelete={handleDelete}
-        // />
+
         <Box sx ={{padding:'0 1rem'}}>
             <SideMenuHeader>
                 <Typography variant='h4'>Past Queries</Typography>

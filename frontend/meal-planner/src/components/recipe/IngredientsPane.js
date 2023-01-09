@@ -29,11 +29,8 @@ function useGetIngredients() {
     }, [])
     async function getIngredients() {
         try {
-            console.log('Refreshing Ingredients')
             const result = await IngredientService.getIngredients()
-            console.log(result)
             setIngredients(result)
-
         }
         catch (e) {
             console.error(e)

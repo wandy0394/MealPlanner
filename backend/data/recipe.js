@@ -27,7 +27,7 @@ export default class Recipe {
         if (db === undefined) {
             db = conn;
         } else {
-            console.log('db already assigned');
+            console.error('db already assigned');
         }   
     }
 
@@ -72,8 +72,6 @@ export default class Recipe {
                         console.error(err)
                         return reject('Could not make SQL INSERT');
                     }
-                    // console.log(results.insertId);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })            
@@ -130,8 +128,6 @@ export default class Recipe {
                         console.error(err)
                         return reject('Could not make SQL SELECT for ingredients');
                     }
-                    // console.log(results);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })
@@ -171,8 +167,6 @@ export default class Recipe {
                         console.error(err)
                         return reject('Could not make SQL SELECT for recipe');
                     }
-                    //console.log(results);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })
@@ -204,8 +198,6 @@ export default class Recipe {
                         console.error(err)
                         return reject('Could not make SQL UPDATE');
                     }
-                    // console.log(results.insertId);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })            
@@ -234,7 +226,6 @@ export default class Recipe {
                      
                     return (query + command)
                 }, '')
-                console.log(sqlQuery)
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
                         console.error(err)
@@ -282,8 +273,6 @@ export default class Recipe {
                         console.error(err)
                         return reject('Could not make SQL INSERT');
                     }
-                    // console.log(results.insertId);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })            
@@ -316,8 +305,6 @@ export default class Recipe {
                         console.error(err)
                         return reject('Could not make SQL SELECT');
                     }
-                    // console.log(results.insertId);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })            
@@ -327,7 +314,6 @@ export default class Recipe {
 
 
     static async fetchRecipeByID(id) {
-        console.log('fetching')
         try {
             const token = await TokenHandler.getToken();
             const params = new URLSearchParams();
@@ -346,11 +332,10 @@ export default class Recipe {
             try {
                 const res = await fetch('https://platform.fatsecret.com/rest/server.api', option);
                 const resJSON = await res.json();
-                //console.log(resJSON)
                 return resJSON;
             }
             catch (e) {
-                console.log(e)
+                console.error(e)
                 return {error:`error fetching from api: ${e.message}`}
             }
         }
@@ -366,7 +351,6 @@ export default class Recipe {
             params.append('method', "recipes.search.v2")
             params.append('format', "json")
             params.append('max_results', 10)
-            //console.log('params')
             for (const key in searchData) {
                 if (this.#isValidInput(searchData[key]) && (key in OPTION_MAP) ) {
                     params.append(OPTION_MAP[key], searchData[key])
@@ -383,7 +367,6 @@ export default class Recipe {
             try {
                 const res = await fetch('https://platform.fatsecret.com/rest/server.api', options);
                 const resJSON = await res.json();
-                console.log(resJSON)
 
                 if (STORE_KEY in searchData) {
                     if (searchData[STORE_KEY] == 'true') {            
@@ -393,7 +376,7 @@ export default class Recipe {
                 return resJSON
             }
             catch (e) {
-                console.log(e)
+                console.error(e)
                 return {error:`error fetching from api: ${e.message}`}
             }
         }

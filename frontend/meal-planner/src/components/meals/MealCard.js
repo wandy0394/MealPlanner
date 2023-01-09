@@ -6,7 +6,6 @@ import {MacroSummary} from "./MacroCard"
 export default function MealCard(props) {
     const {id, meal, image=undefined, handler=null, ...other} = props
     function handleClick() {
-        console.log('clicked')
         if (handler !== null) {
             handler(meal)
         }

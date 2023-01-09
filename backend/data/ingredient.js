@@ -15,23 +15,11 @@ export default class Ingredient {
         if (db === undefined) {
             db = conn;
         } else {
-            console.log('db already assigned');
+            console.error('db already assigned');
         }   
     }
 
-    // static async getAllIngredients() {
-    //     if (db !== undefined) {
-    //         let sqlQuery = `SELECT * from Ingredient`;
-    //         db.query(sqlQuery, (err, results, fields) => {
-    //             if (err) {
-    //                 return console.error('Could not get all ingredients');
-    //             }
-    //             console.log(results);
-    //             console.log(fields);
-    //             return results;
-    //         }) 
-    //     }
-    // }
+
 
     static getAllIngredients(userEmail) {
         if (db !== undefined) {
@@ -42,8 +30,6 @@ export default class Ingredient {
                         console.error(err)
                         return reject('Could not make SQL SELECT for ingredients');
                     }
-                    //console.log(results);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })
@@ -63,8 +49,6 @@ export default class Ingredient {
                         console.error(err)
                         return reject('Could not make SQL INSERT');
                     }
-                    //console.log(results);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })
@@ -82,8 +66,6 @@ export default class Ingredient {
                         console.error(err)
                         return reject('Could not make SQL DELETE');
                     }
-                    //console.log(results);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })
@@ -109,8 +91,6 @@ export default class Ingredient {
                         console.error(err)
                         return reject('Could not make SQL UPDATE');
                     }
-                    //console.log(results);
-                    //console.log(fields);
                     resolve(results);
                 }) 
             })
@@ -141,7 +121,7 @@ export default class Ingredient {
                 return resJSON;
             }
             catch (e) {
-                console.log(e)
+                console.error(e)
                 return {error:`error fetching from api: ${e.message}`}
             }
         }
@@ -154,7 +134,6 @@ export default class Ingredient {
         try {
             const token = await TokenHandler.getToken();
             const params = new URLSearchParams();
-            console.log(page)
             params.append('method', "foods.search")
             params.append('search_expression', searchText.toString())
             params.append('format', "json")
@@ -163,7 +142,6 @@ export default class Ingredient {
 
 
             if (query[STORE_KEY] == 'true') {
-                console.log('hello')
                 SearchHistory.storeIngredientSearchQuery(searchText, DUMMY_EMAIL)
             }
             
@@ -179,11 +157,10 @@ export default class Ingredient {
             try {
                 const res = await fetch('https://platform.fatsecret.com/rest/server.api', options);
                 const resJSON = await res.json();
-                console.log(resJSON)
                 return resJSON;
             }
             catch (e) {
-                console.log(e)
+                console.error(e)
                 return {error:`error fetching from api: ${e.message}`}
             }
         }

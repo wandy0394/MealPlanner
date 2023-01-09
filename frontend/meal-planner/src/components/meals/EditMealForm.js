@@ -144,23 +144,18 @@ export default function EditMealForm(props) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(meals)
         if (meals.meal_id !== null) {
-            console.log('editing')
             MealService.updateMeal(meals)
         }
         else {
-            console.log('adding')
             MealService.addMeal(meals)
         }
     }
     function handleAddMeal(id, item) {
         dispatch({type:ACTION_TYPES.ADD_MEAL, payload:{id:id, name:item.name, recipe_id:item.recipe_id, type:item.type}})
-        console.log(meals)
     }
     function handleRemoveMeal(id, item) {
         dispatch({type:ACTION_TYPES.REMOVE_MEAL, payload:{id:id, item:item}}) 
-        console.log(meals)
     }
     //api call to get static recipes, custom recipes and ingredients
 
