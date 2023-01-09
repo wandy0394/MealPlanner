@@ -6,7 +6,6 @@ const DUMMY_EMAIL = 'dev@email.com'
 export default class MealController {
     static async apiCreateMeal(req, res, next) {
         const params = req.body
-        console.log(params)
         Meal.insertMeal(DUMMY_EMAIL, req.body)
             .then((resp)=>{
                 Meal.insertMealRecipe(DUMMY_EMAIL, Object.entries(resp), Object.entries(req.body.meals))
@@ -14,7 +13,6 @@ export default class MealController {
                         res.json({success:'success'})
                     })
                     .catch((resp)=>{
-                        console.log(resp)
                         res.json({error:'Could not insert into meal_recipe'})
                     })
              })
@@ -27,9 +25,6 @@ export default class MealController {
         return
     }
     static async apiGetAllMeals(req, res, next) {
-        console.log('get')
-        console.log(req.query)
-
         let from=null, to=null
         if (req.query && Object.keys(req.query).length > 0) {
             from = req.query.from
@@ -38,11 +33,9 @@ export default class MealController {
 
         Meal.getAllMeals(DUMMY_EMAIL, from, to)
             .then((resp)=>{
-                console.log(resp)
                 res.json(resp)
             })
             .catch((resp)=>{
-                console.log(resp)
                 res.json({error:'Could not get all meals'})
             })
     }
@@ -67,7 +60,6 @@ export default class MealController {
             res.json(resp)
         })
         .catch((resp)=>{
-            console.log(resp)
             res.json({error:'Could not get all meals'})
         })
     }

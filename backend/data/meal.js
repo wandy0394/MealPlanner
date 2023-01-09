@@ -6,7 +6,7 @@ export default class Meal {
         if (db === undefined) {
             db = conn;
         } else {
-            console.log('db already assigned');
+            console.error('db already assigned');
         }   
     }
     static insertMeal(userEmail, params) {
@@ -112,11 +112,9 @@ export default class Meal {
                         console.error(err)
                         return reject('Could not get meals')
                     }
-                    // console.log(results)
                     let output = {}
                     results.forEach((item)=>{
                         const key = item.datestamp.getFullYear() + '-' + (item.datestamp.getMonth()+1) + '-' + item.datestamp.getDate()
-                        // console.log(key)
                         if (!(key in output)) {
                             output[key] = {
                                 meal_id:item.id,
@@ -201,7 +199,6 @@ export default class Meal {
                 }, '')
 
       
-                //console.log(sqlQuery+output)
                 db.query(sqlQuery+output, (err, results, fields)=>{
                     if (err) {
                         console.error(err)

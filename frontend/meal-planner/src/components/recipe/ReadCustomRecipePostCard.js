@@ -26,17 +26,13 @@ export default function ReadCustomRecipePostCard(props) {
         setReadOnly(true)
     }
     function handleDeleteClick() {
-        console.log(recipe)
         RecipeService.removeRecipe(recipe.recipe_id)
             .then((resp)=>{
-                console.log(resp)
                 refresh()
             })
     }
     function handleEditClick(e) {
         setReadOnly(false)
-        console.log('edit')
-        console.log(recipe)
     }
 
     const dialStyle = {

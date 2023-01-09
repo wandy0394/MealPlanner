@@ -13,7 +13,6 @@ class RecipeService {
     }
     async addRecipe(data) {
         try {
-            console.log(data)
             const resp = await instance.post('/recipe/add', data)
             let retval = resp.data
             return retval
@@ -24,7 +23,6 @@ class RecipeService {
     }
     async addStaticRecipe(data) {
         try {
-            console.log(data)
             const resp = await instance.post('/recipe/static', data)
             let retval = resp.data
             return retval
@@ -54,7 +52,6 @@ class RecipeService {
     async getStoredRecipe(recipeId) {
         try {
             const resp = await instance.get(`/recipe/internal/${recipeId}`)
-            //console.log(resp.data)
             return resp.data
         }
         catch (e) {

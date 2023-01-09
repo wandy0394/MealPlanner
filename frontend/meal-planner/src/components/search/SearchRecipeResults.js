@@ -44,8 +44,6 @@ export default function SearchRecipeResults({data, getRecipe}) {
         })
     }
     async function handleRowClick(e, id) {
-        // console.log(id)
-        // navigate('details/'+id)
         const result = await getRecipe(id)
         setDetail(result)
     }

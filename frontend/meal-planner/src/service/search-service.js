@@ -15,7 +15,6 @@ class SearchService {
     async searchRecipes(data) {
         try {
             const text = data.searchText
-            //console.log(data)
             const resp = await instance.get(`recipe/search/${text}`, { params:{...data}})
             let retval = resp.data
             return retval
@@ -27,7 +26,6 @@ class SearchService {
     async getSearchHistory(type) {
         try {
             const resp = await instance.get(`searchHistory/query/${type}`)
-            console.log(resp.data)
             return resp.data
         }
         catch (e) {
@@ -38,7 +36,6 @@ class SearchService {
     async removeSearchQuery(id) {
         try {
             const resp = await instance.delete(`searchHistory/${id}`)
-            console.log(resp.data)
             return resp.data
         }
         catch (e) {

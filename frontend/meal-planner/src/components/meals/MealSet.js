@@ -98,14 +98,11 @@ export default function MealSet(props) {
     }, [mealSet, mealItems])
 
     function handleEditClick() {
-        console.log(mealItems)
         setOpen(true)
     }
 
     function handleDeleteClick() {
-        console.log(mealSet.meal_id)
         if (mealSet.meal_id === null) {
-            console.log('No remove')
             return
         }
         MealService.removeMeal(mealSet.meal_id)

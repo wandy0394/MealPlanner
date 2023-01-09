@@ -32,21 +32,18 @@ export class UnitConverter {
 
     calculateCarbs(foods) {
         return (Object.entries(foods).reduce((prev, [key, data]) => {
-            //console.log(data.unit)
             return this.convert[data.unit](parseFloat(data.qty))*parseFloat(data.carbs) + prev
         },0)) * FACTOR
     }
 
     calculateProtein(foods) {
         return (Object.entries(foods).reduce((prev, [key, data]) => {
-            //console.log(data.unit)
             return this.convert[data.unit](parseFloat(data.qty))*parseFloat(data.protein) + prev
         },0)) * FACTOR
     }
 
     calculateFat(foods) {
         return (Object.entries(foods).reduce((prev, [key, data]) => {
-            //console.log(data.unit)
             return this.convert[data.unit](parseFloat(data.qty))*parseFloat(data.fat) + prev
         },0)) * FACTOR
     }
@@ -54,7 +51,6 @@ export class UnitConverter {
 
     calculateCalories(foods) {
         return (Object.entries(foods).reduce((prev, [key, data]) => {
-            //console.log(data.unit)
             return this.convert[data.unit](parseFloat(data.qty))*parseFloat(data.calories) + prev
         },0)) * FACTOR
     }

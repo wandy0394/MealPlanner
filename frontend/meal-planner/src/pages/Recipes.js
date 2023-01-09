@@ -31,11 +31,8 @@ export default function Recipes() {
 
     async function refresh() {
         try {
-            console.log('Refreshing Recipes again')
             const result = await RecipeService.getRecipes()
-            console.log(result)
             setRecipes(result)
-            //setTabValue(0)
         }
         catch (e) {
             console.error(e)
@@ -44,11 +41,8 @@ export default function Recipes() {
     }
     async function getStaticRecipes() {
         try {
-            console.log('Refreshing Static Recipes again')
             const result = await RecipeService.getStaticRecipes()
-            console.log(result)
             setStaticRecipes(result)
-            //setTabValue(0)
         }
         catch (e) {
             console.error(e)
@@ -57,12 +51,11 @@ export default function Recipes() {
     async function handleRecipeTabClick(e, recipeId, id) {
         try {
             const data = await RecipeService.getRecipe(recipeId)
-            console.log({...data.recipe, id:id})  
             setRecipe({...data.recipe, id:id})
         }
         catch (e) {
             console.error('error')
-            console.log(e)
+            console.error(e)
         }
     }
 

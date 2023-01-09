@@ -7,7 +7,6 @@ export default class RecipeController {
 
     static apiAddCustomRecipe(req, res, next) {
         const params = req.body
-        // console.log(params)
         Recipe.insertCustomRecipe(DUMMY_EMAIL, req.body)
             .then((resp)=>{
                 //res.json({success: 'Recipe Added'})
@@ -48,7 +47,6 @@ export default class RecipeController {
     }
     static apiRemoveStaticRecipe(req, res, next) {
         const recipeId = req.params.id
-        console.log(recipeId)
         Recipe.deleteStaticRecipe(DUMMY_EMAIL, recipeId)
             .then((resp)=>{
                 res.json({success:'success'})
@@ -59,7 +57,6 @@ export default class RecipeController {
     }
     static apiGetStaticRecipes(req, res, next) {
         const params = req.body
-        // console.log(params)
         Recipe.getStaticRecipes(DUMMY_EMAIL)
             .then((resp)=>{
                 res.json(resp)
@@ -74,19 +71,16 @@ export default class RecipeController {
         //expects /?searchText=string
         try {
             const searchText = req.params.searchText;
-            //console.log(req.query)
-            //const output = await Recipe.searchRecipes(searchText)
+
             const output = await Recipe.searchRecipesWithData(req.query)
             res.json(output)
             //return response;
         } catch (e) {
-            console.log('error')
+            console.error('error')
             res.status(500).json({error:e.message})
         }
     }
     static async apiGetAllRecipes(req, res, next) {
-        //const params = req.body
-        // console.log(params)
         Recipe.apiGetAllCustomRecipes(DUMMY_EMAIL)
             .then((resp)=>{
                 const result = {}
@@ -168,7 +162,6 @@ export default class RecipeController {
                     }
                     result[value.id]['counter'] = index               
                 })
-                //console.log(result)
                 res.json(result)
             })
             .catch((resp)=>{
@@ -199,14 +192,9 @@ export default class RecipeController {
             const id = req.params.id;
             const output = await Recipe.fetchRecipeByID(id)
 
-            let response = {
-                //extract relevant sections from output
-            }
-            console.log(output)
             res.json(output)
-            //return response;
         } catch (e) {
-            console.log('error')
+            console.error('error')
             res.status(500).json({error:e.message})
         }
     }

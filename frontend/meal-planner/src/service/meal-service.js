@@ -4,7 +4,6 @@ class MealService {
     async getMeals() {
         try {
             const resp = await instance.get(`/meals`)
-            // console.log(resp)
             return resp.data
         }
         catch(e) {
@@ -18,7 +17,6 @@ class MealService {
                 to:to
             }
             const resp = await instance.get(`/meals`, {params:params})
-            // console.log(resp)
             return resp.data
         }
         catch(e) {
@@ -45,7 +43,6 @@ class MealService {
     }
 
     async removeMeal(id) {
-        console.log('called remove')
         try {
             const resp = await instance.delete(`/meal/${id}`)
             return resp

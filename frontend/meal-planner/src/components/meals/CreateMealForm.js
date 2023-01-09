@@ -27,9 +27,7 @@ const INITIAL_MEALS = {
 
 export default function CreateMealForm(props) {
     const {mealItems, ref} = props
-    // const [mealItems, setmealItems] = useGetAllFood()
     const [meals, dispatch] = useReducer(reducer, INITIAL_MEALS)
-    // console.log(mealItems)
     function reducer(state, action) {
         const {type, payload} = action
         switch (type) {
@@ -116,7 +114,6 @@ export default function CreateMealForm(props) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(meals)
         MealService.addMeal(meals)
     }
 

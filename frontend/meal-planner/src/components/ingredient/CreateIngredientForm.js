@@ -32,7 +32,6 @@ export default function CreateIngredientForm(props) {
         else {
             data = await ingredientService.addIngredient(params)
         }
-        console.log(data)
         handleClose()
         refresh()
     }
@@ -64,7 +63,6 @@ export default function CreateIngredientForm(props) {
                 }
             }
         }, {})
-        console.log(newDict)
         setIngredientDict(newDict)
     }, [ingredients])
 

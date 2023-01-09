@@ -21,16 +21,12 @@ export default function SearchIngredients({state, dispatch, ingredientId, setIng
     
     async function callSearchIngredients(query, page, doStoreSearch) {
         try {
-            console.log(`useffect ${page}` )
             const callSearch = (async() => {
                 const data = await SearchService.searchIngredients(query, (page-1), doStoreSearch)
-                console.log('Got Data')
-                console.log(data)
                 dispatch({type:ACTION_TYPES.SET_PREV_QUERY, payload:state.query})
                 dispatch({type:ACTION_TYPES.SET_QUERY, payload:query})
                 dispatch({type:ACTION_TYPES.SET_RESULTS, payload:data})
                 dispatch({type:ACTION_TYPES.SET_PAGE, payload:page})
-                console.log(state)
             })();
         }
         catch(e) {
@@ -40,12 +36,10 @@ export default function SearchIngredients({state, dispatch, ingredientId, setIng
 
     async function handleClick(e) {
         e.preventDefault()
-        console.log('clicked')
         await callSearchIngredients(state.query, 1, true)
     }
 
     async function handleIngredientPageChange(e, page) {
-        console.log(`page change ${page}`)
         await callSearchIngredients(state.prevQuery, page, false)
     }
 
@@ -62,7 +56,6 @@ export default function SearchIngredients({state, dispatch, ingredientId, setIng
             <Box>
                 <form onSubmit={handleClick}>
                 <FormGroup>
-                    {/* <FormLabel sx={{marginBottom: '1rem', marginTop:'3rem'}}>What ingredients do you want to find?</FormLabel> */}
                     <Box sx={{display:'flex', flexDirection:'row', alignItems:'flex-end', gap:'2rem', padding:'0px 0rem'}}>
                         <TextField 
                             sx={{marginBottom:'0', width:'20%'}} 

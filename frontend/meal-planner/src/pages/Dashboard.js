@@ -137,8 +137,6 @@ function MacroChart(props) {
     }
 
     return (
-        // <Box sx={{minWidth:'100%', padding:'0', height:'100%'}}>
-        // </Box>
             <Line options={options} data={data} sx={{border:'solid', width:'50vw'}}/>
     )
 
@@ -176,14 +174,11 @@ export default function Dashboard() {
                 setMealSets(result)
             })
         const newSelectedDate = new DateObject(newDate)
-        // newSelectedDate.add(7, 'days')
         setSelectedDay(newSelectedDate.format('YYYY-M-D'))
         setActive(0)
     }
 
     function handleDayChange(date) {
-        console.log(date)
-        console.log(mealSets[date])
         setSelectedMeal(mealSets[date])
     }
 

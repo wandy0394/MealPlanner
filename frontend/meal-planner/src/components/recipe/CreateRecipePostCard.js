@@ -108,7 +108,6 @@ export default function CreateRecipePostCard(props) {
             recipe_description:recipe.recipe_description,
             macros:recipe.macros
         }
-        console.log(data)
         const result = await RecipeService.addRecipe(data)
     }
 

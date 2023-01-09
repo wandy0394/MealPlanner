@@ -20,12 +20,10 @@ export default function RecipePostCard(props) {
             recipe_id:recipe.recipe_id,
             recipe_name:recipe.recipe_name
         }
-        console.log(data)
         const result = await RecipeService.addStaticRecipe(data)
     }
 
     function handleDeleteClick() {
-        console.log(recipe)
         RecipeService.removeStaticRecipe(recipe.id)
             .then((resp)=>{
                 refresh()

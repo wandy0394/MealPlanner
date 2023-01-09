@@ -26,7 +26,6 @@ export default function SearchIngredientResults({data, setIngredientId}) {
         'Fat'
     ]
     let tableRows = []
-    //console.log(data)
     if (data.total_results > 1) {
         //api returns food array if results are more than 1, otherwise it just returns one item
         cleanedData = data.food
@@ -35,7 +34,6 @@ export default function SearchIngredientResults({data, setIngredientId}) {
         cleanedData = [data.food]
         
     }
-    //cleanedData = DUMMY_DATA
     if (cleanedData !== null) {
         tableRows = cleanedData.map((item) => {
             const macros = parseDescription(item.food_description)
@@ -52,7 +50,6 @@ export default function SearchIngredientResults({data, setIngredientId}) {
             )
         })
     }
-    console.log(cleanedData)
     function parseDescription(text) {
         //description is in the format Serving Size - Calories: X | Fat: X | Carbs: X | Protein: X 
         const splitText = text.split('-')
