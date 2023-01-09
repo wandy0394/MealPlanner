@@ -63,12 +63,11 @@ export default function SearchDetails(props) {
     async function getRecipe() {
         try {
             const data = await RecipeService.getRecipe(params.id)
-            console.log(data)  
             parseData(data.recipe)
         }
         catch (e) {
             console.error('error')
-            console.log(e)
+            console.error(e)
         }
     }
 
