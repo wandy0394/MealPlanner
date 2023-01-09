@@ -23,7 +23,6 @@ export default function Ingredients() {
 
     async function refresh() {
         try {
-            console.log('Refreshing')
             const result = await IngredientService.getIngredients()
             setIngredients(result)
         }
