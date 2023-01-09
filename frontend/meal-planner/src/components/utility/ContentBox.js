@@ -1,6 +1,5 @@
 import { Box } from "@mui/material"
 import {styled} from "@mui/material";
-import { Container } from "@mui/system";
 
 export const ContentBox = styled(Box)({
     height:'100%',
@@ -9,6 +8,7 @@ export const ContentBox = styled(Box)({
     overflowX:'hidden',
     width:'76vw',
     padding: '0 5vw',
+    paddingBottom:'10vh',
     scrollbarWidth:"thin"
 })
 
