@@ -83,7 +83,7 @@ export default function Recipes() {
                 </>
             }
             mainContent={
-                <>
+                <Box>
                     <Box sx={{width:'100%'}}>
                         <Tabs
                             value={tabValue}
@@ -143,7 +143,7 @@ export default function Recipes() {
                             <CreateRecipePostCard/>
                         </Modal>
                     </Box>                
-                </>
+                </Box>
             }
 
         >

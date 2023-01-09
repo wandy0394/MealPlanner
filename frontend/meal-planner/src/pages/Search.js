@@ -115,29 +115,29 @@ export default function Search() {
     return (
 
         <MainPane title='Find Something to Eat'
-            mainContent={<Stack sx={{height:'100%'}}>
-                <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
-                    
-                    <Tab label='Ingredients' sx={{width:'100%'}}/>
-                    <Tab label='Recipes' sx={{width:'100%'}}/>  
-                </Tabs>                        
-                <TabPanel value={tabNum} index={0}>
-                    <SearchIngredients
-                        state={ingredientsState}
-                        dispatch={ingredientsDispatch}
-                        setIngredientId={setIngredientId}
-                    />
-                </TabPanel>
-                <TabPanel value={tabNum} index={1}>
-                    <SearchRecipes
-                        state={recipeState}
-                        dispatch={recipeDispatch}
-                        getRecipe={getRecipe}
-                    />
-                </TabPanel>
-
-                    
-            </Stack>}
+            mainContent={
+                <Stack>
+                    <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
+                        
+                        <Tab label='Ingredients' sx={{width:'100%'}}/>
+                        <Tab label='Recipes' sx={{width:'100%'}}/>  
+                    </Tabs>                        
+                    <TabPanel value={tabNum} index={0}>
+                        <SearchIngredients
+                            state={ingredientsState}
+                            dispatch={ingredientsDispatch}
+                            setIngredientId={setIngredientId}
+                        />
+                    </TabPanel>
+                    <TabPanel value={tabNum} index={1}>
+                        <SearchRecipes
+                            state={recipeState}
+                            dispatch={recipeDispatch}
+                            getRecipe={getRecipe}
+                        />
+                    </TabPanel>
+                </Stack>
+            }
             sideContent={
                 <>
                     <SidePanelContent value={tabNum} index={0}>

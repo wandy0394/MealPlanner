@@ -5,7 +5,7 @@ import SidePane from "./SidePane";
 export default function MainPane({title, buttons, sideContent, mainContent, headerContent, children}) {
     return (
         <Box sx={{height:'100%'}}>
-            <Stack direction='row' sx={{height:'100%'}}>
+            <Stack direction='row' sx={{height:'95%'}}>
                 <ContentBox>
                     <Box sx={{height:'15vh', display:'grid', gridTemplateColumns:'2fr 1fr', alignItems:'center'}}>
                         <Box sx={{width:'100%', height:'100%', display:'flex', flexDirection:'column', justifyContent:'center'}}>
@@ -16,8 +16,6 @@ export default function MainPane({title, buttons, sideContent, mainContent, head
                         </Box>
                         
                         {headerContent}
-                        
-
                     </Box>
                     {mainContent}
                 </ContentBox>
