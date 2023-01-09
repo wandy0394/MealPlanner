@@ -57,7 +57,7 @@ function OptionDial(props) {
     return (
         <SpeedDial
             ariaLabel='Speed Dial More Icon'
-            sx={{transform:'translate(-100%, -15%)', position:'absolute'}}
+            sx={{transform:'translate(-100%, -30%)', position:'absolute', scale:'80%'}}
             icon={<MoreVertIcon/>}
             direction='down'
         >

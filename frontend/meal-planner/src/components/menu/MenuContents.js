@@ -65,12 +65,12 @@ export default function MenuContents() {
                     <Typography variant="h6">Meal Plans</Typography>
                 </StyledMenuItem>
             </MenuLink>
-            <MenuLink id={5} to='/shopping-list' style={({isActive})=> isActive ? activeStyle:undefined}>
+            {/* <MenuLink id={5} to='/shopping-list' style={({isActive})=> isActive ? activeStyle:undefined}>
                 <StyledMenuItem>
                     <ShoppingCartIcon fontSize='large'/>
                     <Typography variant="h6">Shopping List</Typography>                    
                 </StyledMenuItem>
-            </MenuLink>
+            </MenuLink> */}
         </>
     )
 }

@@ -23,10 +23,10 @@ export default function Layout() {
                     <NavMenu/>
                 </div>
                 <div style={{height:'100%', flexGrow:1}}>
-                    <div style={{display:'flex', height:'90vh', flexDirection:'column'}}>
+                    <div style={{display:'flex', height:'100vh', flexDirection:'column'}}>
                         <Outlet/>
                     </div>
-                    <div style={{height:'5vh', border:'solid'}}>Some foooter goes here</div>            
+                    {/* <div style={{height:'5vh', border:'solid'}}>Some foooter goes here</div>             */}
                 </div>
             </div>
             <Drawer anchor='left' open={menuOpen} onClose={toggleMenu}>

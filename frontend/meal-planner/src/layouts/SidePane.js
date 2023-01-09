@@ -12,6 +12,8 @@ export default function SidePane({children}) {
                 borderLeft: '2px solid #9e9e9e',
                 overflowY:'scroll',
                 overflowX:'hidden',
+                scrollbarWidth:'thin',
+                paddingBottom:'10rem'
             }}
         >
     
