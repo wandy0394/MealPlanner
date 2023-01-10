@@ -146,7 +146,7 @@ export default function MealSet(props) {
                         height:'100%', 
                         overflowX:'auto', 
                         overflowY:'hidden', 
-                        scrollbarWidth:'thin',
+                        //scrollbarWidth:'thin',
                     }}
                 >
                     {

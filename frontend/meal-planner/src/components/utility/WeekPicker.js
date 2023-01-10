@@ -22,14 +22,13 @@ export default function WeekPicker(props) {
     }
 
     return (
-        <Box sx={{width:'100%', display:'flex', justifyContent:'center', alignItems:'baseline', gap:'2rem', padding:'1rem'}}>
-            <Button variant='contained' onClick={decrementWeek}><ChevronLeftIcon/></Button>
-            <Box sx={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
-                <Typography variant='h3'>{day.format('ddd DD/MM/YY')}</Typography>
-                <Typography variant='subtitle'>Week starting</Typography>
+        <Box sx={{width:'100%', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+            <Typography variant='body2'>Week starting</Typography>
+            <Box sx={{width:'100%', display:'flex', justifyContent:'center', alignItems:'center', gap:'2rem', padding:'1rem'}}>
+                <Button variant='contained' onClick={decrementWeek} sx={{width:'2vh'}}><ChevronLeftIcon/></Button>
+                    <Typography variant='h5'>{day.format('ddd DD/MM/YY')}</Typography>
+                <Button variant='contained' onClick={incrementWeek} sx={{width:'2vh'}}><ChevronRightIcon/></Button>
             </Box>
-            <Button variant='contained' onClick={incrementWeek}><ChevronRightIcon/></Button>
-
         </Box>
     )
 }

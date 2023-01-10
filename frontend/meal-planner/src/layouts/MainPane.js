@@ -14,8 +14,8 @@ export default function MainPane({title, buttons, sideContent, mainContent, head
                                 {buttons}
                             </Typography>
                         </Box>
-                        
                         {headerContent}
+                        
                     </Box>
                     {mainContent}
                 </ContentBox>
