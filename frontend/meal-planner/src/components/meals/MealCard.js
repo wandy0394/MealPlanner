@@ -13,8 +13,8 @@ export default function MealCard(props) {
     }
     
     return (
-        <Box key={meal.id} onClick={handleClick} sx={{margin:'0rem',height:'100%', color:strawTheme.palette.common.black}}>
-            <Box sx={{display:'grid', gridTemplateColumns:'3fr 1fr'}}>
+        <Box key={meal.id} onClick={handleClick} sx={{margin:'0rem',height:'100%', color:strawTheme.palette.common.black, width:'600px'}}>
+            <Box sx={{display:'grid', gridTemplateColumns:'3fr 1fr', height:'100%', width:'100%'}}>
                 <Box sx={{height:'100%', display:"flex", flexDirection:'column'}}>
                     <Typography 
                         variant='h4'
@@ -22,7 +22,7 @@ export default function MealCard(props) {
                             color:strawTheme.palette.common.black, 
                             background:strawTheme.palette.common.lightgrey, 
                             padding:'1rem 2rem',
-                            fontWeight:'bold'
+                            fontWeight:'bold',
                         }}
                     >
                         {meal.name}

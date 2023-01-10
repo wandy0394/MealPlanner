@@ -49,7 +49,7 @@ export function ImageBlank() {
             justifyContent:'center', 
             alignItems:'center'
         }}>
-            <Typography variant='h4' sx={{padding:'2rem'}}>Image Unavailable</Typography>
+            <Typography sx={{padding:'2rem'}}>Image Unavailable</Typography>
         </Box>    
     )
 }

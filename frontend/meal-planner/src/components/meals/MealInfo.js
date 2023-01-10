@@ -35,8 +35,7 @@ export default function MealInfo(props) {
                 justifyContent:'center', 
                 alignContent:'center',
                 gap:'1rem',
-                paddingTop:'2rem',
-                paddingLeft:'2rem',
+                padding:'2rem',
                 borderLeft: '2px solid #9e9e9e',
             }}
         >
