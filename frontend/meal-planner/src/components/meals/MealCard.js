@@ -13,7 +13,7 @@ export default function MealCard(props) {
     }
     
     return (
-        <Box key={meal.id} onClick={handleClick} sx={{margin:'0rem',height:'100%', color:strawTheme.palette.common.black, width:'600px'}}>
+        <Box key={meal.id} onClick={handleClick} sx={{margin:'0rem',height:'100%', color:strawTheme.palette.common.black, minWidth:'400px', maxWidth:'600px'}}>
             <Box sx={{display:'grid', gridTemplateColumns:'3fr 1fr', height:'100%', width:'100%'}}>
                 <Box sx={{height:'100%', display:"flex", flexDirection:'column'}}>
                     <Typography 

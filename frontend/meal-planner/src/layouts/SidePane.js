@@ -1,4 +1,5 @@
 import { Box, ListItem, Typography } from "@mui/material";
+import { strawTheme } from "../components/utility/StrawTheme";
 
 
 
@@ -9,16 +10,14 @@ export default function SidePane({children}) {
                 display:{xs:'none', md:'flex'}, 
                 height:{xs:'auto', md:'100%'}, 
                 flexDirection:'column', 
-                borderLeft: '2px solid #9e9e9e',
                 overflowY:'scroll',
                 overflowX:'hidden',
+                backgroundColor:strawTheme.palette.common.white,
                 //scrollbarWidth:'thin',
                 paddingBottom:'10rem'
             }}
         >
-    
             {children}
-          
         </Box>
     )
 }

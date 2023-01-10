@@ -4,6 +4,7 @@ import UndoIcon from "@mui/icons-material/Undo"
 import units from "../utility/Units";
 import { useEffect } from "react";
 import { ACTION_TYPES } from "./utility/ActionTypes";
+import { strawTheme } from "../utility/StrawTheme";
 
 
 
@@ -95,10 +96,9 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
             {
                 (recipeIngredients[keyID].operation === 'delete') ? (
                     <IconButton 
-                        // variant='outlined' 
                         onClick={e=>handleUndoRemoveIngredient(e, keyID)}
                         disabled={isDisabled}
-                        sx={{color:'goldenrod'}}
+                        sx={{color:strawTheme.palette.primary.main}}
                     >
                         <UndoIcon />
                     </IconButton>
@@ -107,7 +107,7 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
                         variant='outlined' 
                         onClick={e=>handleRemoveIngredient(e, keyID)}
                         disabled={isDisabled}
-                        sx={{color:'red'}}
+                        sx={{color:strawTheme.palette.secondary.main}}
 
                     >
                         <RemoveIcon />

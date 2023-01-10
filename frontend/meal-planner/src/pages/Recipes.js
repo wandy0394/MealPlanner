@@ -9,6 +9,7 @@ import RecipeService from "../service/recipe-service";
 import TabPanel from "../components/utility/TabPanel"
 import MainPane from "../layouts/MainPane"
 import CustomRecipePostCard from "../components/recipe/CustomRecipePostCard";
+import { strawTheme } from "../components/utility/StrawTheme";
 
 export default function Recipes() {
     const [open, setOpen] = useState(false)
@@ -75,7 +76,7 @@ export default function Recipes() {
     return (
 
         <MainPane
-            title='What would you like to make'
+            title='What would you like to make?'
             buttons={
                 <>
                     <IconButton onClick={refresh}><RefreshIcon/></IconButton>
@@ -89,17 +90,25 @@ export default function Recipes() {
                             value={tabValue}
                             onChange={handleTabChange}
                             variant='scrollable'
-                            scrollButtons='auto'
+                            scrollButtons='auto'                       
                         >
-                            
                             {
                                 Object.entries(recipes).map(([key, data])=> {
-                                    return <Tab key={key} label={data.title}></Tab>
+                                    return <Tab 
+                                                key={key} 
+                                                label={data.title} 
+                                                sx={{color:strawTheme.palette.common.black}}
+                                            />
                                 })
                             }
                             {
                                 Object.entries(staticRecipes).map(([key, data])=> {
-                                    return <Tab key={key} label={data.recipe_name} onClick={e=>handleRecipeTabClick(e, data.recipe_id, data.id)}></Tab>
+                                    return <Tab 
+                                                key={key} 
+                                                label={data.recipe_name} 
+                                                onClick={e=>handleRecipeTabClick(e, data.recipe_id, data.id)} 
+                                                sx={{color:strawTheme.palette.common.black}}
+                                            />
                                 })
                             }
                         </Tabs>

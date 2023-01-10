@@ -183,8 +183,14 @@ export default function MealSet(props) {
             <Dialog
                 open={open}
                 onClose={handleClose}
-                sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
+                fullWidth={true}
+                maxWidth='false'
+                // PaperProps={{sx:{width:'100%', height:'100%'}}}
+                PaperProps={{sx:{display:'flex', alignItems:'center', justifyContent:'center', width:'35vw', border:'solid', margin:'0 auto'}}}
             >
+                {/* <Box sx={{flexGrow:1, width:'100%', height:'100%', backgroundColor:'red'}}>
+                    asdf
+                </Box> */}
                 <EditMealForm selectedMeal={mealSet} dateValue={new DateObject(dateValue)} mealItems={mealItems}/>
             </Dialog>
         </Box>
