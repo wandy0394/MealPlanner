@@ -3,6 +3,7 @@ import MenuLink from "./MenuLink"
 import MenuContents from "./MenuContents"
 import { styled } from "@mui/system"
 import SideMenuHeader from "./SideMenuHeader"
+import { strawTheme } from "../utility/StrawTheme"
 
 
 
@@ -17,7 +18,7 @@ export default function NavMenu() {
                 flexDirection:'column', 
                 
                 //borderRight: '1px solid #9e9e9e',
-                backgroundColor:'#f5f6c9'
+                backgroundColor:strawTheme.palette.primary.light
             }}
         >
             <SideMenuHeader>

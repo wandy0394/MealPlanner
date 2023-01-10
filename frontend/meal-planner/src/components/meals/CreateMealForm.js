@@ -7,6 +7,7 @@ import MacroCounter from "./MacroCounter";
 import MealService from "../../service/meal-service";
 import MealPicker from "./MealPicker";
 import AddIcon from "@mui/icons-material/Add";
+import { strawTheme } from "../utility/StrawTheme";
 
 const INITIAL_MEALS = {
     //object of objects, each child object 
@@ -127,7 +128,7 @@ export default function CreateMealForm(props) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Box sx={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', background:'grey', padding:'2rem'}}>
+            <Box sx={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', background:strawTheme.palette.common.grey, padding:'2rem'}}>
             {/* create meals */}
                     <Box sx={{display:'flex', gap:'2rem'}}>
                         <MacroCounter 
@@ -165,7 +166,17 @@ export default function CreateMealForm(props) {
                             meals={meals.meals}
                             handleIncrement={handleAddMeal} 
                             handleDecrement={handleRemoveMeal}
-                            sx={{ display:'flex', flexDirection:'column', gap:'2rem', width:'100%', border:'solid', height:'50vh', overflowY:'scroll', padding:'2rem', background:'white'}}
+                            sx={{ 
+                                display:'flex', 
+                                flexDirection:'column', 
+                                gap:'2rem', 
+                                width:'100%', 
+                                border:'solid', 
+                                height:'50vh', 
+                                overflowY:'scroll', 
+                                padding:'2rem', 
+                                background:strawTheme.palette.common.white
+                            }}
                         />
                         <DatePicker 
                             style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 

@@ -41,7 +41,7 @@ export function InfoCard(props) {
 export function ImageBlank() {
     return (
         <Box sx={{
-            backgroundColor:strawTheme.palette.common.lightgrey, 
+            backgroundColor:strawTheme.palette.common.lightgrey2, 
             width:'100%', 
             height:'100%', 
             display:'flex', 

@@ -10,6 +10,7 @@ import {InfoCard, ImageBlank, tabStyle, postcardStyle, summaryStyle, sectionStyl
 import {UnitConverter} from "../utility/Units"
 import { ACTION_TYPES } from "./utility/ActionTypes";
 import RecipeService from "../../service/recipe-service";
+import { strawTheme } from "../utility/StrawTheme";
 
 
 const calculator = new UnitConverter()
@@ -137,8 +138,8 @@ export default function EditRecipePostCard(props) {
                         
 
                         <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>
-                            <Tab label='Ingredients' sx={{color:'white'}}/>
-                            <Tab label='Instructions' sx={{color:'white'}}/>  
+                            <Tab label='Ingredients' sx={{color:strawTheme.palette.common.black}}/>
+                            <Tab label='Instructions' sx={{color:strawTheme.palette.common.black}}/>  
                         </Tabs>  
 
                                 <SpeedDial
@@ -163,7 +164,7 @@ export default function EditRecipePostCard(props) {
                     </Box>
 
                     <Box sx={sectionStyle}>
-                        <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'43vh'}}>
+                        <Box sx={{backgroundColor:strawTheme.palette.common.white, height:'65%', maxHeight:'43vh'}}>
                             <TabPanel value={tabNum} index={0}>
                                 <IngredientsPane 
                                     recipeIngredients={recipe.ingredients}
@@ -184,14 +185,13 @@ export default function EditRecipePostCard(props) {
                           
                             </TabPanel>
                         </Box>
-                        <Box sx={{backgroundColor:'dimgrey', height:'65%', padding:'2rem 0'}}>
+                        <Box sx={{backgroundColor:strawTheme.palette.common.grey, height:'65%', padding:'2rem 0'}}>
                             <Stack alignItems='center' justifyContent='space-between' sx={{height:'90%'}}>
                                 <InfoCard value={recipe.macros.calories} label='Calories'/>
                                 <InfoCard value={recipe.macros.carbs} label='Carbs'/>
                                 <InfoCard value={recipe.macros.fat} label='Fat'/>
                                 <InfoCard value={recipe.macros.protein} label='Protein'/>
                                 <InfoCard value={recipe.serving_size} label='Serving Size'/>
-                                
                             </Stack>
                         </Box>
                     </Box>

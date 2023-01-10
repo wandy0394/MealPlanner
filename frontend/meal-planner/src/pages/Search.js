@@ -1,17 +1,15 @@
-import { Modal, Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Modal, Stack, Tab, Tabs } from "@mui/material";
 import { useState, useReducer } from "react";
-import { ContentBox } from "../components/utility/ContentBox";
 import SearchIngredients from "../components/search/SearchIngredients";
 import SearchRecipes from "../components/search/SearchRecipes";
 import SearchHistory from "../components/search/SearchHistory";
 import {ACTION_TYPES} from "../components/search/ActionTypes"
-import SidePane from "../layouts/SidePane";
 import RecipePostCard from "../components/recipe/RecipePostCard";
 import RecipeService from "../service/recipe-service";
 import TabPanel from "../components/utility/TabPanel";
 import SidePanelContent from "../components/utility/SidePanelContent";
 import MainPane from "../layouts/MainPane";
+import { strawTheme } from "../components/utility/StrawTheme";
 
 
 const INITIAL_PAGE = 0
@@ -119,8 +117,8 @@ export default function Search() {
                 <Stack>
                     <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
                         
-                        <Tab label='Ingredients' sx={{width:'100%'}}/>
-                        <Tab label='Recipes' sx={{width:'100%'}}/>  
+                        <Tab label='Ingredients' sx={{width:'100%', color:strawTheme.palette.common.black}}/>
+                        <Tab label='Recipes' sx={{width:'100%', color:strawTheme.palette.common.black}}/>  
                     </Tabs>                        
                     <TabPanel value={tabNum} index={0}>
                         <SearchIngredients

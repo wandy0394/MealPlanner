@@ -6,19 +6,20 @@ export const strawTheme = createTheme({
         common: {
             black:'#111111',
             white:'#FEFEF0',
+            darkgrey:'#BDBDBD',
             grey:'#DFDFDF',
             lightgrey:'#EEEEEE',
             lightgrey2:'#F0F0F0'
         },
         primary: {
             main:'#d9a441',
-            light: '#EAEAC0'
+            light: '#f5f6c9'
         },
         secondary: {
-            main: '#d08131'
+            main: '#822a2a'
         },
         background: {
-            paper: '#f5f6c9',
+            paper: '#FEFEF0',
             default: '#FAFAF0',
             menuItem: '#d9a441'
         }
@@ -37,5 +38,5 @@ export const strawTheme = createTheme({
         body2: {fontSize: '0.8vmax'},
         subtitle1: {fontSize: '0.5vmax'},
         subtitle2: {fontSize: '0.35vmax'},
-    }
+    },
 })
