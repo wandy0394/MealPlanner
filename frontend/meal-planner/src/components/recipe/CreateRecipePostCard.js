@@ -13,7 +13,7 @@ import { strawTheme } from "../utility/StrawTheme";
 const calculator = new UnitConverter()
 
 export default function CreateRecipePostCard(props) {
-    const {readOnly=false} = props
+    const {readOnly=false, handleClose} = props
     const [recipe, dispatch] = useReducer(reducer, INITIAL_RECIPE)
     const [tabNum, setTabNum] = useState(0)
     const handleTabChange = (event, newValue) => {
@@ -109,6 +109,7 @@ export default function CreateRecipePostCard(props) {
             macros:recipe.macros
         }
         const result = await RecipeService.addRecipe(data)
+        handleClose()
     }
 
 

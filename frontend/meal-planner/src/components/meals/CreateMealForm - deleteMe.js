@@ -27,7 +27,7 @@ const INITIAL_MEALS = {
 
 
 export default function CreateMealForm(props) {
-    const {mealItems, ref} = props
+    const {mealItems, handleClose} = props
     const [meals, dispatch] = useReducer(reducer, INITIAL_MEALS)
     function reducer(state, action) {
         const {type, payload} = action
@@ -116,6 +116,7 @@ export default function CreateMealForm(props) {
     function handleSubmit(e) {
         e.preventDefault()
         MealService.addMeal(meals)
+        handleClose()
     }
 
     function handleAddMeal(id, item) {
