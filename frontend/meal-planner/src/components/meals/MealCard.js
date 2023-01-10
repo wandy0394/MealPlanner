@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material"
 import { ImageBlank } from "../recipe/utility/RecipePostCardUtil"
+import { strawTheme } from "../utility/StrawTheme"
 import {MacroSummary} from "./MacroCard"
 
 
@@ -12,12 +13,17 @@ export default function MealCard(props) {
     }
     
     return (
-        <Box key={meal.id} onClick={handleClick} sx={{margin:'0rem',height:'100%', color:'black'}}>
+        <Box key={meal.id} onClick={handleClick} sx={{margin:'0rem',height:'100%', color:strawTheme.palette.common.black}}>
             <Box sx={{display:'grid', gridTemplateColumns:'3fr 1fr'}}>
                 <Box sx={{height:'100%', display:"flex", flexDirection:'column'}}>
                     <Typography 
                         variant='h4'
-                        sx={{color:'white',background:'grey', paddingLeft:'1rem'}}
+                        sx={{
+                            color:strawTheme.palette.common.black, 
+                            background:strawTheme.palette.common.lightgrey, 
+                            padding:'1rem 2rem',
+                            fontWeight:'bold'
+                        }}
                     >
                         {meal.name}
                     </Typography>
@@ -36,7 +42,7 @@ export default function MealCard(props) {
                     servings={meal.qty}
                     directionX='column'
                     directionY='column'
-                    sx={{background:'grey', padding:'1rem'}}
+                    sx={{background:strawTheme.palette.common.grey, padding:'1rem'}}
                     variant='body1'
                 />
             </Box>

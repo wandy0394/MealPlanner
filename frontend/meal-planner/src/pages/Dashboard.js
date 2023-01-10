@@ -9,6 +9,7 @@ import MacroWeeklySummary from "../components/meals/utility/MacroWeeklySummary";
 import {Line} from 'react-chartjs-2'
 import {Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend} from 'chart.js'
 import MealSet from "../components/meals/MealSet";
+import { strawTheme } from "../components/utility/StrawTheme";
 
 const dayStyle = {
     position:'relative', 
@@ -23,7 +24,7 @@ const dayStyle = {
 }
 
 const active = {
-    background: 'goldenrod'
+    background: strawTheme.palette.primary.main
 }
 
 function DayPicker(props) {

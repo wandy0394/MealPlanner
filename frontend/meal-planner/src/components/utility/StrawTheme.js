@@ -4,19 +4,22 @@ export const strawTheme = createTheme({
     palette: {
         mode:'light',
         common: {
-            black:'#3e3e3e',
-            white:'#FFFBD0',
-            grey:'#8c8173'
+            black:'#111111',
+            white:'#FEFEF0',
+            grey:'#DFDFDF',
+            lightgrey:'#EEEEEE',
+            lightgrey2:'#F0F0F0'
         },
         primary: {
-            main:'#d9a441'
+            main:'#d9a441',
+            light: '#EAEAC0'
         },
         secondary: {
             main: '#d08131'
         },
         background: {
             paper: '#f5f6c9',
-            default: '#FFFFEE',
+            default: '#FAFAF0',
             menuItem: '#d9a441'
         }
     },

@@ -1,17 +1,18 @@
 import { Box, Typography } from "@mui/material"
+import { strawTheme } from "../utility/StrawTheme"
 
 export default function MacroCard({type, value, units, variant='h4'}) {
     return (
         <Box sx={{display:'flex', flexDirection:'column', gap:'0rem', alignItems:'center', justifyContent:'center'}}>
             <Box>
-                <Typography sx={{display:'inline', color:'goldenrod'}} variant={variant}>
+                <Typography sx={{display:'inline', color:strawTheme.palette.common.black, fontWeight:'bold'}} variant={variant}>
                     {value}
                 </Typography>
-                <Typography sx={{display:'inline', color:'white'}} variant='body1'>
+                <Typography sx={{display:'inline', color:strawTheme.palette.common.black}} variant='body1'>
                     {units}
                 </Typography>  
             </Box>
-            <Typography variant='body' sx={{color:'white'}}>
+            <Typography variant='body' sx={{color:strawTheme.palette.common.black}}>
                 {type}
             </Typography>
         </Box>
