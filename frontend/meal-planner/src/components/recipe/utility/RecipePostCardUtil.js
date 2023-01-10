@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import {strawTheme} from "../../utility/StrawTheme"
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -25,10 +26,10 @@ export function InfoCard(props) {
     return (
         <>
             <Box sx={{...sx, display:'flex', flexDirection:'column', alignItems:'center'}}>                
-                <Typography variant='h4' sx={{color:'goldenrod'}}>
+                <Typography variant='h4' sx={{color:strawTheme.palette.primary.main}}>
                     {value}
                 </Typography>
-                <Typography variant='body2' sx={{color:'white', display:'flex', flexDirection:'column', alignItems:'center'}}>
+                <Typography variant='body2' sx={{color:strawTheme.palette.common.black, display:'flex', flexDirection:'column', alignItems:'center'}}>
                     {label} 
                 </Typography>
             </Box>
@@ -40,7 +41,7 @@ export function InfoCard(props) {
 export function ImageBlank() {
     return (
         <Box sx={{
-            backgroundColor:'lightgrey', 
+            backgroundColor:strawTheme.palette.common.lightgrey, 
             width:'100%', 
             height:'100%', 
             display:'flex', 
@@ -48,7 +49,7 @@ export function ImageBlank() {
             justifyContent:'center', 
             alignItems:'center'
         }}>
-            <Typography variant='h4'>Image Unavailable</Typography>
+            <Typography variant='h4' sx={{padding:'2rem'}}>Image Unavailable</Typography>
         </Box>    
     )
 }
@@ -68,9 +69,9 @@ export const buttonStyle = {
     zIndex:'2',
     height:'15%',
     aspectRatio:'1/1',
-    backgroundColor:'goldenrod',
+    backgroundColor:strawTheme.palette.primary.main,
     '&:hover': {
-        backgroundColor:'#EAEAC0'
+        backgroundColor:strawTheme.palette.primary.light
     },
     position:'absolute',
     bottom:'0',
@@ -92,7 +93,7 @@ export const postcardStyle = {
 }
 
 export const summaryStyle = {
-    backgroundColor:'gray', 
+    backgroundColor:strawTheme.palette.common.lightgrey,
     padding:'2rem 2rem 0rem 2rem', 
     zIndex:'1', 
     height:'35%', 

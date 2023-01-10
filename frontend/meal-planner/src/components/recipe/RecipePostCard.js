@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import TabPanel from "./utility/RecipePostCardUtil";
 import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, postcardHeight, summaryStyle, sectionStyle} from "./utility/RecipePostCardUtil";
 import RecipeService from "../../service/recipe-service";
+import {strawTheme} from "../utility/StrawTheme"
 
 export default function RecipePostCard(props) {
     const {recipe, readOnly=false, deleteable=false, refresh} = props
@@ -45,17 +46,17 @@ export default function RecipePostCard(props) {
             <Box sx={{height:postcardHeight}}>
                 <Box sx={summaryStyle}>
                     <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
-                        <Typography sx={{color:'white'}} variant='h3'>{recipe.recipe_name}</Typography>
+                        <Typography sx={{color:strawTheme.palette.common.black}} variant='h3'>{recipe.recipe_name}</Typography>
                         <Box sx={{display:'flex', justifyContent:'space-between'}}>
                             <InfoCard value={recipe.number_of_servings}  label='Servings'/>
                             <InfoCard value={recipe.preparation_time_min+'min'} label='Prep Time'/>
                             <InfoCard value={recipe.cooking_time_min + 'min'} label='Cook Time'/>
                         </Box>
-                        <Typography sx={{color:'white'}} variant='body'>{recipe.recipe_description}</Typography>
+                        <Typography sx={{color:strawTheme.palette.common.black}} variant='body'>{recipe.recipe_description}</Typography>
                     </Box>
                     <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>
-                        <Tab label='Ingredients' sx={{color:'white'}}/>
-                        <Tab label='Instructions' sx={{color:'white'}}/>  
+                        <Tab label='Ingredients' sx={{color:strawTheme.palette.common.black}}/>
+                        <Tab label='Instructions' sx={{color:strawTheme.palette.common.black}}/>  
                     </Tabs>  
                         {
                             readOnly ? '' : (<IconButton disabled={readOnly} sx={buttonStyle} onClick={handleAddClick}><AddIcon/></IconButton>)
@@ -72,9 +73,9 @@ export default function RecipePostCard(props) {
                                         position:'absolute',
                                         bottom:'0',
                                         aspectRatio:'1/1',
-                                        backgroundColor:'goldenrod',
+                                        backgroundColor:strawTheme.palette.primary.main,
                                         '&:hover': {
-                                            backgroundColor:'#EAEAC0'
+                                            backgroundColor:strawTheme.palette.primary.light
                                         },
                                         height:'15%'
                                     }} 
@@ -84,7 +85,7 @@ export default function RecipePostCard(props) {
                         }
                     </Box>
                 <Box sx={sectionStyle}>
-                    <Box sx={{backgroundColor:'white', height:'65%', maxHeight:'65%'}}>
+                    <Box sx={{backgroundColor:strawTheme.palette.common.white, height:'65%', maxHeight:'65%'}}>
                         <TabPanel value={tabNum} index={0}>
                             {
                                 recipe.ingredients.ingredient.map((item, index) => {
@@ -108,13 +109,15 @@ export default function RecipePostCard(props) {
                             }
                         </TabPanel>
                     </Box>
-                    <Box sx={{backgroundColor:'dimgrey', height:'65%', padding:'2rem 0'}}>
+                    <Box sx={{backgroundColor:strawTheme.palette.common.grey, height:'65%', padding:'2rem 0'}}>
                         <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
                             <InfoCard value={recipe.serving_sizes.serving.calories} label='Calories'/>
                             <InfoCard value={recipe.serving_sizes.serving.carbohydrate} label='Carbs'/>
                             <InfoCard value={recipe.serving_sizes.serving.fat} label='Fat'/>
                             <InfoCard value={recipe.serving_sizes.serving.protein} label='Protein'/>
-                            <Typography variant='body2' sx={{color:'white', textAlign:'center'}}>Serving size: {recipe.serving_sizes.serving.serving_size}</Typography>
+                            <Typography variant='body2' sx={{color:strawTheme.palette.common.black, textAlign:'center'}}>
+                                Serving size: {recipe.serving_sizes.serving.serving_size}
+                            </Typography>
                         </Stack>
                 </Box>
                 </Box>

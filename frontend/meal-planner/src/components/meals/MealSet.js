@@ -8,6 +8,7 @@ import MealInfo from "./MealInfo"
 import DeleteIcon from '@mui/icons-material/Delete'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import MealService from "../../service/meal-service"
+import {strawTheme} from "../utility/StrawTheme"
 
 function getRecipe(id, mealItems) {
     let retval = null
@@ -57,9 +58,9 @@ function OptionDial(props) {
     return (
         <SpeedDial
             ariaLabel='Speed Dial More Icon'
-            sx={{transform:'translate(-100%, -30%)', position:'absolute', scale:'80%'}}
+            sx={{transform:'translate(0%, -50%)', right:'0', position:'absolute', scale:'80%'}}
             icon={<MoreVertIcon/>}
-            direction='down'
+            direction='left'
         >
             <SpeedDialAction
                 key='Edit'
@@ -109,9 +110,9 @@ export default function MealSet(props) {
         removeMeal(dateValue)
     }
     return (
-        <Box sx={{border:'1px solid #CCCCCC', background:'dimgrey', width:'100%', height:'auto', padding:'2rem 2rem'}}>
+        <Box sx={{border:'1px solid #CCCCCC', background:strawTheme.palette.common.white, width:'100%', height:'auto', padding:'1rem 2rem'}}>
             <Header 
-                left={<Typography variant='h4' sx={{color:'white'}}>{dateValue}</Typography>} 
+                left={<Typography variant='h4' sx={{color:strawTheme.palette.common.black}}>{dateValue}</Typography>} 
                 right={<OptionDial handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick}/>}
             />
             <Box sx={{width:'100%', display:'grid', gridTemplateColumns:'3fr 1fr', padding:'0', margin:'0', gap:'2rem'}}>
