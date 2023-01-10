@@ -6,7 +6,14 @@ export default function MealList(props) {
 
     return (
         <Box sx={{width:'100%', height:'100%', paddingBottom:'10rem'}}>
-            <Stack sx={{width:'100%', paddingBottom:'10rem'}} gap={3}>
+            <Box sx={{
+                    width:'100%', 
+                    paddingBottom:'10rem',
+                    display:'grid',
+                    gridAutoRows:'1fr',
+                    gap:'3rem'
+                }} 
+            >
                 {
                     Object.entries(mealSets).map(([key, value], index)=>{
                         return (
@@ -20,7 +27,7 @@ export default function MealList(props) {
                         )
                     })
                 }
-            </Stack>
+            </Box>
         </Box>
     )
 }

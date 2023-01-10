@@ -41,12 +41,12 @@ function getAllRecipes(recipeIdObj, mealItems) {
 
 function Header({left, right}) {
     return (
-        <Box sx={{width:'100%', display:'flex', justifyContent:'space-between', alignItems:'center', padding:'0 0rem'}}>
+        <Box sx={{width:'100%', display:'flex', justifyContent:'space-between', alignItems:'center', padding:'0rem 0rem'}}>
             <Box>
                 {left}
             
             </Box>
-            <Box sx={{position:'relative'}}>
+            <Box sx={{}}>
                 {right}
             </Box>
         </Box>
@@ -58,7 +58,7 @@ function OptionDial(props) {
     return (
         <SpeedDial
             ariaLabel='Speed Dial More Icon'
-            sx={{transform:'translate(0%, -50%)', right:'0', position:'absolute', scale:'80%'}}
+            FabProps={{size:'small'}}
             icon={<MoreVertIcon/>}
             direction='left'
         >
@@ -110,13 +110,45 @@ export default function MealSet(props) {
         removeMeal(dateValue)
     }
     return (
-        <Box sx={{border:'1px solid #CCCCCC', background:strawTheme.palette.common.white, width:'100%', height:'auto', padding:'1rem 2rem'}}>
+        <Box sx={{
+                border:`2px solid ${strawTheme.palette.common.grey}`, 
+                background:strawTheme.palette.common.white, 
+                width:'100%', 
+                height:'100%', 
+                padding:'1rem 2rem',
+                display:'flex',
+                flexDirection:'column'
+            }}
+        >
             <Header 
                 left={<Typography variant='h4' sx={{color:strawTheme.palette.common.black}}>{dateValue}</Typography>} 
                 right={<OptionDial handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick}/>}
             />
-            <Box sx={{width:'100%', display:'grid', gridTemplateColumns:'3fr 1fr', padding:'0', margin:'0', gap:'2rem'}}>
-                <Box sx={{padding:'2rem 0rem', display:'flex', alignItems:'center', gap:'2rem', width:'100%', height:'100%', overflowX:'auto', overflowY:'hidden', whiteSpace:'nowrap'}}>
+            <Box sx={{
+                    width:'100%', 
+                    height:'100%', 
+                    display:'grid', 
+                    gridTemplateColumns:'3fr 1fr', 
+                    padding:'0', 
+                    margin:'0', 
+                    gap:'2rem',
+                }}
+            >
+
+                <Box sx={{
+                        display:'grid', 
+                        gridAutoFlow:'column',
+                        gridAutoRows:'1fr',
+                        padding:'2rem 0rem', 
+                        alignItems:'center', 
+                        gap:'2rem', 
+                        width:'100%', 
+                        height:'100%', 
+                        overflowX:'auto', 
+                        overflowY:'hidden', 
+                        scrollbarWidth:'thin',
+                    }}
+                >
                     {
                         (recipes.custom.length !== 0) && 
                             (recipes.custom.map((item, index)=>{
