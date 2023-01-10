@@ -149,7 +149,7 @@ export default function Recipes() {
                             onClose={handleClose}
                             sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
                         >
-                            <CreateRecipePostCard/>
+                            <CreateRecipePostCard handleClose={handleClose}/>
                         </Modal>
                     </Box>                
                 </Box>

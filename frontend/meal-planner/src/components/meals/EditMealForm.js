@@ -46,7 +46,7 @@ function initMeal(selectedMeal, mealItems) {
 
 
 export default function EditMealForm(props) {
-    const {selectedMeal, dateValue, mealItems, ref} = props
+    const {selectedMeal, dateValue, mealItems, handleClose, ref} = props
     const INITIAL_MEALS = {
         meal_id:(selectedMeal.meal_id ? selectedMeal.meal_id : null),
         meals:initMeal(selectedMeal, mealItems),
@@ -151,6 +151,7 @@ export default function EditMealForm(props) {
         else {
             MealService.addMeal(meals)
         }
+        handleClose()
     }
     function handleAddMeal(id, item) {
         dispatch({type:ACTION_TYPES.ADD_MEAL, payload:{id:id, name:item.name, recipe_id:item.recipe_id, type:item.type}})
@@ -173,66 +174,64 @@ export default function EditMealForm(props) {
             >
 
             {/* create meals */}
-                
-                    <Box sx={{display:'flex', gap:'2rem'}}>
-                        <MacroCounter 
-                            dispatch={dispatch} 
-                            macroTarget={meals.targetCalories} 
-                            macroValue={meals.totalCalories} 
-                            labelText='Calories' 
-                            handleChange={e=>dispatch({type:ACTION_TYPES.SET_CALORIES, payload:e.target.value})}/>
-                        <MacroCounter 
-                            dispatch={dispatch} 
-                            macroTarget={meals.targetCarbs} 
-                            macroValue={meals.totalCarbs} 
-                            labelText='Carbs' 
-                            handleChange={e=>dispatch({type:ACTION_TYPES.SET_CARBS, payload:e.target.value})}/>
-                            
-                        <MacroCounter 
-                            dispatch={dispatch} 
-                            macroTarget={meals.targetFat} 
-                            macroValue={meals.totalFat} 
-                            labelText='Fat' 
-                            handleChange={e=>dispatch({type:ACTION_TYPES.SET_FAT, payload:e.target.value})}/>
-                            
-                        <MacroCounter 
-                            dispatch={dispatch} 
-                            macroTarget={meals.targetProtein} 
-                            macroValue={meals.totalProtein} 
-                            labelText='Protein' 
-                            handleChange={e=>dispatch({type:ACTION_TYPES.SET_PROTEIN, payload:e.target.value})}/>
-                            
-                    </Box>
-                    <Stack gap={2} sx={{width:'100%'}}>
-                        <MealPicker
-                            mealItems={mealItems} 
-                            meals={meals.meals}
-                            handleIncrement={handleAddMeal} 
-                            handleDecrement={handleRemoveMeal}
-                            sx={{ 
-                                display:'flex', 
-                                flexDirection:'column', 
-                                gap:'2rem', 
-                                width:'100%', 
-                                border:'solid', 
-                                height:'50vh', 
-                                overflowY:'scroll', 
-                                padding:'2rem', 
-                                background:strawTheme.palette.common.white
-                            }}
-                        />
+            
+                <Box sx={{display:'flex', gap:'2rem'}}>
+                    <MacroCounter 
+                        dispatch={dispatch} 
+                        macroTarget={meals.targetCalories} 
+                        macroValue={meals.totalCalories} 
+                        labelText='Calories' 
+                        handleChange={e=>dispatch({type:ACTION_TYPES.SET_CALORIES, payload:e.target.value})}/>
+                    <MacroCounter 
+                        dispatch={dispatch} 
+                        macroTarget={meals.targetCarbs} 
+                        macroValue={meals.totalCarbs} 
+                        labelText='Carbs' 
+                        handleChange={e=>dispatch({type:ACTION_TYPES.SET_CARBS, payload:e.target.value})}/>
+                        
+                    <MacroCounter 
+                        dispatch={dispatch} 
+                        macroTarget={meals.targetFat} 
+                        macroValue={meals.totalFat} 
+                        labelText='Fat' 
+                        handleChange={e=>dispatch({type:ACTION_TYPES.SET_FAT, payload:e.target.value})}/>
+                        
+                    <MacroCounter 
+                        dispatch={dispatch} 
+                        macroTarget={meals.targetProtein} 
+                        macroValue={meals.totalProtein} 
+                        labelText='Protein' 
+                        handleChange={e=>dispatch({type:ACTION_TYPES.SET_PROTEIN, payload:e.target.value})}/>
+                        
+                </Box>
+                <Stack gap={2} sx={{width:'100%'}}>
+                    <MealPicker
+                        mealItems={mealItems} 
+                        meals={meals.meals}
+                        handleIncrement={handleAddMeal} 
+                        handleDecrement={handleRemoveMeal}
+                        sx={{ 
+                            display:'flex', 
+                            flexDirection:'column', 
+                            gap:'2rem', 
+                            width:'100%', 
+                            border:'solid', 
+                            height:'50vh', 
+                            overflowY:'scroll', 
+                            padding:'2rem', 
+                            background:strawTheme.palette.common.white
+                        }}
+                    />
 
-                        <DatePicker 
-                            style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 
-                            value={dateValue}
-                            format='DD MMM YY'
-                            disabled
-                        />
-                        <Button variant='contained' type='submit' sx={{width:'100%'}}><SaveIcon/></Button>
+                    <DatePicker 
+                        style={{width:'100%', fontSize:'28px', height:'5vh', textAlign:'center', border:'none'}} 
+                        value={dateValue}
+                        format='DD MMM YY'
+                        disabled
+                    />
+                    <Button variant='contained' type='submit' sx={{width:'100%'}}><SaveIcon/></Button>
 
-                    </Stack>
-
-                
+                </Stack>
             </Box>
         </form>
     )

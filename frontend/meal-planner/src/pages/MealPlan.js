@@ -1,6 +1,6 @@
 import { Typography, Dialog } from "@mui/material";
 import { useState } from "react";
-import CreateMealForm from "../components/meals/CreateMealForm";
+// import CreateMealForm from "../components/meals/CreateMealForm - deleteMe";
 import MealList from "../components/meals/MealList";
 import { useGetAllFood, useGetMealsInRange, getMealSets, INITIAL_MEAL } from "../components/meals/utility/MealItemUtil";
 import MainPane from "../layouts/MainPane";
@@ -59,13 +59,13 @@ export default function MealPlans() {
             mainContent={
                 <>
                     <MealList mealSets={mealSets} mealItems={mealItems} removeMeal={removeMeal}/>
-                    <Dialog
+                    {/* <Dialog
                         open={open}
                         onClose={handleClose}
                         sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
                     >
-                        <CreateMealForm mealItems={mealItems}/>
-                    </Dialog>
+                        <CreateMealForm mealItems={mealItems} handleClose={handleClose}/>
+                    </Dialog> */}
                 </>
             }
 
