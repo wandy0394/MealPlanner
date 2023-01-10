@@ -3,7 +3,6 @@ import { strawTheme } from "../utility/StrawTheme"
 
 function Row({title, total,target, unit}) {
     return (
-        //Box sx={{display:'flex', alignItems:'baseline', justifyContent:'space-between', gap:'2rem', width:'100%', padding:'0, 2rem'}}
         <>
             <Box sx={{display:'flex', alignItems:'center', justifyContent:'end'}}>
                 <Typography variant="body1">
