@@ -9,6 +9,6 @@ export const ContentBox = styled(Box)({
     width:'76vw',
     padding: '0 5vw',
     paddingBottom:'10vh',
-    scrollbarWidth:"thin"
+    //scrollbarWidth:"thin"
 })
 

@@ -13,10 +13,12 @@ import { strawTheme } from "../components/utility/StrawTheme";
 
 const dayStyle = {
     position:'relative', 
-    border:'1px solid #555555',
+    border:`1px solid ${strawTheme.palette.common.grey}`,
     '&:hover': {
-        background:'#f5f6c9'
+        background:strawTheme.palette.primary.light,
+        cursor:'pointer'
     },
+    
     display:'flex',
     alignItems:'center',
     justifyContent:'space-between',
@@ -42,7 +44,7 @@ function DayPicker(props) {
                 Object.keys(mealSets).map((item, index)=>{
                     const dateObj = new DateObject(item)
                     return (
-                        <Box key={index} sx={{...dayStyle, background:((active === index) ? 'goldenrod' : '')}} onClick={e=>handleClick(index, item)}>
+                        <Box key={index} sx={{...dayStyle, background:((active === index) ? strawTheme.palette.primary.main : '')}} onClick={e=>handleClick(index, item)}>
                             <Typography variant='h6' >{dateObj.format('ddd')}</Typography>
                             <Typography variant='h6' >{dateObj.day}</Typography>
                         </Box>
