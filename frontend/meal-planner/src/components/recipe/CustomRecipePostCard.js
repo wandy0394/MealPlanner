@@ -20,22 +20,33 @@ import ReadCustomRecipePostCard from "./ReadCustomRecipePostCard";
 const calculator = new UnitConverter()
 
 export default function CustomRecipePostCard(props) {
-    const {recipeId, refresh} = props
+    const {recipeId, refresh, setStatusMessageState} = props
 
     const [readOnly, setReadOnly] = useState(true)
     const [recipe, dispatch] = useGetRecipe(recipeId)
 
-    function removeRecipe(recipe_id) {
-        dispatch({type:ACTION_TYPES.DELETE_RECIPE, payload:recipe_id})
-    }
-
     return (
         <>
             {
-                (readOnly) && (<ReadCustomRecipePostCard recipe={recipe} readOnly={readOnly} setReadOnly={setReadOnly} refresh={refresh}/>)
+                (readOnly) && 
+                    (<ReadCustomRecipePostCard 
+                        recipe={recipe} 
+                        readOnly={readOnly} 
+                        setReadOnly={setReadOnly} 
+                        refresh={refresh}
+                        setStatusMessageState={setStatusMessageState}
+                    />)
             }
             {
-                (!readOnly) && (<EditRecipePostCard recipeId={recipeId} recipe={recipe} dispatch={dispatch} readOnly={readOnly} setReadOnly={setReadOnly}/>)
+                (!readOnly) && 
+                    (<EditRecipePostCard 
+                        recipeId={recipeId} 
+                        recipe={recipe} 
+                        dispatch={dispatch} 
+                        readOnly={readOnly} 
+                        setReadOnly={setReadOnly}
+                        setStatusMessageState={setStatusMessageState}
+                    />)
             }
         </>
         

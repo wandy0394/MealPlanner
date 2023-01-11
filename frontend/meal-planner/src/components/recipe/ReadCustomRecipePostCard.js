@@ -10,26 +10,28 @@ import {UnitConverter} from "../utility/Units"
 import { strawTheme } from "../utility/StrawTheme";
 import IngredientsPaneRead from "./IngredientsPaneRead";
 import RecipeService from "../../service/recipe-service";
+import { SEVERITY } from "../utility/StatusSnackbar";
 
 
 const calculator = new UnitConverter()
 
 export default function ReadCustomRecipePostCard(props) {
-    const {recipe, readOnly, setReadOnly, refresh} = props
+    const {recipe, readOnly, setReadOnly, refresh, setStatusMessageState=null} = props
     const [tabNum, setTabNum] = useState(0)
 
     const handleTabChange = (event, newValue) => {
         setTabNum(newValue)
     }
 
-    function handleCancelClicked() {
-        setReadOnly(true)
-    }
     function handleDeleteClick() {
         RecipeService.removeRecipe(recipe.recipe_id)
             .then((resp)=>{
                 refresh()
             })
+
+        if (setStatusMessageState !== null) {
+            setStatusMessageState({message:'Recipe deleted.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
+        }
     }
     function handleEditClick(e) {
         setReadOnly(false)
