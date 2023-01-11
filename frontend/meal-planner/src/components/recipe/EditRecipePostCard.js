@@ -11,12 +11,13 @@ import {UnitConverter} from "../utility/Units"
 import { ACTION_TYPES } from "./utility/ActionTypes";
 import RecipeService from "../../service/recipe-service";
 import { strawTheme } from "../utility/StrawTheme";
+import { SEVERITY } from "../utility/StatusSnackbar";
 
 
 const calculator = new UnitConverter()
 
 export default function EditRecipePostCard(props) {
-    const {recipeId, recipe, dispatch, readOnly, setReadOnly} = props
+    const {recipeId, recipe, dispatch, readOnly, setReadOnly, setStatusMessageState=null} = props
 
     const [tabNum, setTabNum] = useState(0)
     const handleTabChange = (event, newValue) => {
@@ -59,11 +60,16 @@ export default function EditRecipePostCard(props) {
         }
         setReadOnly(true)
         RecipeService.updateRecipe(data, recipeId)
+        if (setStatusMessageState !== null) {
+            setStatusMessageState({message:'Changes saved.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
+        }
     }
     function handleCancelClicked() {
         dispatch({type:ACTION_TYPES.RESET_RECIPE})
         setReadOnly(true)
-        
+        if (setStatusMessageState !== null) {
+            setStatusMessageState({message:'Changes not saved.', severity:SEVERITY.WARNING, isMessageVisible:true})
+        }
     }
 
     const dialStyle = {

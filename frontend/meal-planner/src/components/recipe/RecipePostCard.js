@@ -6,9 +6,10 @@ import TabPanel from "./utility/RecipePostCardUtil";
 import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, postcardHeight, summaryStyle, sectionStyle} from "./utility/RecipePostCardUtil";
 import RecipeService from "../../service/recipe-service";
 import {strawTheme} from "../utility/StrawTheme"
+import { SEVERITY } from "../utility/StatusSnackbar";
 
 export default function RecipePostCard(props) {
-    const {recipe, readOnly=false, deleteable=false, refresh} = props
+    const {recipe, readOnly=false, deleteable=false, refresh, setStatusMessageState=null} = props
     const [tabNum, setTabNum] = useState(0)
     
     const handleTabChange = (event, newValue) => {
@@ -27,6 +28,9 @@ export default function RecipePostCard(props) {
     function handleDeleteClick() {
         RecipeService.removeStaticRecipe(recipe.id)
             .then((resp)=>{
+                if (setStatusMessageState !== null) {
+                    setStatusMessageState({message:'Recipe deleted.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
+                }
                 refresh()
             })
     }

@@ -132,6 +132,7 @@ export default function Recipes() {
                                         <CustomRecipePostCard
                                             recipeId={key}
                                             refresh={refresh}
+                                            setStatusMessageState={setStatusMessageState}
                                         />
                                     </TabPanel>
                                 )
@@ -149,6 +150,7 @@ export default function Recipes() {
                                                     readOnly={true}
                                                     deleteable={true}
                                                     refresh={getStaticRecipes}
+                                                    setStatusMessageState={setStatusMessageState}
                                                 />
                                         }
                                     </TabPanel>
