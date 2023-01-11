@@ -9,11 +9,12 @@ import TabPanel, { postcardHeight } from "./utility/RecipePostCardUtil";
 import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, summaryStyle, sectionStyle, INITIAL_RECIPE, MAX_CHARS} from "./utility/RecipePostCardUtil";
 import RecipeService from "../../service/recipe-service";
 import { strawTheme } from "../utility/StrawTheme";
+import { SEVERITY } from "../utility/StatusSnackbar";
 
 const calculator = new UnitConverter()
 
 export default function CreateRecipePostCard(props) {
-    const {readOnly=false, handleClose} = props
+    const {readOnly=false, handleClose, ref} = props
     const [recipe, dispatch] = useReducer(reducer, INITIAL_RECIPE)
     const [tabNum, setTabNum] = useState(0)
     const handleTabChange = (event, newValue) => {
@@ -109,7 +110,7 @@ export default function CreateRecipePostCard(props) {
             macros:recipe.macros
         }
         const result = await RecipeService.addRecipe(data)
-        handleClose()
+        handleClose({message:'Recipe saved.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
     }
 
 

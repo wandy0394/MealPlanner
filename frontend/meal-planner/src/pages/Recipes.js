@@ -1,6 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import RefreshIcon from '@mui/icons-material/Refresh'
-import { Paper, Stack, Box, Typography, IconButton, Tabs, Tab, Button, Modal } from "@mui/material";
+import { Paper, Stack, Box, Typography, IconButton, Tabs, Tab, Button, Modal, Snackbar, Alert } from "@mui/material";
 import { useEffect, useState } from "react";
 import RecipePostCard from "../components/recipe/RecipePostCard";
 import CreateRecipePostCard from "../components/recipe/CreateRecipePostCard";
@@ -10,6 +10,7 @@ import TabPanel from "../components/utility/TabPanel"
 import MainPane from "../layouts/MainPane"
 import CustomRecipePostCard from "../components/recipe/CustomRecipePostCard";
 import { strawTheme } from "../components/utility/StrawTheme";
+import StatusSnackbar, { SEVERITY } from "../components/utility/StatusSnackbar";
 
 export default function Recipes() {
     const [open, setOpen] = useState(false)
@@ -18,12 +19,22 @@ export default function Recipes() {
     const [recipe, setRecipe] = useState('')
     const [tabValue, setTabValue] = useState(0)
 
+    const INIT_STATE = {
+        message:'',
+        severity:SEVERITY.INFO,
+        isMessageVisible:false
+    }
+    const [statusMessageState, setStatusMessageState] = useState(INIT_STATE)
 
     function handleClickOpen() {
         setOpen(true)
     }
-    const handleClose = () => {
+    const handleClose = (state=null) => {
         setOpen(false)
+        if (state) {
+            setStatusMessageState({...state})
+            refresh()
+        }
     }
 
     function handleTabChange(e, newValue) {
@@ -146,11 +157,15 @@ export default function Recipes() {
                         }
                         <Modal
                             open={open}
-                            onClose={handleClose}
+                            onClose={()=>handleClose({message:'Recipe not saved.', severity:SEVERITY.INFO, isMessageVisible:true})}
                             sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
                         >
                             <CreateRecipePostCard handleClose={handleClose}/>
                         </Modal>
+                        <StatusSnackbar 
+                            statusMessageState={statusMessageState}
+                            setStatusMessageState={setStatusMessageState} 
+                        />
                     </Box>                
                 </Box>
             }

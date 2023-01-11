@@ -63,9 +63,7 @@ export default function EditRecipePostCard(props) {
     function handleCancelClicked() {
         dispatch({type:ACTION_TYPES.RESET_RECIPE})
         setReadOnly(true)
-    }
-    function handleEditClick(e) {
-        setReadOnly(false)
+        
     }
 
     const dialStyle = {
