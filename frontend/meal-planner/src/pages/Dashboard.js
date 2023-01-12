@@ -10,6 +10,7 @@ import {Line} from 'react-chartjs-2'
 import {Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend} from 'chart.js'
 import MealSet from "../components/meals/MealSet";
 import { strawTheme } from "../components/utility/StrawTheme";
+import StatusSnackbar, { INITIAL_STATUS } from "../components/utility/StatusSnackbar";
 
 const dayStyle = {
     position:'relative', 
@@ -160,7 +161,7 @@ export default function Dashboard() {
     const [mealItems, setMealItems] = useGetAllFood()
     const [mealSets, setMealSets] = useGetMealsInRange(prevMonday.format('YYYY-M-D'), nextMonday.format('YYYY-M-D'))
     const [selectedMeal, setSelectedMeal] = useState(INITIAL_MEAL)
-
+    const [statusMessageState, setStatusMessageState] = useState(INITIAL_STATUS)
 
     useEffect(()=>{
         if (mealSets !== undefined && selectedDay !== undefined) {
@@ -199,7 +200,7 @@ export default function Dashboard() {
                         <DayPicker mealSets={mealSets} selectMeal={handleDayChange} setSelectedDay={setSelectedDay} active={active} setActive={setActive}/>
                         <Box sx={{display:'grid', gridTemplateRows:'1fr 2fr', gap:'1rem', height:'100%'}}>
                             <Box sx={{height:'100%'}}>
-                                <MealSet mealSet={selectedMeal} dateValue={selectedDay} mealItems={mealItems} removeMeal={null}/>
+                                <MealSet mealSet={selectedMeal} dateValue={selectedDay} mealItems={mealItems} removeMeal={null} setStatusMessageState={setStatusMessageState}/>
                             </Box>
                             <Box sx={{height:'50%'}}>
                                 <MacroChart mealSets={mealSets} />
@@ -207,6 +208,10 @@ export default function Dashboard() {
                         </Box>
                         
                     </Box>
+                    <StatusSnackbar
+                        statusMessageState={statusMessageState}
+                        setStatusMessageState={setStatusMessageState}
+                    />
                 </>
             }
             sideContent={
