@@ -59,13 +59,6 @@ export default function MealPlans() {
             mainContent={
                 <>
                     <MealList mealSets={mealSets} mealItems={mealItems} removeMeal={removeMeal}/>
-                    {/* <Dialog
-                        open={open}
-                        onClose={handleClose}
-                        sx={{display:'flex', alignItems:'center', justifyContent:'center'}}
-                    >
-                        <CreateMealForm mealItems={mealItems} handleClose={handleClose}/>
-                    </Dialog> */}
                 </>
             }
 

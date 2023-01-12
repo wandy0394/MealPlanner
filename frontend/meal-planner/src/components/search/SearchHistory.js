@@ -2,9 +2,10 @@
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react"
 import SideMenuHeader from "../menu/SideMenuHeader";
-import { IconButton, Paper, Stack, Table, TableContainer, TableRow, Typography } from "@mui/material";
+import { IconButton, Paper, Stack, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete'
 import SearchService from "../../service/search-service";
+import StatusSnackbar, { INITIAL_STATUS, SEVERITY } from "../utility/StatusSnackbar";
 
 const headCells = [
     {
@@ -44,6 +45,7 @@ const headCells = [
 export default function SearchHistory({type='all'}) {
 
     const [searchHistory, setSearchHistory] = useState([])
+    const [statusMessageState, setStatusMessageState] = useState(INITIAL_STATUS)
 
     async function refresh() {
         try {
@@ -75,6 +77,7 @@ export default function SearchHistory({type='all'}) {
     async function handleDelete(e, id) {
         await SearchService.removeSearchQuery(id)
         refresh()
+        setStatusMessageState({message:'Query deleted.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
     }
 
     return (
@@ -102,6 +105,10 @@ export default function SearchHistory({type='all'}) {
                         })
                     }
                 </Stack>
+                <StatusSnackbar 
+                    statusMessageState={statusMessageState}
+                    setStatusMessageState={setStatusMessageState}
+                />
         </Box>
     )
 }

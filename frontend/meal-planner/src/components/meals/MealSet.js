@@ -32,10 +32,13 @@ function getAllRecipes(recipeIdObj, mealItems) {
         return [...result, {...newData, qty:recipeIdObj.recipes[data].qty}] 
     }, [])
 
+    console.log(customRecipes)
     const staticRecipes = Object.keys(recipeIdObj.staticRecipes).reduce((result, data)=>{
         const newData = getStaticRecipe(parseInt(data), mealItems)
         return [...result, {...newData, qty:recipeIdObj.staticRecipes[data].qty}]
     },[])
+    console.log(staticRecipes)
+
     return {custom:customRecipes, static:staticRecipes}
 }
 

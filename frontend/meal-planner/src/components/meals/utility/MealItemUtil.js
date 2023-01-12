@@ -97,13 +97,12 @@ export const useGetAllFood = () => {
                         })
                     }).catch((resp)=>{
                         setMealLineItems(lineItems)  
+                    }).finally(()=>{
+                        setMealLineItems(lineItems)  
                     })
-
-
-
                 }
                 catch (e) {
-
+                    console.error('Error fetching meal items.')
                 }
             }
             fetchData();
@@ -112,6 +111,7 @@ export const useGetAllFood = () => {
             called = true
         }
     }, [])
+    console.log(mealLineItems)
     return [mealLineItems, setMealLineItems]
 }
 
