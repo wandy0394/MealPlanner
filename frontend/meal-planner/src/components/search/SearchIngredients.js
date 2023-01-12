@@ -16,7 +16,7 @@ const dummyOutput = {
 
 }
 
-export default function SearchIngredients({state, dispatch, ingredientId, setIngredientId}) {
+export default function SearchIngredients({state, dispatch, ingredientId, setIngredientId, setStatusMessageState=null}) {
 
     
     async function callSearchIngredients(query, page, doStoreSearch) {
@@ -87,6 +87,7 @@ export default function SearchIngredients({state, dispatch, ingredientId, setIng
                         <><SearchIngredientResults 
                             data={state.results} 
                             setIngredientId={setIngredientId}
+                            setStatusMessageState={setStatusMessageState}
                             />
                         </>)
                 }

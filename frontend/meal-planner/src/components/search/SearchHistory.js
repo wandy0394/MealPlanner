@@ -42,10 +42,9 @@ const headCells = [
 ];
 
 
-export default function SearchHistory({type='all'}) {
+export default function SearchHistory({type='all', setStatusMessageState=null}) {
 
     const [searchHistory, setSearchHistory] = useState([])
-    const [statusMessageState, setStatusMessageState] = useState(INITIAL_STATUS)
 
     async function refresh() {
         try {
@@ -73,11 +72,13 @@ export default function SearchHistory({type='all'}) {
             called = true
         }
     },[])
-
+    
     async function handleDelete(e, id) {
         await SearchService.removeSearchQuery(id)
         refresh()
-        setStatusMessageState({message:'Query deleted.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
+        if (setStatusMessageState !== null) {
+            setStatusMessageState({message:'Query deleted.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
+        }
     }
 
     return (
@@ -105,10 +106,7 @@ export default function SearchHistory({type='all'}) {
                         })
                     }
                 </Stack>
-                <StatusSnackbar 
-                    statusMessageState={statusMessageState}
-                    setStatusMessageState={setStatusMessageState}
-                />
+
         </Box>
     )
 }
