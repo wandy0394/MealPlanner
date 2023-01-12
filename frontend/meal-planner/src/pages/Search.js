@@ -10,6 +10,7 @@ import TabPanel from "../components/utility/TabPanel";
 import SidePanelContent from "../components/utility/SidePanelContent";
 import MainPane from "../layouts/MainPane";
 import { strawTheme } from "../components/utility/StrawTheme";
+import StatusSnackbar, { INITIAL_STATUS } from "../components/utility/StatusSnackbar";
 
 
 const INITIAL_PAGE = 0
@@ -51,7 +52,7 @@ export default function Search() {
     const [recipe, setRecipe] = useState('')
 
     const [open, setOpen] = useState(false)
-    
+    const [statusMessageState, setStatusMessageState] = useState(INITIAL_STATUS)
     function handleClose() {
         setOpen(false)
     }
@@ -125,6 +126,8 @@ export default function Search() {
                             state={ingredientsState}
                             dispatch={ingredientsDispatch}
                             setIngredientId={setIngredientId}
+                            setStatusMessageState={setStatusMessageState}
+
                         />
                     </TabPanel>
                     <TabPanel value={tabNum} index={1}>
@@ -134,15 +137,19 @@ export default function Search() {
                             getRecipe={getRecipe}
                         />
                     </TabPanel>
+                    <StatusSnackbar 
+                        statusMessageState={statusMessageState}
+                        setStatusMessageState={setStatusMessageState}
+                    />
                 </Stack>
             }
             sideContent={
                 <>
                     <SidePanelContent value={tabNum} index={0}>
-                        <SearchHistory type='ingred'/>
+                        <SearchHistory type='ingred' setStatusMessageState={setStatusMessageState}/>
                     </SidePanelContent>
                     <SidePanelContent value={tabNum} index={1}>
-                        <SearchHistory type='recipe'/>                    
+                        <SearchHistory type='recipe' setStatusMessageState={setStatusMessageState}/>                    
                     </SidePanelContent>
                 </>
             }
@@ -154,7 +161,7 @@ export default function Search() {
                     onClose={handleClose}
                     sx={{display:'grid', justifyContent:'center', alignItems:'center'}}
                 >
-                    <RecipePostCard recipe={recipe} readOnly={false}/>
+                    <RecipePostCard recipe={recipe} readOnly={false} setStatusMessageState={setStatusMessageState}/>
                 </Modal>)
             }  
         </MainPane>

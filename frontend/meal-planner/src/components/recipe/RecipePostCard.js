@@ -23,6 +23,9 @@ export default function RecipePostCard(props) {
             recipe_name:recipe.recipe_name
         }
         const result = await RecipeService.addStaticRecipe(data)
+        if (setStatusMessageState !== null) {
+            setStatusMessageState({message:`Recipe (${recipe.recipe_name}) added.`, severity:SEVERITY.SUCCESS, isMessageVisible:true})
+        }
     }
 
     function handleDeleteClick() {

@@ -2,6 +2,7 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import {strawTheme} from '../utility/StrawTheme'
 import IngredientService from "../../service/ingredient-service";
+import { SEVERITY } from "../utility/StatusSnackbar";
 
 const DUMMY_DATA = [
     {food_id:11, food_name:'Food1', food_description:'Food'},
@@ -13,7 +14,7 @@ const DUMMY_DATA = [
 
 ]
 
-export default function SearchIngredientResults({data, setIngredientId}) {
+export default function SearchIngredientResults({data, setIngredientId, setStatusMessageState=null}) {
 
     let cleanedData = null
     const columnHeaders = [
@@ -80,6 +81,9 @@ export default function SearchIngredientResults({data, setIngredientId}) {
             unit: macros.unit
         }
         IngredientService.addIngredient(params)
+        if (setStatusMessageState !== null) {
+            setStatusMessageState({message:`Ingredient (${food[0].food_name}) added.`, severity:SEVERITY.SUCCESS, isMessageVisible:true})
+        }
     }
 
     function handleIngredientClick(e, id) {
