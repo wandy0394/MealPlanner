@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import MealService from "../../service/meal-service"
 import {strawTheme} from "../utility/StrawTheme"
+import { SEVERITY } from "../utility/StatusSnackbar"
 
 function getRecipe(id, mealItems) {
     let retval = null
@@ -32,12 +33,10 @@ function getAllRecipes(recipeIdObj, mealItems) {
         return [...result, {...newData, qty:recipeIdObj.recipes[data].qty}] 
     }, [])
 
-    console.log(customRecipes)
     const staticRecipes = Object.keys(recipeIdObj.staticRecipes).reduce((result, data)=>{
         const newData = getStaticRecipe(parseInt(data), mealItems)
         return [...result, {...newData, qty:recipeIdObj.staticRecipes[data].qty}]
     },[])
-    console.log(staticRecipes)
 
     return {custom:customRecipes, static:staticRecipes}
 }
@@ -81,7 +80,7 @@ function OptionDial(props) {
 }
 
 export default function MealSet(props) {
-    const {mealSet, mealItems, dateValue, removeMeal} = props
+    const {mealSet, mealItems, dateValue, removeMeal, setStatusMessageState} = props
 
     const [recipes, setRecipes] = useState({custom:[], static:[]})
     const [open, setOpen] = useState(false)
@@ -111,6 +110,7 @@ export default function MealSet(props) {
         }
         MealService.removeMeal(mealSet.meal_id)
         removeMeal(dateValue)
+        setStatusMessageState({message:'Meals removed.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
     }
     return (
         <Box sx={{
@@ -191,7 +191,13 @@ export default function MealSet(props) {
                 // PaperProps={{sx:{width:'100%', height:'100%'}}}
                 PaperProps={{sx:{display:'flex', alignItems:'center', justifyContent:'center', width:'35vw', border:'solid', margin:'0 auto'}}}
             >
-                <EditMealForm selectedMeal={mealSet} dateValue={new DateObject(dateValue)} mealItems={mealItems} handleClose={handleClose}/>
+                <EditMealForm 
+                    selectedMeal={mealSet} 
+                    dateValue={new DateObject(dateValue)} 
+                    mealItems={mealItems} 
+                    handleClose={handleClose}
+                    setStatusMessageState={setStatusMessageState}
+                />
             </Dialog>
         </Box>
     )

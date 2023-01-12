@@ -46,11 +46,6 @@ export default function MealPlans() {
     return (
         <MainPane
             title='What do you plan to eat?'
-            buttons={
-                <>
-                    {/* <IconButton onClick={handleClickOpen}><AddIcon/></IconButton> */}
-                </>
-            }
             headerContent={
                 <>
                     <WeekPicker day={day} setDay={setDay} handleDateChange={handleDateChange}/> 

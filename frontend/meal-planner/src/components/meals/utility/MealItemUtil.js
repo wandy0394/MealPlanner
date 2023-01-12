@@ -111,7 +111,6 @@ export const useGetAllFood = () => {
             called = true
         }
     }, [])
-    console.log(mealLineItems)
     return [mealLineItems, setMealLineItems]
 }
 
