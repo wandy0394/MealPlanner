@@ -8,6 +8,7 @@ import MealService from "../../service/meal-service";
 import MealPicker from "./MealPicker";
 import SaveIcon from '@mui/icons-material/Save'
 import { strawTheme } from "../utility/StrawTheme";
+import { SEVERITY } from "../utility/StatusSnackbar";
 
 
 function initMeal(selectedMeal, mealItems) {
@@ -46,7 +47,7 @@ function initMeal(selectedMeal, mealItems) {
 
 
 export default function EditMealForm(props) {
-    const {selectedMeal, dateValue, mealItems, handleClose, ref} = props
+    const {selectedMeal, dateValue, mealItems, handleClose, setStatusMessageState, ref} = props
     const INITIAL_MEALS = {
         meal_id:(selectedMeal.meal_id ? selectedMeal.meal_id : null),
         meals:initMeal(selectedMeal, mealItems),
@@ -147,9 +148,11 @@ export default function EditMealForm(props) {
         e.preventDefault()
         if (meals.meal_id !== null) {
             MealService.updateMeal(meals)
+            setStatusMessageState({message:'Meal updated.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
         }
         else {
             MealService.addMeal(meals)
+            setStatusMessageState({message:'Meal added.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
         }
         handleClose()
     }
