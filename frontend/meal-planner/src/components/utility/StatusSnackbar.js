@@ -16,8 +16,8 @@ export const SNACKBAR_ACTIONS = {
 }
 
 
-const INITIAL_STATUS = {
-    message:'Status Message',
+export const INITIAL_STATUS = {
+    message:'',
     severity:SEVERITY.INFO,
     isMessageVisible:false
 }

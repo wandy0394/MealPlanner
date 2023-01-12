@@ -67,7 +67,6 @@ export default function EnhancedTable(props) {
     }
 
     function handleDelete() {
-        //call request delete
         Object.keys(selected.content).forEach(element => {
             requestDelete(element)
         }) 
