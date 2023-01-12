@@ -10,7 +10,7 @@ import TabPanel from "../components/utility/TabPanel"
 import MainPane from "../layouts/MainPane"
 import CustomRecipePostCard from "../components/recipe/CustomRecipePostCard";
 import { strawTheme } from "../components/utility/StrawTheme";
-import StatusSnackbar, { SEVERITY } from "../components/utility/StatusSnackbar";
+import StatusSnackbar, { INITIAL_STATUS, SEVERITY } from "../components/utility/StatusSnackbar";
 
 export default function Recipes() {
     const [open, setOpen] = useState(false)
@@ -19,12 +19,7 @@ export default function Recipes() {
     const [recipe, setRecipe] = useState('')
     const [tabValue, setTabValue] = useState(0)
 
-    const INIT_STATE = {
-        message:'',
-        severity:SEVERITY.INFO,
-        isMessageVisible:false
-    }
-    const [statusMessageState, setStatusMessageState] = useState(INIT_STATE)
+    const [statusMessageState, setStatusMessageState] = useState(INITIAL_STATUS)
 
     function handleClickOpen() {
         setOpen(true)

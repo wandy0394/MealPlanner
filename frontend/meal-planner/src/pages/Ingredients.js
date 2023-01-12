@@ -9,10 +9,14 @@ import IngredientsList from "../components/ingredient/IngredientsList";
 import EditIcon from "@mui/icons-material/Edit"
 import IngredientService from "../service/ingredient-service";
 import MainPane from "../layouts/MainPane";
+import StatusSnackbar, { INITIAL_STATUS } from "../components/utility/StatusSnackbar"
+import { SEVERITY } from "../components/utility/StatusSnackbar";
 
 export default function Ingredients() {
     const [open, setOpen] = useState(false)
     const [ingredients, setIngredients] = useState([])
+
+    const[statusMessageState, setStatusMessageState] = useState(INITIAL_STATUS)
 
     function handleClickOpen() {
         setOpen(true)
@@ -41,7 +45,8 @@ export default function Ingredients() {
     }, [])
     async function handleDelete(id) {
         await IngredientService.removeIngredient(id) 
-        refresh() 
+        refresh()
+        setStatusMessageState({message:'Ingredients deleted.', severity:SEVERITY.SUCCESS, isMessageVisible:true}) 
     }
 
     return (
@@ -58,13 +63,18 @@ export default function Ingredients() {
                             handleClose={handleClose} 
                             refresh={refresh}
                             ingredients={ingredients}
-                            />
+                            setStatusMessageState={setStatusMessageState}
+                        />
 
                         <IngredientsList 
                             ingredients={ingredients}
                             handleDelete={handleDelete}
-                            />
+                        />
                     </Stack>
+                    <StatusSnackbar 
+                        statusMessageState={statusMessageState}
+                        setStatusMessageState={setStatusMessageState}
+                    />
                 </>
             }
         >

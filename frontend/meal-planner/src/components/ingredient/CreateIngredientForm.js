@@ -1,11 +1,12 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, InputAdornment, TextField } from "@mui/material"
 import { useEffect, useState } from "react";
 import ingredientService from "../../service/ingredient-service";
+import { SEVERITY } from "../utility/StatusSnackbar";
 import IngredientAutoComplete from "./IngredientAutocomplete";
 
 
 export default function CreateIngredientForm(props) {
-    const {open, handleClose, refresh, ingredients} = props
+    const {open, handleClose, refresh, ingredients, setStatusMessageState} = props
     const [ingredientDict, setIngredientDict] = useState({})
     const [name, setName] = useState('')
     const [calories, setCalories] = useState('')
@@ -28,9 +29,11 @@ export default function CreateIngredientForm(props) {
         if (isEditing) {
             params['id'] = keyId 
             data = await ingredientService.updateIngredient(params)
+            setStatusMessageState({message:`Ingredient (${name}) updated.`, severity:SEVERITY.SUCCESS, isMessageVisible:true})
         }
         else {
             data = await ingredientService.addIngredient(params)
+            setStatusMessageState({message:`Ingredient (${name}) added.`, severity:SEVERITY.SUCCESS, isMessageVisible:true})
         }
         handleClose()
         refresh()
