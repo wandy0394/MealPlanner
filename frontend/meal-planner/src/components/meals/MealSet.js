@@ -56,7 +56,7 @@ function Header({left, right}) {
 }
 
 function OptionDial(props) {
-    const {handleEditClick, handleDeleteClick} = props
+    const {handleEditClick, handleDeleteClick, deletable} = props
     return (
         <SpeedDial
             ariaLabel='Speed Dial More Icon'
@@ -70,7 +70,7 @@ function OptionDial(props) {
                 onClick={handleEditClick}
             />
             <SpeedDialAction
-                
+                sx={{visibility:deletable ? 'visible':'hidden'}}
                 key='Delete'
                 icon={<DeleteIcon/>}
                 onClick={handleDeleteClick}
@@ -125,7 +125,7 @@ export default function MealSet(props) {
         >
             <Header 
                 left={<Typography variant='h4' sx={{color:strawTheme.palette.common.black}}>{dateValue}</Typography>} 
-                right={<OptionDial handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick}/>}
+                right={<OptionDial handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick} deletable={(removeMeal!==null)}/>}
             />
             <Box sx={{
                     width:'100%', 
