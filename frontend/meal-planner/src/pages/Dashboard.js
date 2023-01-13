@@ -200,7 +200,7 @@ export default function Dashboard() {
                         <DayPicker mealSets={mealSets} selectMeal={handleDayChange} setSelectedDay={setSelectedDay} active={active} setActive={setActive}/>
                         <Box sx={{display:'grid', gridTemplateRows:'1fr 2fr', gap:'1rem', height:'100%'}}>
                             <Box sx={{height:'100%'}}>
-                                <MealSet mealSet={selectedMeal} dateValue={selectedDay} mealItems={mealItems} removeMeal={null} setStatusMessageState={setStatusMessageState}/>
+                                <MealSet mealSet={selectedMeal} dateValue={selectedDay} mealItems={mealItems} removeMeal={null} addMeal={null} setStatusMessageState={setStatusMessageState}/>
                             </Box>
                             <Box sx={{height:'50%'}}>
                                 <MacroChart mealSets={mealSets} />

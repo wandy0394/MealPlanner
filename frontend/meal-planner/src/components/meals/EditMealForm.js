@@ -47,7 +47,7 @@ function initMeal(selectedMeal, mealItems) {
 
 
 export default function EditMealForm(props) {
-    const {selectedMeal, dateValue, mealItems, handleClose, setStatusMessageState, ref} = props
+    const {selectedMeal, dateValue, mealItems, handleClose, setStatusMessageState, addMeal, ref} = props
     const INITIAL_MEALS = {
         meal_id:(selectedMeal.meal_id ? selectedMeal.meal_id : null),
         meals:initMeal(selectedMeal, mealItems),
@@ -149,10 +149,12 @@ export default function EditMealForm(props) {
         if (meals.meal_id !== null) {
             MealService.updateMeal(meals)
             setStatusMessageState({message:'Meal updated.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
+            addMeal(dateValue, meals)
         }
         else {
             MealService.addMeal(meals)
             setStatusMessageState({message:'Meal added.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
+            addMeal(dateValue, meals)
         }
         handleClose()
     }

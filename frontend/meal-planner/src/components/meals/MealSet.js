@@ -56,7 +56,7 @@ function Header({left, right}) {
 }
 
 function OptionDial(props) {
-    const {handleEditClick, handleDeleteClick, deletable} = props
+    const {handleEditClick, handleDeleteClick, editable, deletable} = props
     return (
         <SpeedDial
             ariaLabel='Speed Dial More Icon'
@@ -65,6 +65,7 @@ function OptionDial(props) {
             direction='left'
         >
             <SpeedDialAction
+                sx={{visibility:editable ? 'visible':'hidden'}}
                 key='Edit'
                 icon={<EditIcon/>}
                 onClick={handleEditClick}
@@ -80,7 +81,7 @@ function OptionDial(props) {
 }
 
 export default function MealSet(props) {
-    const {mealSet, mealItems, dateValue, removeMeal, setStatusMessageState} = props
+    const {mealSet, mealItems, dateValue, removeMeal, addMeal, setStatusMessageState} = props
 
     const [recipes, setRecipes] = useState({custom:[], static:[]})
     const [open, setOpen] = useState(false)
@@ -125,7 +126,7 @@ export default function MealSet(props) {
         >
             <Header 
                 left={<Typography variant='h4' sx={{color:strawTheme.palette.common.black}}>{dateValue}</Typography>} 
-                right={<OptionDial handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick} deletable={(removeMeal!==null)}/>}
+                right={<OptionDial handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick} editable={(addMeal !== null)} deletable={(removeMeal!==null)}/>}
             />
             <Box sx={{
                     width:'100%', 
@@ -197,6 +198,7 @@ export default function MealSet(props) {
                     mealItems={mealItems} 
                     handleClose={handleClose}
                     setStatusMessageState={setStatusMessageState}
+                    addMeal={addMeal}
                 />
             </Dialog>
         </Box>

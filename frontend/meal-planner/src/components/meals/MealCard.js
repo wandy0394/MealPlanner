@@ -11,7 +11,6 @@ export default function MealCard(props) {
             handler(meal)
         }
     }
-    
     return (
         <Box key={meal.id} onClick={handleClick} sx={{margin:'0rem',height:'100%', color:strawTheme.palette.common.black, minWidth:'400px', maxWidth:'600px'}}>
             <Box sx={{display:'grid', gridTemplateColumns:'3fr 1fr', height:'100%', width:'100%'}}>

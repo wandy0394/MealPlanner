@@ -35,6 +35,33 @@ export default function MealPlans() {
         newMealSets[key] = INITIAL_MEAL
         setMealSets(newMealSets)
     }
+    function addMeal(key, newMealSet) {
+        const newMealSets = {...mealSets}
+        let formattedMealSet = {
+            meal_id:newMealSet.meal_id,
+            recipes:{},
+            staticRecipes:{},
+            targetCalories:newMealSet.targetCalories,
+            targetCarbs:newMealSet.targetCarbs,
+            targetFat:newMealSet.targetFat,
+            totalCalories:newMealSet.totalCalories,
+            totalCarbs:newMealSet.totalCarbs,
+            totalFat:newMealSet.totalFat,
+            totalProtein:newMealSet.totalProtein
+        }
+
+        Object.values(newMealSet.meals).forEach((item)=>{
+            if (item.type ==='custom') {
+                formattedMealSet.recipes[item.recipe_id] = {recipe_id:item.recipe_id, qty:item.qty}
+            }
+            else if (item.type ==='static') {
+                formattedMealSet.staticRecipes[item.recipe_id] = {recipe_id:item.recipe_id, qty:item.qty}
+            }
+        })
+
+        newMealSets[key.format('YYYY-M-D')] = formattedMealSet
+        setMealSets(newMealSets)
+    }
 
     function handleDateChange(newDate) {
         const endDate = new DateObject(newDate)
@@ -53,7 +80,7 @@ export default function MealPlans() {
             }
             mainContent={
                 <>
-                    <MealList mealSets={mealSets} mealItems={mealItems} removeMeal={removeMeal}/>
+                    <MealList mealSets={mealSets} mealItems={mealItems} removeMeal={removeMeal} addMeal={addMeal}/>
                 </>
             }
 

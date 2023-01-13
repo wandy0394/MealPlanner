@@ -5,7 +5,7 @@ import StatusSnackbar from "../utility/StatusSnackbar"
 import { useState } from "react"
 
 export default function MealList(props) {
-    const {mealSets, mealItems, removeMeal} = props
+    const {mealSets, mealItems, removeMeal, addMeal} = props
     const [statusMessageState, setStatusMessageState] = useState(INITIAL_STATUS)
 
     return (
@@ -27,6 +27,7 @@ export default function MealList(props) {
                                 mealSet={value}
                                 dateValue={key}
                                 removeMeal={removeMeal}
+                                addMeal={addMeal}
                                 setStatusMessageState={setStatusMessageState}
                             />
                         )
