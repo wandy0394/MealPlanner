@@ -126,7 +126,15 @@ export default function MealSet(props) {
         >
             <Header 
                 left={<Typography variant='h4' sx={{color:strawTheme.palette.common.black}}>{dateValue}</Typography>} 
-                right={<OptionDial handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick} editable={(addMeal !== null)} deletable={(removeMeal!==null)}/>}
+                right={
+                    (addMeal!==null)&&
+                        <OptionDial 
+                            handleEditClick={handleEditClick} 
+                            handleDeleteClick={handleDeleteClick} 
+                            editable={(addMeal !== null)} 
+                            deletable={(removeMeal!==null)}
+                        />
+                }
             />
             <Box sx={{
                     width:'100%', 
@@ -150,7 +158,6 @@ export default function MealSet(props) {
                         height:'100%', 
                         overflowX:'auto', 
                         overflowY:'hidden', 
-                        //scrollbarWidth:'thin',
                     }}
                 >
                     {
@@ -189,7 +196,6 @@ export default function MealSet(props) {
                 onClose={handleClose}
                 fullWidth={true}
                 maxWidth='false'
-                // PaperProps={{sx:{width:'100%', height:'100%'}}}
                 PaperProps={{sx:{display:'flex', alignItems:'center', justifyContent:'center', width:'35vw', border:'solid', margin:'0 auto'}}}
             >
                 <EditMealForm 
