@@ -65,8 +65,9 @@ export const buttonStyle = {
     margin:'0',
     padding:'0',
     zIndex:'2',
-    height:'15%',
+    height:'100%',
     aspectRatio:'1/1',
+    transform:'scale(85%)',
     backgroundColor:strawTheme.palette.primary.main,
     '&:hover': {
         backgroundColor:strawTheme.palette.primary.light
