@@ -55,15 +55,13 @@ export function ImageBlank() {
 }
 
 export const tabStyle = {
-    borderBottom:1, 
-    borderColor:'divider',
-    position:'absolute',
-    bottom:'0',
+
+    // padding: '2rem 2rem 0rem 2rem'
+    // position:'absolute',
+    // top:'0',
 }
 
 export const buttonStyle = {
-    left:'calc(100%)',
-    transform: 'translate(-360%, 50%)',
     margin:'0',
     padding:'0',
     zIndex:'2',
@@ -73,9 +71,20 @@ export const buttonStyle = {
     '&:hover': {
         backgroundColor:strawTheme.palette.primary.light
     },
-    position:'absolute',
-    bottom:'0',
+    // position:'absolute',
+    // top:'0',
     
+}
+export const controlStyle = {
+    display:'flex', 
+    flexDirection:'row', 
+    alignItems:'flex-end', 
+    justifyContent:'space-between', 
+    paddingLeft:'2rem', 
+    paddingRight:'2rem',
+    borderBottom:1, 
+    borderColor:'divider',
+    backgroundColor:strawTheme.palette.common.lightgrey,
 }
 
 export const postcardHeight = '65vmin'
@@ -86,17 +95,17 @@ export const postcardStyle = {
     maxHeight:postcardHeight,
     aspectRatio:'6/4', 
     display:'grid',
-    gridTemplateColumns:'1fr 1fr',
+    gridTemplateColumns:{xs:'1fr', md:'1fr 1fr'},
     zIndex:'1',
-    position:'relative'
+    position:'relative',
 
 }
 
 export const summaryStyle = {
     backgroundColor:strawTheme.palette.common.lightgrey,
-    padding:'2rem 2rem 0rem 2rem', 
+    padding:'2rem 2rem', 
     zIndex:'1', 
-    height:'35%', 
+    height:'auto', 
     position:'relative'
 }
 

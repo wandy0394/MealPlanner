@@ -5,7 +5,7 @@ import { Stack } from "@mui/system";
 import { useState } from "react";
 import EditIcon from '@mui/icons-material/Edit'
 import TabPanel, { postcardHeight } from "./utility/RecipePostCardUtil";
-import {InfoCard, ImageBlank, tabStyle, postcardStyle, summaryStyle, sectionStyle, MAX_CHARS} from "./utility/RecipePostCardUtil";
+import {InfoCard, ImageBlank, tabStyle, postcardStyle, controlStyle, summaryStyle, sectionStyle, MAX_CHARS} from "./utility/RecipePostCardUtil";
 import {UnitConverter} from "../utility/Units"
 import { strawTheme } from "../utility/StrawTheme";
 import IngredientsPaneRead from "./IngredientsPaneRead";
@@ -38,22 +38,18 @@ export default function ReadCustomRecipePostCard(props) {
     }
 
     const dialStyle = {
-        right:'0%',
-        transform: 'translate(-3vw, 4vh) scale(85%)',
+        // right:'0%',
+        // transform: 'translate(-3vw, 4vh) scale(85%)',
         margin:'0',
         padding:'0',
         zIndex:'2',
         height:'100%',
-        position:'absolute',
-        bottom:'0',
     }
     return (
     
         <Box sx={postcardStyle}>
-            <Box sx={{height:postcardHeight}}>
+            <Box sx={{height:postcardHeight, display:'flex', flexDirection:'column'}}>
                 <ImageBlank/>                   
-            </Box>
-            <Box sx={{height:postcardHeight}}>
                 <Box sx={summaryStyle}>
                     <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
                         <Typography sx={{color:strawTheme.palette.common.black}} variant='h3'>{recipe.title}</Typography>
@@ -65,6 +61,11 @@ export default function ReadCustomRecipePostCard(props) {
                         </Box>
                         <Typography sx={{color:strawTheme.palette.common.black}} variant='body'>{recipe.recipe_description}</Typography>
                     </Box>
+                </Box>
+            </Box>
+            <Box sx={{height:postcardHeight, display:'flex', flexDirection:'column'}}>
+                <Box sx={controlStyle}>
+
                     <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>
                         <Tab label='Ingredients' sx={{color:strawTheme.palette.common.black}}/>
                         <Tab label='Instructions' sx={{color:strawTheme.palette.common.black}}/>  
@@ -76,7 +77,9 @@ export default function ReadCustomRecipePostCard(props) {
                             <SpeedDial
                             ariaLabel='Speed Dial More Icon'
                             sx={dialStyle}
+                            direction='left'
                             icon={<MoreVertIcon/>}
+                            FabProps={{size:'small'}}
                         >
                             <SpeedDialAction
                                 key='Edit'
@@ -95,7 +98,7 @@ export default function ReadCustomRecipePostCard(props) {
                 </Box>
 
                 <Box sx={sectionStyle}>
-                    <Box sx={{backgroundColor:strawTheme.palette.common.white, height:'65%', maxHeight:'65%'}}>
+                    <Box sx={{backgroundColor:strawTheme.palette.common.white, height:'100%', maxHeight:'100%'}}>
                         <TabPanel value={tabNum} index={0}>
                             {    
                                 Object.entries(recipe.ingredients).map(([keyID, ingrObj], index)=> {
@@ -121,7 +124,7 @@ export default function ReadCustomRecipePostCard(props) {
                             />
                         </TabPanel>
                     </Box>
-                    <Box sx={{backgroundColor:strawTheme.palette.common.grey, height:'65%', padding:'2rem 0'}}>
+                    <Box sx={{backgroundColor:strawTheme.palette.common.grey, height:'100%', padding:'2rem 0'}}>
                         <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
                             <InfoCard value={recipe.macros.calories} label='Calories'/>
                             <InfoCard value={recipe.macros.carbs} label='Carbs'/>
