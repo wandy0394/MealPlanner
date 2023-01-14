@@ -131,8 +131,8 @@ export const INITIAL_RECIPE = {
     ingredients:{},
     macros:INITIAL_MACROS,
     counter:0,
-    servings:0,
-    serving_size:'1',
+    servings:1,
+    serving_size:1,
     prepTime:0,
     cookTime:0
 }

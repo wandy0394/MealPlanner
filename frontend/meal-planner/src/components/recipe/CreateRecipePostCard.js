@@ -81,13 +81,13 @@ export default function CreateRecipePostCard(props) {
 
     useEffect(()=> {
         const newMacros = {
-            carbs:parseFloat(calculator.calculateCarbs(recipe.ingredients)).toFixed(2),
-            fat:parseFloat(calculator.calculateFat(recipe.ingredients)).toFixed(2),
-            protein:parseFloat(calculator.calculateProtein(recipe.ingredients)).toFixed(2),
-            calories:parseFloat(calculator.calculateCalories(recipe.ingredients)).toFixed(2)
+            carbs:parseFloat(calculator.calculateCarbs(recipe.ingredients) / recipe.servings).toFixed(2),
+            fat:parseFloat(calculator.calculateFat(recipe.ingredients) / recipe.servings).toFixed(2),
+            protein:parseFloat(calculator.calculateProtein(recipe.ingredients)/ recipe.servings).toFixed(2),
+            calories:parseFloat(calculator.calculateCalories(recipe.ingredients)/ recipe.servings).toFixed(2)
         }
         dispatch({type:ACTION_TYPES.SET_MACROS, payload: newMacros})
-    }, [recipe.ingredients])
+    }, [recipe.ingredients, recipe.servings])
 
 
 
@@ -101,7 +101,7 @@ export default function CreateRecipePostCard(props) {
         const data = {
             title:recipe.title,
             servings:recipe.servings,
-            servings_size:recipe.serving_size,
+            serving_size:recipe.serving_size,
             cookTime:recipe.cookTime,
             prepTime:recipe.prepTime,
             ingredients:recipe.ingredients,
@@ -109,8 +109,9 @@ export default function CreateRecipePostCard(props) {
             recipe_description:recipe.recipe_description,
             macros:recipe.macros
         }
+        console.log(data)
         const result = await RecipeService.addRecipe(data)
-        handleClose({message:'Recipe saved.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
+        //handleClose({message:'Recipe saved.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
     }
 
 
@@ -134,7 +135,7 @@ export default function CreateRecipePostCard(props) {
                                         value={<TextField 
                                                 required 
                                                 variant='standard' 
-                                                inputProps={{min:0, type:'number'}}
+                                                inputProps={{min:1, type:'number'}}
                                                 value={recipe.servings}
                                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVINGS, payload:e.target.value})}
                                                 />}
@@ -207,7 +208,7 @@ export default function CreateRecipePostCard(props) {
                                     <InfoCard value={recipe.macros.carbs} label='Carbs'/>
                                     <InfoCard value={recipe.macros.fat} label='Fat'/>
                                     <InfoCard value={recipe.macros.protein} label='Protein'/>
-                                    <InfoCard value='1' label='Serving Size'/>
+                                    <InfoCard value={1} label='Serving Size'/>
                                 </Stack>
                         </Box>
                     </Box>
