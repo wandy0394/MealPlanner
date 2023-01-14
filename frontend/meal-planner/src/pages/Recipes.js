@@ -56,15 +56,11 @@ export default function Recipes() {
                     return RecipeService.getRecipe(item.recipe_id)
                 }
             })).then((values)=>{
-                console.log(values)
                 for (let i = 0; i < result.length; i++) {
-                    recipeData[result[i].id] = values[i].recipe
+                    recipeData[result[i].id] = {...values[i].recipe, id:result[i].id}
                 }
                 setStaticRecipes(recipeData)
             })
-            
-
-            
         }
         catch (e) {
             console.error(e)
@@ -121,6 +117,7 @@ export default function Recipes() {
                                         return (
                                             
                                             <CustomRecipePostCard
+                                                key={index}
                                                 recipeId={key}
                                                 refresh={refresh}
                                                 setStatusMessageState={setStatusMessageState}

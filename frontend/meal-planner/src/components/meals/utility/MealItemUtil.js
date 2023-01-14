@@ -68,36 +68,28 @@ export const useGetAllFood = () => {
                         }
                         counter++
                     })
+
                     Promise.all(staticResult.map((item)=>{
                         if (item.recipe_id !== undefined) {
-                            return {data:RecipeService.getRecipe(item.recipe_id), id:item.id}
+                            return RecipeService.getRecipe(item.recipe_id)
                         }
                     })).then((resp)=>{
-                        resp.forEach((item) => {
-                            item.data.then((value)=>{
-                                lineItems = {...lineItems, 
-                                    [counter] : {
-                                        name:value.recipe.recipe_name,
-                                        calories:parseFloat(value.recipe.serving_sizes.serving.calories),
-                                        carbs: parseFloat(value.recipe.serving_sizes.serving.carbohydrate),
-                                        fat: parseFloat(value.recipe.serving_sizes.serving.fat),
-                                        protein: parseFloat(value.recipe.serving_sizes.serving.protein),
-                                        image: value.recipe.recipe_images.recipe_image, 
-                                        recipe_id:item.id,  //consider renaming id
-                                        api_id:value.recipe.recipe_id,
-                                        type:'static'
-                                    }
+                        for (let i = 0; i < staticResult.length; i++) {
+                            lineItems = {...lineItems, 
+                                [counter] : {
+                                    name:resp[i].recipe.recipe_name,
+                                    calories:parseFloat(resp[i].recipe.serving_sizes.serving.calories),
+                                    carbs: parseFloat(resp[i].recipe.serving_sizes.serving.carbohydrate),
+                                    fat: parseFloat(resp[i].recipe.serving_sizes.serving.fat),
+                                    protein: parseFloat(resp[i].recipe.serving_sizes.serving.protein),
+                                    image: (resp[i].recipe.recipe_images !== undefined) ? resp[i].recipe.recipe_images.recipe_image : undefined, 
+                                    recipe_id:staticResult[i].id,  //consider renaming id
+                                    api_id:resp[i].recipe.recipe_id,
+                                    type:'static'
                                 }
-                                counter++    
-                                setMealLineItems(lineItems)                    
-                            })
-                            .catch(()=>{
-                                setMealLineItems(lineItems) 
-                            })
-                        })
-                    }).catch((resp)=>{
-                        setMealLineItems(lineItems)  
-                    }).finally(()=>{
+                            }
+                            counter++
+                        }
                         setMealLineItems(lineItems)  
                     })
                 }
