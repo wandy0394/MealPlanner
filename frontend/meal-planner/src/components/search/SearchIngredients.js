@@ -83,13 +83,17 @@ export default function SearchIngredients({state, dispatch, ingredientId, setIng
             </Box>
             <Box>
                 {
-                    ((state.results !== null) && 
-                        <><SearchIngredientResults 
+                    ((state.results !== null) ? 
+                        (<><SearchIngredientResults 
                             data={state.results} 
                             setIngredientId={setIngredientId}
                             setStatusMessageState={setStatusMessageState}
                             />
-                        </>)
+                        </>) : 
+                        (
+                            (<Typography variant='body1' sx={{display:'inline'}}>No Results</Typography>)
+                        )
+                    )
                 }
             </Box>
             <Box>

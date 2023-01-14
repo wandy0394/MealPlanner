@@ -160,7 +160,10 @@ export default function SearchRecipes({state, dispatch, getRecipe}) {
             </Box>
             <Box>
                 {
-                    ((state.results !== null) && <><SearchRecipeResults data={state.results} getRecipe={getRecipe}/></>)
+                    ((state.results !== null) ? 
+                        (<><SearchRecipeResults data={state.results} getRecipe={getRecipe}/></>):
+                        (<Typography variant='body1' sx={{display:'inline'}}>No Results</Typography>)
+                    )
                 }
             </Box>
             <Box>
