@@ -7,14 +7,17 @@ function TabPanel(props) {
         <>
             {(value === index) ? (
                 <Box hidden={value !== index} sx={{
-                    padding:'2rem 2rem 0rem 2rem', 
+                    padding:'2rem 2rem 2rem 2rem', 
                     height:'100%', 
-                    overflow:'auto', 
-                    display:'flex', 
-                    flexDirection:'column', 
-                    gap:'1rem'
+                    overflowY:'auto', 
+                    display:'grid',
+                    gridAutoRows:'1fr',
+                    gap:'1rem',
                 }}>
-                    {children}
+                    <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
+                        {children}
+
+                    </Box>
                 </Box>
             ) : ('')}
         </>
@@ -67,7 +70,7 @@ export const buttonStyle = {
     zIndex:'2',
     height:'100%',
     aspectRatio:'1/1',
-    transform:'scale(85%)',
+    transform:'scale(70%)',
     backgroundColor:strawTheme.palette.primary.main,
     '&:hover': {
         backgroundColor:strawTheme.palette.primary.light

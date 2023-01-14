@@ -5,7 +5,7 @@ import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import IngredientsPane from "./IngredientsPane";
 import CancelIcon from '@mui/icons-material/Cancel'
-import TabPanel, { postcardHeight } from "./utility/RecipePostCardUtil";
+import TabPanel, { controlStyle, postcardHeight } from "./utility/RecipePostCardUtil";
 import {InfoCard, ImageBlank, tabStyle, postcardStyle, summaryStyle, sectionStyle, MAX_CHARS} from "./utility/RecipePostCardUtil";
 import {UnitConverter} from "../utility/Units"
 import { ACTION_TYPES } from "./utility/ActionTypes";
@@ -73,26 +73,18 @@ export default function EditRecipePostCard(props) {
     }
 
     const dialStyle = {
-        right:'0%',
-        transform: 'translate(-4vw, 4vh) scale(85%)',
         margin:'0',
         padding:'0',
-        zIndex:'2',
         height:'100%',
-        position:'absolute',
-        bottom:'0',
     }
     return (
     
         <form onSubmit={handleSaveClicked}>
-            <Box sx={{...postcardStyle, gridTemplateColumns:'1fr 2fr',}}>
-                <Box sx={{height:postcardHeight}}>
+            <Box sx={{...postcardStyle}}>
+                <Box sx={{height:postcardHeight, display:'flex', flexDirection:'column'}}>
                     <ImageBlank/>                   
-                </Box>
-                <Box sx={{height:postcardHeight}}>
                     <Box sx={summaryStyle}>
                         <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
-                            
                             <TextField 
                                 placeholder='Recipe Name' 
                                 required 
@@ -141,34 +133,41 @@ export default function EditRecipePostCard(props) {
                         </Box>
                         
 
+
+                    </Box>
+                </Box>
+                <Box sx={{height:postcardHeight, display:'grid', gridTemplateRows:'7% 93%'}}>
+                    <Box sx={controlStyle}>
+
                         <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>
                             <Tab label='Ingredients' sx={{color:strawTheme.palette.common.black}}/>
                             <Tab label='Instructions' sx={{color:strawTheme.palette.common.black}}/>  
                         </Tabs>  
 
-                                <SpeedDial
-                                    ariaLabel='Speed Dial More Icon'
-                                    sx={dialStyle}
-                                    icon={<MoreVertIcon/>}
-                                >
-                                    <SpeedDialAction
-                                        
-                                        key='Save'
-                                        icon={<SaveIcon/>}
-                                        onClick={handleSaveClicked}
-                                    />
-                                    <SpeedDialAction
-                                        
-                                        key='Delete'
-                                        icon={<CancelIcon/>}
-                                        onClick={handleCancelClicked}
-                                    />
-                                </SpeedDial>
-
+                        <SpeedDial
+                            ariaLabel='Speed Dial More Icon'
+                            sx={dialStyle}
+                            FabProps={{size:'small'}}
+                            icon={<MoreVertIcon/>}
+                            direction='left'
+                        >
+                            <SpeedDialAction
+                                
+                                key='Save'
+                                icon={<SaveIcon/>}
+                                onClick={handleSaveClicked}
+                            />
+                            <SpeedDialAction
+                                
+                                key='Delete'
+                                icon={<CancelIcon/>}
+                                onClick={handleCancelClicked}
+                            />
+                        </SpeedDial>
                     </Box>
 
                     <Box sx={sectionStyle}>
-                        <Box sx={{backgroundColor:strawTheme.palette.common.white, height:'65%', maxHeight:'43vh'}}>
+                        <Box sx={{backgroundColor:strawTheme.palette.common.white, height:'100%'}}>
                             <TabPanel value={tabNum} index={0}>
                                 <IngredientsPane 
                                     recipeIngredients={recipe.ingredients}
@@ -180,17 +179,17 @@ export default function EditRecipePostCard(props) {
                                 <TextField variant='standard' label='Write your instructions here' 
                                     multiline 
                                     required 
-                                    sx={{width:'100%', height:'90%'}}
-                                    maxRows={20}
+                                    // maxRows={15}
                                     value={recipe.instructions}
                                     onChange = {handleInstructionChange}
-                                    inputProps={{maxLength:MAX_CHARS}}
+                                    inputProps={{maxLength:MAX_CHARS, style:{maxHeight:`calc(0.8 * ${postcardHeight})`, overflow:'auto'}}}
+                                    // InputProps={{sx:{overflowY:'scroll'}}}
                                 />
                           
                             </TabPanel>
                         </Box>
-                        <Box sx={{backgroundColor:strawTheme.palette.common.grey, height:'65%', padding:'2rem 0'}}>
-                            <Stack alignItems='center' justifyContent='space-between' sx={{height:'90%'}}>
+                        <Box sx={{backgroundColor:strawTheme.palette.common.grey, height:'100%', padding:'2rem 0'}}>
+                            <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
                                 <InfoCard value={recipe.macros.calories} label='Calories'/>
                                 <InfoCard value={recipe.macros.carbs} label='Carbs'/>
                                 <InfoCard value={recipe.macros.fat} label='Fat'/>

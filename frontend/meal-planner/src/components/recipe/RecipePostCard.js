@@ -61,7 +61,7 @@ export default function RecipePostCard(props) {
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{height:postcardHeight, display:'flex', flexDirection:'column'}}>
+            <Box sx={{height:postcardHeight, display:'grid', gridTemplateRows:'7% 93%'}}>
                 <Box sx={controlStyle}>
                     <Tabs value={tabNum} onChange={handleTabChange} sx={{...tabStyle}}>
                         <Tab label='Ingredients' sx={{color:strawTheme.palette.common.black}}/>
@@ -88,7 +88,7 @@ export default function RecipePostCard(props) {
                         }
                 </Box>
                 <Box sx={sectionStyle}>
-                    <Box sx={{backgroundColor:strawTheme.palette.common.white, height:'100%', maxHeight:'100%'}}>
+                    <Box sx={{backgroundColor:strawTheme.palette.common.white, height:'100%', maxHeight:'100%', overflowY:'hidden'}}>
                         <TabPanel value={tabNum} index={0}>
                             {
                                 recipe.ingredients.ingredient.map((item, index) => {

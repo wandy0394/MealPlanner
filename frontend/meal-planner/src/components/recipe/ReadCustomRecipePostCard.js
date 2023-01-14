@@ -38,11 +38,8 @@ export default function ReadCustomRecipePostCard(props) {
     }
 
     const dialStyle = {
-        // right:'0%',
-        // transform: 'translate(-3vw, 4vh) scale(85%)',
         margin:'0',
         padding:'0',
-        zIndex:'2',
         height:'100%',
     }
     return (
@@ -63,7 +60,7 @@ export default function ReadCustomRecipePostCard(props) {
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{height:postcardHeight, display:'flex', flexDirection:'column'}}>
+            <Box sx={{height:postcardHeight, display:'grid', gridTemplateRows:'7% 93%'}}>
                 <Box sx={controlStyle}>
 
                     <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>
@@ -98,7 +95,7 @@ export default function ReadCustomRecipePostCard(props) {
                 </Box>
 
                 <Box sx={sectionStyle}>
-                    <Box sx={{backgroundColor:strawTheme.palette.common.white, height:'100%', maxHeight:'100%'}}>
+                    <Box sx={{backgroundColor:strawTheme.palette.common.white, height:'100%', maxHeight:'100%', overflowY:'hidden'}}>
                         <TabPanel value={tabNum} index={0}>
                             {    
                                 Object.entries(recipe.ingredients).map(([keyID, ingrObj], index)=> {
@@ -116,8 +113,6 @@ export default function ReadCustomRecipePostCard(props) {
                             <TextField variant='standard'
                                 multiline 
                                 required 
-                                sx={{width:'100%', height:'100%'}}
-                                maxRows={20}
                                 value={recipe.instructions}
                                 disabled
                                 inputProps={{maxLength:MAX_CHARS}}
