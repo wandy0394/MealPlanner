@@ -16,7 +16,6 @@ export default function Recipes() {
     const [open, setOpen] = useState(false)
     const [recipes, setRecipes] = useState({})
     const [staticRecipes, setStaticRecipes] = useState([])
-    const [recipe, setRecipe] = useState('')
     const [tabValue, setTabValue] = useState(0)
 
     const [statusMessageState, setStatusMessageState] = useState(INITIAL_STATUS)
@@ -39,7 +38,9 @@ export default function Recipes() {
     async function refresh() {
         try {
             const result = await RecipeService.getRecipes()
+            getStaticRecipes()
             setRecipes(result)
+
         }
         catch (e) {
             console.error(e)
@@ -52,36 +53,28 @@ export default function Recipes() {
             let recipeData = {}
             Promise.all(result.map((item)=> {
                 if (item.recipe_id !== undefined) {
-                    return {data:RecipeService.getRecipe(item.recipe_id), id:item.id}
+                    return RecipeService.getRecipe(item.recipe_id)
                 }
-            })).then((resp)=>{
-                
-                resp.forEach((item) => {
-                    item.data.then((value)=>{
-                        recipeData[item.id]={...value.recipe, id:item.id}
-                    })
-                })
+            })).then((values)=>{
+                console.log(values)
+                for (let i = 0; i < result.length; i++) {
+                    recipeData[result[i].id] = values[i].recipe
+                }
+                setStaticRecipes(recipeData)
             })
-            setStaticRecipes(recipeData)
+            
+
+            
         }
         catch (e) {
             console.error(e)
+            return null
         }
     }
     function removeStaticRecipe(id) {
         const newRecipeData = {...staticRecipes}
         delete newRecipeData[id]
         setStaticRecipes(newRecipeData)
-    }
-    async function handleRecipeTabClick(e, recipeId, id) {
-        try {
-            const data = await RecipeService.getRecipe(recipeId)
-            setRecipe({...data.recipe, id:id})
-        }
-        catch (e) {
-            console.error('error')
-            console.error(e)
-        }
     }
 
     let called = false
