@@ -1,8 +1,10 @@
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Dialog } from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import {strawTheme} from '../utility/StrawTheme'
 import IngredientService from "../../service/ingredient-service";
 import { SEVERITY } from "../utility/StatusSnackbar";
+import SaveIngredientForm from "./SaveIngredientForm";
+import { useState } from "react";
 
 const DUMMY_DATA = [
     {food_id:11, food_name:'Food1', food_description:'Food'},
@@ -15,6 +17,9 @@ const DUMMY_DATA = [
 ]
 
 export default function SearchIngredientResults({data, setIngredientId, setStatusMessageState=null}) {
+    const [open, setOpen] = useState(false)
+    const [ingredient, setIngredient] = useState({})
+
 
     let cleanedData = null
     const columnHeaders = [
@@ -51,26 +56,48 @@ export default function SearchIngredientResults({data, setIngredientId, setStatu
             )
         })
     }
+    
+
+    function normaliseMacros(value, factor, servingSize) {
+        //scales macronutrient values to 'Per 100g' if applicable
+        return parseFloat(value/servingSize * factor).toFixed(2)
+    }
     function parseDescription(text) {
         //description is in the format Serving Size - Calories: X | Fat: X | Carbs: X | Protein: X 
         const splitText = text.split('-')
         const serving = splitText[0].trim()
         const macros = splitText[1].split('|')
+        let servingSize = 1
+        let factor = 1
+        const regex = /[0-9]*\.?[0-9]+g/i
+        let normalised = false
+        if (serving.match(regex)) {
+            //console.log(serving)
+            servingSize = parseFloat(serving.match(regex)[0].split('g')[0])
+            factor = 100
+            normalised = true
+        }
+        
+
         const output = {
             unit:serving,
-            calories: (macros[0].split(':')[1]).replace('kcal', '').trim(),
-            fat: (macros[1].split(':')[1]).replace('g', '').trim(),
-            carbs:(macros[2].split(':')[1]).replace('g', '').trim(),
-            protein: (macros[3].split(':')[1]).replace('g', '').trim(),
+            calories: normaliseMacros((macros[0].split(':')[1]).replace('kcal', '').trim(), factor, servingSize),
+            fat: normaliseMacros((macros[1].split(':')[1]).replace('g', '').trim(), factor, servingSize),
+            carbs:normaliseMacros((macros[2].split(':')[1]).replace('g', '').trim(), factor, servingSize),
+            protein: normaliseMacros((macros[3].split(':')[1]).replace('g', '').trim(), factor, servingSize),
+            normalised: normalised
         }
         return output
+    }
+    function parseServing(servingString) {
+        
     }
     function handleAddClick(e, input) {
         const food = cleanedData.filter((item)=> {
             return (item.food_id === input)
         })
         const macros = parseDescription(food[0].food_description)
-
+        
         const params = {
             name:food[0].food_name,
             calories:macros.calories,
@@ -78,16 +105,22 @@ export default function SearchIngredientResults({data, setIngredientId, setStatu
             fat:macros.fat,
             protein:macros.protein,
             food_id:food[0].food_id,
-            unit: macros.unit
+            unit: macros.unit,
+            normalised:macros.normalised
         }
-        IngredientService.addIngredient(params)
-        if (setStatusMessageState !== null) {
-            setStatusMessageState({message:`Ingredient (${food[0].food_name}) added.`, severity:SEVERITY.SUCCESS, isMessageVisible:true})
-        }
+        // IngredientService.addIngredient(params)
+        // if (setStatusMessageState !== null) {
+        //     setStatusMessageState({message:`Ingredient (${food[0].food_name}) added.`, severity:SEVERITY.SUCCESS, isMessageVisible:true})
+        // }
+        setIngredient(params)
+        setOpen(true)
     }
 
     function handleIngredientClick(e, id) {
         setIngredientId(id)
+    }
+    function handleClose() {
+        setOpen(false)
     }
 
     return (
@@ -98,8 +131,8 @@ export default function SearchIngredientResults({data, setIngredientId, setStatu
                         <TableRow  sx={{backgroundColor:strawTheme.palette.primary.main}}>
                             <TableCell>Add</TableCell>
                             {
-                                columnHeaders.map((item)=> {
-                                    return <TableCell>{item}</TableCell>
+                                columnHeaders.map((item, index)=> {
+                                    return <TableCell key={index}>{item}</TableCell>
                                 })
                             }
                         </TableRow>
@@ -107,7 +140,7 @@ export default function SearchIngredientResults({data, setIngredientId, setStatu
                     <TableBody>
                         {
                             tableRows.map((row) => {
-                                return <TableRow key={row.ID} onClick={(e)=>handleIngredientClick(e, row.ID)} hover sx={{'&:hover':{cursor:'pointer'}}}>
+                                return <TableRow key={row.ID} onClick={(e)=>handleIngredientClick(e, row.ID)} hover>
                                             <TableCell key={row.ID*2}>
                                                 <Button key={row.ID} onClick={(e, input) => handleAddClick(e, row.ID)}>
                                                     <AddBoxIcon/>
@@ -127,6 +160,12 @@ export default function SearchIngredientResults({data, setIngredientId, setStatu
                     </TableBody>
                 </Table>
             </TableContainer>
+            <SaveIngredientForm
+                open={open}
+                handleClose={handleClose}
+                ingredient={ingredient}
+                setStatusMessageState={setStatusMessageState}
+            />
         </Box>
     )
 }

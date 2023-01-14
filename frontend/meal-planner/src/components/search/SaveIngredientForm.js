@@ -1,20 +1,17 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, InputAdornment, TextField } from "@mui/material"
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, InputAdornment, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import IngredientService from "../../service/ingredient-service";
 import { SEVERITY } from "../utility/StatusSnackbar";
-import IngredientAutoComplete from "./IngredientAutocomplete";
 
 
-export default function CreateIngredientForm(props) {
-    const {open, handleClose, refresh, ingredients, setStatusMessageState} = props
-    const [ingredientDict, setIngredientDict] = useState({})
+export default function SaveIngredientForm(props) {
+    const {open, handleClose, ingredient, setStatusMessageState} = props
     const [name, setName] = useState('')
-    const [calories, setCalories] = useState('')
-    const [carbs, setCarbs] = useState('')
-    const [fat, setFat] = useState('')
-    const [protein, setProtein] = useState('')
-    const [isEditing, setIsEditing] = useState(false)
-    const [keyId, setKeyId] = useState(null)
+    const [calories, setCalories] = useState(0)
+    const [carbs, setCarbs] = useState(0)
+    const [fat, setFat] = useState(0)
+    const [protein, setProtein] = useState(0)
+    const [message, setMessage] = useState('')
 
     async function handleSaveClick(e) {
         const params = {
@@ -26,21 +23,39 @@ export default function CreateIngredientForm(props) {
             food_id:null
         }
         let data
-        if (isEditing) {
-            params['id'] = keyId 
-            data = await IngredientService.updateIngredient(params)
-            setStatusMessageState({message:`Ingredient (${name}) updated.`, severity:SEVERITY.SUCCESS, isMessageVisible:true})
+
+        data = await IngredientService.addIngredient(params)
+        setStatusMessageState({message:`Ingredient (${name}) added.`, severity:SEVERITY.SUCCESS, isMessageVisible:true})
+        
+        handleClose()
+    }
+
+    useEffect(()=>{
+        if (ingredient.normalised) {
+            setCarbs(ingredient.carbs)
+            setFat(ingredient.fat)
+            setProtein(ingredient.protein)
+            setCalories(ingredient.calories)
+            setMessage('')
         }
         else {
-            data = await IngredientService.addIngredient(params)
-            setStatusMessageState({message:`Ingredient (${name}) added.`, severity:SEVERITY.SUCCESS, isMessageVisible:true})
+            setCarbs(0)
+            setFat(0)
+            setProtein(0)
+            setCalories(0)
+            setMessage('Unrecognized serving size. Please estimate macros per 100g.')
         }
-        handleClose()
-        refresh()
-    }
+        setName(ingredient.name)
+    }, [ingredient])
+
+
 
     function handleCaloriesChange(e) {
         setCalories(e.target.value)
+    }
+
+    function handleNameChange(e) {
+        setName(e.target.value)
     }
 
     function handleCarbsChange(e) {
@@ -54,60 +69,22 @@ export default function CreateIngredientForm(props) {
     function handleProteinChange(e) {
         setProtein(e.target.value)
     }
-    useEffect(()=> {
-        const newDict = ingredients.reduce((result, item) => {
-            return {...result, 
-                [item.id]: {
-                    name:item.name, 
-                    calories:item.calories, 
-                    fat:item.fat, 
-                    protein:item.protein, 
-                    carbs:item.carbs
-                }
-            }
-        }, {})
-        setIngredientDict(newDict)
-    }, [ingredients])
 
-    function populateMacros(value, id) {
-        if (value === null) return
-        const {name} = value
-        if (!(id in ingredientDict)) {
-            setCalories('')
-            setFat('')
-            setProtein('')
-            setCarbs('')  
-            setName(name)
-            setKeyId(null)
-            setIsEditing(false)
 
-        }
-        else {
-            setCalories(ingredientDict[id].calories)
-            setFat(ingredientDict[id].fat)
-            setProtein(ingredientDict[id].protein)
-            setCarbs(ingredientDict[id].carbs)
-            setName(ingredientDict[id].name)
-            setKeyId(id)
-            setIsEditing(true)
-        }
-    }
 
     return (
         <Box>
             <Dialog open={open} onClose={handleClose}>                
-                <DialogTitle>Edit your ingredients</DialogTitle>
+                <DialogTitle>Add ingredient</DialogTitle>
                 <DialogContent sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
-                    <IngredientAutoComplete
-                        ingredients={(ingredients).map((item)=> {
-                            return {name:item.name, id:item.id}
-                        })}
-                        dispatch={populateMacros}
+                    <TextField variant='standard' label='Name' 
+                        value={name}
+                        onChange={handleNameChange} 
                     />
-                    <TextField variant='standard' label='Calories' type='number'
+                   <TextField variant='standard' label='Calories' type='number'
                         value={calories}
                         onChange={handleCaloriesChange} 
-                        InputProps ={{
+                        InputProps ={{ 
                             inputProps:{min:0}, 
                             endAdornment: <InputAdornment position='end'>per 100g</InputAdornment>
                         }}
@@ -136,6 +113,9 @@ export default function CreateIngredientForm(props) {
                             endAdornment: <InputAdornment position='end'>per 100g</InputAdornment>
                         }}
                     />
+                    <Typography variant='body2'>
+                        {message}
+                    </Typography>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleSaveClick}>Save</Button>
