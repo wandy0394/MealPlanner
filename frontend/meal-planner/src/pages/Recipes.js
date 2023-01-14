@@ -15,7 +15,7 @@ import StatusSnackbar, { INITIAL_STATUS, SEVERITY } from "../components/utility/
 export default function Recipes() {
     const [open, setOpen] = useState(false)
     const [recipes, setRecipes] = useState({})
-    const [staticRecipes, setStaticRecipes] = useState({})
+    const [staticRecipes, setStaticRecipes] = useState([])
     const [recipe, setRecipe] = useState('')
     const [tabValue, setTabValue] = useState(0)
 
@@ -49,11 +49,29 @@ export default function Recipes() {
     async function getStaticRecipes() {
         try {
             const result = await RecipeService.getStaticRecipes()
-            setStaticRecipes(result)
+            let recipeData = {}
+            Promise.all(result.map((item)=> {
+                if (item.recipe_id !== undefined) {
+                    return {data:RecipeService.getRecipe(item.recipe_id), id:item.id}
+                }
+            })).then((resp)=>{
+                
+                resp.forEach((item) => {
+                    item.data.then((value)=>{
+                        recipeData[item.id]={...value.recipe, id:item.id}
+                    })
+                })
+            })
+            setStaticRecipes(recipeData)
         }
         catch (e) {
             console.error(e)
         }
+    }
+    function removeStaticRecipe(id) {
+        const newRecipeData = {...staticRecipes}
+        delete newRecipeData[id]
+        setStaticRecipes(newRecipeData)
     }
     async function handleRecipeTabClick(e, recipeId, id) {
         try {
@@ -98,60 +116,49 @@ export default function Recipes() {
                             variant='scrollable'
                             scrollButtons='auto'                       
                         >
-                            {
-                                Object.entries(recipes).map(([key, data])=> {
-                                    return <Tab 
-                                                key={key} 
-                                                label={data.title} 
-                                                sx={{color:strawTheme.palette.common.black}}
-                                            />
-                                })
-                            }
-                            {
-                                Object.entries(staticRecipes).map(([key, data])=> {
-                                    return <Tab 
-                                                key={key} 
-                                                label={data.recipe_name} 
-                                                onClick={e=>handleRecipeTabClick(e, data.recipe_id, data.id)} 
-                                                sx={{color:strawTheme.palette.common.black}}
-                                            />
-                                })
-                            }
+                            <Tab label='Custom Recipes' sx={{color:strawTheme.palette.common.black}}/>
+                            <Tab label='Saved Recipes' sx={{color:strawTheme.palette.common.black}}/>
                         </Tabs>
                     </Box>
                     <Box sx={{display:'flex', justifyContent:'center', width:'100%'}}>
-                        {
-                            Object.entries(recipes).map(([key, data], index)=> {
-                                return (
-                                    <TabPanel key={key} value={tabValue} index={index}>
-                                        <CustomRecipePostCard
-                                            recipeId={key}
-                                            refresh={refresh}
-                                            setStatusMessageState={setStatusMessageState}
-                                        />
-                                    </TabPanel>
-                                )
-                            })
-
-                        }
-                        {
-                            Object.entries(staticRecipes).map(([key, data], index)=> {
-                                return (
-                                    <TabPanel key={key} value={tabValue} index={Object.keys(recipes).length+index}>
-                                        {
-                                            (recipe !== '') &&
-                                                <RecipePostCard
-                                                    recipe={recipe}
-                                                    readOnly={true}
-                                                    deleteable={true}
-                                                    refresh={getStaticRecipes}
-                                                    setStatusMessageState={setStatusMessageState}
-                                                />
-                                        }
-                                    </TabPanel>
-                                )
-                            })
-                        }
+                        <TabPanel value={tabValue} index={0}>
+                            <Stack gap={6}>
+                                {
+                                    Object.entries(recipes).map(([key, data], index)=> {
+                                        return (
+                                            
+                                            <CustomRecipePostCard
+                                                recipeId={key}
+                                                refresh={refresh}
+                                                setStatusMessageState={setStatusMessageState}
+                                            />
+                                            
+                                        )
+                                    })
+                                }
+                            </Stack>
+                        </TabPanel>
+                        <TabPanel value={tabValue} index={1}>
+                            <Stack gap={6}>
+                                {
+                                    Object.entries(staticRecipes).map(([key, data], index)=> {
+                                        return (
+                                            <RecipePostCard
+                                                key={index}
+                                                recipe={data}
+                                                id={data.id}
+                                                readOnly={true}
+                                                deleteable={true}
+                                                refresh={getStaticRecipes}
+                                                removeStaticRecipe={removeStaticRecipe}
+                                                setStatusMessageState={setStatusMessageState}
+                                            />
+                                        )
+                                    })
+                                } 
+                            </Stack>
+                        </TabPanel>
+   
                         <Modal
                             open={open}
                             onClose={()=>handleClose({message:'Recipe not saved.', severity:SEVERITY.INFO, isMessageVisible:true})}

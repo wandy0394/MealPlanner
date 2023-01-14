@@ -9,7 +9,7 @@ import {strawTheme} from "../utility/StrawTheme"
 import { SEVERITY } from "../utility/StatusSnackbar";
 
 export default function RecipePostCard(props) {
-    const {recipe, readOnly=false, deleteable=false, refresh, setStatusMessageState=null} = props
+    const {recipe, id, readOnly=false, deleteable=false, refresh, removeStaticRecipe, setStatusMessageState=null} = props
     const [tabNum, setTabNum] = useState(0)
     
     const handleTabChange = (event, newValue) => {
@@ -34,7 +34,7 @@ export default function RecipePostCard(props) {
                 if (setStatusMessageState !== null) {
                     setStatusMessageState({message:'Recipe deleted.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
                 }
-                refresh()
+                removeStaticRecipe(recipe.id)
             })
     }
 
