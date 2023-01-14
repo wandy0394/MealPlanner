@@ -5,7 +5,7 @@ import { useEffect, useReducer, useState } from "react";
 import IngredientsPane from "./IngredientsPane";
 import {UnitConverter} from "../utility/Units"
 import { ACTION_TYPES } from "./utility/ActionTypes";
-import TabPanel, { postcardHeight } from "./utility/RecipePostCardUtil";
+import TabPanel, { controlStyle, postcardHeight } from "./utility/RecipePostCardUtil";
 import {InfoCard, ImageBlank, tabStyle, buttonStyle, postcardStyle, summaryStyle, sectionStyle, INITIAL_RECIPE, MAX_CHARS} from "./utility/RecipePostCardUtil";
 import RecipeService from "../../service/recipe-service";
 import { strawTheme } from "../utility/StrawTheme";
@@ -117,14 +117,11 @@ export default function CreateRecipePostCard(props) {
     return (
     
         <form onSubmit={handleSaveClicked}>
-            <Box sx={{...postcardStyle, gridTemplateColumns:'1fr 2fr'}}>
-                <Box sx={{height:postcardHeight}}>
+            <Box sx={{...postcardStyle}}>
+                <Box sx={{height:postcardHeight, display:'flex', flexDirection:'column'}}>
                     <ImageBlank/>                   
-                </Box>
-                <Box sx={{height:postcardHeight}}>
                     <Box sx={summaryStyle}>
                         <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
-                            
                             <TextField 
                                 placeholder='Recipe Name' 
                                 required 
@@ -171,17 +168,21 @@ export default function CreateRecipePostCard(props) {
                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_RECIPE_DESCRIPTION, payload:e.target.value})}
                             />
                         </Box>
+                    </Box>
+                </Box>
+                <Box sx={{height:postcardHeight, display:'grid', gridTemplateRows:'7% 93%'}}>
+                    <Box sx={controlStyle}>
                         <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>
                             <Tab label='Ingredients' sx={{color:strawTheme.palette.common.black}}/>
                             <Tab label='Instructions' sx={{color:strawTheme.palette.common.black}}/>  
                         </Tabs>  
-                            {
-                                readOnly ? '' : (<IconButton disabled={readOnly} sx={buttonStyle} type='submit'><SaveIcon/></IconButton>)
-                            }
-                        </Box>
+                        {
+                            readOnly ? '' : (<IconButton disabled={readOnly} sx={buttonStyle} type='submit'><SaveIcon/></IconButton>)
+                        }
 
+                    </Box>
                     <Box sx={sectionStyle}>
-                        <Box sx={{backgroundColor:strawTheme.palette.common.white, height:'65%', maxHeight:'65%'}}>
+                        <Box sx={{backgroundColor:strawTheme.palette.common.white, height:'100%', maxHeight:'100%'}}>
                             <TabPanel value={tabNum} index={0}>
                                 <IngredientsPane 
                                     recipeIngredients={recipe.ingredients}
@@ -190,19 +191,17 @@ export default function CreateRecipePostCard(props) {
                                 />
                             </TabPanel>
                             <TabPanel value={tabNum} index={1}>
-                                <TextField variant='standard' label='Write your instructions here' 
+                            <TextField variant='standard' label='Write your instructions here' 
                                     multiline 
                                     required 
-                                    sx={{width:'100%', height:'90%'}}
-                                    maxRows={20}
                                     value={recipe.instructions}
                                     onChange = {handleInstructionChange}
-                                    inputProps={{maxLength:MAX_CHARS}}
+                                    inputProps={{maxLength:MAX_CHARS, style:{maxHeight:`calc(0.8 * ${postcardHeight})`, overflow:'auto'}}}
                                 />
                           
                             </TabPanel>
                         </Box>
-                        <Box sx={{backgroundColor:strawTheme.palette.common.grey, height:'65%', padding:'3rem 0'}}>
+                        <Box sx={{backgroundColor:strawTheme.palette.common.grey, height:'100%', padding:'3rem 0'}}>
                                 <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
                                     <InfoCard value={recipe.macros.calories} label='Calories'/>
                                     <InfoCard value={recipe.macros.carbs} label='Carbs'/>

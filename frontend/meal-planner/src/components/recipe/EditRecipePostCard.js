@@ -179,11 +179,9 @@ export default function EditRecipePostCard(props) {
                                 <TextField variant='standard' label='Write your instructions here' 
                                     multiline 
                                     required 
-                                    // maxRows={15}
                                     value={recipe.instructions}
                                     onChange = {handleInstructionChange}
                                     inputProps={{maxLength:MAX_CHARS, style:{maxHeight:`calc(0.8 * ${postcardHeight})`, overflow:'auto'}}}
-                                    // InputProps={{sx:{overflowY:'scroll'}}}
                                 />
                           
                             </TabPanel>

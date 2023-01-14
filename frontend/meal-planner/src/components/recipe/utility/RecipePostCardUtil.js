@@ -75,10 +75,7 @@ export const buttonStyle = {
     '&:hover': {
         backgroundColor:strawTheme.palette.primary.light
     },
-    // position:'absolute',
-    // top:'0',
-    
-}
+    }
 export const controlStyle = {
     display:'flex', 
     flexDirection:'row', 
