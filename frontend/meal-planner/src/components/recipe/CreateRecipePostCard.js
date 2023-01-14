@@ -111,7 +111,7 @@ export default function CreateRecipePostCard(props) {
         }
         console.log(data)
         const result = await RecipeService.addRecipe(data)
-        //handleClose({message:'Recipe saved.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
+        handleClose({message:'Recipe saved.', severity:SEVERITY.SUCCESS, isMessageVisible:true})
     }
 
 
