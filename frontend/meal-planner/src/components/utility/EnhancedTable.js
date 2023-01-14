@@ -133,16 +133,17 @@ export default function EnhancedTable(props) {
                                     >
                                     <TableCell padding="checkbox">
                                         <Checkbox
-                                        color="primary"
-                                        checked={isItemSelected}
+                                            color="primary"
+                                            checked={isItemSelected}
                                         />
                                     </TableCell>
                                     {
-                                        headCells.map((item)=> {
+                                        headCells.map((item, index)=> {
                                             const id = item.id
                                             return (
                                                 <TableCell
                                                     align={item.alignment}
+                                                    key={index}
                                                 >
                                                     {row[item.id]}
                                                     
