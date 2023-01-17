@@ -1,4 +1,4 @@
-import { Modal, Stack, Tab, Tabs } from "@mui/material";
+import { Modal, Stack, Tab, Tabs, useMediaQuery } from "@mui/material";
 import { useState, useReducer } from "react";
 import SearchIngredients from "../components/search/SearchIngredients";
 import SearchRecipes from "../components/search/SearchRecipes";
@@ -53,6 +53,7 @@ export default function Search() {
 
     const [open, setOpen] = useState(false)
     const [statusMessageState, setStatusMessageState] = useState(INITIAL_STATUS)
+
     function handleClose() {
         setOpen(false)
     }
@@ -115,11 +116,11 @@ export default function Search() {
 
         <MainPane title='Find Something to Eat'
             mainContent={
-                <Stack>
+                <Stack sx={{border:'solid'}}>
                     <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
                         
-                        <Tab label='Ingredients' sx={{width:'100%', color:strawTheme.palette.common.black}}/>
-                        <Tab label='Recipes' sx={{width:'100%', color:strawTheme.palette.common.black}}/>  
+                        <Tab label='Ingredients' sx={{color:strawTheme.palette.common.black}}/>
+                        <Tab label='Recipes' sx={{color:strawTheme.palette.common.black}}/>  
                     </Tabs>                        
                     <TabPanel value={tabNum} index={0}>
                         <SearchIngredients

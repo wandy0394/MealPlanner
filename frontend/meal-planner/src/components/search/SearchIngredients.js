@@ -1,4 +1,4 @@
-import { TextField, Button, Box, FormGroup, FormLabel, Typography, Pagination } from "@mui/material";
+import { TextField, Button, Box, FormGroup, FormLabel, Typography, Pagination, useMediaQuery } from "@mui/material";
 import SearchIngredientResults from "./SearchIngredientsResults";
 import {ACTION_TYPES} from './ActionTypes'
 import SearchIcon from '@mui/icons-material/Search'
@@ -17,7 +17,7 @@ const dummyOutput = {
 }
 
 export default function SearchIngredients({state, dispatch, ingredientId, setIngredientId, setStatusMessageState=null}) {
-
+    const matches = useMediaQuery('(max-width:600px)')
     
     async function callSearchIngredients(query, page, doStoreSearch) {
         try {
@@ -58,14 +58,19 @@ export default function SearchIngredients({state, dispatch, ingredientId, setIng
                 <FormGroup>
                     <Box sx={{display:'flex', flexDirection:'row', alignItems:'flex-end', gap:'2rem', padding:'0px 0rem'}}>
                         <TextField 
-                            sx={{marginBottom:'0', width:'20%'}} 
+                            sx={{marginBottom:'0', flexGrow:1}} 
                             label='Search by name..' 
                             variant='standard' 
                             onChange={handleChange} 
                             required={true} 
                             value={state.query}>
+                      
                         </TextField> 
-                        <Button startIcon={<SearchIcon/>} variant='contained' type='submit'>Search Ingredients</Button>
+                        <Button startIcon={<SearchIcon/>} variant='contained' type='submit'>
+                            {
+                                matches?null:'Search Ingredients'
+                            }
+                        </Button>
                     </Box>
                 </FormGroup>
                 </form>

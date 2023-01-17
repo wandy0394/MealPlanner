@@ -1,4 +1,4 @@
-import { TextField, Button, Box, FormGroup, FormLabel, InputAdornment, Collapse, Typography, Pagination, IconButton } from "@mui/material";
+import { TextField, Button, Box, FormGroup, FormLabel, InputAdornment, Collapse, Typography, Pagination, IconButton, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
@@ -33,6 +33,7 @@ const CRITERIA_SUFFIX = {
 
 export default function SearchRecipes({state, dispatch, getRecipe}) {
     const [visible, setVisible] = useState(false)
+    const matches = useMediaQuery('(max-width:600px)')
 
     function validateInputs() {
         
@@ -105,10 +106,14 @@ export default function SearchRecipes({state, dispatch, getRecipe}) {
                                 onChange={handleSearchChange} 
                                 required={true} 
                                 value={state.query}
-                                sx={{width:'20%'}}
+                                sx={{flexGrow:1}}
                             >
                             </TextField> 
-                            <Button startIcon={<SearchIcon/>} type='submit' variant='contained'>Search Recipes</Button>
+                            <Button startIcon={<SearchIcon/>} type='submit' variant='contained'>
+                                {
+                                    matches?null:'Search Recipes'
+                                }
+                            </Button>
                         </Box>
                         <Box sx={{display:'flex', justifyContent:'flex-start', alignContent:'center'}}>
                             <FormLabel sx={{display:'flex', alignItems:'center'}}>Search Options:</FormLabel>

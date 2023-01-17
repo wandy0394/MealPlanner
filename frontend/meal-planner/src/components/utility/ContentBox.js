@@ -7,8 +7,11 @@ export const ContentBox = styled(Box)({
     overflowY:'scroll',
     overflowX:'hidden',
     width:'76vw',
-    padding: '0 5vw',
+    padding: '0vh 10vw',
     paddingBottom:'10vh',
+    // display:'grid',
+    // gridTemplateColumns:'76vw',
+    // gridTemplateRows:'15vh'
     //scrollbarWidth:"thin"
 })
 
