@@ -12,6 +12,7 @@ export default class IngredientController {
             const query = req.query
             const output = await Ingredient.searchIngredients(searchText, page, query)
             res.json(output.foods)
+            //refer to fatsecretAPI documentation for return format
         } catch (e) {
             console.error('error')
             res.status(500).json({error:e.message})
@@ -30,7 +31,7 @@ export default class IngredientController {
                 servings: output.food.servings
             }
             res.json(output)
-            //return response;
+             //refer to fatsecretAPI documentation for return format
         } catch (e) {
             console.error('error')
             res.status(500).json({error:e.message})
@@ -62,6 +63,19 @@ export default class IngredientController {
     static apiGetAllIngredients(req, res, next) {
         Ingredient.getAllIngredients(DUMMY_EMAIL)
             .then((resp)=>{
+                /**
+                 * returns array of objects
+                 * [
+                 *      {
+                 *          id:integer, 
+                 *          name:string, 
+                 *          calories:float, 
+                 *          fat:float, 
+                 *          protein:float, 
+                 *          carbs:float
+                 *      }
+                 * ] 
+                 */
                 res.json(resp)
             })
             .catch((resp)=>{

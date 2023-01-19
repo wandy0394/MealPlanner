@@ -83,6 +83,11 @@ export default class RecipeController {
     static apiGetStaticRecipes(req, res, next) {
         Recipe.getStaticRecipes(DUMMY_EMAIL)
             .then((resp)=>{
+                // returns array of objects
+                // {
+                //     recipe_id: integer,
+                //     recipe_name: string
+                // }
                 res.json(resp)
              })
             .catch((resp)=>{
@@ -98,6 +103,7 @@ export default class RecipeController {
 
             const output = await Recipe.searchRecipesWithData(req.query)
             res.json(output)
+            //refer to fatsecretAPi documentation for return format
         } catch (e) {
             console.error('error')
             res.status(500).json({error:e.message})
@@ -234,6 +240,7 @@ export default class RecipeController {
             const output = await Recipe.fetchRecipeByID(id)
 
             res.json(output)
+            //refer to fatSecretAPI documentation for return format
         } catch (e) {
             console.error('error')
             res.status(500).json({error:e.message})

@@ -8,7 +8,12 @@ export default class SearchHistoryController {
         SearchHistory.getRecipeSearchHistory(DUMMY_EMAIL)
             .then((resp)=> {
                 const output = resp.map((item)=> {
-                    return {id: item.id, searchText: item.search_text, searchType: item.search_type, searchTime:item.search_time}
+                    return {
+                        id: item.id, 
+                        searchText: item.search_text, 
+                        searchType: item.search_type, 
+                        searchTime:item.search_time
+                    }
                 })
                 res.json(output)
             })
@@ -24,7 +29,12 @@ export default class SearchHistoryController {
         SearchHistory.getRecipeSearchHistoryByType(DUMMY_EMAIL, type)
             .then((resp)=> {
                 const output = resp.map((item)=> {
-                    return {id: item.id, searchText: item.search_text, searchType: item.search_type, searchTime:item.search_time}
+                    return {
+                        id: item.id, 
+                        searchText: item.search_text, 
+                        searchType: item.search_type, 
+                        searchTime:item.search_time
+                    }
                 })
                 res.json(output)
             })
@@ -40,10 +50,6 @@ export default class SearchHistoryController {
             .catch((resp)=>{
                 res.json({error: 'Could not delete query from database'})
             })       
-
         return        
     }
-
-
-
 }
