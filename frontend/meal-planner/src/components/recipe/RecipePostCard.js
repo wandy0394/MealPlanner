@@ -61,7 +61,7 @@ export default function RecipePostCard(props) {
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{height:postcardHeight, display:'grid', gridTemplateRows:'7% 93%'}}>
+            <Box sx={{height:postcardHeight, display:'grid', gridTemplateRows:'10% 90%'}}>
                 <Box sx={controlStyle}>
                     <Tabs value={tabNum} onChange={handleTabChange} sx={{...tabStyle}}>
                         <Tab label='Ingredients' sx={{color:strawTheme.palette.common.black}}/>

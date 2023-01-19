@@ -116,7 +116,7 @@ export default function Search() {
 
         <MainPane title='Find Something to Eat'
             mainContent={
-                <Stack sx={{border:'solid'}}>
+                <Stack sx={{}}>
                     <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
                         
                         <Tab label='Ingredients' sx={{color:strawTheme.palette.common.black}}/>

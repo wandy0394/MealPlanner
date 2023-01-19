@@ -136,7 +136,7 @@ export default function EditRecipePostCard(props) {
 
                     </Box>
                 </Box>
-                <Box sx={{height:postcardHeight, display:'grid', gridTemplateRows:'7% 93%'}}>
+                <Box sx={{height:postcardHeight, display:'grid', gridTemplateRows:'10% 90%'}}>
                     <Box sx={controlStyle}>
 
                         <Tabs value={tabNum} onChange={handleTabChange} sx={tabStyle}>

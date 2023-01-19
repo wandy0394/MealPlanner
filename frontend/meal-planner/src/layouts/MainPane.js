@@ -23,7 +23,6 @@ const headerStyle = {
         paddingTop:'5vh',
     },
     alignItems:'center',
-    border:'solid'
 }
 
 export default function MainPane({title, buttons, sideContent, mainContent, headerContent, children}) {
@@ -32,7 +31,7 @@ export default function MainPane({title, buttons, sideContent, mainContent, head
             <Stack direction='row' sx={{height:'100%'}}>
                 <ContentBox>
                     <Box sx={headerStyle}>
-                        <Box sx={{width:'100%', height:'100%', display:'flex', flexDirection:'row', alignItems:'center', border:'solid'}}>
+                        <Box sx={{width:'100%', height:'100%', display:'flex', flexDirection:'row', alignItems:'center'}}>
                             <Typography variant='h4' sx={titleStyle}>
                                 {title}       
                             </Typography>
