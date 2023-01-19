@@ -5,7 +5,22 @@ const DUMMY_EMAIL = 'dev@email.com'
 
 export default class MealController {
     static async apiCreateMeal(req, res, next) {
-        const params = req.body
+        //expects body
+        /*
+        {
+            datestamp:DATETIME,
+            user_id:string,
+            targetCalories:float,
+            targetCarbs:float,
+            targetFat:float,
+            targetProtein:float
+            totalCalories:float,    
+            totalCarbs:float,
+            totalFat:float,
+            totalProtein:float
+
+        }
+        */
         Meal.insertMeal(DUMMY_EMAIL, req.body)
             .then((resp)=>{
                 Meal.insertMealRecipe(DUMMY_EMAIL, Object.entries(resp), Object.entries(req.body.meals))
@@ -25,6 +40,13 @@ export default class MealController {
         return
     }
     static async apiGetAllMeals(req, res, next) {
+        //expects query
+        /*
+        {
+            from: string,
+            to:string
+        }
+        */
         let from=null, to=null
         if (req.query && Object.keys(req.query).length > 0) {
             from = req.query.from
@@ -53,6 +75,23 @@ export default class MealController {
         return
     }
     static async apiUpdateMealContent(req, res, next) {
+
+        //expects body
+        /*
+        {
+            targetCarbs:float,
+            targetCalories:float,
+            targetProtein:float,
+            targetFat:float,
+            totalCarbs:float,
+            totalCalories:float,
+            totalFat:float,
+            totalProtein:float,
+            type: 'static' | 'custom'
+            operation: 'insert' | 'update' | 'delete
+        }
+        */
+
         const meals = req.body
         const mealId = req.body.meal_id
         Meal.updateMeal(DUMMY_EMAIL, meals, mealId)

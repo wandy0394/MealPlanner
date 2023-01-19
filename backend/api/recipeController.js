@@ -6,10 +6,28 @@ const DUMMY_EMAIL = 'dev@email.com'
 export default class RecipeController {
 
     static apiAddCustomRecipe(req, res, next) {
+
+        /*
+        expects body
+        {
+            recipe_description:string,
+            servings:integer,
+            serving_size:integer,
+            prep_time:integer,
+            cook_time:integer,
+            macros: {
+                carbs:float, 
+                protein:float, 
+                fat:float, 
+                calories:float, 
+            }
+            instructions:string, 
+        }
+        */
+
         const params = req.body
         Recipe.insertCustomRecipe(DUMMY_EMAIL, req.body)
             .then((resp)=>{
-                //res.json({success: 'Recipe Added'})
                 Recipe.insertRecipeIngredient(req.body.ingredients, resp.insertId)
                     .then(()=> {
                         res.json({success: 'success'})
@@ -35,6 +53,13 @@ export default class RecipeController {
     }
 
     static apiAddStaticRecipe(req, res, next) {
+        /*
+        expects body 
+        {
+            recipe_id:integer,
+            recipe_name:string,
+        }
+        */
         const params = req.body
         Recipe.insertStaticRecipe(DUMMY_EMAIL, req.body)
             .then((resp)=>{
@@ -56,7 +81,6 @@ export default class RecipeController {
             })
     }
     static apiGetStaticRecipes(req, res, next) {
-        const params = req.body
         Recipe.getStaticRecipes(DUMMY_EMAIL)
             .then((resp)=>{
                 res.json(resp)
@@ -74,7 +98,6 @@ export default class RecipeController {
 
             const output = await Recipe.searchRecipesWithData(req.query)
             res.json(output)
-            //return response;
         } catch (e) {
             console.error('error')
             res.status(500).json({error:e.message})
@@ -123,7 +146,7 @@ export default class RecipeController {
     }
 
     static async apiGetCustomRecipe(req, res, next) {
-        //expects /?id=someNumber
+        //expects /?id=integer
         const id = req.params.id;
         Recipe.apiGetCustomRecipe(DUMMY_EMAIL, id)
             .then((resp)=>{
@@ -170,6 +193,24 @@ export default class RecipeController {
     }
 
     static async apiUpdateCustomRecipe(req, res, next) {
+        /*
+        expects body
+        {
+            title:string,
+            recipe_description:string,
+            servings:integer,
+            serving_size:integer,
+            prepTime:integer,
+            cookTime:integer,
+            macros: {
+                carbs: float,
+                protein: float,
+                fat: float,
+                calories: float,
+            },
+            instructions:string
+        } 
+        */
         const recipeId = req.params.id
         Recipe.updateCustomRecipe(DUMMY_EMAIL, req.body, recipeId) 
             .then ((resp) => {
@@ -187,7 +228,7 @@ export default class RecipeController {
     }
 
     static async apiFetchStaticRecipe(req, res, next) {
-        //expects /?id=someNumber
+        //expects /?id=integer
         try {
             const id = req.params.id;
             const output = await Recipe.fetchRecipeByID(id)

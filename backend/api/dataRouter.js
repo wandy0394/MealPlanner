@@ -6,7 +6,6 @@ import RecipeController from "./recipeController.js"
 
 const router = express.Router()
 
-//adding new ingredients to sql database
 router.route("/ingredient")
     .post(IngredientController.apiAddIngredient)
 
@@ -20,7 +19,7 @@ router.route("/ingredient/:id")
     .put(IngredientController.apiUpdateIngredient)
     .delete(IngredientController.apiRemoveIngredient)
 
-//interfaces to external API
+
 router.route("/ingredient/search/:searchText/:page")
     .get(IngredientController.apiSearchIngredients)
 
@@ -33,20 +32,21 @@ router.route("/recipe/all")
 router.route("/recipe/add")
     .post(RecipeController.apiAddCustomRecipe)
 
+//returns recipes that were saved from external api
 router.route("/recipe/static")
     .post(RecipeController.apiAddStaticRecipe)
-
 router.route("/recipe/static/all")
     .get(RecipeController.apiGetStaticRecipes)
 router.route("/recipe/static/:id")
     .delete(RecipeController.apiRemoveStaticRecipe)
 
+//returns user-generated custom recipes    
 router.route("/recipe/internal/:id")
     .get(RecipeController.apiGetCustomRecipe)
     .put(RecipeController.apiUpdateCustomRecipe)
     .delete(RecipeController.apiRemoveRecipe)
 
-
+//returns recipes from external API
 router.route("/recipe/:id")
     .get(RecipeController.apiFetchStaticRecipe)
     

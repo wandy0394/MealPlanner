@@ -118,7 +118,6 @@ export default function Search() {
             mainContent={
                 <Stack sx={{}}>
                     <Tabs value={tabNum} onChange={handleTabChange} sx={{borderBottom:1, borderColor:'divider'}}>
-                        
                         <Tab label='Ingredients' sx={{color:strawTheme.palette.common.black}}/>
                         <Tab label='Recipes' sx={{color:strawTheme.palette.common.black}}/>  
                     </Tabs>                        

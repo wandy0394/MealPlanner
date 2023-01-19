@@ -12,7 +12,6 @@ export default class IngredientController {
             const query = req.query
             const output = await Ingredient.searchIngredients(searchText, page, query)
             res.json(output.foods)
-            //return response;
         } catch (e) {
             console.error('error')
             res.status(500).json({error:e.message})
@@ -26,7 +25,6 @@ export default class IngredientController {
             const output = await Ingredient.fetchIngredientByID(id)
 
             let response = {
-                //extract relevant sections from output
                 name: output.food.food_name,
                 type: output.food.food_type,
                 servings: output.food.servings
@@ -40,6 +38,17 @@ export default class IngredientController {
     }
 
     static apiAddIngredient(req, res, next) {
+        //expects a body in the format
+        // {
+        //     name:String,
+        //     food_id:integer,
+        //     carbs:float,
+        //     fat:float,
+        //     protien:float,
+        //     caloreis:float
+        // }
+
+
         const params = req.body
         Ingredient.insertIngredient(DUMMY_EMAIL, req.body)
             .then((resp)=>{
@@ -51,7 +60,6 @@ export default class IngredientController {
     }
 
     static apiGetAllIngredients(req, res, next) {
-        const params = req.body
         Ingredient.getAllIngredients(DUMMY_EMAIL)
             .then((resp)=>{
                 res.json(resp)
@@ -61,7 +69,8 @@ export default class IngredientController {
             })        
     }
     static async apiRemoveIngredient(req, res, next) {
-        const params = req.body
+        //expects
+        //params: {id}, which is the primary key of the ingredient to be removed
         Ingredient.removeIngredient(req.params.id)
             .then((resp)=>{
                 res.json(resp)
@@ -72,6 +81,22 @@ export default class IngredientController {
     }
     static async apiUpdateIngredient(req, res, next) {
         const params = req.body
+        //expects
+        //params: {id}, which is the primary key of the ingredient to be removed
+
+        //expects body
+        /*
+        {
+            name:string,
+            food_id:integer,
+            carbs:float,
+            fat:float,
+            protein:float,
+            calories:float,
+            userEmail:string
+        }
+        */
+
         Ingredient.updateIngredient(DUMMY_EMAIL, params, req.params.id)
             .then((resp)=>{
                 res.json(resp)

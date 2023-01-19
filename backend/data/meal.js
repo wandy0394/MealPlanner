@@ -130,19 +130,7 @@ export default class Meal {
                                 totalProtein: item.total_protein,
                             }
                         }
-                        else if (key in output) {
-                            // output[key] = {
-                            //     ...output[key],
-                            //     targetCalories: output[key].targetCalories + item.target_calories,
-                            //     targetCarbs: output[key].targetCarbs + item.target_carbs,
-                            //     targetFat: output[key].targetFat + item.target_fat,
-                            //     targetProtein: output[key].targetProtein + item.target_protein,
-                            //     totalCalories: output[key].totalCalories + item.total_calories,
-                            //     totalCarbs: output[key].totalCarbs + item.total_carbs,
-                            //     totalFat: output[key].totalFat + item.total_fat,
-                            //     totalProtein: output[key].totalProtein+item.total_protein,
-                            // }
-                        }
+          
                         if (item.recipe_id) {
                             if (!(item?.recipe_id in output[key]['recipes'])) {
                                 output[key]['recipes'][item.recipe_id] = {recipe_id:item.recipe_id, qty:item.recipe_qty} 

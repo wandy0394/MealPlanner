@@ -3,7 +3,6 @@ import SearchHistory from "../data/searchHistory.js"
 const DUMMY_EMAIL = 'dev@email.com'
 
 export default class SearchHistoryController {
-    //methods go here
 
     static apiGetSearchHistory(req, res, next) {
         SearchHistory.getRecipeSearchHistory(DUMMY_EMAIL)
@@ -18,6 +17,9 @@ export default class SearchHistoryController {
             })
     }
     static apiGetSearchHistoryByType(req, res, next) {
+        /* 
+        expects type='recipe' | 'ingred'
+        */
         const type = req.params.type
         SearchHistory.getRecipeSearchHistoryByType(DUMMY_EMAIL, type)
             .then((resp)=> {
@@ -31,7 +33,6 @@ export default class SearchHistoryController {
             })
     }
     static apiRemoveSearchQuery(req, res, next) {
-        const params = req.body
         SearchHistory.removeSearchQuery(req.params.id)
             .then((resp)=>{
                 res.json(resp)
