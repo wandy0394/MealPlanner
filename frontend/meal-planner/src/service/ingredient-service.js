@@ -9,7 +9,6 @@ class IngredientService {
         catch (e) {
             return {error:'error'}
         }
-        
     }
     async getIngredient(id) {
         try {

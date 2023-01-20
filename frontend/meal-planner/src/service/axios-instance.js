@@ -8,5 +8,5 @@ export const instance=axios.create({
     headers: {
         "Accept" : "*",
         "Content-Type": "application/json",
-    }
+    },
 })

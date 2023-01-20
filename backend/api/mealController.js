@@ -47,6 +47,33 @@ export default class MealController {
             to:string
         }
         */
+       /**
+        * returns object 
+        * {
+        *      dateString: {
+        *          meal_id: integer,
+        *          recipes: {
+        *              recipe_id: {
+        *                  recipe_id:integer,
+        *                  recipe_qty: integer
+        *              }
+        *          }
+        *          staticRecipes: {
+        *              static_recipe_id: {
+        *                  static_recipe_id:integer,
+        *                  static_recipe_qty:integer
+        *              }
+        *          },
+        *          targetCalories: float,
+        *          targetCarbs: float,
+        *          targetFat: float,
+        *          targetProtein: float,
+        *          totalCalories: float,
+        *          totalFat: float,
+        *          totalProtein: float,
+        *      }
+        * }
+        */
         let from=null, to=null
         if (req.query && Object.keys(req.query).length > 0) {
             from = req.query.from
@@ -55,33 +82,6 @@ export default class MealController {
 
         Meal.getAllMeals(DUMMY_EMAIL, from, to)
             .then((resp)=>{
-                /**
-                 * returns object 
-                 * {
-                 *      dateString: {
-                 *          meal_id: integer,
-                 *          recipes: {
-                 *              recipe_id: {
-                 *                  recipe_id:integer,
-                 *                  recipe_qty: integer
-                 *              }
-                 *          }
-                 *          staticRecipes: {
-                 *              static_recipe_id: {
-                 *                  static_recipe_id:integer,
-                 *                  static_recipe_qty:integer
-                 *              }
-                 *          },
-                 *          targetCalories: float,
-                 *          targetCarbs: float,
-                 *          targetFat: float,
-                 *          targetProtein: float,
-                 *          totalCalories: float,
-                 *          totalFat: float,
-                 *          totalProtein: float,
-                 *      }
-                 * }
-                 */
                 res.json(resp)
             })
             .catch((resp)=>{

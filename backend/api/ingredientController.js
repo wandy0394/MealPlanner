@@ -61,21 +61,21 @@ export default class IngredientController {
     }
 
     static apiGetAllIngredients(req, res, next) {
+        /**
+         * returns array of objects
+         * [
+         *      {
+         *          id:integer, 
+         *          name:string, 
+         *          calories:float, 
+         *          fat:float, 
+         *          protein:float, 
+         *          carbs:float
+         *      }
+         * ] 
+         */
         Ingredient.getAllIngredients(DUMMY_EMAIL)
             .then((resp)=>{
-                /**
-                 * returns array of objects
-                 * [
-                 *      {
-                 *          id:integer, 
-                 *          name:string, 
-                 *          calories:float, 
-                 *          fat:float, 
-                 *          protein:float, 
-                 *          carbs:float
-                 *      }
-                 * ] 
-                 */
                 res.json(resp)
             })
             .catch((resp)=>{

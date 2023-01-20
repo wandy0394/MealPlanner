@@ -81,13 +81,13 @@ export default class RecipeController {
             })
     }
     static apiGetStaticRecipes(req, res, next) {
+        // returns array of objects
+        // {
+        //     recipe_id: integer,
+        //     recipe_name: string
+        // }
         Recipe.getStaticRecipes(DUMMY_EMAIL)
             .then((resp)=>{
-                // returns array of objects
-                // {
-                //     recipe_id: integer,
-                //     recipe_name: string
-                // }
                 res.json(resp)
              })
             .catch((resp)=>{

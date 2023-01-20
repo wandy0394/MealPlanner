@@ -16,7 +16,7 @@ export default function Layout() {
     }
     return (
 
-        <div style={{height:'100vh', display:'flex', flexDirection:'column', border:'solid'}}>
+        <div style={{height:'100vh', display:'flex', flexDirection:'column'}}>
             <HeadBar toggleMenu={toggleMenu}/>
             <div style={{height:'100%', display:'flex'}}>
                 <div style={{height:{xs:'auto', md:'100%'}}}>
