@@ -45,7 +45,7 @@ export default function IngredientsPane({recipeIngredients, dispatch, readOnly=f
     function handleAddIngredient() {
         dispatch({type:ACTION_TYPES.ADD_INGREDIENT, payload:{...INITIAL}})
     }
-    const [ingredients, setIngredients] = useGetIngredients()//useState([])
+    const [ingredients, setIngredients] = useGetIngredients()
 
 
     return (

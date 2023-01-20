@@ -45,7 +45,14 @@ export default function useGetRecipe(id) {
             case ACTION_TYPES.INCREMENT_COUNTER:
                 return{...state, counter: state.counter + 1}
             case ACTION_TYPES.ADD_INGREDIENT:
-                return {...state, ingredients:{...state.ingredients, [state.counter]:payload}, counter:state.counter+1} 
+                return {
+                    ...state, 
+                    ingredients:{
+                        ...state.ingredients, 
+                        [state.counter]:payload
+                    }, 
+                    counter:state.counter+1
+                } 
             case ACTION_TYPES.DELETE_INGREDIENT:
                 let newIngredients = {...state.ingredients}
                 newIngredients[payload].operation = 'delete'
@@ -55,7 +62,8 @@ export default function useGetRecipe(id) {
                 temp[payload].operation = 'update'
                 return {...state, ingredients:temp}    
             case ACTION_TYPES.UPDATE_QTY:
-                return {...state, 
+                return {
+                    ...state, 
                     ingredients:{
                         ...state.ingredients, 
                         [payload.id]:{
@@ -65,7 +73,8 @@ export default function useGetRecipe(id) {
                     }
                 }
             case ACTION_TYPES.UPDATE_UNIT:
-                return {...state, 
+                return {
+                    ...state, 
                     ingredients:{
                         ...state.ingredients, 
                         [payload.id]:{

@@ -35,17 +35,31 @@ export default function CreateRecipePostCard(props) {
             case ACTION_TYPES.SET_INGREDIENTS:
                 return {...state, ingredients:payload}
             case ACTION_TYPES.UPDATE_INGREDIENTS:
-                return {...state, ingredients:{...state.ingredients, [payload.id]:payload.data}}
+                return {
+                    ...state, 
+                    ingredients:{
+                    ...state.ingredients, 
+                    [payload.id]:payload.data
+                }
+            }
             case ACTION_TYPES.INCREMENT_COUNTER:
                 return{...state, counter: state.counter + 1}
             case ACTION_TYPES.ADD_INGREDIENT:
-                return {...state, ingredients:{...state.ingredients, [state.counter]:payload}, counter:state.counter+1} 
+                return {
+                    ...state, 
+                    ingredients:{
+                    ...state.ingredients, 
+                    [state.counter]:payload
+                }, 
+                counter:state.counter+1
+            } 
             case ACTION_TYPES.DELETE_INGREDIENT:
                 const newIngredients = {...state.ingredients}
                 delete newIngredients[payload]
                 return {...state, ingredients:newIngredients}    
             case ACTION_TYPES.UPDATE_QTY:
-                return {...state, 
+                return {
+                    ...state, 
                     ingredients:{
                         ...state.ingredients, 
                         [payload.id]:{
@@ -55,7 +69,8 @@ export default function CreateRecipePostCard(props) {
                     }
                 }
             case ACTION_TYPES.UPDATE_UNIT:
-                return {...state, 
+                return {
+                    ...state, 
                     ingredients:{
                         ...state.ingredients, 
                         [payload.id]:{
@@ -132,33 +147,39 @@ export default function CreateRecipePostCard(props) {
                             />
                             <Box sx={{display:'flex', justifyContent:'space-between', gap:'3rem'}}>
                                     <InfoCard 
-                                        value={<TextField 
+                                        value={
+                                            <TextField 
                                                 required 
                                                 variant='standard' 
                                                 inputProps={{min:1, type:'number'}}
                                                 value={recipe.servings}
                                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVINGS, payload:e.target.value})}
-                                                />}
+                                            />
+                                        }
                                         label='Servings*'
                                     />
                                     <InfoCard 
-                                        value={<TextField 
+                                        value={
+                                            <TextField 
                                                 required 
                                                 variant='standard' 
                                                 inputProps={{min:0, type:'number'}}
                                                 value={recipe.prepTime}
                                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_PREP_TIME, payload:e.target.value})}
-                                                />}
+                                            />
+                                        }
                                         label='Prep Time*'
                                     />
                                     <InfoCard 
-                                        value={<TextField 
+                                        value={
+                                            <TextField 
                                                 required 
                                                 variant='standard'
                                                 inputProps={{min:0, type:'number'}}
                                                 value={recipe.cookTime}
                                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_COOK_TIME, payload:e.target.value})}
-                                                />}
+                                            />
+                                        }
                                         label='Cook Time*'
                                     />
                             </Box>

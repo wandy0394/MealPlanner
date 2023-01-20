@@ -26,7 +26,7 @@ export default function Layout() {
                     <div style={{display:'flex', height:'100vh', flexDirection:'column'}}>
                         <Outlet/>
                     </div>
-                    {/* <div style={{height:'5vh', border:'solid'}}>Some foooter goes here</div>             */}
+                    {/* <div style={{height:'5vh', border:'solid'}}>Footer goes here</div>             */}
                 </div>
             </div>
             <Drawer anchor='left' open={menuOpen} onClose={toggleMenu}>

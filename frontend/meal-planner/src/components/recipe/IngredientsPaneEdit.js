@@ -51,7 +51,6 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
             <TextField 
                 variant='standard'
                 type='number' 
-                // label='Qty' 
                 InputProps={{inputProps:{min:0}}} 
                 sx={{width:'15%'}}
                 onChange={(e)=>{handleQtyChange(e, keyID)}}
@@ -59,7 +58,6 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
                 disabled={isDisabled || (recipeIngredients[keyID].operation === 'delete')}
             />
             <FormControl sx={{width:'15%'}}>
-                {/* <InputLabel>Units</InputLabel> */}
                 <Select
                     label='units'
                     variant='standard'
@@ -75,7 +73,6 @@ export default function IngredientsPaneEntry({keyID, recipeIngredients, dispatch
                 </Select> 
             </FormControl>
             <FormControl sx={{width:'50%'}}>
-                {/* <InputLabel>Ingredient</InputLabel> */}
                 <Select
                     label='Name'
                     variant='standard'

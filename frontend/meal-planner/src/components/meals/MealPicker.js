@@ -13,7 +13,6 @@ export default function MealPicker(props) {
             {
                 Object.entries(mealItems).map(([key, item], index)=>{
                     return (
-                        // <Box sx={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                         <Box key={index}    sx={{display:'grid', gridTemplateColumns:'3fr 1fr'}}>
                             <MealCard key={index} id={key} meal={item} image={item.image}/>
                             <Box sx={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'100%', gap:'2rem', padding:'1rem'}}>
@@ -22,8 +21,6 @@ export default function MealPicker(props) {
                                 <Button variant='contained' sx={{aspectRatio:'1/1'}} onClick={e=>handleDecrement(key, item)}><RemoveIcon/></Button>
                             </Box>
                         </Box>
-                        // </Box>
-                    
                     )
                 })
             }

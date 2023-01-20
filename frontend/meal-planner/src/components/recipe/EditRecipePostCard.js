@@ -94,33 +94,39 @@ export default function EditRecipePostCard(props) {
                             />
                             <Box sx={{display:'flex', justifyContent:'space-between', gap:'3rem'}}>
                                     <InfoCard 
-                                        value={<TextField 
+                                        value={
+                                            <TextField 
                                                 required 
                                                 variant='standard' 
                                                 inputProps={{min:0, type:'number'}}
                                                 value={recipe.servings}
                                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_SERVINGS, payload:e.target.value})}
-                                                />}
+                                            />
+                                        }
                                         label='Servings*'
                                     />
                                     <InfoCard 
-                                        value={<TextField 
+                                        value={
+                                            <TextField 
                                                 required 
                                                 variant='standard' 
                                                 inputProps={{min:0, type:'number'}}
                                                 value={recipe.prepTime}
                                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_PREP_TIME, payload:e.target.value})}
-                                                />}
+                                            />
+                                        }
                                         label='Prep Time*'
                                     />
                                     <InfoCard 
-                                        value={<TextField 
+                                        value={
+                                            <TextField 
                                                 required 
                                                 variant='standard'
                                                 inputProps={{min:0, type:'number'}}
                                                 value={recipe.cookTime}
                                                 onChange={e=>dispatch({type:ACTION_TYPES.SET_COOK_TIME, payload:e.target.value})}
-                                                />}
+                                            />
+                                        }
                                         label='Cook Time*'
                                     />
                             </Box>

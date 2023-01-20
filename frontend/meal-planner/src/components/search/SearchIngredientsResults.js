@@ -72,7 +72,6 @@ export default function SearchIngredientResults({data, setIngredientId, setStatu
         const regex = /[0-9]*\.?[0-9]+g/i
         let normalised = false
         if (serving.match(regex)) {
-            //console.log(serving)
             servingSize = parseFloat(serving.match(regex)[0].split('g')[0])
             factor = 100
             normalised = true
@@ -89,9 +88,7 @@ export default function SearchIngredientResults({data, setIngredientId, setStatu
         }
         return output
     }
-    function parseServing(servingString) {
-        
-    }
+
     function handleAddClick(e, input) {
         const food = cleanedData.filter((item)=> {
             return (item.food_id === input)
@@ -108,10 +105,7 @@ export default function SearchIngredientResults({data, setIngredientId, setStatu
             unit: macros.unit,
             normalised:macros.normalised
         }
-        // IngredientService.addIngredient(params)
-        // if (setStatusMessageState !== null) {
-        //     setStatusMessageState({message:`Ingredient (${food[0].food_name}) added.`, severity:SEVERITY.SUCCESS, isMessageVisible:true})
-        // }
+
         setIngredient(params)
         setOpen(true)
     }

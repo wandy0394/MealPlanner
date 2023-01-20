@@ -51,7 +51,7 @@ export default function StatusSnackbar({statusMessageState, setStatusMessageStat
     }
 
     useEffect(()=>{
-        console.log(statusMessageState)
+        //console.log(statusMessageState)
     }, [statusMessageState])
 
     return (

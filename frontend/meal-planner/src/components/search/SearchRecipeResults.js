@@ -58,33 +58,26 @@ export default function SearchRecipeResults({data, getRecipe}) {
                                 return <TableCell key={index}>{item}</TableCell>
                             })
                         }
-                        {/* <TableCell>Details</TableCell> */}
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {
                         tableRows.map((row) => {
                             return (
-                                        <>
-                                            <TableRow key={row.ID} onClick={(e, id) => handleRowClick(e, row.ID)} sx= {{'&:hover':{backgroundColor: '#EEEEEE', cursor:'pointer'}}}>
-                                            
-                                                {
-                                                    columnHeaders.map((header) => {
-                                                        return <TableCell>{row[header]}</TableCell>
-                                                    })
-                                                }
-
-                                            
-                                            {/* <TableCell><Link to={'details/'+row.ID}>More</Link></TableCell> */}
-                                            </TableRow>
-                                        </>
+                                <>
+                                    <TableRow key={row.ID} onClick={(e, id) => handleRowClick(e, row.ID)} sx= {{'&:hover':{backgroundColor: '#EEEEEE', cursor:'pointer'}}}>
+                                        {
+                                            columnHeaders.map((header) => {
+                                                return <TableCell>{row[header]}</TableCell>
+                                            })
+                                        }
+                                    </TableRow>
+                                </>
                             )
                         })
 
                     }
                 </TableBody>
-
-
             </Table>
         </TableContainer>
     )

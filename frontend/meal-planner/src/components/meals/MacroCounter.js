@@ -19,7 +19,7 @@ function MacroCounter(props) {
                 }} 
                 variant='h3'
             >
-                    {parseFloat(macroValue).toFixed(2)}
+                {parseFloat(macroValue).toFixed(2)}
             </Typography>
         </Box>
 

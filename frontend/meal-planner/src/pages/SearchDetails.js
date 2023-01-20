@@ -15,6 +15,7 @@ export default function SearchDetails(props) {
 
 
     function parseData(recipe) {
+        if (recipe === null || recipe === undefined) return
         setTitle(recipe.recipe_name)
         const directions = recipe.directions.direction.reduce((acc, item) => {
             return acc + item.direction_number + ': ' + item.direction_description + '\n' 

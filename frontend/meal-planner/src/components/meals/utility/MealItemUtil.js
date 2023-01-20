@@ -54,17 +54,18 @@ export const useGetAllFood = () => {
                     const staticResult = await RecipeService.getStaticRecipes()
                     let lineItems = {}
                     Object.entries(recipeResult).forEach(([key, data])=> {
-                        lineItems = {...lineItems, 
-                                    [counter] : {
-                                        name:data.title, 
-                                        calories:data.macros.calories,
-                                        fat:data.macros.fat,
-                                        protein:data.macros.protein,            
-                                        carbs:data.macros.carbs, 
-                                        recipe_id:parseInt(key),
-                                        image:undefined,
-                                        type:'custom'
-                                    }
+                        lineItems = {
+                            ...lineItems, 
+                            [counter] : {
+                                name:data.title, 
+                                calories:data.macros.calories,
+                                fat:data.macros.fat,
+                                protein:data.macros.protein,            
+                                carbs:data.macros.carbs, 
+                                recipe_id:parseInt(key),
+                                image:undefined,
+                                type:'custom'
+                            }
                         }
                         counter++
                     })
@@ -74,18 +75,37 @@ export const useGetAllFood = () => {
                             return RecipeService.getRecipe(item.recipe_id)
                         }
                     })).then((resp)=>{
-                        for (let i = 0; i < staticResult.length; i++) {
-                            lineItems = {...lineItems, 
-                                [counter] : {
-                                    name:resp[i].recipe.recipe_name,
-                                    calories:parseFloat(resp[i].recipe.serving_sizes.serving.calories),
-                                    carbs: parseFloat(resp[i].recipe.serving_sizes.serving.carbohydrate),
-                                    fat: parseFloat(resp[i].recipe.serving_sizes.serving.fat),
-                                    protein: parseFloat(resp[i].recipe.serving_sizes.serving.protein),
-                                    image: (resp[i].recipe.recipe_images !== undefined) ? resp[i].recipe.recipe_images.recipe_image : undefined, 
-                                    recipe_id:staticResult[i].id,  //consider renaming id
-                                    api_id:resp[i].recipe.recipe_id,
-                                    type:'static'
+                        for (let i = 0; i < resp.length; i++) {
+                            if (!resp[i].hasOwnProperty('error')) {
+                                lineItems = {
+                                    ...lineItems, 
+                                    [counter] : {
+                                        name:resp[i].recipe.recipe_name,
+                                        calories:parseFloat(resp[i].recipe.serving_sizes.serving.calories),
+                                        carbs: parseFloat(resp[i].recipe.serving_sizes.serving.carbohydrate),
+                                        fat: parseFloat(resp[i].recipe.serving_sizes.serving.fat),
+                                        protein: parseFloat(resp[i].recipe.serving_sizes.serving.protein),
+                                        image: (resp[i].recipe.recipe_images !== undefined) ? resp[i].recipe.recipe_images.recipe_image : undefined, 
+                                        recipe_id:staticResult[i].id,  //consider renaming id
+                                        api_id:resp[i].recipe.recipe_id,
+                                        type:'static'
+                                    }
+                                }
+                            }
+                            else {
+                                lineItems = {
+                                    ...lineItems, 
+                                    [counter] : {
+                                        name:'Error',
+                                        calories:0,
+                                        carbs: 0,
+                                        fat: 0,
+                                        protein: 0,
+                                        image: undefined, 
+                                        recipe_id:staticResult[i].id,  //consider renaming id
+                                        api_id:-1,
+                                        type:'static'
+                                    }
                                 }
                             }
                             counter++

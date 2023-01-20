@@ -92,7 +92,10 @@ export default function SearchRecipes({state, dispatch, getRecipe}) {
     }
 
     function calculatePages() {
-        return Math.ceil(parseInt(state.results.recipes.total_results, 10) / 10)
+        if (state?.results?.recipes?.total) {
+            return Math.ceil(parseInt(state.results.recipes.total_results, 10) / 10)
+        }
+        return 0
     }
     return (
         <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
@@ -158,14 +161,14 @@ export default function SearchRecipes({state, dispatch, getRecipe}) {
                     Results
                 </Typography>
                 {
-                    (state.results !== null) && (
+                    (state.results !== null && state.results.recipes !== undefined) && (
                         <Typography variant='h6' sx={{display:'inline'}}> (Total Results: {state.results.recipes.total_results})</Typography>
                     )
                 }
             </Box>
             <Box>
                 {
-                    ((state.results !== null) ? 
+                    ((state.results !== null && state.results.recipes !== undefined) ? 
                         (<><SearchRecipeResults data={state.results} getRecipe={getRecipe}/></>):
                         (<Typography variant='body1' sx={{display:'inline'}}>No Results</Typography>)
                     )
@@ -173,7 +176,7 @@ export default function SearchRecipes({state, dispatch, getRecipe}) {
             </Box>
             <Box>
                 {
-                    (state.results !== null) && 
+                    (state.results !== null && state.results.recipes !== undefined) && 
                             <Pagination count={calculatePages()} shape='rounded' sx={{}} page={state.page}
                                 onChange={handleRecipePageChange}
                             />

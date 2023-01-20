@@ -1,6 +1,5 @@
 import { Typography, Dialog } from "@mui/material";
 import { useState } from "react";
-// import CreateMealForm from "../components/meals/CreateMealForm - deleteMe";
 import MealList from "../components/meals/MealList";
 import { useGetAllFood, useGetMealsInRange, getMealSets, INITIAL_MEAL } from "../components/meals/utility/MealItemUtil";
 import MainPane from "../layouts/MainPane";
@@ -24,12 +23,6 @@ export default function MealPlans() {
     const [mealItems, setMealItems] = useGetAllFood()
     const [mealSets, setMealSets] = useGetMealsInRange(prevMonday.format('YYYY-M-D'), nextMonday.format('YYYY-M-D'))
 
-    function handleClickOpen() {
-        setOpen(true)
-    }
-    function handleClose() {
-        setOpen(false)
-    }
     function removeMeal(key) {
         const newMealSets = {...mealSets}
         newMealSets[key] = INITIAL_MEAL
