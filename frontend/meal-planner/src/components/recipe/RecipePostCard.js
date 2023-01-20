@@ -37,7 +37,6 @@ export default function RecipePostCard(props) {
                 removeStaticRecipe(recipe.id)
             })
     }
-
     return (
         <Box sx={postcardStyle}>
             <Box sx={{height:postcardHeight, display:'flex', flexDirection:'column'}}>
@@ -51,11 +50,30 @@ export default function RecipePostCard(props) {
                 }  
                 <Box sx={summaryStyle}>
                     <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
-                        <Typography sx={{color:strawTheme.palette.common.black}} variant='h3'>{recipe.recipe_name}</Typography>
+                        <Typography sx={{color:strawTheme.palette.common.black}} variant='h3'>{recipe.recipe_name || 'Error'}</Typography>
                         <Box sx={{display:'flex', justifyContent:'space-between'}}>
-                            <InfoCard value={recipe.number_of_servings}  label='Servings'/>
-                            <InfoCard value={recipe.preparation_time_min+'min'} label='Prep Time'/>
-                            <InfoCard value={recipe.cooking_time_min + 'min'} label='Cook Time'/>
+                            {
+                                (recipe.length !== 0) && 
+                                (
+                                    <>
+                                        <InfoCard value={recipe.number_of_servings || 'Error'}  label='Servings'/>
+                                        <InfoCard 
+                                            value={
+                                                (recipe.preparation_time_min !== undefined) ? 
+                                                recipe.preparation_time_min+'min' : 0
+                                            } 
+                                            label='Prep Time'
+                                        />
+                                        <InfoCard 
+                                            value={(
+                                                recipe.cooking_time_min !== undefined) ? 
+                                                recipe.cooking_time_min + 'min' : 0 
+                                            } 
+                                            label='Cook Time'
+                                        />
+                                    </>
+                                )
+                            }
                         </Box>
                         <Typography sx={{color:strawTheme.palette.common.black}} variant='body'>{recipe.recipe_description}</Typography>
                     </Box>
@@ -79,7 +97,7 @@ export default function RecipePostCard(props) {
                                 </IconButton>)
                         }
                         {
-                            deleteable ? (
+                            (deleteable && (recipe.id !== undefined)) ? (
                                 <IconButton disabled={!deleteable} 
                                     sx={buttonStyle} 
                                     onClick={handleDeleteClick}>
@@ -91,6 +109,7 @@ export default function RecipePostCard(props) {
                     <Box sx={{backgroundColor:strawTheme.palette.common.white, height:'100%', maxHeight:'100%', overflowY:'hidden'}}>
                         <TabPanel value={tabNum} index={0}>
                             {
+                                (recipe.ingredients !== undefined) &&
                                 recipe.ingredients.ingredient.map((item, index) => {
                                     return (
                                         <Typography variant='body' key={index}>
@@ -102,6 +121,7 @@ export default function RecipePostCard(props) {
                         </TabPanel>
                         <TabPanel value={tabNum} index={1}>
                             {
+                                (recipe.directions !== undefined) &&
                                 recipe.directions.direction.map((item) => {
                                     return (
                                         <Typography variant='body' key={item.direction_number}>
@@ -114,13 +134,17 @@ export default function RecipePostCard(props) {
                     </Box>
                     <Box sx={{backgroundColor:strawTheme.palette.common.grey, height:'100%', padding:'2rem 0'}}>
                         <Stack alignItems='center' justifyContent='space-between' sx={{height:'100%'}}>
-                            <InfoCard value={recipe.serving_sizes.serving.calories} label='Calories'/>
-                            <InfoCard value={recipe.serving_sizes.serving.carbohydrate} label='Carbs'/>
-                            <InfoCard value={recipe.serving_sizes.serving.fat} label='Fat'/>
-                            <InfoCard value={recipe.serving_sizes.serving.protein} label='Protein'/>
-                            <Typography variant='body2' sx={{color:strawTheme.palette.common.black, textAlign:'center'}}>
-                                Serving size: {recipe.serving_sizes.serving.serving_size}
-                            </Typography>
+                            {(recipe.serving_sizes !== undefined) &&
+                                <>
+                                    <InfoCard value={recipe.serving_sizes.serving.calories} label='Calories'/>
+                                    <InfoCard value={recipe.serving_sizes.serving.carbohydrate} label='Carbs'/>
+                                    <InfoCard value={recipe.serving_sizes.serving.fat} label='Fat'/>
+                                    <InfoCard value={recipe.serving_sizes.serving.protein} label='Protein'/>
+                                    <Typography variant='body2' sx={{color:strawTheme.palette.common.black, textAlign:'center'}}>
+                                        Serving size: {recipe.serving_sizes.serving.serving_size}
+                                    </Typography>
+                                </>
+                            }
                         </Stack>
                     </Box>
                 </Box>
