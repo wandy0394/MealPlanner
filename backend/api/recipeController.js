@@ -37,7 +37,7 @@ export default class RecipeController {
                     })
              })
             .catch((resp)=>{
-                res.json({error: 'Could not insert recipe into database'})
+                res.status(500).json({error: 'Could not insert recipe into database'})
             })
     }
 
@@ -48,7 +48,7 @@ export default class RecipeController {
                 res.json({success:'success'})
             })
             .catch((resp)=>{
-                res.json({error:`Could not delete ${recipeId}`})
+                res.status(500).json({error:`Could not delete ${recipeId}`})
             })
     }
 
@@ -66,7 +66,7 @@ export default class RecipeController {
                 res.json({success: 'success'})
              })
             .catch((resp)=>{
-                res.json({error: 'Could not insert recipe into database'})
+                res.status(500).json({error: 'Could not insert recipe into database'})
             })
 
     }
@@ -77,7 +77,7 @@ export default class RecipeController {
                 res.json({success:'success'})
             })
             .catch((resp)=>{
-                res.json({error:`Could not delete ${recipeId}`})
+                res.status(500).json({error:`Could not delete ${recipeId}`})
             })
     }
     static apiGetStaticRecipes(req, res, next) {
@@ -91,16 +91,28 @@ export default class RecipeController {
                 res.json(resp)
              })
             .catch((resp)=>{
-                res.json({error: 'Could not select recipes from database'})
+                res.status(500).json({error: 'Could not select recipes from database'})
             })
 
     }
 
     static async apiSearchRecipes(req, res, next) {
-        //expects /?searchText=string
+        /**
+         * expects query
+         * {
+         *      searchText: string,
+         *      maxCal:string,
+         *      minCal:string,
+         *      maxCarb: string,
+         *      minCarb:string,
+         *      maxProtein: string,
+         *      minProtein: string,
+         *      maxFat: string,
+         *      minFat: string,
+         *      page: string
+         * }
+         */
         try {
-            const searchText = req.params.searchText;
-
             const output = await Recipe.searchRecipesWithData(req.query)
             res.json(output)
             //refer to fatsecretAPi documentation for return format
@@ -147,7 +159,7 @@ export default class RecipeController {
                 res.json(result)
             })
             .catch((resp)=>{
-                res.json({error: 'Could not get all recipes from database'})
+                res.status(500).json({error: 'Could not get all recipes from database'})
             })       
     }
 
@@ -194,7 +206,7 @@ export default class RecipeController {
                 res.json(result)
             })
             .catch((resp)=>{
-                res.json({error: 'Could not get all recipes from database'})
+                res.status(500).json({error: 'Could not get all recipes from database'})
             }) 
     }
 
@@ -225,11 +237,11 @@ export default class RecipeController {
                     res.json({success:'Recipe Updated'})
                 })
                 .catch((resp)=>{
-                    res.json({error:'Could not update recipe_ingredient table'})
+                    res.status(500).json({error:'Could not update recipe_ingredient table'})
                 })
             })
             .catch ((resp)=> {
-                res.json({error:'Could not update recipe table'})
+                res.status(500).json({error:'Could not update recipe table'})
             })
     }
 

@@ -37,10 +37,25 @@ export default class Recipe {
     }
 
     static insertCustomRecipe(userEmail, params) {
+        // expects 
+        // params :{
+        //     title: string, 
+        //     recipe_description: string,
+        //     servings: integer,
+        //     serving_size: integer,
+        //     prep_time: integer,
+        //     cook_time: integer,
+        //     carbs: float, 
+        //     protein: float, 
+        //     fat: float, 
+        //     calories: float, 
+        //     instructions: string, 
+        // }
         if (db !== undefined) {
             const promiseRecipe = new Promise((resolve, reject)=> {
                 const sqlQuery = `INSERT INTO recipe 
-                                    (title, 
+                                    (
+                                        title, 
                                         recipe_description,
                                         servings,
                                         serving_size,
@@ -53,7 +68,9 @@ export default class Recipe {
                                         instructions, 
                                         user_id
                                     )
-                                    VALUES ('${params.title}', 
+                                    VALUES 
+                                        (
+                                            '${params.title}', 
                                             '${params.recipe_description}',
                                             ${params.servings},
                                             '${params.serving_size}',
@@ -65,7 +82,7 @@ export default class Recipe {
                                             ${params.macros.calories}, 
                                             '${params.instructions}', 
                                             '${userEmail}'
-                                            );
+                                        );
                                 `
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
@@ -79,10 +96,26 @@ export default class Recipe {
         }             
     }
     static insertRecipeIngredient(ingredients, recipeId) {
+        // expects
+        // ingredients:{
+        //     key: {
+        //         food_id:integer,
+        //         qty: integer,
+        //         unit: string
+        //     }
+        // }
+        // recipeId: integer
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
                 const sqlQuery =  Object.entries(ingredients).reduce((query, [key, value]) => {
-                    return (query + `INSERT INTO recipe_ingredient (recipe_id, ingredient_id, qty, units) VALUES (${recipeId}, ${value.food_id}, ${value.qty}, '${value.unit}');`)
+                    return (
+                        query + 
+                        `INSERT INTO recipe_ingredient 
+                            (recipe_id, ingredient_id, qty, units) 
+                        VALUES 
+                            (${recipeId}, ${value.food_id}, ${value.qty}, '${value.unit}');
+                        `
+                    )
                 }, '')
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
@@ -99,7 +132,10 @@ export default class Recipe {
     static apiGetAllCustomRecipes(userEmail) {
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
-                const sqlQuery = `SELECT recipe.id, recipe.title, name, 
+                const sqlQuery = `SELECT 
+                                    recipe.id, 
+                                    recipe.title, 
+                                    name, 
                                     ingredient.carbs, 
                                     ingredient.protein, 
                                     ingredient.fat, 
@@ -137,7 +173,10 @@ export default class Recipe {
     static apiGetCustomRecipe(userEmail, id) {
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
-                const sqlQuery = `SELECT recipe.id, recipe.title, name, 
+                const sqlQuery = `SELECT 
+                                    recipe.id, 
+                                    recipe.title, 
+                                    name, 
                                     ingredient.carbs, 
                                     ingredient.protein, 
                                     ingredient.fat, 
@@ -175,6 +214,25 @@ export default class Recipe {
     }
   
     static updateCustomRecipe(userEmail, params, recipeId) {
+        // expects
+        // recipeId: integer
+        // params: {
+        //     title: String,
+        //     recipe_description: String,
+        //     servings: integer,
+        //     prepTime: integer,
+        //     cookTime: integer,
+        //     macros: {
+        //         carbs:float,
+        //         protein: float,
+        //         fat: float,
+        //         calories: float,
+        //     },
+        //     instructions: string
+        // }
+        // userEmail: string
+
+
         if (db !== undefined) {
             const promiseRecipe = new Promise((resolve, reject)=> {
                 const sqlQuery = `UPDATE recipe 
@@ -205,21 +263,44 @@ export default class Recipe {
         }                     
     }
     static updateCustomRecipeIngredients(ingredients, recipeId) {
+        // expects
+        // ingredients:{
+        //     key: {
+        //         food_id:integer,
+        //         qty: integer,
+        //         unit: string,
+        //         operation: 'insert' | 'update' | 'delete',
+        //         recipeIngredientId: integer
+        //     }
+        // }
+        // recipeId: integer
+
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
                 const sqlQuery =  Object.entries(ingredients).reduce((query, [key, value]) => {
                     let command = ''
                     
                     if (value.operation === 'insert') {
-                        command = `INSERT INTO recipe_ingredient (recipe_id, ingredient_id, qty, units) VALUES (${recipeId}, ${value.food_id}, ${value.qty}, '${value.unit}');`
+                        command = `INSERT INTO recipe_ingredient 
+                                        (recipe_id, ingredient_id, qty, units) 
+                                    VALUES 
+                                        (${recipeId}, ${value.food_id}, ${value.qty}, '${value.unit}');`
                     }
                     else {
                         if (value.recipeIngredientId) {
                             if (value.operation === 'update') {
-                                command = `UPDATE recipe_ingredient SET ingredient_id=${value.food_id}, qty=${value.qty}, units='${value.unit}' WHERE id=${value.recipeIngredientId};`
+                                command = `UPDATE recipe_ingredient 
+                                            SET 
+                                                ingredient_id=${value.food_id}, 
+                                                qty=${value.qty}, 
+                                                units='${value.unit}' 
+                                            WHERE 
+                                                id=${value.recipeIngredientId};`
                             }
                             else if (value.operation === 'delete') {
-                                command = `DELETE FROM recipe_ingredient WHERE id=${value.recipeIngredientId};`
+                                command = `DELETE FROM recipe_ingredient 
+                                            WHERE 
+                                                id=${value.recipeIngredientId};`
                             }
                         }
                     }
@@ -255,17 +336,24 @@ export default class Recipe {
     }
 
     static insertStaticRecipe(userEmail, params) {
+        // expects 
+        // params: {
+        //     recipe_id: integer,
+        //     recipe_name: string
+        // }
         if (db !== undefined) {
             const promiseRecipe = new Promise((resolve, reject)=> {
                 const sqlQuery = `INSERT INTO static_recipe 
-                                    (   recipe_id,
+                                    (   
+                                        recipe_id,
                                         recipe_name,
                                         user_id
                                     )
-                                    VALUES (
-                                            ${params.recipe_id},
-                                            '${params.recipe_name}',
-                                            '${userEmail}'
+                                    VALUES 
+                                    (
+                                        ${params.recipe_id},
+                                        '${params.recipe_name}',
+                                        '${userEmail}'
                                     );
                                 `
                 db.query(sqlQuery, (err, results, fields) => {
@@ -344,6 +432,25 @@ export default class Recipe {
         }
     }
     static async searchRecipesWithData(searchData) {
+        /**
+         * expects 
+         * searchData:
+         * {
+         *      searchText: string,
+         *      maxCal:string,
+         *      minCal:string,
+         *      maxCarb: string,
+         *      minCarb:string,
+         *      maxProtein: string,
+         *      minProtein: string,
+         *      maxFat: string,
+         *      minFat: string,
+         *      page: string
+         * }
+         */
+
+
+
         try {
             const token = await TokenHandler.getToken();
             const params = new URLSearchParams();

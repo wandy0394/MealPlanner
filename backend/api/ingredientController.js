@@ -56,7 +56,7 @@ export default class IngredientController {
                 res.json({success: 'Ingredient Added'})
             })
             .catch((resp)=>{
-                res.json({error: 'Could not insert ingredient into database'})
+                res.status(500).json({error: 'Could not insert ingredient into database'})
             })
     }
 
@@ -79,7 +79,7 @@ export default class IngredientController {
                 res.json(resp)
             })
             .catch((resp)=>{
-                res.json({error: 'Could not insert ingredient into database'})
+                res.status(500).json({error: 'Could not insert ingredient into database'})
             })        
     }
     static async apiRemoveIngredient(req, res, next) {
@@ -90,7 +90,7 @@ export default class IngredientController {
                 res.json(resp)
             })
             .catch((resp)=>{
-                res.json({error: 'Could not delete ingredient from database'})
+                res.status(500).json({error: 'Could not delete ingredient from database'})
             })       
     }
     static async apiUpdateIngredient(req, res, next) {
@@ -116,7 +116,7 @@ export default class IngredientController {
                 res.json(resp)
             })
             .catch((resp)=>{
-                res.json({error: 'Could not update ingredient in database'})
+                res.status(500).json({error: 'Could not update ingredient in database'})
             })       
     }
 }

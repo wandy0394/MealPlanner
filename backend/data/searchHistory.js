@@ -16,6 +16,20 @@ export default class SearchHistory {
         return Number.isInteger(Number(input))
     }
     static storeRecipeSearchQuery(params, userEmail) {
+        // expects
+        // params: {
+        //     minCarb: integer,
+        //     maxCarb: integer,
+        //     minFat: integer,
+        //     maxFat: integer,
+        //     minProtein: integer,
+        //     maxProtein: integer,
+        //     minCal: integer,
+        //     maxCal: integer,
+        //     searchText: string
+        // }
+        // userEmail: string
+
         if (db !== undefined) {
             const minCarb = (this.isValidInteger(params.minCarb) ? params.minCarb : null)
             const maxCarb = (this.isValidInteger(params.maxCarb) ? params.maxCarb : null)
@@ -28,13 +42,16 @@ export default class SearchHistory {
             const searchTime = new Date().toISOString().slice(0,19).replace('T', ' ')
             
             const sqlQuery = `INSERT INTO search_history 
-                                (search_text, search_type, search_time, 
+                                (
+                                    search_text, search_type, search_time, 
                                     min_carb, max_carb, 
                                     min_fat, max_fat, 
                                     min_protein, max_protein, 
                                     min_cal, max_cal, 
                                     user_id)
-                                VALUES ('${params.searchText}', '${RECIPE}','${searchTime}',
+                                VALUES 
+                                (
+                                    '${params.searchText}', '${RECIPE}','${searchTime}',
                                     ${minCarb}, ${maxCarb},
                                     ${minFat}, ${maxFat},
                                     ${minProtein}, ${maxProtein},
@@ -85,6 +102,7 @@ export default class SearchHistory {
         }     
     }
     static getRecipeSearchHistoryByType(userEmail, type) {
+        // type: 'recipe' | 'ingred'
         
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {

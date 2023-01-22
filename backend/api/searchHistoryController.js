@@ -18,7 +18,7 @@ export default class SearchHistoryController {
                 res.json(output)
             })
             .catch((resp)=> {
-                return resp
+                return res.status(500).json('Could not get recipe search history')
             })
     }
     static apiGetSearchHistoryByType(req, res, next) {
@@ -39,7 +39,7 @@ export default class SearchHistoryController {
                 res.json(output)
             })
             .catch((resp)=> {
-                return resp
+                return res.status(500).json('Could not get search history')
             })
     }
     static apiRemoveSearchQuery(req, res, next) {
@@ -48,7 +48,7 @@ export default class SearchHistoryController {
                 res.json(resp)
             })
             .catch((resp)=>{
-                res.json({error: 'Could not delete query from database'})
+                res.status(500).json({error: 'Could not delete query from database'})
             })       
         return        
     }

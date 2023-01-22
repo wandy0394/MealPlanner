@@ -38,11 +38,37 @@ export default class Ingredient {
     }
 
     static insertIngredient(userEmail, params) {
+        // expects params 
+        // {
+        //     name: String,
+        //     food_id:integer,
+        //     carbs:float,
+        //     fat: float,
+        //     protein: float,
+        //     calories:float,
+        // }
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
                 const sqlQuery = `INSERT INTO ingredient 
-                                    (name, food_id, carbs, fat, protein, calories, user_id)
-                                    VALUES ('${params.name}', ${(params.food_id)},${params.carbs},${params.fat},${params.protein},${params.calories},'${userEmail}')   
+                                    (
+                                        name, 
+                                        food_id, 
+                                        carbs, 
+                                        fat, 
+                                        protein, 
+                                        calories, 
+                                        user_id
+                                    )
+                                    VALUES 
+                                    (
+                                        '${params.name}', 
+                                        ${(params.food_id)},
+                                        ${params.carbs},
+                                        ${params.fat},
+                                        ${params.protein},
+                                        ${params.calories},
+                                        '${userEmail}'
+                                    )   
                                 `
                 db.query(sqlQuery, (err, results, fields) => {
                     if (err) {
@@ -73,6 +99,15 @@ export default class Ingredient {
         }           
     }
     static updateIngredient(userEmail, params, id) {
+        // expects params 
+        // {
+        //     name: String,
+        //     food_id:integer,
+        //     carbs:float,
+        //     fat: float,
+        //     protein: float,
+        //     calories:float,
+        // }
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
                 const sqlQuery = `UPDATE ingredient 

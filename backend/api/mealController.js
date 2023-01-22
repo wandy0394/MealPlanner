@@ -28,11 +28,11 @@ export default class MealController {
                         res.json({success:'success'})
                     })
                     .catch((resp)=>{
-                        res.json({error:'Could not insert into meal_recipe'})
+                        res.status(500).json({error:'Could not insert into meal_recipe'})
                     })
              })
             .catch((resp)=>{
-                res.json({error: 'Could not insert meal into database'})
+                res.status(500).json({error: 'Could not insert meal into database'})
             })
 
     }
@@ -85,7 +85,7 @@ export default class MealController {
                 res.json(resp)
             })
             .catch((resp)=>{
-                res.json({error:'Could not get all meals'})
+                res.status(500).json({error:'Could not get all meals'})
             })
     }
     static async apiRemoveMeal(req, res, next) {
@@ -95,7 +95,7 @@ export default class MealController {
                 res.json(resp)
             })
             .catch((resp)=>{
-                req.json({error:'Could not delete meal'})
+                req.status(500).json({error:'Could not delete meal'})
             })
     }
     static async apiRenameMeal(req, res, next) {
@@ -126,7 +126,7 @@ export default class MealController {
             res.json(resp)
         })
         .catch((resp)=>{
-            res.json({error:'Could not get all meals'})
+            res.status(500).json({error:'Could not get all meals'})
         })
     }
 }

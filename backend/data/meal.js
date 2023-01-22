@@ -10,9 +10,23 @@ export default class Meal {
         }   
     }
     static insertMeal(userEmail, params) {
+        // expects params :
+        // {
+        //     targetCalories:float,
+        //     targetCarbs: float,
+        //     targetFat: float,
+        //     targetProtein: float,
+        //     totalCalories:float,
+        //     totalCarbs: float,
+        //     totalFat: float,
+        //     totalProtein: float,
+        //     days: Array
+        // }
+
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=> {
                 const uniqueID = Date.now() + Math.random().toString(16)
+                //Assign bulkId with a uniqueID, which can be used to reference multiple table entries uniquely
                 const sqlQuery = params.days.reduce((result, item)=>{
                     return (result + `INSERT INTO daily_meal
                                         (
@@ -51,6 +65,7 @@ export default class Meal {
                         console.error(err)
                         return reject('Could not insert into meal')
                     }
+                    //Select all items that were just inserted via the uniqueID
                     db.query(`SELECT id from daily_meal where user_id='${userEmail}' and bulkId='${uniqueID}'`, 
                         (err, results, fields)=>{
                             if (err) {
@@ -66,6 +81,21 @@ export default class Meal {
     }
 
     static insertMealRecipe(userEmail, mealIds, meals) {
+
+        // expects 
+        
+        // meals :
+        // [
+        //     type: 'static' | 'custom'
+        //     recipe_id: integer,
+        //     qty: integer 
+        // ]
+
+        // mealIds :
+        // [
+        //     id: integer
+        // ]
+
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=>{
                 const sqlQuery = mealIds.reduce((result,  [index, {id}])=>{
@@ -90,23 +120,58 @@ export default class Meal {
     }
 
     static getAllMeals(userEmail, from, to) {
+        //expects 
+        // from: datetime,
+        // to: datetime
+        
+        // returns
+
+        // {
+        //     meal_id:integer,
+        //     recipes: {
+        //         recipe_id: {
+        //             recipe_id: integer
+        //             qty: integer
+        //         }
+        //     },
+        //     staticRecipes:{
+        //         recipe_id: {
+        //             recipe_id: integer
+        //             qty: integer
+        //         }
+        //     },
+        //     targetCalories: number,
+        //     targetCarbs: number
+        //     targetFat: number,
+        //     targetProtein: number,
+        //     totalCalories: number,
+        //     totalCarbs: number,
+        //     totalFat: number,
+        //     totalProtein: number,
+        // }
+
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=>{
                 let filter = ''
                 if (from !== null && to !== null) {
                     filter = `AND datestamp >= '${from}' and datestamp < '${to}'`
                 }
-                const sqlQuery = `select 
+                const sqlQuery = `SELECT 
                                     daily_meal.*, 
                                     meal_recipe.recipe_id, 
                                     meal_recipe.qty as recipe_qty,
                                     meal_static_recipe.recipe_id as static_recipe_id,
                                     meal_static_recipe.qty as static_recipe_qty 
-                                    from daily_meal 
-                                    left join meal_recipe on daily_meal.id=meal_recipe.meal_id 
-                                    left join meal_static_recipe on daily_meal.id=meal_static_recipe.meal_id 
-                                    where daily_meal.user_id='${userEmail}' ${filter}
-                                    order by datestamp asc;`
+                                    FROM 
+                                        daily_meal 
+                                    LEFT JOIN 
+                                        meal_recipe on daily_meal.id=meal_recipe.meal_id 
+                                    LEFT JOIN 
+                                        meal_static_recipe on daily_meal.id=meal_static_recipe.meal_id 
+                                    WHERE 
+                                        daily_meal.user_id='${userEmail}' ${filter}
+                                    ORDER 
+                                        by datestamp asc;`
                 db.query(sqlQuery, (err, results, fields)=>{
                     if (err) {
                         console.error(err)
@@ -114,9 +179,10 @@ export default class Meal {
                     }
                     let output = {}
                     results.forEach((item)=>{
-                        const key = item.datestamp.getFullYear() + '-' + (item.datestamp.getMonth()+1) + '-' + item.datestamp.getDate()
-                        if (!(key in output)) {
-                            output[key] = {
+                        //dateString used as key in the format YYYY-M-DD
+                        const dateString = item.datestamp.getFullYear() + '-' + (item.datestamp.getMonth()+1) + '-' + item.datestamp.getDate()
+                        if (!(dateString in output)) {
+                            output[dateString] = {
                                 meal_id:item.id,
                                 recipes: {},
                                 staticRecipes:{},
@@ -132,16 +198,20 @@ export default class Meal {
                         }
           
                         if (item.recipe_id) {
-                            if (!(item?.recipe_id in output[key]['recipes'])) {
-                                output[key]['recipes'][item.recipe_id] = {recipe_id:item.recipe_id, qty:item.recipe_qty} 
+                            if (!(item?.recipe_id in output[dateString]['recipes'])) {
+                                output[dateString]['recipes'][item.recipe_id] = {
+                                    recipe_id:item.recipe_id, 
+                                    qty:item.recipe_qty
+                                } 
                             }
-
                         }
                         if (item.static_recipe_id) {
-                            if (!(item?.static_recipe_id in output[key]['staticRecipes'])) {
-                                output[key]['staticRecipes'][item.static_recipe_id] = {recipe_id: item.static_recipe_id, qty:item.static_recipe_qty} 
+                            if (!(item?.static_recipe_id in output[dateString]['staticRecipes'])) {
+                                output[dateString]['staticRecipes'][item.static_recipe_id] = {
+                                    recipe_id: item.static_recipe_id, 
+                                    qty:item.static_recipe_qty
+                                } 
                             }
-
                         }
                     })
                     resolve(output)
@@ -152,6 +222,29 @@ export default class Meal {
     }
 
     static updateMeal(userEmail, meals, mealId) {
+        // expects 
+        // meals 
+        // {
+        //     meals: {
+        //         id: {
+        //             type: 'static' | 'custom',
+        //             operation: 'insert' | 'delete' | 'update',
+        //             qty: integer,
+        //             recipe_id: integer
+        //         }
+        //     }
+        //     target_carbs: float,
+        //     target_calories: float
+        //     target_protein: float
+        //     target_fat: float
+        //     total_carbs: float
+        //     total_calories: float
+        //     total_fat: float
+        //     total_protein: float
+        // }
+
+        // mealId : integer
+   
         if (db !== undefined) {
             const promise = new Promise((resolve, reject)=>{
                 let sqlQuery = `UPDATE daily_meal 

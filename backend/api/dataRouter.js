@@ -54,6 +54,7 @@ router.route("/recipe/:id")
 router.route("/searchHistory/query/all")
     .get(SearchHistoryController.apiGetSearchHistory)
 
+//type is either 'recipe' or 'ingred'
 router.route("/searchHistory/query/:type")
     .get(SearchHistoryController.apiGetSearchHistoryByType)
 
