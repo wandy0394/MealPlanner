@@ -98,7 +98,8 @@ export default class RecipeController {
 
     static async apiSearchRecipes(req, res, next) {
         /**
-         * expects query
+         * expects 
+         * query:
          * {
          *      searchText: string,
          *      maxCal:string,
