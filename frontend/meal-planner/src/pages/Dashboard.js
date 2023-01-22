@@ -45,7 +45,14 @@ function DayPicker(props) {
                 Object.keys(mealSets).map((item, index)=>{
                     const dateObj = new DateObject(item)
                     return (
-                        <Box key={index} sx={{...dayStyle, background:((active === index) ? strawTheme.palette.primary.main : '')}} onClick={e=>handleClick(index, item)}>
+                        <Box 
+                            key={index} 
+                            sx={{
+                                ...dayStyle, 
+                                background:((active === index) ? strawTheme.palette.primary.main : '')
+                            }} 
+                            onClick={e=>handleClick(index, item)}
+                        >
                             <Typography variant='h6' >{dateObj.format('ddd')}</Typography>
                             <Typography variant='h6' >{dateObj.day}</Typography>
                         </Box>
@@ -197,10 +204,23 @@ export default function Dashboard() {
             mainContent={
                 <>
                     <Box sx={{display:'flex', flexDirection:'column', gap:'1rem'}}>
-                        <DayPicker mealSets={mealSets} selectMeal={handleDayChange} setSelectedDay={setSelectedDay} active={active} setActive={setActive}/>
+                        <DayPicker 
+                            mealSets={mealSets} 
+                            selectMeal={handleDayChange} 
+                            setSelectedDay={setSelectedDay} 
+                            active={active} 
+                            setActive={setActive}
+                        />
                         <Box sx={{display:'grid', gridTemplateRows:'1fr 2fr', gap:'1rem', height:'100%'}}>
                             <Box sx={{height:'100%'}}>
-                                <MealSet mealSet={selectedMeal} dateValue={selectedDay} mealItems={mealItems} removeMeal={null} addMeal={null} setStatusMessageState={setStatusMessageState}/>
+                                <MealSet 
+                                    mealSet={selectedMeal} 
+                                    dateValue={selectedDay} 
+                                    mealItems={mealItems} 
+                                    removeMeal={null} 
+                                    addMeal={null} 
+                                    setStatusMessageState={setStatusMessageState}
+                                />
                             </Box>
                             <Box sx={{height:'50%'}}>
                                 <MacroChart mealSets={mealSets} />
