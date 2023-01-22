@@ -163,12 +163,7 @@ export default function Recipes() {
                     </Box>                
                 </Box>
             }
-
         >
-
-
         </MainPane>
-
-
     )
 }
